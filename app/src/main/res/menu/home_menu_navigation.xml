@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/cDashboardFragment"
+        android:icon="@drawable/ic_session_dashboard_black_24dp"
+        android:enabled="true"
+        android:title="@string/text_dashboard"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/cMessagesFragment"
+        android:icon="@drawable/ic_session_messages_black_24dp"
+        android:enabled="true"
+        android:title="@string/text_messages"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/cSettingsFragment"
+        android:icon="@drawable/ic_session_settings_black_24dp"
+        android:enabled="true"
+        android:title="@string/text_settings"
+        app:showAsAction="ifRoom"/>
+</menu>

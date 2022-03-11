@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
+
+            <com.me.mseotsanyana.expandablelayoutlibrary.CExpandableLayout
+                android:id="@+id/expandableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- impact expandable icon -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewExpandIcon"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="2dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/text_size_medium"
+                        app:layout_constraintEnd_toStartOf="@+id/textViewDescription"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_bias="0.5" />
+
+                    <!-- name -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_small_medium"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/textViewDescription"
+                        app:layout_constraintStart_toEndOf="@+id/textViewExpandIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <!-- description -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="4dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+                        android:textColor="@color/android_text_color"
+                        android:textSize="@dimen/text_size_small_medium"
+                        app:layout_constraintStart_toEndOf="@+id/textViewExpandIcon"
+                        app:layout_constraintTop_toBottomOf="@id/textViewName" />
+
+                    <!-- start date caption -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewStartDateCaption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@string/unkown"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/textViewDeleteIcon"
+                        app:layout_constraintStart_toEndOf="@+id/textViewExpandIcon"
+                        app:layout_constraintTop_toBottomOf="@id/textViewDescription" />
+
+                    <!-- start date -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewStartDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+                        android:textColor="@color/android_text_color"
+                        android:textSize="@dimen/text_size_small"
+                        app:layout_constraintBottom_toTopOf="@id/textViewDeleteIcon"
+                        app:layout_constraintStart_toEndOf="@+id/textViewStartDateCaption"
+                        app:layout_constraintTop_toBottomOf="@id/textViewDescription" />
+
+                    <!-- end date caption -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewEndDateCaption"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@string/unkown"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_small"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/textViewDeleteIcon"
+                        app:layout_constraintEnd_toStartOf="@+id/textViewEndDate"
+                        app:layout_constraintTop_toBottomOf="@id/textViewDescription" />
+
+                    <!-- end date -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewEndDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+                        android:textColor="@color/android_text_color"
+                        android:textSize="@dimen/text_size_small"
+                        app:layout_constraintBottom_toTopOf="@id/textViewDeleteIcon"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewDescription" />
+
+                    <!-- delete -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewDeleteIcon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="2dp"
+                        android:background="@drawable/me_btn_flexible"
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewStartDateCaption" />
+
+                    <!-- update -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewUpdateIcon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="2dp"
+                        android:background="@drawable/me_btn_flexible"
+                        android:textSize="@dimen/text_size_large"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toStartOf="@+id/textViewDeleteIcon"
+                        app:layout_constraintTop_toBottomOf="@id/textViewStartDateCaption" />
+
+                    <!-- details icon -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewDetailIcon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="2dp"
+                        android:background="@drawable/me_btn_flexible"
+                        android:textSize="@dimen/text_size_very_large"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/textViewExpandIcon"
+                        app:layout_constraintTop_toBottomOf="@id/textViewStartDateCaption" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <include layout="@layout/me_common_attributes" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.me.mseotsanyana.expandablelayoutlibrary.CExpandableLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</layout>

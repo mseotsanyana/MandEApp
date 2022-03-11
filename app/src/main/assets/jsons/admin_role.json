@@ -1,0 +1,7 @@
+{
+  "role":
+    {
+      "name": "Administrator",
+      "description": "Default admin role for an organization"
+    }
+}

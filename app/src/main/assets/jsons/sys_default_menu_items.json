@@ -1,0 +1,50 @@
+{
+  "menu": [
+    {
+      "id": 0,
+      "item": "Profile Settings",
+      "description": "Manage user profile settings.",
+      "sub_menu": [
+        {
+          "sub_id": 1,
+          "sub_item": "My Profile",
+          "sub_image":"myprofile",
+          "sub_description": "User personal details."
+        },
+        {
+          "sub_id": 2,
+          "sub_item": "User Profiles",
+          "sub_image":"userprofiles",
+          "sub_description":"Password, deactivation, etc. Mgt."
+        },
+        {
+          "sub_id": 4,
+          "sub_item": "Join Organization",
+          "sub_image":"join",
+          "sub_description":"Joining public organizations."
+        }
+      ]
+    },
+    {
+      "id": 256,
+      "item": "Notifications",
+      "image":"notification",
+      "description": "Settings of publication, subscription of messages.",
+      "sub_menu": []
+    },
+    {
+      "id": 512,
+      "item": "Settings",
+      "image":"setting",
+      "description": "The settings related to the user.",
+      "sub_menu": []
+    },
+    {
+      "id": 1024,
+      "item": "Logout",
+      "image":"logout",
+      "description": "Allowing the logout option.",
+      "sub_menu": []
+    }
+  ]
+}

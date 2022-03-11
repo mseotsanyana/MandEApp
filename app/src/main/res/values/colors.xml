@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#228B22</color>
+    <color name="colorPrimaryDark">#0A5D00</color>
+    <color name="colorAccent">#FF5722</color>
+    <!--
+    <color name="colorPrimary">#4CAF50</color>
+    <color name="colorPrimaryDark">#228B22</color>
+    <color name="colorAccent">#FF5722</color> #021052
+    -->
+    <color name="backgroundColor">#0A5D00</color>
+    <color name="faintWhite">#55FFFFFF</color>
+    <color name="faintGrey">#E1E2E2</color>
+
+    <!--
+   <color name="colorPrimary">#356859</color>
+   <color name="colorPrimaryDark">#23453B</color>
+   <color name="colorAccent">#FD5523</color>
+   -->
+
+    <!-- END OF RESOURCES
+
+    <color name="title_background">#388E3C</color>
+    <color name="title_text">#ffffffff</color>
+    <color name="foreground1">#ff355689</color>
+    <color name="title_separator">#40ffffff</color>
+
+
+        <color name="title_text_alt">#ff000000</color>
+
+        <color name="colorPrimary">#3F51B5</color>
+        <color name="colorPrimaryDark">#303F9F</color>
+        <color name="colorAccent">#FF4081</color>
+    -->
+
+    <!--
+        <color name="colorPrimary">#009688</color>
+        <color name="colorPrimaryDark">#009688</color>
+        <color name="colorAccent">#00bcd4</color>
+    -->
+
+    <color name="bkg_card">#33AFFF</color>
+
+    <color name="colorRed">#d32f2f</color>
+
+    <!-- login backgroud -->
+
+    <!-- bottom navigation menu -->
+
+    <color name="group_divider_color">#80CBC4</color>
+    <color name="list_item_title">#AAAAAA</color>
+</resources>

@@ -1,0 +1,35 @@
+<resources>
+    <!-- Text Sizes -->
+    <dimen name="title_height">45sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_small_medium">15sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_large">22sp</dimen>
+    <dimen name="text_size_very_large">30sp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <!-- Default screen margins, per the Android Design guidelines. -->
+
+
+    <!-- Default screen margins, per the Android Design guidelines. FAB -->
+    <dimen name="spacing_large">16dp</dimen>
+
+    <!-- Per the design guidelines, navigation drawers should be between 240dp and 320dp:
+   https://developer.android.com/design/patterns/navigation-drawer.html -->
+    <dimen name="layout_margin_default">10dp</dimen>
+    <dimen name="layout_padding_default">10dp</dimen>
+    <dimen name="header_img_size">120dp</dimen>
+    <dimen name="divider_height">0.5dp</dimen>
+
+    <dimen name="nav_drawer_width">235dp</dimen>
+
+    <dimen name="header_font_size">14sp</dimen>
+
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">210dp</dimen>
+
+    <!-- dynamic hights of permissions -->
+    <dimen name="statuses_height">610dp</dimen>
+    <dimen name="details_height">330dp</dimen>
+
+</resources>

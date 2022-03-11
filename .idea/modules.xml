@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MandE.iml" filepath="$PROJECT_DIR$/.idea/modules/MandE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1546293608/MandE.annotations.iml" filepath="$PROJECT_DIR$/.idea/modules/1546293608/MandE.annotations.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MandE.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MandE.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1031736160/MandE.bmblibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/-1031736160/MandE.bmblibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-808485128/MandE.compilers.iml" filepath="$PROJECT_DIR$/.idea/modules/-808485128/MandE.compilers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1192119329/MandE.expandablelayoutlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/1192119329/MandE.expandablelayoutlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-338481541/MandE.multiselectspinnerlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/-338481541/MandE.multiselectspinnerlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1123439199/MandE.placeholderviewlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/1123439199/MandE.placeholderviewlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-177487884/MandE.questionnairelibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/-177487884/MandE.questionnairelibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-312142284/MandE.quickactionlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/-312142284/MandE.quickactionlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1618335462/MandE.treeadapterlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/1618335462/MandE.treeadapterlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/623267173/MandE.validatorlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/623267173/MandE.validatorlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-66575623/MandE.viewpagerlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/-66575623/MandE.viewpagerlibrary.iml" />
+    </modules>
+  </component>
+</project>

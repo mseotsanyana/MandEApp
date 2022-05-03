@@ -1,0 +1,50 @@
+[
+    {
+        "merged": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/project_parent_cardview.xml",
+        "source": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/src/main/res/layout/project_parent_cardview.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/session_organization_fragment.xml",
+        "source": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/src/main/res/layout/session_organization_fragment.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/session_organization_cardview.xml",
+        "source": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/src/main/res/layout/session_organization_cardview.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/project_list_fragment.xml",
+        "source": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/src/main/res/layout/project_list_fragment.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/me_common_attributes.xml",
+        "source": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/src/main/res/layout/me_common_attributes.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/logframe_child_cardview.xml",
+        "source": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/src/main/res/layout/logframe_child_cardview.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/me_tablayout_viewpager2.xml",
+        "source": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/src/main/res/layout/me_tablayout_viewpager2.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/logframe_parent_cardview.xml",
+        "source": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/src/main/res/layout/logframe_parent_cardview.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/session_stakeholder_page.xml",
+        "source": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/src/main/res/layout/session_stakeholder_page.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/component_parent_cardview.xml",
+        "source": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/src/main/res/layout/component_parent_cardview.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/project_child_cardview.xml",
+        "source": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/src/main/res/layout/project_child_cardview.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/logframe_list_fragment.xml",
+        "source": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/src/main/res/layout/logframe_list_fragment.xml"
+    }
+]

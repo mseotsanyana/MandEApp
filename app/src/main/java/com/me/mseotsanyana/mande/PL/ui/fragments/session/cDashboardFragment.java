@@ -18,14 +18,14 @@ import com.me.mseotsanyana.bmblibrary.BoomButtons.cHamButton;
 import com.me.mseotsanyana.bmblibrary.CBoomMenuButton;
 import com.me.mseotsanyana.mande.BLL.executor.Impl.cThreadExecutorImpl;
 import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel;
-import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.logframe.cLogFrameFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cSharedPreferenceFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.programme.cLogFrameFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.PL.presenters.session.Impl.cDashboardPresenterImpl;
 import com.me.mseotsanyana.mande.PL.presenters.session.iDashboardPresenter;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.cMainThreadImpl;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cKeyPairBoolData;
-import com.me.mseotsanyana.multiselectspinnerlibrary.cSingleSpinnerSearch;
+import com.me.mseotsanyana.multiselectspinnerlibrary.CSingleSpinnerSearch;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
@@ -224,7 +224,7 @@ public class cDashboardFragment extends Fragment implements iDashboardPresenter.
         ImageView imageViewLogframes = view.findViewById(R.id.imageViewLogframes);
         imageViewLogframes.setOnClickListener(clickView -> {
             NavDirections action;
-            action = cHomeFragmentDirections.actionCHomeFragmentToCLogFrameFragment();
+            action = cHomeFragmentDirections.actionCHomeFragmentToCLogFrameFragment(null);
             Navigation.findNavController(requireView()).navigate(action);
         });
 
@@ -404,8 +404,8 @@ public class cDashboardFragment extends Fragment implements iDashboardPresenter.
         }
 
         // 3. -1 is no by default selection 0 to length will select corresponding values
-        cSingleSpinnerSearch singleSpinnerSearch =
-                (cSingleSpinnerSearch) view.findViewById(R.id.logframeSingleSpinnerSearch);
+        CSingleSpinnerSearch singleSpinnerSearch =
+                (CSingleSpinnerSearch) view.findViewById(R.id.logframeSingleSpinnerSearch);
         singleSpinnerSearch.setItem(keyPair, -1, selectedItem -> {
 
             switch (dashboardMenu) {
@@ -485,5 +485,4 @@ public class cDashboardFragment extends Fragment implements iDashboardPresenter.
         // call pop up window for list of logframes
         singleSpinnerSearch.performClick();
     }
-
 }

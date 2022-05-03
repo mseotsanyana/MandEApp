@@ -9,7 +9,7 @@ import com.me.mseotsanyana.mande.BLL.interactors.session.permission.Impl.
 import com.me.mseotsanyana.mande.BLL.interactors.session.permission.iReadRolePermissionsInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.session.permission.iUpdateRolePermissionInteractor;
 import com.me.mseotsanyana.mande.BLL.repository.session.iPermissionRepository;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
 import com.me.mseotsanyana.mande.PL.presenters.session.iPermissionPresenter;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;

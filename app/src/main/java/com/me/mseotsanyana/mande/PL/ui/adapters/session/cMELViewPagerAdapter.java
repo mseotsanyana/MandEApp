@@ -16,17 +16,36 @@ public class cMELViewPagerAdapter extends FragmentStateAdapter {
         super(fragmentActivity);
     }
 
-    public void addFrag(Fragment fragment, String title) {
-        fragmentList.add(fragment);
-        titleList.add(title);
+    public void addFrag(int index, Fragment fragment, String title) {
+        fragmentList.add(index, fragment);
+        titleList.add(index, title);
+        notifyItemChanged(index);
+    }
+    public void replaceFragment(int index, Fragment fragment) {
+        String title = titleList.get(index);
+        remove(index);
+        fragmentList.set(index, fragment);
+        titleList.add(index, title);
+        notifyItemChanged(index);
     }
 
-    public Fragment getPageFragment(int position){
-        return fragmentList.get(position);
+    public void remove(int index) {
+        fragmentList.remove(index);
+        titleList.remove(index);
+        notifyItemChanged(index);
     }
 
-    public CharSequence getPageTitle(int position) {
-        return titleList.get(position);
+    public void clearFragments  (){
+        fragmentList.clear();
+        titleList.clear();
+    }
+
+    public Fragment getPageFragment(int index){
+        return fragmentList.get(index);
+    }
+
+    public CharSequence getPageTitle(int index) {
+        return titleList.get(index);
     }
 
     @NonNull

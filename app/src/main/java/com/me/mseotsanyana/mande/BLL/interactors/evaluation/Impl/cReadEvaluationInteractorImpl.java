@@ -11,7 +11,7 @@ import com.me.mseotsanyana.mande.BLL.repository.evaluator.iEvaluationRepository;
 import com.me.mseotsanyana.mande.BLL.model.evaluation.cEvaluationModel;
 import com.me.mseotsanyana.mande.BLL.model.logframe.cQuestionModel;
 import com.me.mseotsanyana.mande.BLL.model.session.cUserModel;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cBitwise;
 import com.me.mseotsanyana.questionnairelibrary.forms.db.cDBQuestion;
 import com.me.mseotsanyana.questionnairelibrary.forms.db.cDBQuestionnaire;

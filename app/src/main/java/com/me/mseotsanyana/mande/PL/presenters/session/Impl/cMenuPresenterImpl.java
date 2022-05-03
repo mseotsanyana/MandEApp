@@ -5,7 +5,7 @@ import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.session.menu.Impl.cReadMenuInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.session.menu.iReadMenuInteractor;
 import com.me.mseotsanyana.mande.BLL.repository.session.iMenuRepository;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
 import com.me.mseotsanyana.mande.PL.presenters.session.iMenuPresenter;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;

@@ -18,7 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.me.mseotsanyana.mande.PL.ui.fragments.logframe.cLogFrameFragment;
+import com.me.mseotsanyana.mande.PL.ui.fragments.programme.cLogFrameFragment;
 import com.me.mseotsanyana.mande.R;
 
 import java.util.Objects;

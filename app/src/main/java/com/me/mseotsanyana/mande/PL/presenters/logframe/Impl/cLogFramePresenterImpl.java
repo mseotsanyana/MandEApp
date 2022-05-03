@@ -6,11 +6,12 @@ import com.me.mseotsanyana.mande.BLL.interactors.programme.logframe.Impl.cCreate
 import com.me.mseotsanyana.mande.BLL.interactors.programme.logframe.Impl.cDeleteLogFrameInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.logframe.Impl.cDeleteLogFramesInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.logframe.Impl.cReadLogFrameInteractorImpl;
+import com.me.mseotsanyana.mande.BLL.interactors.programme.logframe.Impl.cReadLogFramesInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.logframe.Impl.cUpdateLogFrameInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.logframe.Impl.cUploadLogFrameInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.logframe.iLogFrameInteractor;
-import com.me.mseotsanyana.mande.BLL.repository.logframe.iLogFrameRepository;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.programme.iLogFrameRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iLogFramePresenter;
@@ -81,12 +82,25 @@ public class cLogFramePresenterImpl extends cAbstractPresenter implements iLogFr
     /* ======================================= START READ ======================================= */
     @Override
     public void readLogFrames() {
-        iLogFrameInteractor readLogFrameInteractor = new cReadLogFrameInteractorImpl(
+        iLogFrameInteractor readLogFramesInteractor = new cReadLogFramesInteractorImpl(
                 executor,
                 mainThread,
                 sharedPreferenceRepository,
                 logFrameRepository,
                 this);
+
+        view.showProgress();
+        readLogFramesInteractor.execute();
+    }
+
+    @Override
+    public void readLogFrame(String projectServerID) {
+        iLogFrameInteractor readLogFrameInteractor = new cReadLogFrameInteractorImpl(
+                executor,
+                mainThread,
+                sharedPreferenceRepository,
+                logFrameRepository,
+                this, projectServerID);
 
         view.showProgress();
         readLogFrameInteractor.execute();
@@ -107,6 +121,10 @@ public class cLogFramePresenterImpl extends cAbstractPresenter implements iLogFr
             this.view.hideProgress();
         }
     }
+
+
+
+
     /* ======================================== END READ ======================================== */
 
     /* ====================================== START UPDATE ====================================== */

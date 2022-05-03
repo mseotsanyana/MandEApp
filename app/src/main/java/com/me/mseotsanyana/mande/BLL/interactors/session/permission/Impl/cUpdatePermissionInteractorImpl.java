@@ -7,7 +7,7 @@ import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.session.permission.iUpdateRolePermissionInteractor;
 import com.me.mseotsanyana.mande.BLL.repository.session.iPermissionRepository;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cSharedPreference;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
 

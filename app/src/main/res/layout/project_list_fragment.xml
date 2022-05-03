@@ -11,7 +11,7 @@
         <!-- include a toolbar layout -->
         <include layout="@layout/me_toolbar_layout" />
 
-        <!-- impact list layout -->
+        <!-- project list layout -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/projectRecyclerView"
             android:layout_width="match_parent"

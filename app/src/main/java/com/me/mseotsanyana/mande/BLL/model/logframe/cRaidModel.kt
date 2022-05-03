@@ -1,7 +1,5 @@
 package com.me.mseotsanyana.mande.BLL.model.logframe
 
-import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel
-import com.me.mseotsanyana.mande.BLL.model.logframe.cRaidCategoryModel
 import com.me.mseotsanyana.mande.BLL.model.wpb.cHumanSetModel
 import com.me.mseotsanyana.mande.BLL.model.common.cFrequencyModel
 import com.me.mseotsanyana.mande.BLL.model.raid.cRAIDLikelihoodModel

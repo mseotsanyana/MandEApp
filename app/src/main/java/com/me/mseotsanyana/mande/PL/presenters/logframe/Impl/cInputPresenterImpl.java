@@ -9,7 +9,7 @@ import com.me.mseotsanyana.mande.BLL.model.wpb.cExpenseModel;
 import com.me.mseotsanyana.mande.BLL.model.wpb.cHumanModel;
 import com.me.mseotsanyana.mande.BLL.model.wpb.cIncomeModel;
 import com.me.mseotsanyana.mande.BLL.model.wpb.cMaterialModel;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.BLL.repository.awpb.iExpenseRepository;
 import com.me.mseotsanyana.mande.BLL.repository.awpb.iHumanRepository;
 import com.me.mseotsanyana.mande.BLL.repository.awpb.iIncomeRepository;

@@ -152,47 +152,47 @@ public class cPermissionFragment_OLD extends Fragment {
             }
         });
 
-        checkBoxGroupRead = (AppCompatCheckBox) view.findViewById(R.id.checkBoxGroupRead);
-        checkBoxGroupRead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean checked = ((CheckBox) view).isChecked();
-                if (checked){
-                    permBITS |= cBitwise.GROUP_READ;
-                }
-                else{
-                    permBITS &= ~cBitwise.GROUP_READ;
-                }
-            }
-        });
-
-        checkBoxGroupUpdate = (AppCompatCheckBox) view.findViewById(R.id.checkBoxGroupUpdate);
-        checkBoxGroupUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean checked = ((CheckBox) view).isChecked();
-                if (checked){
-                    permBITS |= cBitwise.GROUP_UPDATE;
-                }
-                else{
-                    permBITS &= ~cBitwise.GROUP_UPDATE;
-                }
-            }
-        });
-
-        checkBoxGroupDelete = (AppCompatCheckBox) view.findViewById(R.id.checkBoxGroupDelete);
-        checkBoxGroupDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean checked = ((CheckBox) view).isChecked();
-                if (checked){
-                    permBITS |= cBitwise.GROUP_DELETE;
-                }
-                else{
-                    permBITS &= ~cBitwise.GROUP_DELETE;
-                }
-            }
-        });
+//        checkBoxGroupRead = (AppCompatCheckBox) view.findViewById(R.id.checkBoxGroupRead);
+//        checkBoxGroupRead.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                boolean checked = ((CheckBox) view).isChecked();
+//                if (checked){
+//                    permBITS |= cBitwise.GROUP_READ;
+//                }
+//                else{
+//                    permBITS &= ~cBitwise.GROUP_READ;
+//                }
+//            }
+//        });
+//
+//        checkBoxGroupUpdate = (AppCompatCheckBox) view.findViewById(R.id.checkBoxGroupUpdate);
+//        checkBoxGroupUpdate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                boolean checked = ((CheckBox) view).isChecked();
+//                if (checked){
+//                    permBITS |= cBitwise.GROUP_UPDATE;
+//                }
+//                else{
+//                    permBITS &= ~cBitwise.GROUP_UPDATE;
+//                }
+//            }
+//        });
+//
+//        checkBoxGroupDelete = (AppCompatCheckBox) view.findViewById(R.id.checkBoxGroupDelete);
+//        checkBoxGroupDelete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                boolean checked = ((CheckBox) view).isChecked();
+//                if (checked){
+//                    permBITS |= cBitwise.GROUP_DELETE;
+//                }
+//                else{
+//                    permBITS &= ~cBitwise.GROUP_DELETE;
+//                }
+//            }
+//        });
 
 //        checkBoxGroupSync = (AppCompatCheckBox) view.findViewById(R.id.checkBoxGroupSync);
 //        checkBoxGroupSync.setOnClickListener(new View.OnClickListener() {
@@ -223,47 +223,47 @@ public class cPermissionFragment_OLD extends Fragment {
             }
         });
 
-        checkBoxOtherRead = (AppCompatCheckBox) view.findViewById(R.id.checkBoxOtherRead);
-        checkBoxOtherRead.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean checked = ((CheckBox) view).isChecked();
-                if (checked){
-                    permBITS |= cBitwise.OTHER_READ;
-                }
-                else{
-                    permBITS &= ~cBitwise.OTHER_READ;
-                }
-            }
-        });
-
-        checkBoxOtherUpdate = (AppCompatCheckBox) view.findViewById(R.id.checkBoxOtherUpdate);
-        checkBoxOtherUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean checked = ((CheckBox) view).isChecked();
-                if (checked){
-                    permBITS |= cBitwise.OTHER_UPDATE;
-                }
-                else{
-                    permBITS &= ~cBitwise.OTHER_UPDATE;
-                }
-            }
-        });
-
-        checkBoxOtherDelete = (AppCompatCheckBox) view.findViewById(R.id.checkBoxOtherDelete);
-        checkBoxOtherDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                boolean checked = ((CheckBox) view).isChecked();
-                if (checked){
-                    permBITS |= cBitwise.OTHER_DELETE;
-                }
-                else{
-                    permBITS &= ~cBitwise.OTHER_DELETE;
-                }
-            }
-        });
+//        checkBoxOtherRead = (AppCompatCheckBox) view.findViewById(R.id.checkBoxOtherRead);
+//        checkBoxOtherRead.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                boolean checked = ((CheckBox) view).isChecked();
+//                if (checked){
+//                    permBITS |= cBitwise.OTHER_READ;
+//                }
+//                else{
+//                    permBITS &= ~cBitwise.OTHER_READ;
+//                }
+//            }
+//        });
+//
+//        checkBoxOtherUpdate = (AppCompatCheckBox) view.findViewById(R.id.checkBoxOtherUpdate);
+//        checkBoxOtherUpdate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                boolean checked = ((CheckBox) view).isChecked();
+//                if (checked){
+//                    permBITS |= cBitwise.OTHER_UPDATE;
+//                }
+//                else{
+//                    permBITS &= ~cBitwise.OTHER_UPDATE;
+//                }
+//            }
+//        });
+//
+//        checkBoxOtherDelete = (AppCompatCheckBox) view.findViewById(R.id.checkBoxOtherDelete);
+//        checkBoxOtherDelete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                boolean checked = ((CheckBox) view).isChecked();
+//                if (checked){
+//                    permBITS |= cBitwise.OTHER_DELETE;
+//                }
+//                else{
+//                    permBITS &= ~cBitwise.OTHER_DELETE;
+//                }
+//            }
+//        });
 
 //        checkBoxOtherSync = (AppCompatCheckBox) view.findViewById(R.id.checkBoxOtherSync);
 //        checkBoxOtherSync.setOnClickListener(new View.OnClickListener() {
@@ -279,7 +279,7 @@ public class cPermissionFragment_OLD extends Fragment {
 //            }
 //        });
 
-        /* initialize permissions */
+        /* initialize permissions
         checkBoxOwnerCreate.setChecked((permBITS & cBitwise.OWNER_CREATE) == cBitwise.OWNER_CREATE);
         checkBoxOwnerRead.setChecked((permBITS & cBitwise.OWNER_READ) == cBitwise.OWNER_READ);
         checkBoxOwnerUpdate.setChecked((permBITS & cBitwise.OWNER_UPDATE) == cBitwise.OWNER_UPDATE);
@@ -297,7 +297,9 @@ public class cPermissionFragment_OLD extends Fragment {
         checkBoxOtherUpdate.setChecked((permBITS & cBitwise.OTHER_UPDATE) == cBitwise.OTHER_UPDATE);
         checkBoxOtherDelete.setChecked((permBITS & cBitwise.OTHER_DELETE) == cBitwise.OTHER_DELETE);
         checkBoxOtherSync.setChecked((permBITS & cBitwise.OTHER_SYNC) == cBitwise.OTHER_SYNC);
+    */
     }
+
 
     public int getPermBITS() {
         return permBITS;

@@ -36,7 +36,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
         app:layout_constraintStart_toEndOf="parent" />
 
-    <com.me.mseotsanyana.multiselectspinnerlibrary.cSingleSpinnerSearch
+    <com.me.mseotsanyana.multiselectspinnerlibrary.CSingleSpinnerSearch
         android:id="@+id/singleSpinnerSearchOrg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

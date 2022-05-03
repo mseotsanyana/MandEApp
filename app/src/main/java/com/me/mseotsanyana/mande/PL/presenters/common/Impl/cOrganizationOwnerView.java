@@ -10,7 +10,7 @@ import com.me.mseotsanyana.mande.BLL.model.session.cUserModel;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cKeyPairBoolData;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cSingleSpinnerListener;
-import com.me.mseotsanyana.multiselectspinnerlibrary.cSingleSpinnerSearch;
+import com.me.mseotsanyana.multiselectspinnerlibrary.CSingleSpinnerSearch;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Layout;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Resolve;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.View;
@@ -40,7 +40,7 @@ public class cOrganizationOwnerView {
     public TextView textViewDescription;
 
     @View(R.id.singleSpinnerSearchOwners)
-    public cSingleSpinnerSearch singleSpinnerSearchOwners;
+    public CSingleSpinnerSearch singleSpinnerSearchOwners;
 
     private Context context;
     private cStakeholderModel ownerModel;

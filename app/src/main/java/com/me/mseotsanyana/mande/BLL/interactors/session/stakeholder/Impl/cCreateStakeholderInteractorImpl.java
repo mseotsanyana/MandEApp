@@ -8,7 +8,7 @@ import com.me.mseotsanyana.mande.BLL.model.session.cMenuModel;
 import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iStakeholderRepository;
 import com.me.mseotsanyana.mande.BLL.repository.session.iPermissionRepository;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cSharedPreference;
 
 import java.util.List;

@@ -1,7 +1,5 @@
 package com.me.mseotsanyana.mande.DAL.storage.preference;
 
-import java.util.Arrays;
-
 /**
  * Created by mseotsanyana on 2017/09/06.
  */
@@ -31,7 +29,9 @@ public class cBitwise {
     public static final int OPERATION    = 512;
     public static final int STATUS       = 1024;
 
-    public static final int LOGFRAME     = 1;
+    public static final int PROJECT      = 1;
+    public static final int LOGFRAME     = 2;
+
     public static final int IMPACT       = 2;
     public static final int OUTCOME      = 4;
     public static final int OUTPUT       = 8;
@@ -73,8 +73,9 @@ public class cBitwise {
             ENTITY,       /* 8 = 1 */
             OPERATION,    /* 9 = 1 */
             STATUS,       /* 10 = 1 */
-            LOGFRAME,   /* 11 = 2 */
-            IMPACT,      /* 12 = 2 */
+            PROJECT,      /* 11 = 2 */
+            LOGFRAME,     /* 12 = 2 */
+            IMPACT,       /* 13 = 2 */
             OUTCOME,      /* 14 = 2 */
             OUTPUT,       /* 15 = 2 */
             ACTIVITY,     /* 17 = 2 */
@@ -93,6 +94,62 @@ public class cBitwise {
             REPORT,       /* 30 = 2 */
             ALERT         /* 31 = 2 */
     };
+
+    /* status bits */
+    public static final int DELETED   = 1;
+    public static final int BLOCKED   = 2;
+    public static final int ACTIVATED = 4;
+    public static final int CANCELLED = 8;
+    public static final int PENDING   = 16;
+    public static final int ALL_STATUSES = 31;
+
+    public static final int[] statuses = {
+            DELETED,   /* 0 */
+            BLOCKED,   /* 1 */
+            ACTIVATED, /* 2 */
+            CANCELLED, /* 3 */
+            PENDING    /* 4 */
+    };
+
+    /* unix-like permission bits */
+    /* global operations (i.e., type 1) */
+    public static final int OWNER_CREATE = 1;
+    public static final int GROUP_CREATE = 2;
+    public static final int OTHER_CREATE = 4;
+
+    /* local operations (i.e., type 2) */
+    public static final int OWNER_READ   = 2048;
+    public static final int OWNER_UPDATE = 1024;
+    public static final int OWNER_DELETE = 512;
+
+    public static final int PRIMARY_TEAM_READ   = 256;
+    public static final int PRIMARY_TEAM_UPDATE = 128;
+    public static final int PRIMARY_TEAM_DELETE = 64;
+
+    public static final int SECONDARY_TEAM_READ   = 32;
+    public static final int SECONDARY_TEAM_UPDATE = 16;
+    public static final int SECONDARY_TEAM_DELETE = 8;
+
+    public static final int ORGANIZATION_READ   = 4;
+    public static final int ORGANIZATION_UPDATE = 2;
+    public static final int ORGANIZATION_DELETE = 1;
+
+    public static final int[] permissions = {
+            OWNER_READ,            /* 0  */
+            OWNER_UPDATE,          /* 1  */
+            OWNER_DELETE,          /* 2  */
+            OWNER_UPDATE,          /* 3  */
+            PRIMARY_TEAM_READ,     /* 4  */
+            PRIMARY_TEAM_UPDATE,   /* 5  */
+            PRIMARY_TEAM_DELETE,   /* 6  */
+            SECONDARY_TEAM_READ,   /* 7  */
+            SECONDARY_TEAM_UPDATE, /* 8  */
+            SECONDARY_TEAM_DELETE, /* 9  */
+            ORGANIZATION_READ,     /* 10 */
+            ORGANIZATION_UPDATE,   /* 11 */
+            ORGANIZATION_DELETE    /* 12 */
+    };
+
 
     public static final int PERMISSION = ENTITY | OPERATION | STATUS;
 
@@ -113,46 +170,6 @@ public class cBitwise {
             2   /* 1 = PPMER (2) */
     };
 
-    /* global operations (i.e., type 1) */
-    public static final int OWNER_CREATE = 1;
-    public static final int GROUP_CREATE = 2;
-    public static final int OTHER_CREATE = 4;
-
-    /* local operations (i.e., type 2) */
-    public static final int OWNER_READ = 8;
-    public static final int GROUP_READ = 16;
-    public static final int OTHER_READ = 32;
-
-    public static final int OWNER_UPDATE = 64;
-    public static final int GROUP_UPDATE = 128;
-    public static final int OTHER_UPDATE = 256;
-
-    public static final int OWNER_DELETE = 512;
-    public static final int GROUP_DELETE = 1024;
-    public static final int OTHER_DELETE = 2048;
-
-    public static final int OWNER_SYNC = 4096;
-    public static final int GROUP_SYNC = 8192;
-    public static final int OTHER_SYNC = 16384;
-
-    public static final int[] permissions = {
-            OWNER_CREATE, /* 0  */
-            GROUP_CREATE, /* 1  */
-            OTHER_CREATE, /* 2  */
-            OWNER_READ,   /* 3  */
-            GROUP_READ,   /* 4  */
-            OTHER_READ,   /* 5  */
-            OWNER_UPDATE, /* 6  */
-            GROUP_UPDATE, /* 7  */
-            OTHER_UPDATE, /* 8  */
-            OWNER_DELETE, /* 9  */
-            GROUP_DELETE, /* 10 */
-            OTHER_DELETE, /* 11 */
-            OWNER_SYNC,   /* 12 */
-            GROUP_SYNC,   /* 13 */
-            OTHER_SYNC,   /* 14 */
-    };
-
     public static final String[] perm_names = {
             "Own Add",      /* 0  */
             "Group Add",    /* 1  */
@@ -171,7 +188,11 @@ public class cBitwise {
             "Other Sync"    /* 14 */
     };
 
+    public enum EntityType {
+        PROJECT, LOGFRAME;
+    }
 
+/*
     public static final int OWNER = OWNER_CREATE | OWNER_READ | OWNER_UPDATE |
             OWNER_DELETE | OWNER_SYNC;
     public static final int GROUP = GROUP_CREATE | GROUP_READ | GROUP_UPDATE |
@@ -180,14 +201,14 @@ public class cBitwise {
             OTHER_DELETE | OTHER_SYNC;
 
     public static final int[] cruds_perms = {
-            CREATE,       /* 0 */
-            READ,         /* 1 */
-            UPDATE,       /* 2 */
-            DELETE,       /* 3 */
-            SYNC          /* 4 */
+            CREATE,       /* 0
+            READ,         /* 1
+            UPDATE,       /* 2
+            DELETE,       /* 3
+            SYNC          /* 4
     };
 
-/*
+
     public static final int[] composite_perms = {
             CREATE,  0
             READ,    1
@@ -197,26 +218,6 @@ public class cBitwise {
     };
 */
 
-    public static final int ACTIVATED = 1;
-    public static final int CANCELLED = 2;
-    public static final int DELETED   = 4;
-    public static final int PENDING   = 8;
-    public static final int SYNCED    = 16;
-
-/*
-    public static final int ACTIVATED = 4;
-    public static final int CANCELLED = 8;
-    public static final int DELETED   = 2;
-    public static final int SYNCED    = 1;
-    public static final int PENDING   = 16;
-*/
-    public static final int[] statuses = {
-            ACTIVATED, /* 0 */
-            CANCELLED, /* 1 */
-            DELETED,   /* 2 */
-            PENDING,   /* 3 */
-            SYNCED     /* 4 */
-    };
     public static final String[] status_names = {
             "Activated", /* 0 */
             "Cancelled", /* 1 */

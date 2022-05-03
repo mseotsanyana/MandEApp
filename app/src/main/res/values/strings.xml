@@ -51,6 +51,7 @@
     <string name="fa_location">&#xf041;</string>
 
     <string name="fa_organization">&#xf1ad;</string>
+    <string name="fa_logframe">&#xf018;</string>
 
     <!-- Permission Icons -->
     <string name="fa_perms">&#xf085;</string>
@@ -213,6 +214,11 @@
     <string name="transactions">Transactions</string>
     <string name="datacollection">Data Collection</string>
     <string name="raid">RAID Log</string>
+
+    <!-- the project strings -->
+    <string name="status">Status:</string>
+    <string name="duration">Duration:</string>
+    <string name="location">location:</string>
 
     <!-- the organization strings -->
     <string name="stakeholders">Stakeholders</string>

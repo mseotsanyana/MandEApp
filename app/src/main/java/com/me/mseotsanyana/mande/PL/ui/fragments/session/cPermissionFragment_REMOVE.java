@@ -132,8 +132,8 @@ cPermissionFragment_REMOVE extends Fragment {
 
         moduleViewPagerAdapter = new cMELViewPagerAdapter(requireActivity());
 
-        moduleViewPagerAdapter.addFrag(cEntityFragment.newInstance(), "entity permissions");
-        moduleViewPagerAdapter.addFrag(cMenuFragment.newInstance(), "menu permissions");
+        //moduleViewPagerAdapter.addFrag(cEntityFragment.newInstance(), "entity permissions");
+        //moduleViewPagerAdapter.addFrag(cMenuFragment.newInstance(), "menu permissions");
 
         moduleViewPager2.setAdapter(moduleViewPagerAdapter);
 

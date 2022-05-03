@@ -6,6 +6,8 @@ import static com.me.mseotsanyana.mande.DAL.storage.base.cConstant.SUCCESS;
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -204,7 +206,8 @@ public abstract class cFirebaseRepository {
      * @param query    query of Document reference to fetch data
      * @param callBack callback for event handling
      */
-    protected final void readQueryDocuments(final Query query, final cFirebaseCallBack callBack) {
+    protected final void readQueryDocuments(@NonNull final Query query,
+                                            @NonNull final cFirebaseCallBack callBack) {
         query.get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -229,13 +232,12 @@ public abstract class cFirebaseRepository {
      */
     protected final ListenerRegistration readQueryDocumentsByListener(
             final Query query, final cFirebaseCallBack callback) {
-        return query
-                .addSnapshotListener((value, e) -> {
+        return query.addSnapshotListener((snapshots, e) -> {
                     if (e != null) {
                         callback.onFirebaseFailure(e);
                         return;
                     }
-                    callback.onFirebaseSuccess(value);
+                    callback.onFirebaseSuccess(snapshots);
                 });
     }
 

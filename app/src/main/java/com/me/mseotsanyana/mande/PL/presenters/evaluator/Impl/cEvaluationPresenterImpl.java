@@ -5,7 +5,7 @@ import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.evaluation.Impl.cReadEvaluationInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.evaluation.iReadEvaluationInteractor;
 import com.me.mseotsanyana.mande.BLL.repository.evaluator.iEvaluationRepository;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
 import com.me.mseotsanyana.mande.PL.presenters.evaluator.iEvaluationPresenter;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;

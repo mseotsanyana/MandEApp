@@ -1,17 +1,5 @@
 package com.me.mseotsanyana.mande.BLL.interactors.session.module.Impl;
 
-import android.util.Log;
-
-import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
-import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
-import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
-import com.me.mseotsanyana.mande.BLL.interactors.session.module.iReadModuleInteractor;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.DAL.storage.preference.cSharedPreference;
-import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
-
-import java.util.List;
-
 public class cReadModuleInteractorImpl /*extends cAbstractInteractor implements iReadModuleInteractor*/ {
 //    private static final String TAG = cReadModuleInteractorImpl.class.getSimpleName();
 //

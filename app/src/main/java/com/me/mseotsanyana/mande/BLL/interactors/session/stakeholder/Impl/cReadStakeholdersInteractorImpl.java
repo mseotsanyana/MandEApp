@@ -9,7 +9,7 @@ import com.me.mseotsanyana.mande.BLL.interactors.cInteractorUtils;
 import com.me.mseotsanyana.mande.BLL.interactors.session.stakeholder.iStakeholderInteractor;
 import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iStakeholderRepository;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.DAL.storage.base.cFirebaseChildCallBack;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cSharedPreference;
 

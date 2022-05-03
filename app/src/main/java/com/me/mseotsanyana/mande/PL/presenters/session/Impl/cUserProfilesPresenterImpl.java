@@ -7,7 +7,7 @@ import com.me.mseotsanyana.mande.BLL.interactors.session.userprofile.Impl.cUpdat
 import com.me.mseotsanyana.mande.BLL.interactors.session.userprofile.Impl.cUploadUserProfilesInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.session.userprofile.iUserProfilesInteractor;
 import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.BLL.repository.session.iUserProfileRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
 import com.me.mseotsanyana.mande.PL.presenters.session.iUserProfilePresenter;

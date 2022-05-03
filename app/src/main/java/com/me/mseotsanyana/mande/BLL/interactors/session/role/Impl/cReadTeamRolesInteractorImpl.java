@@ -8,7 +8,7 @@ import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.session.role.iReadTeamRolesInteractor;
 import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iRoleRepository;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cSharedPreference;
 
 import java.util.List;

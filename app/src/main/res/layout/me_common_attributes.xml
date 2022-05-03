@@ -1,453 +1,464 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/linearLayout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <!-- progress bar -->
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+    <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        app:cardBackgroundColor="@color/faintGrey"
-        app:cardCornerRadius="10dp">
+        android:orientation="horizontal">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="4dp">
+            android:layout_margin="4dp"
+            app:cardBackgroundColor="@color/faintGrey"
+            app:cardCornerRadius="10dp">
 
-            <!-- record owner -->
-            <LinearLayout
-                android:id="@+id/linearLayoutOwner"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:padding="4dp">
 
+                <!-- record owner -->
+                <LinearLayout
+                    android:id="@+id/linearLayoutOwner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/appCompatTextViewOwner"
+                        android:layout_width="349dp"
+                        android:layout_height="wrap_content"
+                        android:text="Owner"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/text_size_small"
+                        app:layout_constraintEnd_toStartOf="@id/appCompatSpinnerOwner" />
+
+                    <com.me.mseotsanyana.multiselectspinnerlibrary.CSingleSpinnerSearch
+                        android:id="@+id/appCompatSpinnerOwner"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        app:hintText="Select Owner"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/appCompatTextViewOwner" />
+                </LinearLayout>
+
+                <!-- team that owns the record -->
+                <LinearLayout
+                    android:id="@+id/linearLayoutTeam"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayoutOwner">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/appCompatTextViewTeam"
+                        android:layout_width="349dp"
+                        android:layout_height="wrap_content"
+                        android:text="Team"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/text_size_small"
+                        app:layout_constraintEnd_toStartOf="@id/appCompatSpinnerOwner" />
+
+                    <com.me.mseotsanyana.multiselectspinnerlibrary.CSingleSpinnerSearch
+                        android:id="@+id/appCompatSpinnerTeam"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        app:hintText="Select Team"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/appCompatTextViewOwner" />
+                </LinearLayout>
+
+                <!-- organization that owns the record -->
+                <LinearLayout
+                    android:id="@+id/linearLayoutOrganization"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayoutTeam">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/appCompatTextViewOrganization"
+                        android:layout_width="349dp"
+                        android:layout_height="wrap_content"
+                        android:text="Organization"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/text_size_small"
+                        app:layout_constraintEnd_toStartOf="@id/appCompatSpinnerOwner" />
+
+                    <com.me.mseotsanyana.multiselectspinnerlibrary.CSingleSpinnerSearch
+                        android:id="@+id/appCompatSpinnerOrganization"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        app:hintText="Select Organization"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/appCompatTextViewOwner" />
+                </LinearLayout>
+
+                <!-- created and modified dates -->
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/appCompatTextViewOwner"
-                    android:layout_width="349dp"
-                    android:layout_height="wrap_content"
-                    android:text="Owner"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/text_size_small"
-                    app:layout_constraintEnd_toStartOf="@id/appCompatSpinnerOwner" />
-
-                <com.me.mseotsanyana.multiselectspinnerlibrary.cSingleSpinnerSearch
-                    android:id="@+id/appCompatSpinnerOwner"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    app:hintText="Select Owner"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/appCompatTextViewOwner" />
-            </LinearLayout>
-
-            <!-- team that owns the record -->
-            <LinearLayout
-                android:id="@+id/linearLayoutTeam"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/linearLayoutOwner">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/appCompatTextViewTeam"
-                    android:layout_width="349dp"
-                    android:layout_height="wrap_content"
-                    android:text="Team"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/text_size_small"
-                    app:layout_constraintEnd_toStartOf="@id/appCompatSpinnerOwner" />
-
-                <com.me.mseotsanyana.multiselectspinnerlibrary.cSingleSpinnerSearch
-                    android:id="@+id/appCompatSpinnerTeam"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    app:hintText="Select Owner"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/appCompatTextViewOwner" />
-            </LinearLayout>
-
-            <!-- organization that owns the record -->
-            <LinearLayout
-                android:id="@+id/linearLayoutOrganization"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/linearLayoutTeam">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/appCompatTextViewOrganization"
-                    android:layout_width="349dp"
-                    android:layout_height="wrap_content"
-                    android:text="Organization"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/text_size_small"
-                    app:layout_constraintEnd_toStartOf="@id/appCompatSpinnerOwner" />
-
-                <com.me.mseotsanyana.multiselectspinnerlibrary.cSingleSpinnerSearch
-                    android:id="@+id/appCompatSpinnerOrganization"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    app:hintText="Select Owner"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/appCompatTextViewOwner" />
-            </LinearLayout>
-
-            <!-- created and modified dates -->
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewCreatedDateCaption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="4dp"
-                android:text="@string/common_created_on"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/linearLayoutOrganization" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewCreatedDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="4dp"
-                android:layout_marginStart="2dp"
-                android:text="value"
-                android:textSize="@dimen/text_size_small"
-                android:textColor="@color/colorPrimaryDark"
-                app:layout_constraintStart_toEndOf="@+id/textViewCreatedDateCaption"
-                app:layout_constraintTop_toBottomOf="@id/linearLayoutOrganization" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewModifiedDateCaption"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="4dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginTop="4dp"
-                android:text="@string/common_modified_on"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/text_size_small"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/linearLayoutOrganization"
-                app:layout_constraintEnd_toStartOf="@+id/textViewModifiedDate" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/textViewModifiedDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="4dp"
-                android:layout_marginEnd="4dp"
-                android:textSize="@dimen/text_size_small"
-                android:text="value"
-                android:textColor="@color/colorPrimaryDark"
-                app:layout_constraintTop_toBottomOf="@id/linearLayoutOrganization"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-            <!-- separator between status and permissions -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:background="@color/colorPrimaryDark"
-                app:layout_constraintTop_toBottomOf="@+id/textViewCreatedDateCaption"
-                app:layout_constraintBottom_toTopOf="@+id/tableLayoutStatus"/>
-
-            <!-- status of the record -->
-            <TableLayout
-                android:id="@+id/tableLayoutStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/me_rounded_corner_light_grew"
-                android:padding="5dp"
-                android:shrinkColumns="*"
-                android:stretchColumns="*"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textViewCreatedDateCaption">
-
-                <TableRow
-                    android:id="@+id/tableRowStatusOperations"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/textViewDeleted"
-                        android:layout_gravity="center"
-                        android:text="@string/Deleted"
-                        android:textSize="@dimen/text_size_small"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-
-                    <TextView
-                        android:id="@+id/textViewBlocked"
-                        android:layout_gravity="center"
-                        android:text="@string/Blocked"
-                        android:textSize="@dimen/text_size_small"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-
-                    <TextView
-                        android:id="@+id/textViewActivated"
-                        android:layout_gravity="center"
-                        android:text="@string/Activated"
-                        android:textSize="@dimen/text_size_small"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-
-                    <TextView
-                        android:id="@+id/textViewCancelled"
-                        android:layout_gravity="center"
-                        android:text="@string/Cancelled"
-                        android:textSize="@dimen/text_size_small"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-
-                    <TextView
-                        android:id="@+id/textViewPending"
-                        android:layout_gravity="center"
-                        android:text="@string/Pending"
-                        android:textSize="@dimen/text_size_small"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRowStatusOwner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switchDeleted"
-                        android:layout_gravity="center" />
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switchBlocked"
-                        android:layout_gravity="center" />
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switchActivated"
-                        android:layout_gravity="center" />
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switchCancelled"
-                        android:layout_gravity="center" />
-
-                    <com.google.android.material.switchmaterial.SwitchMaterial
-                        android:id="@+id/switchPending"
-                        android:layout_gravity="center" />
-                </TableRow>
-            </TableLayout>
-
-            <!-- separator between status and permissions -->
-            <View
-                android:id="@+id/separatorView"
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:background="@color/colorPrimaryDark"
-                app:layout_constraintTop_toBottomOf="@+id/tableLayoutStatus"
-                app:layout_constraintBottom_toTopOf="@+id/tableLayoutPermission"/>
-
-            <!-- record unix permissions -->
-            <TableLayout
-                android:id="@+id/tableLayoutPermission"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/me_rounded_corner_light_grew"
-                android:padding="10dp"
-                android:shrinkColumns="*"
-                android:stretchColumns="*"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tableLayoutStatus">
-
-                <TableRow
-                    android:id="@+id/tableRowOperations"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/textViewEmpty"
-                        android:layout_gravity="center"
-                        android:text="   " />
-
-                    <TextView
-                        android:id="@+id/textViewRead"
-                        android:text="@string/Read"
-                        android:textSize="@dimen/text_size_small"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-
-                    <TextView
-                        android:id="@+id/textViewUpdate"
-                        android:text="@string/Update"
-                        android:textSize="@dimen/text_size_small"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-
-                    <TextView
-                        android:id="@+id/textViewDelete"
-                        android:text="@string/Delete"
-                        android:textSize="@dimen/text_size_small"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold"
-                        android:typeface="serif" />
-
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRowOwner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/textViewOwner"
-                        android:layout_gravity="start|center"
-                        android:text="@string/Owner"
-                        android:textSize="@dimen/text_size_small"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold" />
-
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                        android:id="@+id/checkBoxOwnerRead"
-                        android:layout_gravity="center" />
-
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                        android:id="@+id/checkBoxOwnerUpdate"
-                        android:layout_gravity="center" />
-
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                        android:id="@+id/checkBoxOwnerDelete"
-                        android:layout_gravity="center" />
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRowPrimary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/textViewPrimary"
-                        android:layout_gravity="start|center"
-                        android:text="@string/Primary"
-                        android:textSize="@dimen/text_size_small"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold" />
-
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                        android:id="@+id/checkBoxPrimaryRead"
-                        android:layout_gravity="center" />
-
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                        android:id="@+id/checkBoxPrimaryUpdate"
-                        android:layout_gravity="center" />
-
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                        android:id="@+id/checkBoxPrimaryDelete"
-                        android:layout_gravity="center" />
-
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRowSecondary"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/textViewSecondary"
-                        android:layout_gravity="start|center"
-                        android:text="@string/Secondary"
-                        android:textSize="@dimen/text_size_small"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold" />
-
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                        android:id="@+id/checkBoxSecondaryRead"
-                        android:layout_gravity="center" />
-
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                        android:id="@+id/checkBoxSecondaryUpdate"
-                        android:layout_gravity="center" />
-
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                        android:id="@+id/checkBoxSecondaryDelete"
-                        android:layout_gravity="center" />
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRowOrganization"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/textViewOrganization"
-                        android:layout_gravity="start|center"
-                        android:text="@string/Organization"
-                        android:textSize="@dimen/text_size_small"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textStyle="bold" />
-
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                        android:id="@+id/checkBoxOrganizationRead"
-                        android:layout_gravity="center" />
-
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                        android:id="@+id/checkBoxOrganizationUpdate"
-                        android:layout_gravity="center" />
-
-                    <androidx.appcompat.widget.AppCompatCheckBox
-                        android:id="@+id/checkBoxOrganizationDelete"
-                        android:layout_gravity="center" />
-                </TableRow>
-            </TableLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayoutModify"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/tableLayoutPermission"
-                app:layout_constraintRight_toRightOf="parent"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/buttonReset"
+                    android:id="@+id/textViewCreatedDateCaption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="@string/Reset"
-                    app:backgroundTint="@color/colorPrimaryDark"
-                    style="@style/Widget.MaterialComponents.Button"/>
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/common_created_on"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayoutOrganization" />
 
-                <Button
-                    android:id="@+id/buttonUpdate"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewCreatedDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Save"
-                    app:backgroundTint="@color/colorPrimaryDark"
-                    style="@style/Widget.MaterialComponents.Button"/>
-            </LinearLayout>
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="4dp"
+                    android:text="value"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/text_size_small"
+                    app:layout_constraintStart_toEndOf="@+id/textViewCreatedDateCaption"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayoutOrganization" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-</LinearLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewModifiedDateCaption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="2dp"
+                    android:text="@string/common_modified_on"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/text_size_small"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toStartOf="@+id/textViewModifiedDate"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayoutOrganization" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewModifiedDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:text="value"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/text_size_small"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayoutOrganization" />
+
+                <!-- separator between status and permissions -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@color/colorPrimaryDark"
+                    app:layout_constraintBottom_toTopOf="@+id/tableLayoutStatus"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewCreatedDateCaption" />
+
+                <!-- status of the record -->
+                <TableLayout
+                    android:id="@+id/tableLayoutStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/me_rounded_corner_light_grew"
+                    android:padding="5dp"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewCreatedDateCaption">
+
+                    <TableRow
+                        android:id="@+id/tableRowStatusOperations"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textViewDeleted"
+                            android:layout_gravity="center"
+                            android:text="@string/Deleted"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            android:typeface="serif" />
+
+                        <TextView
+                            android:id="@+id/textViewBlocked"
+                            android:layout_gravity="center"
+                            android:text="@string/Blocked"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            android:typeface="serif" />
+
+                        <TextView
+                            android:id="@+id/textViewActivated"
+                            android:layout_gravity="center"
+                            android:text="@string/Activated"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            android:typeface="serif" />
+
+                        <TextView
+                            android:id="@+id/textViewCancelled"
+                            android:layout_gravity="center"
+                            android:text="@string/Cancelled"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            android:typeface="serif" />
+
+                        <TextView
+                            android:id="@+id/textViewPending"
+                            android:layout_gravity="center"
+                            android:text="@string/Pending"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            android:typeface="serif" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRowStatusOwner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchDeleted"
+                            android:layout_gravity="center" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchBlocked"
+                            android:layout_gravity="center" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchActivated"
+                            android:layout_gravity="center" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchCancelled"
+                            android:layout_gravity="center" />
+
+                        <com.google.android.material.switchmaterial.SwitchMaterial
+                            android:id="@+id/switchPending"
+                            android:layout_gravity="center" />
+                    </TableRow>
+                </TableLayout>
+
+                <!-- separator between status and permissions -->
+                <View
+                    android:id="@+id/separatorView"
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@color/colorPrimaryDark"
+                    app:layout_constraintBottom_toTopOf="@+id/tableLayoutPermission"
+                    app:layout_constraintTop_toBottomOf="@+id/tableLayoutStatus" />
+
+                <!-- record unix permissions -->
+                <TableLayout
+                    android:id="@+id/tableLayoutPermission"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/me_rounded_corner_light_grew"
+                    android:padding="10dp"
+                    android:shrinkColumns="*"
+                    android:stretchColumns="*"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tableLayoutStatus">
+
+                    <TableRow
+                        android:id="@+id/tableRowOperations"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textViewEmpty"
+                            android:layout_gravity="center"
+                            android:text="   " />
+
+                        <TextView
+                            android:id="@+id/textViewRead"
+                            android:text="@string/Read"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            android:typeface="serif" />
+
+                        <TextView
+                            android:id="@+id/textViewUpdate"
+                            android:text="@string/Update"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            android:typeface="serif" />
+
+                        <TextView
+                            android:id="@+id/textViewDelete"
+                            android:text="@string/Delete"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold"
+                            android:typeface="serif" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRowOwner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textViewOwner"
+                            android:layout_gravity="start|center"
+                            android:text="@string/Owner"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/checkBoxOwnerRead"
+                            android:layout_gravity="center" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/checkBoxOwnerUpdate"
+                            android:layout_gravity="center" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/checkBoxOwnerDelete"
+                            android:layout_gravity="center" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRowPrimary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textViewPrimary"
+                            android:layout_gravity="start|center"
+                            android:text="@string/Primary"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/checkBoxPrimaryRead"
+                            android:layout_gravity="center" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/checkBoxPrimaryUpdate"
+                            android:layout_gravity="center" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/checkBoxPrimaryDelete"
+                            android:layout_gravity="center" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRowSecondary"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textViewSecondary"
+                            android:layout_gravity="start|center"
+                            android:text="@string/Secondary"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/checkBoxSecondaryRead"
+                            android:layout_gravity="center" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/checkBoxSecondaryUpdate"
+                            android:layout_gravity="center" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/checkBoxSecondaryDelete"
+                            android:layout_gravity="center" />
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRowOrganization"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textViewOrganization"
+                            android:layout_gravity="start|center"
+                            android:text="@string/Organization"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="@dimen/text_size_small"
+                            android:textStyle="bold" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/checkBoxOrganizationRead"
+                            android:layout_gravity="center" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/checkBoxOrganizationUpdate"
+                            android:layout_gravity="center" />
+
+                        <androidx.appcompat.widget.AppCompatCheckBox
+                            android:id="@+id/checkBoxOrganizationDelete"
+                            android:layout_gravity="center" />
+                    </TableRow>
+                </TableLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutModify"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tableLayoutPermission">
+
+                    <Button
+                        android:id="@+id/buttonReset"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="@string/Reset"
+                        app:backgroundTint="@color/colorPrimaryDark" />
+
+                    <Button
+                        android:id="@+id/buttonUpdate"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Save"
+                        app:backgroundTint="@color/colorPrimaryDark" />
+                </LinearLayout>
+
+                <!-- progress bar -->
+                <!--app:layout_anchor="@+id/includeProgressBar"-->
+
+                <include
+                    android:id="@+id/includeProgressBar"
+                    layout="@layout/me_progress_bar"
+                    app:layout_anchorGravity="center" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</layout>

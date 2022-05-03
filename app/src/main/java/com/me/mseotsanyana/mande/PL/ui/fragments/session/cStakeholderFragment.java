@@ -27,7 +27,7 @@ import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
 import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cStakeholderFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cPermissionFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cSharedPreferenceFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.PL.presenters.session.Impl.cStakeholderPresenterImpl;
 import com.me.mseotsanyana.mande.PL.presenters.session.iStakeholderPresenter;
 import com.me.mseotsanyana.mande.PL.ui.adapters.session.cStakeholderAdapter;
@@ -37,8 +37,8 @@ import com.me.mseotsanyana.mande.UTIL.TextDrawable;
 import com.me.mseotsanyana.mande.UTIL.cFontManager;
 import com.me.mseotsanyana.mande.cMainThreadImpl;
 import com.me.mseotsanyana.mande.databinding.SessionStakeholderPageBinding;
+import com.me.mseotsanyana.multiselectspinnerlibrary.CSingleSpinnerSearch;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cKeyPairBoolData;
-import com.me.mseotsanyana.multiselectspinnerlibrary.cSingleSpinnerSearch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -225,7 +225,7 @@ public class cStakeholderFragment extends Fragment implements iStakeholderPresen
         final int[] org_index = new int[1];
         TextView textViewTitle = createView.findViewById(R.id.textViewTitle);
         TextView textViewOrgType = createView.findViewById(R.id.textViewOrgType);
-        cSingleSpinnerSearch singleSpinner = createView.findViewById(R.id.singleSpinner);
+        CSingleSpinnerSearch singleSpinner = createView.findViewById(R.id.singleSpinner);
         AppCompatEditText editTextName = createView.findViewById(R.id.editTextName);
         AppCompatEditText editTextEmail = createView.findViewById(R.id.editTextEmail);
         AppCompatEditText editTextWebsite = createView.findViewById(R.id.editTextWebsite);

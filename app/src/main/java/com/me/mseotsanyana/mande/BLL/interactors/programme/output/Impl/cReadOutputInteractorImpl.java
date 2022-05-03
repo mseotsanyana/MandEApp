@@ -7,9 +7,9 @@ import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.output.iReadOutputInteractor;
-import com.me.mseotsanyana.mande.BLL.repository.logframe.iOutputRepository;
+import com.me.mseotsanyana.mande.BLL.repository.programme.iOutputRepository;
 import com.me.mseotsanyana.mande.BLL.model.logframe.cOutputModel;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cBitwise;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 

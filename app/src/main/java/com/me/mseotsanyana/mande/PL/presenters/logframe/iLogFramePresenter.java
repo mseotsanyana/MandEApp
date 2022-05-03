@@ -47,6 +47,7 @@ public interface iLogFramePresenter extends iPresenter {
     void createLogFrameModel(cLogFrameModel logFrameModel);
     void createSubLogFrameModel(String logFrameID, cLogFrameModel logSubFrameModel);
     void readLogFrames();
+    void readLogFrame(String projectServerID);
     void updateLogFrame(cLogFrameModel logFrameModel, int position);
     void deleteLogFrameModel(String logFrameID);
     void deleteLogFrameModels();

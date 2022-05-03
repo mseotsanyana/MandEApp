@@ -2,11 +2,16 @@ package com.me.mseotsanyana.mande.PL.presenters.logframe.Impl;
 
 import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
-import com.me.mseotsanyana.mande.BLL.interactors.programme.project.Impl.cReadProjectInteractorImpl;
+import com.me.mseotsanyana.mande.BLL.interactors.programme.project.Impl.cReadAllProjectsInteractorImpl;
+import com.me.mseotsanyana.mande.BLL.interactors.programme.project.Impl.cRemoveProjectListenerInteractorImpl;
+import com.me.mseotsanyana.mande.BLL.interactors.programme.project.Impl.cUploadProjectInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.project.iProjectInteractor;
 import com.me.mseotsanyana.mande.BLL.model.logframe.cProjectModel;
-import com.me.mseotsanyana.mande.BLL.repository.logframe.iProjectRepository;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
+import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
+import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.repository.programme.iProjectRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iProjectPresenter;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
@@ -74,8 +79,8 @@ public class cProjectPresenterImpl extends cAbstractPresenter implements iProjec
 
     /* ======================================= START READ ======================================= */
     @Override
-    public void readProjects() {
-        iProjectInteractor readProjectInteractor = new cReadProjectInteractorImpl(
+    public void readAllProjects() {
+        iProjectInteractor readAllProjectsInteractor = new cReadAllProjectsInteractorImpl(
                 executor,
                 mainThread,
                 sharedPreferenceRepository,
@@ -83,21 +88,21 @@ public class cProjectPresenterImpl extends cAbstractPresenter implements iProjec
                 this);
 
         view.showProgress();
-        readProjectInteractor.execute();
+        readAllProjectsInteractor.execute();
     }
 
     @Override
-    public void onReadProjectsCompleted(List<cTreeModel> treeModels) {
+    public void onReadAllProjectsSucceeded(List<cTreeModel> treeModels) {
         if (this.view != null) {
-            this.view.onReadProjectsCompleted(treeModels);
+            this.view.onReadAllProjectsSucceeded(treeModels);
             this.view.hideProgress();
         }
     }
 
     @Override
-    public void onReadProjectsFailed(String msg) {
+    public void onReadAllProjectsFailed(String msg) {
         if (this.view != null) {
-            this.view.onReadProjectsFailed(msg);
+            this.view.onReadAllProjectsFailed(msg);
             this.view.hideProgress();
         }
     }
@@ -123,6 +128,11 @@ public class cProjectPresenterImpl extends cAbstractPresenter implements iProjec
             //this.view.onUpdateProjectSucceeded(projectModel, position, msg);
             this.view.hideProgress();
         }
+    }
+
+    @Override
+    public void onUpdateProjectSucceeded(String msg) {
+
     }
 
     @Override
@@ -182,15 +192,15 @@ public class cProjectPresenterImpl extends cAbstractPresenter implements iProjec
 
     @Override
     public void uploadProjectFromExcel(String filePath) {
-//        iLogFrameInteractor uploadLogFrameInteractor =
-//                new cUploadProjectInteractorImpl(executor, mainThread,
-//                        sharedPreferenceRepository,
-//                        projectRepository,
-//                        this,
-//                        filePath);
-//
-//        view.showProgress();
-//        uploadLogFrameInteractor.execute();
+        iProjectInteractor projectInteractor =
+                new cUploadProjectInteractorImpl(executor, mainThread,
+                        sharedPreferenceRepository,
+                        projectRepository,
+                        this,
+                        filePath);
+
+        view.showProgress();
+        projectInteractor.execute();
     }
 
     @Override
@@ -211,11 +221,61 @@ public class cProjectPresenterImpl extends cAbstractPresenter implements iProjec
 
     /* ======================================= END UPLOAD ======================================= */
 
+    /* ================================== UPDATE COMMON MODEL =================================== */
+
+    @Override
+    public void updateCommonModel() {
+//        iProjectInteractor projectInteractor;
+//        projectInteractor = new cReadCommonInteractorImpl(
+//                executor, mainThread,
+//                sharedPreferenceRepository, userProfileRepository,
+//                teamRepository, stakeholderRepository,
+//                this);
+//
+//        view.showProgress();
+    }
+
+    @Override
+    public void onReadUserProfilesSucceeded(List<cUserProfileModel> userProfileModels) {
+
+    }
+
+    @Override
+    public void onReadTeamsSucceeded(List<cTeamModel> teamModels) {
+
+    }
+
+    @Override
+    public void onReadStakeholdersSucceeded(List<cStakeholderModel> stakeholderModels) {
+
+    }
+
+    @Override
+    public void onReadCommonPropertiesFailed(String msg) {
+
+    }
+
+    /* ======================================= END UPDATE ======================================= */
+
     /* ================================== START BASE PRESENTER ================================== */
 
     @Override
+    public void removeListener() {
+        iProjectInteractor projectInteractor;
+        projectInteractor = new cRemoveProjectListenerInteractorImpl(
+                executor,
+                mainThread,
+                projectRepository,
+                this);
+
+        view.showProgress();
+        projectInteractor.execute();
+    }
+
+
+    @Override
     public void resume() {
-        readProjects();
+        readAllProjects();
     }
 
     @Override

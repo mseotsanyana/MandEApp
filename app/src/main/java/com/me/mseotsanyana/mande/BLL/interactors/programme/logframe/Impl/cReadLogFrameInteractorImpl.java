@@ -7,9 +7,9 @@ import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.cInteractorUtils;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.logframe.iLogFrameInteractor;
-import com.me.mseotsanyana.mande.BLL.repository.logframe.iLogFrameRepository;
+import com.me.mseotsanyana.mande.BLL.repository.programme.iLogFrameRepository;
 import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cSharedPreference;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
@@ -32,10 +32,12 @@ public class cReadLogFrameInteractorImpl extends cAbstractInteractor
     private final int entityBITS;
     private final int entitypermBITS;
 
+    String projectServerID;
+
     public cReadLogFrameInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
                                        iSharedPreferenceRepository sharedPreferenceRepository,
                                        iLogFrameRepository logFrameRepository,
-                                       Callback callback) {
+                                       Callback callback, String projectServerID) {
         super(threadExecutor, mainThread);
 
         if (sharedPreferenceRepository == null || logFrameRepository == null || callback == null) {
@@ -44,6 +46,7 @@ public class cReadLogFrameInteractorImpl extends cAbstractInteractor
 
         this.logFrameRepository = logFrameRepository;
         this.callback = callback;
+        this.projectServerID = projectServerID;
 
         // load user shared preferences
         this.userServerID = sharedPreferenceRepository.loadUserID();
@@ -84,8 +87,6 @@ public class cReadLogFrameInteractorImpl extends cAbstractInteractor
         List<cTreeModel> logFrameTreeModels = new ArrayList<>();
         int parentIndex = 0, childIndex;
 
-
-
         for (int i = 0; i < logFrameModels.size(); i++) {
             // create logframe without parent logframe
             if (logFrameModels.get(i).getParentServerID() == null) {
@@ -119,8 +120,8 @@ public class cReadLogFrameInteractorImpl extends cAbstractInteractor
             if ((this.entityBITS & cSharedPreference.LOGFRAME) != 0) {
                 if ((this.entitypermBITS & cSharedPreference.READ) != 0) {
 
-                    logFrameRepository.readLogFrames(organizationServerID, userServerID,
-                            primaryTeamBIT, secondaryTeamBITS, statusBITS,
+                    logFrameRepository.readLogFrame(organizationServerID, userServerID,
+                            primaryTeamBIT, secondaryTeamBITS, statusBITS,projectServerID,
                             new iLogFrameRepository.iReadLogFramesCallback() {
                                 @Override
                                 public void onReadLogFrameSucceeded(List<cLogFrameModel>

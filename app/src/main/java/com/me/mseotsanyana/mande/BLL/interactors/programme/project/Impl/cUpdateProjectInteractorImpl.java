@@ -5,7 +5,7 @@ import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.logframe.iLogFrameInteractor;
 import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel;
-import com.me.mseotsanyana.mande.BLL.repository.logframe.iLogFrameRepository;
+import com.me.mseotsanyana.mande.BLL.repository.programme.iLogFrameRepository;
 
 public class cUpdateProjectInteractorImpl extends cAbstractInteractor
         implements iLogFrameInteractor {
@@ -18,7 +18,8 @@ public class cUpdateProjectInteractorImpl extends cAbstractInteractor
     private int position;
 
     public cUpdateProjectInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                        iLogFrameRepository logFrameRepository, Callback callback,
+                                        iLogFrameRepository logFrameRepository,
+                                        Callback callback,
                                         cLogFrameModel logFrameModel, int position) {
         super(threadExecutor, mainThread);
 

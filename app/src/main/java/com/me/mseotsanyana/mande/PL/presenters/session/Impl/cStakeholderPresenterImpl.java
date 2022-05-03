@@ -12,7 +12,7 @@ import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
 import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iStakeholderRepository;
 import com.me.mseotsanyana.mande.BLL.repository.session.iPermissionRepository;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
 import com.me.mseotsanyana.mande.PL.presenters.session.iStakeholderPresenter;
 

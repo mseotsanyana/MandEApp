@@ -75,7 +75,7 @@
 <!--                    &ndash;&gt;-->
 <!--            </LinearLayout>-->
 
-<!--            <com.me.mseotsanyana.multiselectspinnerlibrary.cSingleSpinnerSearch-->
+<!--            <com.me.mseotsanyana.multiselectspinnerlibrary.CSingleSpinnerSearch-->
 <!--                android:id="@+id/singleSpinnerSearchOrganization"-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="wrap_content"-->

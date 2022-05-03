@@ -44,7 +44,7 @@ import java.util.Set;
 /**
  * Created by mseotsanyana on 2016/10/23.
  */
-public class cStakeholderFirestoreRepositoryImpl extends cFirebaseRepository
+public class                                                                                                                                                          cStakeholderFirestoreRepositoryImpl extends cFirebaseRepository
         implements iStakeholderRepository {
     private static final String TAG = cStakeholderFirestoreRepositoryImpl.class.getSimpleName();
 
@@ -423,7 +423,8 @@ public class cStakeholderFirestoreRepositoryImpl extends cFirebaseRepository
                                        List<Integer> statusBITS,
                                        iReadStakeholderMembersCallback callback) {
 
-        CollectionReference coUserAccountsRef = database.collection(cRealtimeHelper.KEY_USERACCOUNTS);
+        CollectionReference coUserAccountsRef;
+        coUserAccountsRef = database.collection(cRealtimeHelper.KEY_USERACCOUNTS);
 
         Query userAccountQuery = coUserAccountsRef
                 .whereEqualTo("organizationOwnerID", stakeholderServerID)

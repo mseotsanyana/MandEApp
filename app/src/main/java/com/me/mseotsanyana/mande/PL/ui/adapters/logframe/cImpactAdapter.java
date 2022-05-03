@@ -24,9 +24,6 @@ import com.me.mseotsanyana.mande.BLL.model.logframe.cQuestionModel;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iImpactPresenter;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iOutcomePresenter;
 import com.me.mseotsanyana.mande.PL.ui.adapters.session.cMELViewPagerAdapter;
-import com.me.mseotsanyana.mande.PL.ui.fragments.common.cCommonAttributeFragment;
-import com.me.mseotsanyana.mande.PL.ui.fragments.logframe.cImpactOutcomeFragment;
-import com.me.mseotsanyana.mande.PL.ui.fragments.session.cEntityFragment;
 import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewImpactListener;
 import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewOutcomeListener;
 import com.me.mseotsanyana.mande.R;
@@ -209,16 +206,16 @@ public class cImpactAdapter extends cTreeAdapter implements iViewImpactListener,
                     cMELViewPagerAdapter moduleViewPagerAdapter = new cMELViewPagerAdapter(
                             (AppCompatActivity) context);
 
-                    moduleViewPagerAdapter.addFrag(
-                            cEntityFragment.newInstance(), "subimpacts");
-                    moduleViewPagerAdapter.addFrag(
-                            cImpactOutcomeFragment.newInstance(childImpact.getOutcomeModels()),
-                            "outcomes");
-                    moduleViewPagerAdapter.addFrag(
-                            cImpactOutcomeFragment.newInstance(childImpact.getOutcomeModels()),
-                            "questions");
-                    moduleViewPagerAdapter.addFrag(
-                            cCommonAttributeFragment.newInstance(childImpact), "RAID");
+//                    moduleViewPagerAdapter.addFrag(
+//                            cEntityFragment.newInstance(), "subimpacts");
+//                    moduleViewPagerAdapter.addFrag(
+//                            cImpactOutcomeFragment.newInstance(childImpact.getOutcomeModels()),
+//                            "outcomes");
+//                    moduleViewPagerAdapter.addFrag(
+//                            cImpactOutcomeFragment.newInstance(childImpact.getOutcomeModels()),
+//                            "questions");
+//                    moduleViewPagerAdapter.addFrag(
+//                            cCommonFragment.newInstance(childImpact), "RAID");
 
                     ICH.moduleViewPager2.setOffscreenPageLimit(1);
 

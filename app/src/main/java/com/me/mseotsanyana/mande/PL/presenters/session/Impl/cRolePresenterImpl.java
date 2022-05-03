@@ -6,7 +6,7 @@ import com.me.mseotsanyana.mande.BLL.interactors.session.role.Impl.cReadTeamRole
 import com.me.mseotsanyana.mande.BLL.interactors.session.role.iReadTeamRolesInteractor;
 import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iRoleRepository;
-import com.me.mseotsanyana.mande.BLL.repository.session.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
 import com.me.mseotsanyana.mande.PL.presenters.session.iRolePresenter;
 

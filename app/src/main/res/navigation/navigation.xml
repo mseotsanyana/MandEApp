@@ -44,7 +44,7 @@
         android:label="cSettingsFragment" />
     <fragment
         android:id="@+id/cLogFrameFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.logframe.cLogFrameFragment"
+        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cLogFrameFragment"
         android:label="cLogFrameFragment" >
         <action
             android:id="@+id/action_cLogFrameFragment_to_cImpactFragment"
@@ -91,10 +91,14 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@id/cLogFrameFragment"
             app:popUpToInclusive="false" />
+        <argument
+            android:name="projectServerID"
+            app:argType="string"
+            app:nullable="true" />
     </fragment>
     <fragment
         android:id="@+id/cImpactFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.logframe.cImpactFragment"
+        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cImpactFragment"
         android:label="cImpactFragment" >
         <argument
             android:name="logFrameModel"
@@ -111,7 +115,7 @@
     </fragment>
     <fragment
         android:id="@+id/cOutcomeFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.logframe.cOutcomeFragment"
+        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cOutcomeFragment"
         android:label="cOutcomeFragment" >
         <argument
             android:name="logFrameModel"
@@ -119,7 +123,7 @@
     </fragment>
     <fragment
         android:id="@+id/cOutputFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.logframe.cOutputFragment"
+        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cOutputFragment"
         android:label="cOutputFragment" >
         <argument
             android:name="logFrameModel"
@@ -127,7 +131,7 @@
     </fragment>
     <fragment
         android:id="@+id/cInputFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.logframe.cInputFragment"
+        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cInputFragment"
         android:label="cInputFragment" >
         <argument
             android:name="logFrameModel"
@@ -143,7 +147,7 @@
     </fragment>
     <fragment
         android:id="@+id/cActivityFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.logframe.cActivityFragment"
+        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cActivityFragment"
         android:label="cActivityFragment" >
         <argument
             android:name="logFrameModel"
@@ -151,7 +155,7 @@
     </fragment>
     <fragment
         android:id="@+id/cQuestionFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.logframe.cQuestionFragment"
+        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cQuestionFragment"
         android:label="cQuestionFragment" >
         <argument
             android:name="logFrameID"
@@ -219,7 +223,7 @@
     </fragment>
     <fragment
         android:id="@+id/cImpactDetailFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.logframe.cImpactDetailFragment"
+        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cImpactDetailFragment"
         android:label="cImpactDetailFragment" />
     <fragment
         android:id="@+id/cHomeFragment"
@@ -309,7 +313,12 @@
             app:destination="@id/cRAIDLogFragment" />
         <action
             android:id="@+id/action_cHomeFragment_to_cProjectFragment"
-            app:destination="@id/cProjectFragment" />
+            app:destination="@id/cProjectFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_cHomeFragment_to_cLearningPlanFragment"
             app:destination="@id/cLearningPlanFragment" />
@@ -372,8 +381,18 @@
     </fragment>
     <fragment
         android:id="@+id/cProjectFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.logframe.cProjectFragment"
-        android:label="cProjectFragment" />
+        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cProjectFragment"
+        android:label="cProjectFragment" >
+        <action
+            android:id="@+id/action_cProjectFragment_to_cLogFrameFragment"
+            app:destination="@id/cLogFrameFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/cProjectFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/cWorkPlanFragment"
         android:name="com.me.mseotsanyana.mande.PL.ui.fragments.awpb.cWorkPlanFragment"

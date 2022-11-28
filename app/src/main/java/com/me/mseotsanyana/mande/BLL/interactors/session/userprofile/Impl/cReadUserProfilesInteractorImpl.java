@@ -1,10 +1,10 @@
 package com.me.mseotsanyana.mande.BLL.interactors.session.userprofile.Impl;
 
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.session.userprofile.iUserProfilesInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.BLL.repository.session.iUserProfileRepository;
 
@@ -37,7 +37,7 @@ public class cReadUserProfilesInteractorImpl extends cAbstractInteractor
     }
 
     /* */
-    private void userProfilesMessage(List<cUserProfileModel> userProfileModels) {
+    private void userProfilesMessage(List<CUserProfileModel> userProfileModels) {
         mainThread.post(() -> callback.onReadUserProfilesSucceeded(userProfileModels));
     }
 
@@ -48,7 +48,7 @@ public class cReadUserProfilesInteractorImpl extends cAbstractInteractor
 
                     @Override
                     public void onReadUserProfilesSucceeded(
-                            List<cUserProfileModel> userProfileModels) {
+                            List<CUserProfileModel> userProfileModels) {
                         userProfilesMessage(userProfileModels);
                     }
 

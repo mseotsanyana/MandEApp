@@ -1,6 +1,6 @@
 package com.me.mseotsanyana.mande.BLL.repository.awpb;
 
-import com.me.mseotsanyana.mande.BLL.model.wpb.cIncomeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cIncomeModel;
 
 import java.util.Set;
 

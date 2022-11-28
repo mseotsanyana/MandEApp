@@ -1,9 +1,9 @@
 package com.me.mseotsanyana.mande.UTIL;
 
-import com.me.mseotsanyana.mande.BLL.model.logframe.cActivityModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cOutcomeModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cOutputModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cActivityModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cOutcomeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cOutputModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOrganizationModel;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cKeyPairBoolData;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class cDashboardFilter {
 
-    public static List<cKeyPairBoolData> getKeyPairBoolOrganizationTree(List<cStakeholderModel> organizationTree){
+    public static List<cKeyPairBoolData> getKeyPairBoolOrganizationTree(List<cOrganizationModel> organizationTree){
         List<cKeyPairBoolData> keyPairBoolOrganizationTree = new ArrayList<>();
         for (int i = 0; i < organizationTree.size(); i++) {
             cKeyPairBoolData idNameBool = new cKeyPairBoolData();

@@ -6,7 +6,7 @@ import com.me.mseotsanyana.mande.BLL.interactors.session.user.Impl.cReadUserProf
 import com.me.mseotsanyana.mande.BLL.interactors.session.user.Impl.cUpdateUserProfileInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.session.user.iReadUserProfileInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.session.user.iUpdateUserProfileInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.BLL.repository.session.iUserProfileRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
@@ -54,7 +54,7 @@ public class cMyUserProfilePresenterImpl extends cAbstractPresenter implements i
     }
 
     @Override
-    public void onReadUserProfileRetrieved(cUserProfileModel readUserProfile) {
+    public void onReadUserProfileRetrieved(CUserProfileModel readUserProfile) {
         if(this.view != null) {
             this.view.onReadUserProfileSucceeded(readUserProfile);
             this.view.hideProgress();
@@ -72,7 +72,7 @@ public class cMyUserProfilePresenterImpl extends cAbstractPresenter implements i
     // UPDATE
 
     @Override
-    public void updateUserProfile(cUserProfileModel userProfileModel) {
+    public void updateUserProfile(CUserProfileModel userProfileModel) {
 
         iUpdateUserProfileInteractor updateUserInteractor = new cUpdateUserProfileInteractorImpl(
                 executor,

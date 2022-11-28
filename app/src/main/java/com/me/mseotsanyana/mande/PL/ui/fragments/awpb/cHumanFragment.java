@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.me.mseotsanyana.mande.BLL.model.wpb.cHumanModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cHumanModel;
 import com.me.mseotsanyana.mande.PL.ui.adapters.awpb.cHumanAdapter;
 import com.me.mseotsanyana.mande.R;
 

@@ -48,9 +48,9 @@ public class cReadRecordPermissionInteractorImpl extends cAbstractInteractor imp
 
         // load user shared preferences
         this.userServerID = sharedPreferenceRepository.loadUserID();
-        this.organizationServerID = sharedPreferenceRepository.loadOrganizationID();
-        this.primaryTeamBIT = sharedPreferenceRepository.loadPrimaryTeamBIT();
-        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryTeams();
+        this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
+        this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
+        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(

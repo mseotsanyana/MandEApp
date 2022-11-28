@@ -1,9 +1,9 @@
 package com.me.mseotsanyana.mande.PL.presenters.logframe;
 
-import com.me.mseotsanyana.mande.BLL.model.logframe.cProjectModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cOrganizationModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cProjectModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.COrganizationModel_old2;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.PL.presenters.base.iPresenter;
 import com.me.mseotsanyana.mande.PL.ui.iBaseView;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
@@ -39,9 +39,9 @@ public interface iProjectPresenter extends iPresenter {
         void onUploadProjectCompleted(String msg);
         void onUploadProjectFailed(String msg);
 
-        void onUpdateCommonModelSucceeded(List<cUserProfileModel> userProfileModels,
-                                          List<cTeamModel> teamModels,
-                                          List<cOrganizationModel> organizationModels);
+        void onUpdateCommonModelSucceeded(List<CUserProfileModel> userProfileModels,
+                                          List<cWorkspaceModel> teamModels,
+                                          List<COrganizationModel_old2> organizationModels);
         void onUpdateCommonModelFailed(String msg);
      }
 

@@ -89,12 +89,19 @@ public abstract class cFirebaseRepository {
      * @param model             Model to insert into Document
      * @param callback          callback for event handling
      */
-    protected final void fireStoreCreate(final DocumentReference documentReference,
+    protected final void fireStoreCreate(@NonNull final DocumentReference documentReference,
                                          final Object model, final cFirebaseCallBack callback) {
         documentReference.set(model)
                 .addOnSuccessListener(aVoid -> callback.onFirebaseSuccess(SUCCESS))
                 .addOnFailureListener(callback::onFirebaseFailure);
     }
+
+//    protected final void fireStoreCreateTask(final DocumentReference documentReference,
+//                                         final Object model, final cFirebaseCallBack callback) {
+//        documentReference.set(model)
+//                .addOnSuccessListener(aVoid -> callback.onFirebaseSuccess(SUCCESS))
+//                .addOnFailureListener(callback::onFirebaseFailure);
+//    }
 
     /**
      * Update data to FireStore
@@ -272,7 +279,7 @@ public abstract class cFirebaseRepository {
     }
 
     /**
-     * REad offline data from FireBase
+     * Read offline data from FireBase
      *
      * @param query Document reference of data to create
      */

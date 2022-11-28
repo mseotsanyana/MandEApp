@@ -13,10 +13,10 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.BLL.model.logframe.cImpactModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cOutcomeModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cOutputModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cQuestionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cImpactModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cOutcomeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cOutputModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cQuestionModel;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iOutcomePresenter;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iOutputPresenter;
 import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewImpactListener;

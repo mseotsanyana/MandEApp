@@ -60,10 +60,10 @@ public class cDeleteLogFramesInteractorImpl extends cAbstractInteractor
 //        this.logframe_components = components;
 
         // load user shared preferences
-        this.organizationServerID = sharedPreferenceRepository.loadOrganizationID();
+        this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
         this.userServerID = sharedPreferenceRepository.loadUserID();
-        this.primaryTeamBIT = sharedPreferenceRepository.loadPrimaryTeamBIT();
-        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryTeams();
+        this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
+        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(

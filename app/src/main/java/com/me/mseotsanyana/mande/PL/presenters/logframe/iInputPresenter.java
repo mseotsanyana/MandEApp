@@ -1,16 +1,14 @@
 package com.me.mseotsanyana.mande.PL.presenters.logframe;
 
-import com.me.mseotsanyana.mande.BLL.model.logframe.cInputModel;
-import com.me.mseotsanyana.mande.BLL.model.wpb.cExpenseModel;
-import com.me.mseotsanyana.mande.BLL.model.wpb.cHumanModel;
-import com.me.mseotsanyana.mande.BLL.model.wpb.cIncomeModel;
-import com.me.mseotsanyana.mande.BLL.model.wpb.cMaterialModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cInputModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cExpenseModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cHumanModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cIncomeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cMaterialModel;
 import com.me.mseotsanyana.mande.PL.presenters.base.iPresenter;
 import com.me.mseotsanyana.mande.PL.ui.iBaseView;
-import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 public interface iInputPresenter extends iPresenter {
     interface View extends iBaseView {

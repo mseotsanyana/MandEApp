@@ -1,11 +1,11 @@
 package com.me.mseotsanyana.mande.BLL.interactors.session.userprofile.Impl;
 
 import com.google.firebase.firestore.ListenerRegistration;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.session.userprofile.iUserProfilesInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.BLL.repository.session.iUserProfileRepository;
 import com.me.mseotsanyana.mande.DAL.storage.base.cFirebaseChildCallBack;
@@ -40,7 +40,7 @@ public class cReadAllUserProfilesInteractorImpl extends cAbstractInteractor
     }
 
     /* */
-    private void userProfilesMessage(List<cUserProfileModel> userProfileModels) {
+    private void userProfilesMessage(List<CUserProfileModel> userProfileModels) {
         mainThread.post(() -> callback.onReadUserProfilesSucceeded(userProfileModels));
     }
 
@@ -51,7 +51,7 @@ public class cReadAllUserProfilesInteractorImpl extends cAbstractInteractor
             @Override
             public void onChildAdded(Object object) {
                 if(object != null){
-                    cUserProfileModel userProfileModel = (cUserProfileModel) object;
+                    CUserProfileModel userProfileModel = (CUserProfileModel) object;
 
                 }
             }

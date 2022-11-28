@@ -12,29 +12,37 @@ public class ProjectListFragmentBindingImpl extends ProjectListFragmentBinding  
     @Nullable
     private static final android.util.SparseIntArray sViewsWithIds;
     static {
-        sIncludes = null;
+        sIncludes = new androidx.databinding.ViewDataBinding.IncludedLayouts(4);
+        sIncludes.setIncludes(0, 
+            new String[] {"me_toolbar_layout"},
+            new int[] {1},
+            new int[] {com.me.mseotsanyana.mande.R.layout.me_toolbar_layout});
         sViewsWithIds = new android.util.SparseIntArray();
-        sViewsWithIds.put(R.id.projectRecyclerView, 1);
-        sViewsWithIds.put(R.id.projectFAB, 2);
+        sViewsWithIds.put(R.id.projectRecyclerView, 2);
+        sViewsWithIds.put(R.id.projectFAB, 3);
     }
     // views
+    @Nullable
+    private final com.me.mseotsanyana.mande.databinding.MeToolbarLayoutBinding mboundView0;
     @NonNull
-    private final androidx.coordinatorlayout.widget.CoordinatorLayout mboundView0;
+    private final androidx.coordinatorlayout.widget.CoordinatorLayout mboundView01;
     // variables
     // values
     // listeners
     // Inverse Binding Event Handlers
 
     public ProjectListFragmentBindingImpl(@Nullable androidx.databinding.DataBindingComponent bindingComponent, @NonNull View root) {
-        this(bindingComponent, root, mapBindings(bindingComponent, root, 3, sIncludes, sViewsWithIds));
+        this(bindingComponent, root, mapBindings(bindingComponent, root, 4, sIncludes, sViewsWithIds));
     }
     private ProjectListFragmentBindingImpl(androidx.databinding.DataBindingComponent bindingComponent, View root, Object[] bindings) {
         super(bindingComponent, root, 0
-            , (com.me.mseotsanyana.bmblibrary.DraggableFAB) bindings[2]
-            , (androidx.recyclerview.widget.RecyclerView) bindings[1]
+            , (com.me.mseotsanyana.bmblibrary.DraggableFAB) bindings[3]
+            , (androidx.recyclerview.widget.RecyclerView) bindings[2]
             );
-        this.mboundView0 = (androidx.coordinatorlayout.widget.CoordinatorLayout) bindings[0];
-        this.mboundView0.setTag(null);
+        this.mboundView0 = (com.me.mseotsanyana.mande.databinding.MeToolbarLayoutBinding) bindings[1];
+        setContainedBinding(this.mboundView0);
+        this.mboundView01 = (androidx.coordinatorlayout.widget.CoordinatorLayout) bindings[0];
+        this.mboundView01.setTag(null);
         setRootTag(root);
         // listeners
         invalidateAll();
@@ -45,6 +53,7 @@ public class ProjectListFragmentBindingImpl extends ProjectListFragmentBinding  
         synchronized(this) {
                 mDirtyFlags = 0x1L;
         }
+        mboundView0.invalidateAll();
         requestRebind();
     }
 
@@ -55,6 +64,9 @@ public class ProjectListFragmentBindingImpl extends ProjectListFragmentBinding  
                 return true;
             }
         }
+        if (mboundView0.hasPendingBindings()) {
+            return true;
+        }
         return false;
     }
 
@@ -62,6 +74,12 @@ public class ProjectListFragmentBindingImpl extends ProjectListFragmentBinding  
     public boolean setVariable(int variableId, @Nullable Object variable)  {
         boolean variableSet = true;
             return variableSet;
+    }
+
+    @Override
+    public void setLifecycleOwner(@Nullable androidx.lifecycle.LifecycleOwner lifecycleOwner) {
+        super.setLifecycleOwner(lifecycleOwner);
+        mboundView0.setLifecycleOwner(lifecycleOwner);
     }
 
     @Override
@@ -79,6 +97,7 @@ public class ProjectListFragmentBindingImpl extends ProjectListFragmentBinding  
             mDirtyFlags = 0;
         }
         // batch finished
+        executeBindingsOn(mboundView0);
     }
     // Listener Stub Implementations
     // callback impls

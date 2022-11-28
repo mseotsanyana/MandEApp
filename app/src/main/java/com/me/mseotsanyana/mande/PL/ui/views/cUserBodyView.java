@@ -4,8 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.widget.TextView;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cUserModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewInputListener;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.cConstant;
@@ -49,7 +48,7 @@ public class cUserBodyView {
 
     private Context context;
     private iViewInputListener listener;
-    private cUserProfileModel userProfileModel;
+    private CUserProfileModel userProfileModel;
 
     private String name;
     private String surname;
@@ -58,7 +57,7 @@ public class cUserBodyView {
 
 
     public cUserBodyView(Context context, iViewInputListener listener,
-                         cUserProfileModel userProfileModel) {
+                         CUserProfileModel userProfileModel) {
         this.context = context;
         this.listener = listener;
         this.userProfileModel = userProfileModel;

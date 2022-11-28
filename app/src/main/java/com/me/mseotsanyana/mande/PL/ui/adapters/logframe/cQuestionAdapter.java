@@ -1,23 +1,17 @@
 package com.me.mseotsanyana.mande.PL.ui.adapters.logframe;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.BLL.model.logframe.cQuestionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cQuestionModel;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
 import com.me.mseotsanyana.placeholderviewlibrary.cExpandablePlaceHolderView;
-import com.me.mseotsanyana.treeadapterlibrary.cTreeViewHolder;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

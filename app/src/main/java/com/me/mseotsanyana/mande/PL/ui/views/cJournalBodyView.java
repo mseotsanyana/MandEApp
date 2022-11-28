@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.widget.TextView;
 
-import com.me.mseotsanyana.mande.BLL.model.wpb.cJournalModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cJournalModel;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.cConstant;
 import com.me.mseotsanyana.mande.UTIL.cFontManager;

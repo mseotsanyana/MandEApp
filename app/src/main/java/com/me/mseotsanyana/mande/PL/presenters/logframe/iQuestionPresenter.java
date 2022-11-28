@@ -1,6 +1,6 @@
 package com.me.mseotsanyana.mande.PL.presenters.logframe;
 
-import com.me.mseotsanyana.mande.BLL.model.logframe.cQuestionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cQuestionModel;
 import com.me.mseotsanyana.mande.PL.presenters.base.iPresenter;
 import com.me.mseotsanyana.mande.PL.ui.iBaseView;
 

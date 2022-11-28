@@ -1,0 +1,24 @@
+{
+  "events": [
+    {
+      "entity_id":1,
+      "event": [
+        {
+          "id_event": 1, "id_publisher": "auto", "type":"STATE", "message": "",
+          "subscriber": []
+        },
+        {
+          "id_event": 1, "id_publisher": "auto", "type":"STATE", "message": "",
+          "subscriber": []
+        },
+        {
+          "id_event": 1, "id_publisher": "auto", "type":"STATE", "message": "",
+          "subscriber": []
+        }
+      ]
+    },
+    {
+
+    }
+  ]
+}

@@ -14,8 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.BLL.model.wpb.cExpenseModel;
-import com.me.mseotsanyana.mande.BLL.model.wpb.cIncomeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cExpenseModel;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iInputPresenter;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.cConstant;

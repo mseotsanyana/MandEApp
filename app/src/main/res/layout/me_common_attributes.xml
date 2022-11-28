@@ -352,7 +352,7 @@
                         <TextView
                             android:id="@+id/textViewPrimary"
                             android:layout_gravity="start|center"
-                            android:text="@string/Primary"
+                            android:text="@string/House"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="@dimen/text_size_small"
                             android:textStyle="bold" />
@@ -379,7 +379,7 @@
                         <TextView
                             android:id="@+id/textViewSecondary"
                             android:layout_gravity="start|center"
-                            android:text="@string/Secondary"
+                            android:text="@string/Room"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="@dimen/text_size_small"
                             android:textStyle="bold" />
@@ -405,7 +405,7 @@
                         <TextView
                             android:id="@+id/textViewOrganization"
                             android:layout_gravity="start|center"
-                            android:text="@string/Organization"
+                            android:text="@string/Room"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="@dimen/text_size_small"
                             android:textStyle="bold" />

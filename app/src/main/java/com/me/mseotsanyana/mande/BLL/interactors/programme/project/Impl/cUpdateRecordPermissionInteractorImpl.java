@@ -4,7 +4,7 @@ import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.shared.iRecordPermissionInteractor;
-import com.me.mseotsanyana.mande.BLL.model.common.cRecordPermissionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.common.cRecordPermissionModel;
 import com.me.mseotsanyana.mande.BLL.repository.common.iRecordPermissionRepository;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.BLL.repository.programme.iProjectRepository;

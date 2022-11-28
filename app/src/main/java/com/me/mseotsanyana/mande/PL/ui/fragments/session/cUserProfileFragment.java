@@ -29,8 +29,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.executor.Impl.cThreadExecutorImpl;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cUserProfileFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.PL.presenters.session.Impl.cUserProfilesPresenterImpl;
@@ -61,7 +61,7 @@ public class cUserProfileFragment extends Fragment implements iUserProfilePresen
 
     private AppCompatActivity activity;
 
-    private cUserProfileModel userProfileModel;
+    private CUserProfileModel userProfileModel;
 
     //private iUserProfileRepository userProfileRepository;
     //private ListenerRegistration listenerRegistration;
@@ -136,7 +136,7 @@ public class cUserProfileFragment extends Fragment implements iUserProfilePresen
     }
 
     private void initDataStructures() {
-        List<cUserProfileModel> userProfileModels = new ArrayList<>();
+        List<CUserProfileModel> userProfileModels = new ArrayList<>();
 
         userProfilesAdapter = new cUserProfileAdapter(getActivity(), userProfileModels, this);
 
@@ -225,11 +225,11 @@ public class cUserProfileFragment extends Fragment implements iUserProfilePresen
         return toolbar.getMenu();
     }
 
-    public cUserProfileModel getUserProfileModel() {
+    public CUserProfileModel getUserProfileModel() {
         return userProfileModel;
     }
 
-    public void setUserProfileModel(cUserProfileModel userProfileModel) {
+    public void setUserProfileModel(CUserProfileModel userProfileModel) {
         this.userProfileModel = userProfileModel;
     }
 
@@ -242,7 +242,7 @@ public class cUserProfileFragment extends Fragment implements iUserProfilePresen
     }
 
     @Override
-    public void onReadUserProfilesSucceeded(List<cUserProfileModel> userProfileModels) {
+    public void onReadUserProfilesSucceeded(List<CUserProfileModel> userProfileModels) {
         userProfilesAdapter.setUserProfileModels(userProfileModels);
         userProfilesAdapter.notifyDataSetChanged();
     }
@@ -272,7 +272,7 @@ public class cUserProfileFragment extends Fragment implements iUserProfilePresen
     // ON CLICK FUNCTIONS
 
     @Override
-    public void onClickUserProfileImage(cUserProfileModel userProfileModel) {
+    public void onClickUserProfileImage(CUserProfileModel userProfileModel) {
         setUserProfileModel(userProfileModel);
         launchUploadImage.launch("image/*");
     }

@@ -21,7 +21,7 @@ import android.widget.PopupWindow;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cStatusModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cStatusModel;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.cFontManager;
 

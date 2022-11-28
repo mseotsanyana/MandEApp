@@ -1,6 +1,7 @@
 package com.me.mseotsanyana.mande.BLL.repository.session;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cMenuModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cMenuModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
@@ -8,14 +9,14 @@ import java.util.List;
 
 public interface iPermissionRepository {
 
-    void readRolePermissions(String organizationServerID, String userServerID,
-                             int primaryTeamBIT, List<Integer> secondaryTeamBITS,
-                             List<Integer> statusBITS, iReadRolePermissionsCallback callback);
+    void readWorkspacePrivileges(String userServerID, String organizationServerID,
+                                 List<String> myOrganizations, int workspaceMembershipBITS,
+                                 List<Integer> statusBITS, iReadWorkspacePrivilegesCallback callback);
 
-    interface iReadRolePermissionsCallback {
-        void onReadRolePermissionsSucceeded(List<cTreeModel> treeModels);
+    interface iReadWorkspacePrivilegesCallback {
+        void onReadWorkspacePrivilegesSucceeded(List<cTreeModel> treeModels);
 
-        void onReadRolePermissionsFailed(String msg);
+        void onReadWorkspacePrivilegesFailed(String msg);
     }
 
     void updateRolePermissions(String organizationServerID, String userServerID,
@@ -29,6 +30,57 @@ public interface iPermissionRepository {
         void onUpdateRolePermissionsFailed(String msg);
     }
 
+    void saveLoggedInUserServerID(iSaveLoggedInUserServerIDCallback callback);
+
+    interface iSaveLoggedInUserServerIDCallback {
+        void onSaveLoggedInUserServerID(String userServerID);
+
+        void onSaveLoggedInUserServerIDFailed(String msg);
+
+        void onSaveLoggedInUserServerIDSucceeded(String msg);
+    }
+
+
+    void saveUserPrivilegePermissions(cWorkspaceModel workspaceModel,
+                                      iSaveUserPrivilegePermissionsCallback callback);
+
+    interface iSaveUserPrivilegePermissionsCallback {
+        void onSaveUserPrivilegePermissionsSucceeded(String msg);
+
+        void onSaveUserPrivilegePermissionsFailed(String msg);
+
+        void onSaveOrganizationServerID(String organizationServerID);
+
+        void onSaveOrganizationOwnerServerID(String organizationOwnerServerID);
+
+        void onSaveCompositeServerID(String compositeServerID);
+
+        void onSaveWorkspaceServerID(String workspaceServerID);
+
+        void onSaveUserServerID(String userServerID);
+
+        void onSaveOwnerID(String ownerServerID);
+
+        void onSaveWorkspaceOwnerBIT(int workspaceOwnerBIT);
+
+        void onSaveWorkspaceMembershipBITS(int workspaceMembershipBITS);
+
+        void onSaveMyOrganizations(List<String> organizations);
+
+        void onSaveMenuItems(List<cMenuModel> menuModels);
+
+        void onSaveModuleBITS(int moduleBITS);
+
+        void onSaveEntityBITS(String moduleKey, int entityBITS);
+
+        void onSaveActionBITS(int moduleKey, int entityKey, int actionBITS);
+
+        void onSaveStatusBITS(String moduleKey, String entityKey, String actionKey, int statusBITS);
+
+        void onSavePermissionBITS(String moduleKey, String entityKey, int permBITS);
+
+    }
+
     void saveUserPermissions(iSaveUserPermissionsCallback callback);
 
     interface iSaveUserPermissionsCallback {
@@ -40,9 +92,15 @@ public interface iPermissionRepository {
 
         void onSaveOrganizationServerID(String organizationServerID);
 
-        void onSavePrimaryTeamBIT(int primaryTeamBIT);
+        void onSaveCurrentWorkspaceServerID(String workspaceServerID);
 
-        void onSaveSecondaryTeams(List<Integer> secondaryTeams);
+        void onSaveOrganizationName(String organization);
+
+        void onSavePrimaryWorkspaceBIT(int primaryWorkspaceBIT);
+
+        void onSavePrimaryWorkspace(String primaryWorkspace);
+
+        void onSaveSecondaryWorkspaces(List<Integer> secondaryWorkspaces);
 
         void onSaveEntityBITS(String moduleKey, int entityBITS);
 

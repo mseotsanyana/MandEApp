@@ -24,13 +24,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.me.mseotsanyana.mande.BLL.executor.Impl.cThreadExecutorImpl;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cActivityModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cInputModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel;
-import com.me.mseotsanyana.mande.BLL.model.wpb.cExpenseModel;
-import com.me.mseotsanyana.mande.BLL.model.wpb.cHumanModel;
-import com.me.mseotsanyana.mande.BLL.model.wpb.cIncomeModel;
-import com.me.mseotsanyana.mande.BLL.model.wpb.cMaterialModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cActivityModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cInputModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cExpenseModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cHumanModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cIncomeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cMaterialModel;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.Impl.cActivityPresenterImpl;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iActivityPresenter;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iInputPresenter;
@@ -93,7 +93,7 @@ public class cActivityFragment extends Fragment implements iActivityPresenter.Vi
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        this.logFrameModel = cActivityFragmentArgs.fromBundle(requireArguments()).getLogFrameModel();
+        //this.logFrameModel = cActivityFragmentArgs.fromBundle(requireArguments()).getLogFrameModel();
     }
 
     @Override

@@ -1,0 +1,79 @@
+{
+  "actions": [
+    {
+      "id": 1,
+      "name": "Create",
+      "description": "Create operation"
+    },
+    {
+      "id": 2,
+      "name": "Read",
+      "description": "Read operation"
+    },
+    {
+      "id": 4,
+      "name": "Update",
+      "description": "Update operation"
+    },
+    {
+      "id": 8,
+      "name": "Delete",
+      "description": "Delete operation"
+    },
+    {
+      "id": 16,
+      "name": "Activate",
+      "description": "Activate operation"
+    },
+    {
+      "id": 32,
+      "name": "Approve",
+      "description": "Approve operation"
+    },
+    {
+      "id": 64,
+      "name": "Block",
+      "description": "Block operation"
+    },
+    {
+      "id": 128,
+      "name": "Close",
+      "description": "Close operation"
+    },
+    {
+      "id": 256,
+      "name": "Clear",
+      "description": "Clear (or clean) operation"
+    },
+    {
+      "id": 512,
+      "name": "Download",
+      "description": "Download operation"
+    },
+    {
+      "id": 1024,
+      "name": "Reject",
+      "description": "Reject operation"
+    },
+    {
+      "id": 2048,
+      "name": "Review",
+      "description": "Review operation"
+    },
+    {
+      "id": 4096,
+      "name": "Join",
+      "description": "Join operation"
+    },
+    {
+      "id": 8192,
+      "name": "Load",
+      "description": "Load operation"
+    },
+    {
+      "id": 16384,
+      "name": "Upload",
+      "description": "Upload operation"
+    }
+  ]
+}

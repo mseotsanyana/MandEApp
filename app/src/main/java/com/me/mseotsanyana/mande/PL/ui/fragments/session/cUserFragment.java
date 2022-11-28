@@ -25,8 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.me.mseotsanyana.mande.BLL.interactors.session.status.Impl.cStatusInteractorImpl;
-import com.me.mseotsanyana.mande.BLL.model.session.cStatusModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cStatusModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cUserModel;
 import com.me.mseotsanyana.mande.PL.ui.adapters.session.cUserAdapter;
 import com.me.mseotsanyana.mande.UTIL.INTERFACE.iMEEntityInterface;
 import com.me.mseotsanyana.mande.R;

@@ -4,7 +4,7 @@ import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.activity.Impl.cReadActivityInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.activity.iReadActivityInteractor;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.BLL.repository.programme.iActivityRepository;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;

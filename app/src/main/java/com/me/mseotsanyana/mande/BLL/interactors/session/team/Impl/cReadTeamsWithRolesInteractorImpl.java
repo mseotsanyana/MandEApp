@@ -3,13 +3,13 @@ package com.me.mseotsanyana.mande.BLL.interactors.session.team.Impl;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
 import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.cInteractorUtils;
 import com.me.mseotsanyana.mande.BLL.interactors.session.team.iReadTeamsWithRolesInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPrivilegeModel;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.BLL.repository.session.iTeamRepository;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cSharedPreference;
@@ -49,9 +49,9 @@ public class cReadTeamsWithRolesInteractorImpl extends cAbstractInteractor
 
         // load user shared preferences
         this.userServerID = sharedPreferenceRepository.loadUserID();
-        this.organizationServerID = sharedPreferenceRepository.loadOrganizationID();
-        this.primaryTeamBIT = sharedPreferenceRepository.loadPrimaryTeamBIT();
-        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryTeams();
+        this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
+        this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
+        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
@@ -93,14 +93,14 @@ public class cReadTeamsWithRolesInteractorImpl extends cAbstractInteractor
                             primaryTeamBIT, secondaryTeamBITS, statusBITS,
                             new iTeamRepository.iReadTeamsWithRolesCallback() {
                                 @Override
-                                public void onReadTeamsWithRolesSucceeded(Map<cTeamModel,
-                                        List<cRoleModel>> teamRolesMap) {
+                                public void onReadTeamsWithRolesSucceeded(Map<cWorkspaceModel,
+                                        List<cPrivilegeModel>> teamRolesMap) {
                                     List<cTreeModel> teamsRolesTree = new ArrayList<>();
                                     int parentIndex = 0, childIndex;
-                                    for (Map.Entry<cTeamModel,
-                                            List<cRoleModel>> entry : teamRolesMap.entrySet()) {
+                                    for (Map.Entry<cWorkspaceModel,
+                                            List<cPrivilegeModel>> entry : teamRolesMap.entrySet()) {
                                         /* a team */
-                                        cTeamModel teamModel = entry.getKey();
+                                        cWorkspaceModel teamModel = entry.getKey();
                                         teamsRolesTree.add(new cTreeModel(parentIndex, -1,
                                                 0, teamModel));
 
@@ -108,7 +108,7 @@ public class cReadTeamsWithRolesInteractorImpl extends cAbstractInteractor
                                         Log.d(TAG, "teamRolesMap ==>> " +
                                                 gson.toJson(entry.getValue()));
                                         childIndex = parentIndex;
-                                        for (cRoleModel roleModel : entry.getValue()) {
+                                        for (cPrivilegeModel roleModel : entry.getValue()) {
                                             childIndex = childIndex + 1;
                                             teamsRolesTree.add(new cTreeModel(childIndex,
                                                     parentIndex, 1, roleModel));

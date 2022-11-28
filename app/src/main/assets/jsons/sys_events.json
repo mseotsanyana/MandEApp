@@ -1,0 +1,189 @@
+{
+  "events": [
+    {
+      "id": 1,
+      "name": "Activate",
+      "description": "Activate event."
+    },
+    {
+      "id": 2,
+      "name": "Accept",
+      "description": "Accept event."
+    },
+    {
+      "id": 3,
+      "name": "Block",
+      "description": "Block event."
+    },
+    {
+      "id": 4,
+      "name": "Cancel",
+      "description": "Cancel event."
+    },
+    {
+      "id": 5,
+      "name": "ChangePassword",
+      "description": "Change password event."
+    },
+    {
+      "id": 6,
+      "name": "Close",
+      "description": "Close event."
+    },
+    {
+      "id": 7,
+      "name": "ClickLink",
+      "description": "Click external link event."
+    },
+    {
+      "id": 8,
+      "name": "Create",
+      "description": "Create record event."
+    },
+    {
+      "id": 9,
+      "name": "Disable",
+      "description": "Disable event."
+    },
+    {
+      "id": 10,
+      "name": "Downgrade",
+      "description": "Downgrade event."
+    },
+    {
+      "id": 11,
+      "name": "Enable",
+      "description": "Enable event."
+    },
+    {
+      "id": 12,
+      "name": "Expired",
+      "description": "Expired event."
+    },
+    {
+      "id": 13,
+      "name": "ForcedLogout",
+      "description": "Forced logout event."
+    },
+    {
+      "id": 14,
+      "name": "Logout",
+      "description": "Logout event"
+    },
+    {
+      "id": 15,
+      "name": "Reject",
+      "description": "Switch event."
+    },
+    {
+      "id": 16,
+      "name": "Renew",
+      "description": "Renew event."
+    },
+    {
+      "id": 17,
+      "name": "Reset",
+      "description": "Reset event."
+    },
+    {
+      "id": 18,
+      "name": "SignIn",
+      "description": "Sign in event."
+    },
+    {
+      "id": 19,
+      "name": "SignUp",
+      "description": "Sign up event."
+    },
+    {
+      "id": 20,
+      "name": "Submit",
+      "description": "Submit event."
+    },
+    {
+      "id": 21,
+      "name": "Switch",
+      "description": "Switch event."
+    },
+    {
+      "id": 22,
+      "name": "SelectWorkspace",
+      "description": "Select workspace event."
+    },
+    {
+      "id": 23,
+      "name": "Timeout",
+      "description": "Timeout event."
+    },
+    {
+      "id": 24,
+      "name": "Upgrade",
+      "description": "Upgrade event."
+    }
+  ]
+
+
+"events": [
+{
+"id_event": 1, "id_state": 256, "id_publisher": "auto", "type":"STATE",
+"message": "project in DRAFT status",
+"subscriber": []
+},
+{
+"id_event": 2, "id_state": 512, "id_publisher": "auto", "type":"STATE",
+"message": "project in REVIEW status",
+"subscriber": []
+},
+{
+"id_event": 3, "id_state": 4, "id_publisher": "auto", "type":"STATE",
+"message": "project is APPROVED",
+"subscriber": []
+},
+{
+"id_event": 4, "id_state": 1024, "id_publisher": "auto", "type":"STATE",
+"message": "project is REJECTED",
+"subscriber": []
+},
+{
+"id_event": 5, "id_state": 64, "id_publisher": "auto", "type":"STATE",
+"message": "project is CLOSED",
+"subscriber": []
+},
+
+{
+"id_event": 6, "id_transition": 1, "id_publisher": "auto", "type":"TRANSITION",
+"message": "project a created",
+"subscriber": []
+},
+{
+"id_event": 7, "id_transition": 2, "id_publisher": "auto", "type":"TRANSITION",
+"message": "published the project for review",
+"subscriber": []
+},
+{
+"id_event": 8, "id_transition": 3, "id_publisher": "auto", "type":"TRANSITION",
+"message": "approved the project",
+"subscriber": []
+},
+{
+"id_event": 9, "id_transition": 4, "id_publisher": "auto", "type":"TRANSITION",
+"message": "rejected the project",
+"subscriber": []
+},
+{
+"id_event": 10, "id_transition": 5, "id_publisher": "auto", "type":"TRANSITION",
+"message": "closed the project",
+"subscriber": []
+},
+{
+"id_event": 11, "id_transition": 6, "id_publisher": "auto", "type":"TRANSITION",
+"message": "drafted the project",
+"subscriber": []
+},
+{
+"id_event": 12, "id_transition": 7, "id_publisher": "auto", "type":"TRANSITION",
+"message": "closed the project",
+"subscriber": []
+}
+]
+}

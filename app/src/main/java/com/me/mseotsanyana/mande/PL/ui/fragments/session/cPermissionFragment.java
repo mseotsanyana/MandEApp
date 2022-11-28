@@ -22,11 +22,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.me.mseotsanyana.mande.BLL.executor.Impl.cThreadExecutorImpl;
-import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cPermissionFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cPrivilegeFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.PL.presenters.session.Impl.cPermissionPresenterImpl;
 import com.me.mseotsanyana.mande.PL.presenters.session.iPermissionPresenter;
-import com.me.mseotsanyana.mande.PL.ui.adapters.session.cPermissionAdapter;
+import com.me.mseotsanyana.mande.PL.ui.adapters.session.cPrivilegeAdapter;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.cMainThreadImpl;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
@@ -45,7 +45,7 @@ public class cPermissionFragment extends Fragment implements iPermissionPresente
 
     private LinearLayout includeProgressBar;
 
-    private cPermissionAdapter moduleAdapter;
+    private cPrivilegeAdapter permissionAdapter;
 
     private AppCompatActivity activity;
 
@@ -65,7 +65,7 @@ public class cPermissionFragment extends Fragment implements iPermissionPresente
     @Override
     public void onResume() {
         super.onResume();
-        permissionPresenter.readRolePermissions();
+        permissionPresenter.readWorkspacePermissions();
     }
 
     @Override
@@ -96,7 +96,7 @@ public class cPermissionFragment extends Fragment implements iPermissionPresente
     private void initDataStructures() {
         //List<cTreeModel> permissionTree = new ArrayList<>();
 
-        moduleAdapter = new cPermissionAdapter(getActivity(), this,
+        permissionAdapter = new cPrivilegeAdapter(getActivity(), this,
                 new ArrayList<>());
 
         permissionPresenter = new cPermissionPresenterImpl(
@@ -104,7 +104,7 @@ public class cPermissionFragment extends Fragment implements iPermissionPresente
                 cMainThreadImpl.getInstance(),
                 this,
                 new cSharedPreferenceFirestoreRepositoryImpl(requireContext()),
-                new cPermissionFirestoreRepositoryImpl(getContext()));
+                new cPrivilegeFirestoreRepositoryImpl(getContext()));
 
         activity = ((AppCompatActivity) getActivity());
     }
@@ -117,7 +117,7 @@ public class cPermissionFragment extends Fragment implements iPermissionPresente
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
 
-        moduleRecyclerView.setAdapter(moduleAdapter);
+        moduleRecyclerView.setAdapter(permissionAdapter);
         moduleRecyclerView.setLayoutManager(llm);
     }
 
@@ -162,7 +162,7 @@ public class cPermissionFragment extends Fragment implements iPermissionPresente
 
             @Override
             public boolean onQueryTextChange(String query) {
-                moduleAdapter.getFilter().filter(query);
+                permissionAdapter.getFilter().filter(query);
                 return false;
             }
         });
@@ -185,7 +185,7 @@ public class cPermissionFragment extends Fragment implements iPermissionPresente
         //Gson gson = new Gson();
         //Log.d(TAG, "PERM MENU = "+gson.toJson(treeModels));
         try {
-            moduleAdapter.setTreeModel(treeModels);
+            permissionAdapter.setTreeModel(treeModels);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }

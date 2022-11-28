@@ -2,12 +2,12 @@ package com.me.mseotsanyana.mande.BLL.interactors.session.team.Impl;
 
 import android.util.Log;
 
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
 import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.cInteractorUtils;
 import com.me.mseotsanyana.mande.BLL.interactors.session.team.iReadTeamInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.BLL.repository.session.iTeamRepository;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cSharedPreference;
@@ -45,9 +45,9 @@ public class cReadTeamsInteractorImpl extends cAbstractInteractor
 
         // load user shared preferences
         this.userServerID = sharedPreferenceRepository.loadUserID();
-        this.organizationServerID = sharedPreferenceRepository.loadOrganizationID();
-        this.primaryTeamBIT = sharedPreferenceRepository.loadPrimaryTeamBIT();
-        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryTeams();
+        this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
+        this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
+        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
@@ -74,7 +74,7 @@ public class cReadTeamsInteractorImpl extends cAbstractInteractor
     }
 
     /* */
-    private void teamsMessage(List<cTeamModel> teamModels) {
+    private void teamsMessage(List<cWorkspaceModel> teamModels) {
         mainThread.post(() -> callback.onReadTeamsSucceeded(teamModels));
     }
 
@@ -89,7 +89,7 @@ public class cReadTeamsInteractorImpl extends cAbstractInteractor
                             primaryTeamBIT, secondaryTeamBITS, statusBITS,
                             new iTeamRepository.iReadTeamsCallback() {
                                 @Override
-                                public void onReadTeamsSucceeded(List<cTeamModel> teamModels) {
+                                public void onReadTeamsSucceeded(List<cWorkspaceModel> teamModels) {
                                     teamsMessage(teamModels);
                                 }
 

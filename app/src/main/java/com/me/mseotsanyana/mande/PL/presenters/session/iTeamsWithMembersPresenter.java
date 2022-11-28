@@ -1,6 +1,6 @@
 package com.me.mseotsanyana.mande.PL.presenters.session;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
 import com.me.mseotsanyana.mande.PL.presenters.base.iPresenter;
 import com.me.mseotsanyana.mande.PL.ui.iBaseView;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
@@ -26,7 +26,7 @@ public interface iTeamsWithMembersPresenter extends iPresenter {
     }
 
     /* implemented in PresenterImpl to link ui with InteractorImpl */
-    void createTeam(cTeamModel teamModel);
+    void createTeam(cWorkspaceModel teamModel);
 
     void readTeamsWithMembers();
     //void readTeams();

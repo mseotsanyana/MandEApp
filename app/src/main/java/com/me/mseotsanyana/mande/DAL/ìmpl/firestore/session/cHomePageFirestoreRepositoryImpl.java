@@ -8,11 +8,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cMenuModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iHomePageRepository;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.DAL.storage.database.cRealtimeHelper;
 import com.me.mseotsanyana.mande.DAL.ìmpl.cDatabaseUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mseotsanyana on 2017/08/24.
@@ -64,22 +68,26 @@ public class cHomePageFirestoreRepositoryImpl implements iHomePageRepository {
                 .addOnCompleteListener(task -> {
                     DocumentSnapshot doc = task.getResult();
                     if (doc != null) {
-                        cUserProfileModel userProfileModel = doc.toObject(cUserProfileModel.class);
+                        CUserProfileModel userProfileModel = doc.toObject(CUserProfileModel.class);
                         /* READ USER ACCOUNTS */
                         if (userProfileModel != null) {
                             userProfileModel.setUserServerID(firebaseUser.getUid());
+                            /* load menu from saved preference or default json file */
+                            List<cMenuModel> menuModels = sharedPreferenceRepository.loadMenuItems();;
+//                            if (isPermissionLoaded) {
+//                                menuModels = sharedPreferenceRepository.loadMenuItems();
+//
+//
+////                                callback.onReadMenuItemsSucceeded(
+////                                        sharedPreferenceRepository.loadMenuItems());
+//                            } else {
+//                                menuModels = cDatabaseUtils.getDefaultMenuModelSet(context);
+////                                callback.onDefaultHomePageSucceeded(
+////                                        cDatabaseUtils.getDefaultMenuModelSet(context));
+//                            }
 
                             /* call back on user profile */
-                            callback.onReadUserProfileSucceeded(userProfileModel);
-
-                            /* load menu from saved preference or default json file */
-                            if (isPermissionLoaded) {
-                                callback.onReadMenuItemsSucceeded(
-                                        sharedPreferenceRepository.loadMenuItems());
-                            } else {
-                                callback.onDefaultHomePageSucceeded(
-                                        cDatabaseUtils.getDefaultMenuModelSet(context));
-                            }
+                            callback.onReadHomePageSucceeded(userProfileModel, menuModels);
 
                         } else {
                             callback.onReadHomePageFailed("Failed to read user profiles");

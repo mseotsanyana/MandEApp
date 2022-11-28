@@ -6,28 +6,38 @@ public class cRealtimeHelper {
 
     /* session module */
     public static final String KEY_USERPROFILES              = "userprofiles";             /* 1 */
-    public static final String KEY_USERACCOUNTS              = "useraccounts";             /* 2 */
+    public static final String KEY_ORGANIZATION_MEMBERS      = "organization_members";     /* 2 */
     public static final String KEY_PLANS                     = "plans";                    /* 3 */
     public static final String KEY_PLAN_FEATURES             = "plan_features";            /* 4 */
 
+    public static final String KEY_ORGANIZATIONS             = "organizations";            /* 5 */
     public static final String KEY_STAKEHOLDERS              = "stakeholders";             /* 5 */
+
     public static final String KEY_BENEFACTORS               = "benefactors";              /* 6 */
     public static final String KEY_NATIONAL_PARTNERS         = "national_partners";        /* 7 */
     public static final String KEY_DONORS                    = "donors";                   /* 8 */
     public static final String KEY_IMPLEMENTING_AGENCIES     = "implementing_agencies";    /* 9 */
     public static final String KEY_BENEFICIARIES             = "beneficiaries";            /* 10 */
     public static final String KEY_MEMBER_ORGANIZATIONS      = "member_organizations";     /* 11 */
-    public static final String KEY_ORGANIZATION_MEMBERS      = "organization_members";     /* 12 */
+    //public static final String KEY_ORGANIZATION_MEMBERS      = "organization_members";     /* 12 */
     public static final String KEY_BILATERAL_AGREEMENTS      = "bilateral_agreements";     /* 13 */
     public static final String KEY_IMPLEMENTATION_AGREEMENTS = "implementation_agreements";/* 14 */
     public static final String KEY_BENEFACTOR_AGREEMENTS     = "benefactor_agreements";    /* 15 */
 
+    public static final String KEY_WORKSPACES                = "workspaces";               /* 16 */
     public static final String KEY_TEAMS                     = "teams";                    /* 16 */
+
     public static final String KEY_MEMBER_TEAMS              = "member_teams";             /* 17 */
+    public static final String KEY_WORKSPACE_MEMBERS         = "workspace_members";        /* 18 */
     public static final String KEY_TEAM_MEMBERS              = "team_members";             /* 18 */
 
     public static final String KEY_ROLES                     = "roles";                    /* 19 */
+    public static final String KEY_PRIVILEGES                = "privileges";               /* 19 */
+    public static final String KEY_MODULES                   = "modules";               /* 19 */
+
     public static final String KEY_TEAM_ROLES                = "team_roles";               /* 20 */
+    public static final String KEY_WORKSPACE_PRIVILEGES      = "workspace_privileges";     /* 20 */
+
     public static final String KEY_ROLE_TEAMS                = "role_teams";               /* 21 */
     public static final String KEY_ROLE_PERMISSIONS          = "role_permissions";         /* 22 */
 

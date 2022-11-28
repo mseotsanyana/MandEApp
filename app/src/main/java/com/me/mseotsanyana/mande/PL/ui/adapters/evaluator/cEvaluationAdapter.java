@@ -18,7 +18,7 @@ import com.me.mseotsanyana.bmblibrary.BoomButtons.cTextOutsideCircleButton;
 import com.me.mseotsanyana.bmblibrary.CBoomMenuButton;
 import com.me.mseotsanyana.bmblibrary.cUtil;
 import com.me.mseotsanyana.expandablelayoutlibrary.CExpandableLayout;
-import com.me.mseotsanyana.mande.BLL.model.evaluation.cEvaluationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.evaluation.cEvaluationModel;
 import com.me.mseotsanyana.mande.PL.presenters.evaluator.iEvaluationPresenter;
 import com.me.mseotsanyana.mande.PL.ui.listeners.evaluator.iViewEvaluationListener;
 import com.me.mseotsanyana.mande.R;

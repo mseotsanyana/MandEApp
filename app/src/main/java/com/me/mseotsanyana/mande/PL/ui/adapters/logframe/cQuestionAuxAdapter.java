@@ -12,8 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.BLL.model.logframe.cOutcomeModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cQuestionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cQuestionModel;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.cConstant;
 import com.me.mseotsanyana.mande.UTIL.cFontManager;

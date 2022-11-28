@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.me.mseotsanyana.bmblibrary.BoomButtons.cTextOutsideCircleButton;
 import com.me.mseotsanyana.bmblibrary.cUtil;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iLogFramePresenter;
 import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewLogFrameListener;
 import com.me.mseotsanyana.mande.R;

@@ -7,8 +7,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iRoleRepository;
 import com.me.mseotsanyana.mande.DAL.storage.database.cRealtimeHelper;
 import com.me.mseotsanyana.mande.DAL.ìmpl.cDatabaseUtils;
@@ -58,20 +58,20 @@ public class cRoleFirestoreRepositoryImpl implements iRoleRepository {
 
         roleQuery.get()
                 .addOnCompleteListener(task -> {
-                    List<cRoleModel> roleModels = new ArrayList<>();
+                    List<cPrivilegeModel> roleModels = new ArrayList<>();
                     for (DocumentSnapshot role_doc : Objects.requireNonNull(task.getResult())) {
-                        cRoleModel roleModel = role_doc.toObject(cRoleModel.class);
+                        cPrivilegeModel roleModel = role_doc.toObject(cPrivilegeModel.class);
 
                         if (roleModel != null) {
                             cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
                             perm.setUserOwnerID(roleModel.getUserOwnerID());
-                            perm.setTeamOwnerBIT(roleModel.getTeamOwnerBIT());
+                            perm.setTeamOwnerBIT(roleModel.getWorkspaceOwnerBIT());
                             perm.setUnixpermBITS(roleModel.getUnixpermBITS());
 
-                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                    secondaryTeamBITS)) {
-                                roleModels.add(roleModel);
-                            }
+//FIXME                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                    secondaryTeamBITS)) {
+//                                roleModels.add(roleModel);
+//                            }
                         }
                     }
 
@@ -145,23 +145,23 @@ public class cRoleFirestoreRepositoryImpl implements iRoleRepository {
 
         teamQuery.get()
                 .addOnCompleteListener(task -> {
-                    List<cTeamModel> teamModels = new ArrayList<>();
+                    List<cWorkspaceModel> teamModels = new ArrayList<>();
 
                     for (DocumentSnapshot team_doc :
                             Objects.requireNonNull(task.getResult())) {
 
-                        cTeamModel teamModel = team_doc.toObject(cTeamModel.class);
+                        cWorkspaceModel teamModel = team_doc.toObject(cWorkspaceModel.class);
                         if (teamModel != null) {
                             cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
                             perm.setUserOwnerID(teamModel.getUserOwnerID());
-                            perm.setTeamOwnerBIT(teamModel.getTeamOwnerBIT());
+                            perm.setTeamOwnerBIT(teamModel.getWorkspaceOwnerBIT());
                             perm.setUnixpermBITS(teamModel.getUnixpermBITS());
                             perm.setStatusBIT(teamModel.getStatusBIT());
 
-                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                    secondaryTeamBITS, statusBITS)) {
-                                teamModels.add(teamModel);
-                            }
+//FIXME                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                    secondaryTeamBITS, statusBITS)) {
+//                                teamModels.add(teamModel);
+//                            }
                         }
                     }
 

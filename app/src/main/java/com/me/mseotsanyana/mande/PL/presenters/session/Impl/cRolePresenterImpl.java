@@ -1,10 +1,10 @@
 package com.me.mseotsanyana.mande.PL.presenters.session.Impl;
 
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPrivilegeModel;
 import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.session.role.Impl.cReadTeamRolesInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.session.role.iReadTeamRolesInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iRoleRepository;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
@@ -47,7 +47,7 @@ public class cRolePresenterImpl extends cAbstractPresenter implements iRolePrese
     }
 
     @Override
-    public void onReadTeamRolesSucceeded(List<cRoleModel> roleModels) {
+    public void onReadTeamRolesSucceeded(List<cPrivilegeModel> roleModels) {
         if(this.view != null) {
             this.view.onReadRolesSucceeded(roleModels);
             this.view.hideProgress();

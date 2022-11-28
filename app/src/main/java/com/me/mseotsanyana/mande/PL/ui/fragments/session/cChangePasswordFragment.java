@@ -1,239 +1,146 @@
 package com.me.mseotsanyana.mande.PL.ui.fragments.session;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.appcompat.widget.AppCompatButton;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
+import com.me.mseotsanyana.mande.PL.presenters.session.iChangePasswordPresenter;
 import com.me.mseotsanyana.mande.R;
+import com.me.mseotsanyana.mande.databinding.SessionChangepasswordFragmentBinding;
 
-public class cChangePasswordFragment extends Fragment implements View.OnClickListener {
+public class cChangePasswordFragment extends Fragment implements iChangePasswordPresenter.View {
+    private static final String TAG = cChangePasswordFragment.class.getSimpleName();
 
-    //private cSessionManager session;
-    private BottomNavigationView bottomNavigationView;
+    private iChangePasswordPresenter changePasswordPresenter;
 
-    public cChangePasswordFragment(){}
+    private SessionChangepasswordFragmentBinding binding;
 
-    public static cChangePasswordFragment newInstance(){
-        cChangePasswordFragment fragment = new cChangePasswordFragment();
-
-        return fragment;
+    public cChangePasswordFragment() {
     }
 
-    private TextView tv_name,tv_email,tv_message;
-    private SharedPreferences pref;
-    private AppCompatButton btn_change_password,btn_logout;
-    private EditText et_old_password,et_new_password;
-    private AlertDialog dialog;
-    private ProgressBar progress;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.session_home_fragment,container,false);
-        initViews(view);
-        return view;
+    public static cChangePasswordFragment newInstance() {
+        return new cChangePasswordFragment();
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        pref = getActivity().getPreferences(0);
-        //tv_name.setText("Welcome : "+pref.getString(cConstant.KEY_NAME,""));
-        //tv_email.setText(pref.getString(cConstant.KEY_EMAIL,""));
-
-        //bottomNavigationView = (BottomNavigationView) view.findViewById(R.id.bottom_navigation);
-        //bottomNavigationView.getMenu().getItem(2).setChecked(true);
-
-        //cUtil.setIcon(getContext(),bottomNavigationView, 2);
-        //cUtil.disableShiftMode(bottomNavigationView);
-
-        //setupBottomNavigation();
+        /*changePasswordPresenter = new cUserLoginPresenterImpl(
+                cThreadExecutorImpl.getInstance(),
+                cMainThreadImpl.getInstance(), this,
+                new cSharedPreferenceFirestoreRepositoryImpl(requireContext()),
+                new cPermissionFirestoreRepositoryImpl(requireContext()),
+                new cChangePasswordFirestoreRepositoryImpl(requireContext()));*/
     }
 
-    private void initViews(View view){
-/*
-        tv_name = (TextView)view.findViewById(R.id.tv_name);
-        tv_email = (TextView)view.findViewById(R.id.tv_email);
-        btn_change_password = (AppCompatButton)view.findViewById(R.id.btn_chg_password);
-        btn_logout = (AppCompatButton)view.findViewById(R.id.btn_logout);
-        btn_change_password.setOnClickListener(this);
-        btn_logout.setOnClickListener(this);
-*/
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
-    private void showDialog(){
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.dialog_change_password, null);
-        et_old_password = (EditText)view.findViewById(R.id.et_old_password);
-        et_new_password = (EditText)view.findViewById(R.id.et_new_password);
-        tv_message = (TextView)view.findViewById(R.id.tv_message);
-        progress = (ProgressBar)view.findViewById(R.id.progress);
-        builder.setView(view);
-        builder.setTitle("Change Password");
-        builder.setPositiveButton("Change Password", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
+        binding = DataBindingUtil.inflate(inflater, R.layout.session_changepassword_fragment,
+                container, false);
 
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        dialog = builder.create();
-        dialog.show();
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    String old_password = et_old_password.getText().toString();
-                    String new_password = et_new_password.getText().toString();
-                    if(!old_password.isEmpty() && !new_password.isEmpty()){
+        return binding.getRoot();
+    }
 
-                        progress.setVisibility(View.VISIBLE);
-                        //changePasswordProcess(pref.getString(cConstant.KEY_EMAIL,""),old_password,new_password);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initViews();
+    }
 
-                    }else {
+    private void initViews() {
+        /* initial hide progress bar */
+        hideProgress();
 
-                        tv_message.setVisibility(View.VISIBLE);
-                        tv_message.setText("Fields are empty");
-                    }
+        TextView loginTextView = binding.getRoot().findViewById(R.id.signTextView);
+        loginTextView.setText(R.string.user_sign_in);
+
+        /* forget password listener */
+        binding.changePasswordTextView.setOnClickListener(v -> {
+            String oldPassword = binding.oldPasswordEditText.getText().toString().trim();
+            String newPassword = binding.newPasswordEditText.getText().toString().trim();
+            String confirmPassword = binding.confirmPasswordEditText.getText().toString().trim();
+
+            if (!oldPassword.isEmpty() && !newPassword.isEmpty() && !confirmPassword.isEmpty()) {
+                if(newPassword.equals(confirmPassword)) {
+                    changePasswordPresenter.changePassword(newPassword);
+                }else{
+                    Snackbar.make(requireView(), "Passwords don't match!", Snackbar.LENGTH_LONG).show();
                 }
-            });
+            } else {
+                Snackbar.make(requireView(), "Fields are empty !", Snackbar.LENGTH_LONG).show();
+            }
+        });
+
+        /* sign in listener */
+        loginTextView.setOnClickListener(view -> {
+//            NavDirections action = cChangePasswordFragmentDirections.
+//                    actionCChangePasswordFragmentToCLoginFragment();
+//            Navigation.findNavController(requireView()).navigate(action);
+        });
     }
 
     @Override
-    public void onClick(View v) {
-        /*switch (v.getId()){
-
-            case R.id.btn_chg_password:
-                showDialog();
-                break;
-            case R.id.btn_logout:
-                logout();
-                break;
-        }*/
+    public void onChangePasswordSucceeded(String msg) {
+//        NavDirections action = cChangePasswordFragmentDirections.
+//                actionCChangePasswordFragmentToCLoginFragment();
+//        Navigation.findNavController(requireView()).navigate(action);
     }
 
-    private void logout() {
-        SharedPreferences.Editor editor = pref.edit();
-        //editor.putBoolean(cConstant.KEY_IS_LOGGEDIN,false);
-        //editor.putString(cConstant.KEY_EMAIL,"");
-        //editor.putString(cConstant.KEY_NAME,"");
-        //editor.putString(cConstant.UNIQUE_ID,"");
-        //editor.apply();
-        //goToLogin();
+    @Override
+    public void onChangePasswordFailed(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
-/*
-    private void goToLogin(){
 
-        Fragment login = new cLoginFragment_content_holder();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_frame,login);
-        ft.commit();
+    @Override
+    public void showProgress() {
+        binding.progressBar.setVisibility(View.VISIBLE);
     }
-*/
-//    private void changePasswordProcess(String email,String old_password,String new_password){
-//
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(cConstant.BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create())
-//                .build();
-//
-//        iRequestInterface iRequestInterface = retrofit.create(iRequestInterface.class);
-//
-//        cUserModel user = new cUserModel();
-//        user.setEmail(email);
-//        user.setOldPassword(old_password);
-//        user.setNewPassword(new_password);
-//        cUserRequest request = new cUserRequest();
-//        request.setOperation(cConstant.CHANGE_PASSWORD_OPERATION);
-//        request.setUser(user);
-//        Call<cUserResponse> response = iRequestInterface.operation(request);
-//
-//        response.enqueue(new Callback<cUserResponse>() {
-//            @Override
-//            public void onResponse(Call<cUserResponse> call, retrofit2.Response<cUserResponse> response) {
-//
-//                cUserResponse resp = response.body();
-//                if(resp.getResult().equals(cConstant.SUCCESS)){
-//                    progress.setVisibility(View.GONE);
-//                    tv_message.setVisibility(View.GONE);
-//                    dialog.dismiss();
-//                    Snackbar.make(getView(), resp.getMessage(), Snackbar.LENGTH_LONG).show();
-//
-//                }else {
-//                    progress.setVisibility(View.GONE);
-//                    tv_message.setVisibility(View.VISIBLE);
-//                    tv_message.setText(resp.getMessage());
-//
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<cUserResponse> call, Throwable t) {
-//
-//                //Log.d(cConstant.KEY_TAG,"failed");
-//                progress.setVisibility(View.GONE);
-//                tv_message.setVisibility(View.VISIBLE);
-//                tv_message.setText(t.getLocalizedMessage());
-//
-//
-//            }
-//        });
-//    }
-/*
-    private void setupBottomNavigation() {
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-                switch (item.getItemId()) {
-                    case R.id.action_login:
-                        pushFragment(new cLoginFragment());//;.newInstance(session));
-                        return true;
-                    case R.id.action_create:
-                        pushFragment(cRegisterFragment.newInstance());
-                        return true;
-                    case R.id.action_settings:
-                        pushFragment(cSettingsFragment.newInstance());
-                        return true;
-                }
-                return false;
-            }
-        });
+    @Override
+    public void hideProgress() {
+        binding.progressBar.setVisibility(View.GONE);
     }
-*/
-    /**
-     * Method to push any fragment into given id.
-     *
-     * @param fragment An instance of Fragment to show into the given id.
-     */
-    protected void pushFragment(Fragment fragment) {
-        if (fragment == null)
-            return;
 
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        if (ft != null) {
-            ft.replace(R.id.fragment_frame, fragment);
-            ft.commit();
-        }
+    @Override
+    public void showError(String msg) {
+        Log.d(TAG, msg);
+    }
+
+    /* getters and setters */
+    @Override
+    public EditText getOldPasswordEditText() {
+        return binding.oldPasswordEditText;
+    }
+
+    @Override
+    public EditText getNewPasswordEditText() {
+        return binding.newPasswordEditText;
+    }
+
+    @Override
+    public TextView getConfirmPasswordTextView() {
+        return null;
     }
 }

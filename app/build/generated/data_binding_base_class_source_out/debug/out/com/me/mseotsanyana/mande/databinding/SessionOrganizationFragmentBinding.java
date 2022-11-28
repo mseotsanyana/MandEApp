@@ -4,55 +4,37 @@ package com.me.mseotsanyana.mande.databinding;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.viewpager2.widget.ViewPager2;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.tabs.TabLayout;
+import androidx.recyclerview.widget.RecyclerView;
+import com.me.mseotsanyana.bmblibrary.DraggableFAB;
 import com.me.mseotsanyana.mande.R;
 import java.lang.Deprecated;
 import java.lang.Object;
 
 public abstract class SessionOrganizationFragmentBinding extends ViewDataBinding {
   @NonNull
-  public final AppBarLayout appBarLayout;
+  public final View includeProgressBar;
 
   @NonNull
-  public final TextView appName;
+  public final DraggableFAB organizationFAB;
 
   @NonNull
-  public final CollapsingToolbarLayout collapsingToolbarLayout;
+  public final RecyclerView organizationRecyclerView;
 
   @NonNull
-  public final LinearLayout headerTextLayout;
-
-  @NonNull
-  public final TabLayout organizationTabLayout;
-
-  @NonNull
-  public final ViewPager2 organizationViewPager2;
-
-  @NonNull
-  public final Toolbar toolbar;
+  public final MeToolbarLayoutBinding toolbarLayout;
 
   protected SessionOrganizationFragmentBinding(Object _bindingComponent, View _root,
-      int _localFieldCount, AppBarLayout appBarLayout, TextView appName,
-      CollapsingToolbarLayout collapsingToolbarLayout, LinearLayout headerTextLayout,
-      TabLayout organizationTabLayout, ViewPager2 organizationViewPager2, Toolbar toolbar) {
+      int _localFieldCount, View includeProgressBar, DraggableFAB organizationFAB,
+      RecyclerView organizationRecyclerView, MeToolbarLayoutBinding toolbarLayout) {
     super(_bindingComponent, _root, _localFieldCount);
-    this.appBarLayout = appBarLayout;
-    this.appName = appName;
-    this.collapsingToolbarLayout = collapsingToolbarLayout;
-    this.headerTextLayout = headerTextLayout;
-    this.organizationTabLayout = organizationTabLayout;
-    this.organizationViewPager2 = organizationViewPager2;
-    this.toolbar = toolbar;
+    this.includeProgressBar = includeProgressBar;
+    this.organizationFAB = organizationFAB;
+    this.organizationRecyclerView = organizationRecyclerView;
+    this.toolbarLayout = toolbarLayout;
   }
 
   @NonNull

@@ -14,8 +14,8 @@ import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cMenuModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cPermissionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cMenuModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPermissionModel;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.cFontManager;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
@@ -60,7 +60,7 @@ public class cMenuAdapter extends cTreeAdapter implements Filterable {
 
         switch (viewType) {
             case PERM_MENU:
-                view = inflater.inflate(R.layout.session_permission_cardview, parent, false);
+                view = inflater.inflate(R.layout.session_privilege_cardview, parent, false);
                 viewHolder = new cPermMenuViewHolder(view);
                 break;
             case MAIN_MENU:

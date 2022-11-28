@@ -1,10 +1,13 @@
 package com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -18,7 +21,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iUserProfileRepository;
 import com.me.mseotsanyana.mande.DAL.storage.base.cFirebaseCallBack;
 import com.me.mseotsanyana.mande.DAL.storage.base.cFirebaseChildCallBack;
@@ -27,7 +30,6 @@ import com.me.mseotsanyana.mande.DAL.storage.database.cRealtimeHelper;
 import com.me.mseotsanyana.mande.DAL.storage.excel.cExcelHelper;
 import com.me.mseotsanyana.mande.DAL.ìmpl.cDatabaseUtils;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -52,11 +54,8 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
     private static final String TAG = cUserProfileFirestoreRepositoryImpl.class.getSimpleName();
 
     // an object of the database helper
-    private final cExcelHelper excelHelper;
-
     private final FirebaseFirestore database;
     private final FirebaseStorage storage;
-    private final AssetManager assetManager;
     private final FirebaseAuth firebaseAuth;
     private final Context context;
 
@@ -65,8 +64,6 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.database = FirebaseFirestore.getInstance();
         this.storage = FirebaseStorage.getInstance();
-        this.assetManager = context.getAssets();
-        this.excelHelper = new cExcelHelper(context);
     }
 
     /* ##################################### CREATE ACTIONS ##################################### */
@@ -78,7 +75,7 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
      * @param callback         callback
      */
     @Override
-    public void createUserWithEmailAndPassword(cUserProfileModel userProfileModel,
+    public void createUserWithEmailAndPassword(CUserProfileModel userProfileModel,
                                                iSignUpRepositoryCallback callback) {
         firebaseAuth.createUserWithEmailAndPassword(userProfileModel.getEmail().trim(),
                 userProfileModel.getPassword().trim())
@@ -112,7 +109,7 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
      * @param firebaseUser     firebase user
      * @param userProfileModel user profile model
      */
-    private void updateFirebaseUser(FirebaseUser firebaseUser, cUserProfileModel userProfileModel) {
+    private void updateFirebaseUser(FirebaseUser firebaseUser, CUserProfileModel userProfileModel) {
         /* update the profile in the firebase */
         UserProfileChangeRequest profileUpdates;
         profileUpdates = new UserProfileChangeRequest.Builder()
@@ -156,8 +153,16 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
      * @param userProfileModel user profile model
      * @param callback         callback
      */
-    private void createUserProfile(FirebaseUser firebaseUser, cUserProfileModel userProfileModel,
+    private void createUserProfile(@NonNull FirebaseUser firebaseUser,
+                                   CUserProfileModel userProfileModel,
                                    iSignUpRepositoryCallback callback) {
+
+        HashMap<String, Object> userProfile = new HashMap<>();
+        userProfile.put("name", userProfileModel.getName());
+        userProfile.put("surname", userProfileModel.getSurname());
+        userProfile.put("designation", userProfileModel.getDesignation());
+        userProfile.put("email", userProfileModel.getEmail());
+
         // create user profile image in the storage
         StorageReference profilePhotoRef = storage.getReference()
                 .child(cRealtimeHelper.KEY_PROFILEPHOTOS)
@@ -169,17 +174,18 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                         String downloadedUrl = object.toString();
                         String uid = firebaseUser.getUid();
                         Date currentDate = new Date();
-                        userProfileModel.setUserServerID(uid);
-                        userProfileModel.setUserOwnerID(uid);
-                        userProfileModel.setPhotoUrl(downloadedUrl);
-                        userProfileModel.setCreatedDate(currentDate);
-                        userProfileModel.setModifiedDate(currentDate);
+
+                        userProfile.put("userServerID", uid);
+                        userProfile.put("userOwnerID", uid);
+                        userProfile.put("photoUrl", downloadedUrl);
+                        userProfile.put("createdDate", currentDate);
+                        userProfile.put("modifiedDate", currentDate);
 
                         // create user profile model to the database
                         CollectionReference coUsersRef;
                         coUsersRef = database.collection(cRealtimeHelper.KEY_USERPROFILES);
                         DocumentReference doUsersRef = coUsersRef.document(uid);
-                        fireStoreCreate(doUsersRef, userProfileModel, new cFirebaseCallBack() {
+                        fireStoreCreate(doUsersRef, userProfile, new cFirebaseCallBack() {
                             @Override
                             public void onFirebaseSuccess(Object object) {
                                 //Log.d(TAG, "createUserWithEmailAndPassword:success");
@@ -188,9 +194,16 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
 
                             @Override
                             public void onFirebaseFailure(Object object) {
-                                //Log.d(TAG, Objects.requireNonNull(e.getLocalizedMessage()));
-                                //Log.d(TAG, "createUserWithEmailAndPassword:failure");
-                                callback.onSignUpSucceeded("Failed to create user profile.");
+                                // remove the user is fail to create user account
+                                firebaseUser.delete().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()){
+                                        Log.d(TAG, "Authenticated user deleted!");
+                                    }else{
+                                        Log.d(TAG, "Failed to deleted an authenticated user!");
+                                    }
+                                });
+
+                                callback.onSignUpFailed("Failed to create user profile.");
                             }
                         });
                     }
@@ -225,15 +238,15 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                         //callback.onSignInFailed("Verification email resend to " +firebaseUser.getEmail());
                     } else {
                         Log.d(TAG, "signInWithEmail:success");
-                        callback.onSignInSucceeded();
+                        callback.onSignInSucceeded("Successfully Authenticated.");
                     }
                 } else {
                     Log.d(TAG, "signInWithEmail:failure ", task.getException());
-                    callback.onSignInMessage("Authentication failed!");
+                    callback.onSignInFailed("Authentication failed!");
                 }
             } else {
                 Log.d(TAG, "signInWithEmail:failure ", task.getException());
-                callback.onSignInMessage("Authentication failed!");
+                callback.onSignInFailed("Authentication failed!");
             }
         });
     }
@@ -248,11 +261,11 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
         if (firebaseUser != null) {
             firebaseUser.sendEmailVerification().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    callback.onSignInMessage("Verification email resend to " +
+                    callback.onSignInFailed("Verification email resend to " +
                             firebaseUser.getEmail());
                 } else {
                     Log.e(TAG, "sendEmailVerification", task.getException());
-                    callback.onSignInMessage("Failed to send verification email.");
+                    callback.onSignInFailed("Failed to send verification email.");
 
                 }
             });
@@ -275,6 +288,51 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
         }
     }
 
+    @Override
+    public void sendPasswordResetEmail(CUserProfileModel userProfileModel,
+                                       iResetPasswordRepositoryCallback callback) {
+
+        //Log.d(TAG,"User Email ===== "+userProfileModel.getEmail());
+        firebaseAuth.sendPasswordResetEmail(userProfileModel.getEmail())
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        callback.onResetPasswordSucceeded(
+                                "Instructions send to your email to reset your password!");
+                    }else{
+                        callback.onResetPasswordFailed("Failed to send reset email!");
+                    }
+                });
+    }
+
+    @Override
+    public void changePassword(CUserProfileModel userProfileModel,
+                               iChangePasswordRepositoryCallback callback) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        // Get auth credentials from the user for re-authentication. The example below shows
+        // email and password credentials but there are multiple possible providers,
+        // such as GoogleAuthProvider or FacebookAuthProvider.
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(userProfileModel.getEmail(), userProfileModel.getPassword());
+
+        // Prompt the user to re-provide their sign-in credentials
+        assert firebaseUser != null;
+        firebaseUser.reauthenticate(credential).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                firebaseUser.updatePassword(userProfileModel.getPassword()).addOnCompleteListener(
+                        task1 -> {
+                            if (task1.isSuccessful()) {
+                                Log.d(TAG, "Password updated");
+                            } else {
+                                Log.d(TAG, "Error password not updated");
+                            }
+                        });
+            } else {
+                Log.d(TAG, "Error auth failed");
+            }
+        });
+    }
+
+
     /* ###################################### READ ACTIONS ###################################### */
 
     @Override
@@ -288,8 +346,8 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                         if (task.isSuccessful()) {
                             DocumentSnapshot doc = task.getResult();
                             if (doc != null) {
-                                cUserProfileModel userProfile;
-                                userProfile = doc.toObject(cUserProfileModel.class);
+                                CUserProfileModel userProfile;
+                                userProfile = doc.toObject(CUserProfileModel.class);
                                 callback.onReadMyUserProfileSucceeded(userProfile);
                             }
                         } else {
@@ -317,11 +375,11 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
 
             userProfileQuery.get().addOnCompleteListener(task -> {
                 if (task.isSuccessful()) {
-                    List<cUserProfileModel> userProfileModels = new ArrayList<>();
+                    List<CUserProfileModel> userProfileModels = new ArrayList<>();
                     for (DocumentSnapshot userprofile_doc : Objects.requireNonNull(
                             task.getResult())) {
-                        cUserProfileModel userProfileModel;
-                        userProfileModel = userprofile_doc.toObject(cUserProfileModel.class);
+                        CUserProfileModel userProfileModel;
+                        userProfileModel = userprofile_doc.toObject(CUserProfileModel.class);
 
                         if (userProfileModel != null) {
                             userProfileModels.add(userProfileModel);
@@ -357,8 +415,8 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                 if (object != null) {
                     DocumentSnapshot document = (DocumentSnapshot) object;
                     if (document.exists()) {
-                        cUserProfileModel userProfileModel;
-                        userProfileModel = document.toObject(cUserProfileModel.class);
+                        CUserProfileModel userProfileModel;
+                        userProfileModel = document.toObject(CUserProfileModel.class);
                         firebaseChildCallBack.onChildAdded(userProfileModel);
                     } else {
                         firebaseChildCallBack.onChildAdded(null);
@@ -373,8 +431,8 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                 if (object != null) {
                     DocumentSnapshot document = (DocumentSnapshot) object;
                     if (document.exists()) {
-                        cUserProfileModel userProfileModel;
-                        userProfileModel = document.toObject(cUserProfileModel.class);
+                        CUserProfileModel userProfileModel;
+                        userProfileModel = document.toObject(CUserProfileModel.class);
                         firebaseChildCallBack.onChildChanged(userProfileModel);
                     } else {
                         firebaseChildCallBack.onChildChanged(null);
@@ -389,8 +447,8 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                 if (object != null) {
                     DocumentSnapshot document = (DocumentSnapshot) object;
                     if (document.exists()) {
-                        cUserProfileModel userProfileModel;
-                        userProfileModel = document.toObject(cUserProfileModel.class);
+                        CUserProfileModel userProfileModel;
+                        userProfileModel = document.toObject(CUserProfileModel.class);
                         firebaseChildCallBack.onChildRemoved(userProfileModel);
                     } else {
                         firebaseChildCallBack.onChildRemoved(null);
@@ -412,7 +470,7 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
 
     @Override
     public void updateUserProfileImage(long userID, int primaryRole, int secondaryRoles, int statusBITS,
-                                       cUserProfileModel userProfileModel,
+                                       CUserProfileModel userProfileModel,
                                        iUpdateUserProfileRepositoryCallback callback) {
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -460,9 +518,9 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                 @Override
                 public void onFirebaseSuccess(Object querySnapshot) {
                     QuerySnapshot documentSnapshots = (QuerySnapshot) querySnapshot;
-                    cUserProfileModel userProfileModel = null;
+                    CUserProfileModel userProfileModel = null;
                     for (DocumentSnapshot userProfile : documentSnapshots) {
-                        userProfileModel = userProfile.toObject(cUserProfileModel.class);
+                        userProfileModel = userProfile.toObject(CUserProfileModel.class);
                     }
 
                     if (userProfileModel != null) {
@@ -520,6 +578,8 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
         }
     }
 
+
+
     /* ##################################### DELETE ACTIONS ##################################### */
 
     /* ##################################### UPLOAD ACTIONS ##################################### */
@@ -557,7 +617,7 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
             Sheet userProfileSheet = workbook.getSheet(cExcelHelper.SHEET_tblUSERPROFILE);
 
             // user profile
-            List<cUserProfileModel> userProfileModels = new ArrayList<>();
+            List<CUserProfileModel> userProfileModels = new ArrayList<>();
 
             for (Row userProfileRow : userProfileSheet) {
                 //just skip the row if row number is 0
@@ -565,7 +625,7 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                     continue;
                 }
 
-                cUserProfileModel userProfileModel = new cUserProfileModel();
+                CUserProfileModel userProfileModel = new CUserProfileModel();
 
                 userProfileModel.setUserServerID(String.valueOf(
                         cDatabaseUtils.getCellAsNumeric(userProfileRow, 0)));
@@ -602,7 +662,7 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
      * @param userProfileModels user profile models
      * @param callback          callback
      */
-    private void createUserProfileFromExcel(List<cUserProfileModel> userProfileModels,
+    private void createUserProfileFromExcel(List<CUserProfileModel> userProfileModels,
                                             iUploadUserProfilesRepositoryCallback callback) {
 
         CollectionReference coUserProfileRef;
@@ -610,7 +670,7 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
 
         // create a batch of user profiles from the list of users
         WriteBatch batch = database.batch();
-        for (cUserProfileModel userProfileModel : userProfileModels) {
+        for (CUserProfileModel userProfileModel : userProfileModels) {
             DocumentReference documentReference = coUserProfileRef.document();
             userProfileModel.setUserServerID(documentReference.getId());
             batch.set(documentReference, userProfileModel);

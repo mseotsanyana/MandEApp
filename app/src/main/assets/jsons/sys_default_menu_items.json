@@ -19,9 +19,9 @@
         },
         {
           "sub_id": 4,
-          "sub_item": "Join Organization",
-          "sub_image":"join",
-          "sub_description":"Joining public organizations."
+          "sub_item": "Switch Organization",
+          "sub_image":"switch",
+          "sub_description":"Switching to another organizations."
         }
       ]
     },

@@ -1,6 +1,6 @@
 package com.me.mseotsanyana.mande.BLL.repository.raid;
 
-import com.me.mseotsanyana.mande.BLL.model.logframe.cRaidModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cRaidModel;
 
 import java.util.Set;
 

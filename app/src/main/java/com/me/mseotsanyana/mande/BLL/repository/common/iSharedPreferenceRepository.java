@@ -1,10 +1,8 @@
 package com.me.mseotsanyana.mande.BLL.repository.common;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cMenuModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cMenuModel;
 
 import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
 
 public interface iSharedPreferenceRepository {
     /* user shared preferences */
@@ -15,21 +13,38 @@ public interface iSharedPreferenceRepository {
     void saveIntSetting(String key, int value);
     void saveStringSetting(String key, String value);
     void saveBooleanSetting(String key, Boolean value);
-    void saveListIntegerSetting(String key, List<Integer> value);
+    void saveListOfIntegerSetting(String key, List<Integer> value);
+    void saveListOfStringSetting(String key, List<String> value);
     void saveMenuItems(String key, List<cMenuModel> value);
+
+    void saveCurrentWorkspace(String compositeServerID);
 
     /* load personal preferences of the loggedIn user */
 
     String loadUserID();
-    String loadOrganizationID();
-    int loadPrimaryTeamBIT();
-    List<Integer> loadSecondaryTeams();
+    String loadActiveOrganizationID();
+    String loadCurrentWorkspace();
+    int loadWorkspaceServerID();
 
+    int loadWorkspaceMembershipBITS();
+
+    List<String> loadMyOrganizations();
+
+    int loadActiveWorkspaceBIT();
+    List<Integer> loadSecondaryWorkspaces();
+
+    int loadModuleBITS();
     int loadEntityBITS(int moduleKey);
     int loadEntityPermissionBITS(int moduleKey, int entityKey);
+    int loadActionPermissionBITS(int moduleKey, int entityKey, String actionKey);
+
     List<Integer> loadOperationStatuses(int moduleKey, int entityKey, int operationKey);
     int loadUnixPermissionBITS(int moduleKey, int entityKey);
     List<cMenuModel> loadMenuItems();
+
+    /* delete personal preferences of the loggedIn user */
+
+    void deleteCurrentWorkspace();
 
 //    /* save personal preferences of the loggedIn user */
 //    void saveUserID(long userID);

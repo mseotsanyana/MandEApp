@@ -38,12 +38,11 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
 import com.me.mseotsanyana.mande.BLL.executor.Impl.cThreadExecutorImpl;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cProjectModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cOrganizationModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
-import com.me.mseotsanyana.mande.DAL.storage.preference.cBitwise;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cProjectModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.COrganizationModel_old2;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cEntityType;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.programme.cProjectFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
@@ -468,9 +467,9 @@ public class cProjectFragment extends Fragment implements iProjectPresenter.View
     //======================= these functions are related to common properties =====================
 
     @Override
-    public void onUpdateCommonModelSucceeded(List<cUserProfileModel> userProfileModels,
-                                             List<cTeamModel> teamModels,
-                                             List<cOrganizationModel> organizationModels) {
+    public void onUpdateCommonModelSucceeded(List<CUserProfileModel> userProfileModels,
+                                             List<cWorkspaceModel> teamModels,
+                                             List<COrganizationModel_old2> organizationModels) {
 
     }
 

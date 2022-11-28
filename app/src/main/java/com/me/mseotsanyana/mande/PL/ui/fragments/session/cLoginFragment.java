@@ -2,6 +2,9 @@ package com.me.mseotsanyana.mande.PL.ui.fragments.session;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -16,25 +19,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.executor.Impl.cThreadExecutorImpl;
-import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cPermissionFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cPrivilegeFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cUserProfileFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.PL.presenters.session.Impl.cUserLoginPresenterImpl;
 import com.me.mseotsanyana.mande.PL.presenters.session.iUserLoginPresenter;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.cMainThreadImpl;
+import com.me.mseotsanyana.mande.databinding.SessionLoginFragmentBinding;
 
-import java.util.Objects;
 
 public class cLoginFragment extends Fragment implements iUserLoginPresenter.View {
-    private static String TAG = cLoginFragment.class.getSimpleName();
-
-    private EditText emailEditText, passwordEditText;
-    private TextView loginTextView, forgotPasswordTextView, signUpTextView;
-    private View progressBar;
+    private static final String TAG = cLoginFragment.class.getSimpleName();
 
     private iUserLoginPresenter userLoginPresenter;
+
+    private SessionLoginFragmentBinding binding;
 
     public cLoginFragment() {
     }
@@ -51,7 +53,7 @@ public class cLoginFragment extends Fragment implements iUserLoginPresenter.View
                 cThreadExecutorImpl.getInstance(),
                 cMainThreadImpl.getInstance(), this,
                 new cSharedPreferenceFirestoreRepositoryImpl(requireContext()),
-                new cPermissionFirestoreRepositoryImpl(requireContext()),
+                new cPrivilegeFirestoreRepositoryImpl(requireContext()),
                 new cUserProfileFirestoreRepositoryImpl(requireContext()));
     }
 
@@ -61,72 +63,67 @@ public class cLoginFragment extends Fragment implements iUserLoginPresenter.View
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.session_login_fragment, container, false);
 
-        initViews(view);
+        binding = DataBindingUtil.inflate(inflater, R.layout.session_login_fragment, container,
+                false);
 
-        return view;
+        return binding.getRoot();
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initViews();
     }
 
-    private void initViews(View view) {
-        emailEditText = view.findViewById(R.id.emailEditText);
-        passwordEditText = view.findViewById(R.id.passwordEditText);
-
-        forgotPasswordTextView = view.findViewById(R.id.forgotPasswordTextView);
-        loginTextView = view.findViewById(R.id.loginTextView);
-        signUpTextView = view.findViewById(R.id.signTextView);
-        progressBar = view.findViewById(R.id.progressBar);
-
+    private void initViews() {
         /* initial hide progress bar */
         hideProgress();
 
-        /* forget password listener */
-        forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        /* login listener */
+        binding.loginTextView.setOnClickListener(v -> {
+            String email = binding.emailEditText.getText().toString().trim();
+            String password = binding.passwordEditText.getText().toString().trim();
 
+            if (!email.isEmpty() && !password.isEmpty()) {
+                CUserProfileModel userProfileModel = new CUserProfileModel(email, password);
+                userLoginPresenter.signInWithEmailAndPassword(userProfileModel.getEmail(),
+                        userProfileModel.getPassword());
+                Log.d(TAG, userProfileModel.getActiveState().getState());
+            } else {
+                Snackbar.make(requireView(), "Fields are empty !", Snackbar.LENGTH_LONG).show();
             }
         });
 
-        /* login listener */
-        loginTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String email = Objects.requireNonNull(emailEditText.getText()).toString().trim();
-                String password = Objects.requireNonNull(passwordEditText.getText()).toString().trim();
+        /* change password listener
+        binding.changePasswordTextView.setOnClickListener(v -> {
+            NavDirections action = cLoginFragmentDirections.
+                    actionCLoginFragmentToCChangePasswordFragment();
+            Navigation.findNavController(requireView()).navigate(action);
+        });*/
 
-                if (!email.isEmpty() && !password.isEmpty()) {
-                    userLoginPresenter.signInWithEmailAndPassword(email, password);
-                } else {
-                    Snackbar.make(requireView(), "Fields are empty !", Snackbar.LENGTH_LONG).show();
-                }
-            }
+        /* change password listener */
+        binding.resetPasswordTextView.setOnClickListener(v -> {
+            NavDirections action = cLoginFragmentDirections.
+                    actionCLoginFragmentToCResetPasswordFragment();
+            Navigation.findNavController(requireView()).navigate(action);
         });
 
         /* sign up listener */
-        signUpTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavDirections action = cLoginFragmentDirections.
-                        actionCLoginFragmentToCSignUpFragment();
-                Navigation.findNavController(requireView()).navigate(action);
-            }
+        binding.signUpTextView.setOnClickListener(view1 -> {
+            NavDirections action = cLoginFragmentDirections.
+                    actionCLoginFragmentToCSignUpFragment();
+            Navigation.findNavController(requireView()).navigate(action);
         });
     }
 
     @Override
     public void onUserLoginSucceeded(String msg) {
-        NavDirections action = cLoginFragmentDirections.
-                actionCLoginFragmentToCHomeFragment();
-        Navigation.findNavController(requireView()).navigate(action);
+      NavDirections action = cLoginFragmentDirections.
+              actionCLoginFragmentToCOrganizationFragment();
+      Navigation.findNavController(requireView()).navigate(action);
     }
 
     @Override
@@ -136,12 +133,12 @@ public class cLoginFragment extends Fragment implements iUserLoginPresenter.View
 
     @Override
     public void showProgress() {
-        progressBar.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        progressBar.setVisibility(View.GONE);
+        binding.progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -152,17 +149,17 @@ public class cLoginFragment extends Fragment implements iUserLoginPresenter.View
     /* getters and setters */
     @Override
     public EditText getEmailEditText() {
-        return emailEditText;
+        return binding.emailEditText;
     }
 
     @Override
     public EditText getPasswordEditText() {
-        return passwordEditText;
+        return binding.passwordEditText;
     }
 
     @Override
-    public TextView getForgotPasswordTextView() {
-        return forgotPasswordTextView;
+    public TextView getResetPasswordTextView() {
+        return binding.resetPasswordTextView;
     }
 
     @Override

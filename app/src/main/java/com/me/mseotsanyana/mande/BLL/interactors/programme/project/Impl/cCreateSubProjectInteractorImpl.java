@@ -4,7 +4,7 @@ import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.logframe.iLogFrameInteractor;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.BLL.repository.programme.iLogFrameRepository;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 

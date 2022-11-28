@@ -1,0 +1,119 @@
+{
+  "statuses": [
+    {
+      "id": 1,
+      "name": "INITIAL",
+      "description": "The initial state for an entity"
+    },
+    {
+      "id": 2,
+      "name": "ACTIVATED",
+      "description": "Is the record activated?"
+    },
+    {
+      "id": 4,
+      "name": "APPROVED",
+      "description": "Is the record approved?"
+    },
+    {
+      "id": 8,
+      "name": "BLOCKED",
+      "description": "Is the record blocked?"
+    },
+    {
+      "id": 16,
+      "name": "CANCELLED",
+      "description": "Is the record cancelled?"
+    },
+    {
+      "id": 32,
+      "name": "COMPLETED",
+      "description": "Is the record completed?"
+    },
+    {
+      "id": 64,
+      "name": "CLOSED",
+      "description": "Is the record closed?"
+    },
+    {
+      "id": 128,
+      "name": "CHANGE",
+      "description": "Change user's password status."
+    },
+    {
+      "id": 256,
+      "name": "DELETED",
+      "description": "Is the record deleted?"
+    },
+    {
+      "id": 512,
+      "name": "DRAFT",
+      "description": "Is the record drafted?"
+    },
+    {
+      "id": 1024,
+      "name": "DISENABLED",
+      "description": "An entity in a disenabled status."
+    },
+    {
+      "id": 2048,
+      "name": "ENABLED",
+      "description": "An entity in an enabled status."
+    },
+    {
+      "id": 4096,
+      "name": "FREEPLAN",
+      "description": "An entity's free plan status."
+    },
+    {
+      "id": 8192,
+      "name": "NEGOTIATION",
+      "description": "An entity's negotiation status."
+    },
+    {
+      "id": 16384,
+      "name": "PLAN",
+      "description": "An entity with plan options status"
+    },
+    {
+      "id": 32768,
+      "name": "PENDING",
+      "description": "Is the record pending?"
+    },
+    {
+      "id": 65536,
+      "name": "PREMIUMPLAN",
+      "description": "An entity's premium plan status."
+    },
+    {
+      "id": 131072,
+      "name": "REJECTED",
+      "description": "Is the record rejected?"
+    },
+    {
+      "id": 262144,
+      "name": "RESET",
+      "description": "User's password reset status."
+    },
+    {
+      "id": 524288,
+      "name": "SIGNIN",
+      "description": "User's login status."
+    },
+    {
+      "id": 1048576,
+      "name": "SIGNUP",
+      "description": "User's registration status."
+    },
+    {
+      "id": 2097152,
+      "name": "STANDARDPLAN",
+      "description": "An entity with standard plan status."
+    },
+    {
+      "id": 4194304,
+      "name": "WORKSPACE",
+      "description": "An entity with workspace options status."
+    }
+  ]
+}

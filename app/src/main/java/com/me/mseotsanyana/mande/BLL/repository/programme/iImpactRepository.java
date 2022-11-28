@@ -1,6 +1,6 @@
 package com.me.mseotsanyana.mande.BLL.repository.programme;
 
-import com.me.mseotsanyana.mande.BLL.model.logframe.cImpactModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cImpactModel;
 
 import java.util.List;
 

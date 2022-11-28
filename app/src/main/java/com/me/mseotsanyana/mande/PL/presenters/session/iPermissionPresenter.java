@@ -19,7 +19,7 @@ public interface iPermissionPresenter extends iPresenter {
         void onClickDeleteRolePermission(String permissionServerID);
 
     }
-    void readRolePermissions();
+    void readWorkspacePermissions();
     void updateRolePermissions(List<cNode> nodes);
 }
 

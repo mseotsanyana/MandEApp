@@ -10,12 +10,17 @@ public class cLoginFragmentDirections {
   }
 
   @NonNull
-  public static NavDirections actionCLoginFragmentToCHomeFragment() {
-    return new ActionOnlyNavDirections(R.id.action_cLoginFragment_to_cHomeFragment);
+  public static NavDirections actionCLoginFragmentToCSignUpFragment() {
+    return new ActionOnlyNavDirections(R.id.action_cLoginFragment_to_cSignUpFragment);
   }
 
   @NonNull
-  public static NavDirections actionCLoginFragmentToCSignUpFragment() {
-    return new ActionOnlyNavDirections(R.id.action_cLoginFragment_to_cSignUpFragment);
+  public static NavDirections actionCLoginFragmentToCResetPasswordFragment() {
+    return new ActionOnlyNavDirections(R.id.action_cLoginFragment_to_cResetPasswordFragment);
+  }
+
+  @NonNull
+  public static NavDirections actionCLoginFragmentToCOrganizationFragment() {
+    return new ActionOnlyNavDirections(R.id.action_cLoginFragment_to_cOrganizationFragment);
   }
 }

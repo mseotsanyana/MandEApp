@@ -6,8 +6,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cImpactModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cOutcomeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cImpactModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cOutcomeModel;
 import com.me.mseotsanyana.mande.BLL.repository.programme.iImpactRepository;
 import com.me.mseotsanyana.mande.DAL.storage.database.cRealtimeHelper;
 import com.me.mseotsanyana.mande.DAL.ìmpl.cDatabaseUtils;
@@ -60,13 +60,13 @@ public class cImpactFirestoreRepositoryImpl implements iImpactRepository {
                             perm.setTeamOwnerBIT(impactModel.getTeamOwnerBIT());
                             perm.setUnixpermBITS(impactModel.getUnixpermBITS());
 
-                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                    secondaryTeamBITS)) {
-                                impactModels.add(impactModel);
-
-                                //sub_impact_ids = getSubImpactIDs(impactModel.getComponentServerID());
-                                //impactModel.setChildModels(getSubImpactModels(sub_impact_ids));
-                            }
+//FIXME                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                    secondaryTeamBITS)) {
+//                                impactModels.add(impactModel);
+//
+//                                //sub_impact_ids = getSubImpactIDs(impactModel.getComponentServerID());
+//                                //impactModel.setChildModels(getSubImpactModels(sub_impact_ids));
+//                            }
                         }
                     }
 
@@ -106,10 +106,10 @@ public class cImpactFirestoreRepositoryImpl implements iImpactRepository {
                                     perm.setTeamOwnerBIT(outcomeModel.getTeamOwnerBIT());
                                     perm.setUnixpermBITS(outcomeModel.getUnixpermBITS());
 
-                                    if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                            secondaryTeamBITS)) {
-                                        outcomeModels.add(outcomeModel);
-                                    }
+//FIXME                                    if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                            secondaryTeamBITS)) {
+//                                        outcomeModels.add(outcomeModel);
+//                                    }
                                 }
                             }
                         }
@@ -152,10 +152,10 @@ public class cImpactFirestoreRepositoryImpl implements iImpactRepository {
                                     perm.setTeamOwnerBIT(outcomeModel.getTeamOwnerBIT());
                                     perm.setUnixpermBITS(outcomeModel.getUnixpermBITS());
 
-                                    if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                            secondaryTeamBITS)) {
-                                        outcomeModels.add(outcomeModel);
-                                    }
+//FIXME                                    if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                            secondaryTeamBITS)) {
+//                                        outcomeModels.add(outcomeModel);
+//                                    }
                                 }
                             }
                         }

@@ -130,8 +130,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="1020" />
-                            <option name="y" value="-6885" />
+                            <option name="x" value="1144" />
+                            <option name="y" value="-6984" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -167,11 +167,6 @@
                               </value>
                             </entry>
                             <entry key="action_cHomeFragment_to_cMyUserProfileFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_cHomeFragment_to_cOrganizationDetailFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -364,13 +359,18 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="575" />
-                            <option name="y" value="-6685" />
+                            <option name="x" value="551" />
+                            <option name="y" value="-6689" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_cLoginFragment_to_cHomeFragment">
+                            <entry key="action_cLoginFragment_to_cOrganizationFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_cLoginFragment_to_cResetPasswordFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -454,14 +454,28 @@
                       </LayoutPositions>
                     </value>
                   </entry>
-                  <entry key="cOrganizationDetailFragment">
+                  <entry key="cOrganizationFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="1039" />
-                            <option name="y" value="-8092" />
+                            <option name="x" value="914" />
+                            <option name="y" value="-6675" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_cOrganizationFragment_to_cHomeFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_cOrganizationFragment_to_cLoginFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>
@@ -583,6 +597,27 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="cResetPasswordFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="556" />
+                            <option name="y" value="-6332" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_cResetPasswordFragment_to_cLoginFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="cRiskRegisterFragment">
                     <value>
                       <LayoutPositions>
@@ -612,8 +647,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="562" />
-                            <option name="y" value="-7123" />
+                            <option name="x" value="548" />
+                            <option name="y" value="-7125" />
                           </Point>
                         </option>
                         <option name="myPositions">

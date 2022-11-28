@@ -1,0 +1,28 @@
+{
+  "permissions": [
+    {"id_action": 1, "unixperms": [
+      {"id_unixperm": 32768, "description": "owner create permission"},
+      {"id_unixperm": 2048, "description": "primary team create permission"},
+      {"id_unixperm": 128, "description": "secondary team create permission"},
+      {"id_unixperm": 8, "description": "organization create permission"}]
+    },
+    {"id_action": 2, "unixperms": [
+      {"id_unixperm": 16384, "description": "owner read permission"},
+      {"id_unixperm": 1024, "description": "primary team read permission"},
+      {"id_unixperm": 64, "description": "secondary team read permission"},
+      {"id_unixperm": 4, "description": "organization read permission"}]
+    },
+    {"id_action": 4, "unixperms": [
+      {"id_unixperm": 8192, "description": "owner update permission"},
+      {"id_unixperm": 512, "description": "primary team update permission"},
+      {"id_unixperm": 32, "description": "secondary team update permission"},
+      {"id_unixperm": 2, "description": "organization update permission"}]
+    },
+    {"id_action": 8, "unixperms": [
+      {"id_unixperm": 4096, "description": "owner delete permission"},
+      {"id_unixperm": 256, "description": "primary team delete permission"},
+      {"id_unixperm": 16, "description": "secondary team delete permission"},
+      {"id_unixperm": 1, "description": "organization delete permission"}]
+    }
+  ]
+}

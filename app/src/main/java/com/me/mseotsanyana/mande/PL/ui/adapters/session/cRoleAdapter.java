@@ -21,10 +21,10 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.me.mseotsanyana.expandablelayoutlibrary.CExpandableLayout;
-import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cStatusModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOrganizationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cStatusModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cUserModel;
 import com.me.mseotsanyana.mande.UTIL.INTERFACE.iPermissionInterface;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.TextDrawable;
@@ -64,8 +64,8 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
     public static final int ROLE = 0;
     public static final int USER = 1;
 
-    private ArrayList<cRoleModel> listRoles;
-    private ArrayList<cRoleModel> filteredRoles;
+    private ArrayList<cPrivilegeModel> listRoles;
+    private ArrayList<cPrivilegeModel> filteredRoles;
 
     //private cUserHandler userHandler;
 //    private cOrganizationHandler organizationHandler;
@@ -140,7 +140,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
         if (obj != null) {
             switch (obj.getType()) {
                 case ROLE:
-                    final cRoleModel roleDomain = (cRoleModel) obj.getModelObject();
+                    final cPrivilegeModel roleDomain = (cPrivilegeModel) obj.getModelObject();
                     final cRoleTreeViewHolder RVH = ((cRoleTreeViewHolder) viewHolder);
 
                     Log.d(TAG, gson.toJson(roleDomain));
@@ -410,7 +410,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
                     );*/
 
                     // get all organizations from database
-                    final ArrayList<cStakeholderModel> orgs =null;/*
+                    final ArrayList<cOrganizationModel> orgs =null;/*
                             organizationHandler.getOrganizationList(
                                     session.loadUserID(),        /* loggedIn user id
                                     session.loadOrgID(),         /* loggedIn own org.
@@ -443,11 +443,11 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
                                 public void onItemsSelected(List<cKeyPairBoolData> items) {
                                     for (int i = 0; i < items.size(); i++) {
                                         if (items.get(i).isSelected()) {
-                                            roleDomain.setRoleServerID(""/*(int) items.get(i).getId()*/);
+                                            roleDomain.setPrivilegeServerID(""/*(int) items.get(i).getId()*/);
                                             break;
                                         }
                                     }
-                                    Log.d(TAG, "OWNER : " + roleDomain.getRoleServerID());
+                                    Log.d(TAG, "OWNER : " + roleDomain.getPrivilegeServerID());
                                 }
                             });
 
@@ -681,7 +681,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
         return filteredRoles.size();
     }
 */
-    public cRoleModel getItem(int position) {
+    public cPrivilegeModel getItem(int position) {
         return filteredRoles.get(position);
     }
 
@@ -701,9 +701,9 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
                     filteredRoles = listRoles;
                 } else {
 
-                    ArrayList<cRoleModel> filteredList = new ArrayList<>();
+                    ArrayList<cPrivilegeModel> filteredList = new ArrayList<>();
 
-                    for (cRoleModel roleDomain : listRoles) {
+                    for (cPrivilegeModel roleDomain : listRoles) {
 
                         if (roleDomain.getName().toLowerCase().contains(charString.toLowerCase()) ||
                                 roleDomain.getDescription().toLowerCase().contains(charString)) {
@@ -725,7 +725,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                filteredRoles = (ArrayList<cRoleModel>) filterResults.values;
+                filteredRoles = (ArrayList<cPrivilegeModel>) filterResults.values;
                 notifyDataSetChanged();
             }
         };

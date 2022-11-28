@@ -24,8 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.me.mseotsanyana.mande.BLL.executor.Impl.cThreadExecutorImpl;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cActivityModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cOutputModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cActivityModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cOutputModel;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.Impl.cOutputPresenterImpl;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iActivityPresenter;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iOutputPresenter;

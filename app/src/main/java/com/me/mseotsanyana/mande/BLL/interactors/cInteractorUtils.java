@@ -1,5 +1,9 @@
 package com.me.mseotsanyana.mande.BLL.interactors;
 
+import androidx.annotation.NonNull;
+
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
+
 import java.util.List;
 
 public final class cInteractorUtils {
@@ -12,4 +16,30 @@ public final class cInteractorUtils {
                 entitypermBITS != -1 && primaryTeamBIT != -1 && secondaryTeamBITS != null &&
                 statusBITS != null);
     }
+
+    /**
+     * Verifies access control to the module.
+     *
+     * @param preference preference settings
+     * @param moduleBIT module bit
+     * @return boolean
+     */
+    public static boolean isModulePermitted(@NonNull iSharedPreferenceRepository preference,
+                                            int moduleBIT) {
+        return ((preference.loadModuleBITS() & moduleBIT) != 0);
+    }
+
+    /**
+     * Verifies access control to the entity.
+     *
+     * @param preference permission settings
+     * @param moduleBIT module bit
+     * @param entityBIT entity bit
+     * @return boolean
+     */
+    public static boolean isEntityPermitted(@NonNull iSharedPreferenceRepository preference,
+                                            int moduleBIT, int entityBIT) {
+        return ((preference.loadEntityBITS(moduleBIT) & entityBIT) != 0);
+    }
+
 }

@@ -2,12 +2,11 @@ package com.me.mseotsanyana.mande.PL.presenters.session.Impl;
 
 import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
-import com.me.mseotsanyana.mande.BLL.interactors.session.permission.Impl.
-        cReadRolePermissionsInteractorImpl;
-import com.me.mseotsanyana.mande.BLL.interactors.session.permission.Impl.
+import com.me.mseotsanyana.mande.BLL.interactors.session.privilege.Impl.cReadWorkspacePrivilegesInteractorImpl;
+import com.me.mseotsanyana.mande.BLL.interactors.session.privilege.Impl.
         cUpdatePermissionInteractorImpl;
-import com.me.mseotsanyana.mande.BLL.interactors.session.permission.iReadRolePermissionsInteractor;
-import com.me.mseotsanyana.mande.BLL.interactors.session.permission.iUpdateRolePermissionInteractor;
+import com.me.mseotsanyana.mande.BLL.interactors.session.privilege.iReadWorkspacePermissionsInteractor;
+import com.me.mseotsanyana.mande.BLL.interactors.session.privilege.iUpdateRolePermissionInteractor;
 import com.me.mseotsanyana.mande.BLL.repository.session.iPermissionRepository;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
@@ -18,7 +17,7 @@ import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 import java.util.List;
 
 public class cPermissionPresenterImpl extends cAbstractPresenter implements iPermissionPresenter,
-        iReadRolePermissionsInteractor.Callback, iUpdateRolePermissionInteractor.Callback {
+        iReadWorkspacePermissionsInteractor.Callback, iUpdateRolePermissionInteractor.Callback {
     //private static String TAG = cTeamPresenterImpl.class.getSimpleName();
 
     private View view;
@@ -39,9 +38,9 @@ public class cPermissionPresenterImpl extends cAbstractPresenter implements iPer
     // READ PERMISSIONS
 
     @Override
-    public void readRolePermissions() {
-        iReadRolePermissionsInteractor readRolePermissionsInteractor =
-                new cReadRolePermissionsInteractorImpl(
+    public void readWorkspacePermissions() {
+        iReadWorkspacePermissionsInteractor readWorkspacePermissionsInteractor =
+                new cReadWorkspacePrivilegesInteractorImpl(
                         executor,
                         mainThread,
                         sharedPreferenceRepository,
@@ -49,7 +48,7 @@ public class cPermissionPresenterImpl extends cAbstractPresenter implements iPer
                         this);
 
         view.showProgress();
-        readRolePermissionsInteractor.execute();
+        readWorkspacePermissionsInteractor.execute();
     }
 
 
@@ -106,7 +105,7 @@ public class cPermissionPresenterImpl extends cAbstractPresenter implements iPer
     /* corresponding view functions */
     @Override
     public void resume() {
-        readRolePermissions();
+        readWorkspacePermissions();
     }
 
     @Override

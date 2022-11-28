@@ -9,9 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOrganizationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cUserModel;
 import com.me.mseotsanyana.mande.PL.presenters.common.Impl.cOrganizationOwnerView;
 import com.me.mseotsanyana.mande.PL.presenters.common.cHeadingView;
 import com.me.mseotsanyana.mande.PL.presenters.common.cIndividualOwnerView;
@@ -31,15 +31,15 @@ public class cOwnershipFragment extends Fragment {
     private int groupBITS;
     private int primaryRoles;
     private int secondaryRoles;
-    ArrayList<cRoleModel> roleModels;
+    ArrayList<cPrivilegeModel> roleModels;
     ArrayList<cUserModel> userModels;
-    ArrayList<cStakeholderModel> organizationModels;
+    ArrayList<cOrganizationModel> organizationModels;
 
     public static cOwnershipFragment newInstance(long ownerID, long ownOrgID, int groupBITS,
                                                  ArrayList<cUserModel> userModels,
-                                                 ArrayList<cStakeholderModel> organizationModels,
+                                                 ArrayList<cOrganizationModel> organizationModels,
                                                  int primaryRoles, int secondaryRoles,
-                                                 ArrayList<cRoleModel> roleModels) {
+                                                 ArrayList<cPrivilegeModel> roleModels) {
         Bundle bundle = new Bundle();
 
         bundle.putLong("OWNER_ID", ownerID);
@@ -47,9 +47,9 @@ public class cOwnershipFragment extends Fragment {
         bundle.putInt("GROUP_BITS", groupBITS);
         bundle.putInt("PRIMARY_ROLE", primaryRoles);
         bundle.putInt("SECONDARY_ROLE", secondaryRoles);
-        bundle.putParcelableArrayList("ROLE_MODELS", roleModels);
+        //bundle.putParcelableArrayList("ROLE_MODELS", roleModels);
         bundle.putParcelableArrayList("INDIVIDUAL_OWNER", userModels);
-        bundle.putParcelableArrayList("ORGANIZATION_OWNER", organizationModels);
+        //bundle.putParcelableArrayList("ORGANIZATION_OWNER", organizationModels);
 
         cOwnershipFragment fragment = new cOwnershipFragment();
         fragment.setArguments(bundle);
@@ -67,9 +67,9 @@ public class cOwnershipFragment extends Fragment {
         this.groupBITS = getArguments().getInt("GROUP_BITS", 0);
         this.primaryRoles = getArguments().getInt("PRIMARY_ROLE", 0);
         this.secondaryRoles = getArguments().getInt("SECONDARY_ROLE", 0);
-        this.roleModels = getArguments().getParcelableArrayList("ROLE_MODELS");
+        //this.roleModels = getArguments().getParcelableArrayList("ROLE_MODELS");
         this.userModels = getArguments().getParcelableArrayList("INDIVIDUAL_OWNER");
-        this.organizationModels = getArguments().getParcelableArrayList("ORGANIZATION_OWNER");
+        //this.organizationModels = getArguments().getParcelableArrayList("ORGANIZATION_OWNER");
     }
 
     @Override
@@ -122,8 +122,8 @@ public class cOwnershipFragment extends Fragment {
         return ownerModel;
     }
 
-    cStakeholderModel getOrganizationOwner(){
-        cStakeholderModel organizationModel = null;
+    cOrganizationModel getOrganizationOwner(){
+        cOrganizationModel organizationModel = null;
         for (int i = 0; i < organizationModels.size(); i++){
             /*--if (organizationModels.get(i).getOrganizationID() == ownOrgID){
                 organizationModel = organizationModels.get(i);

@@ -2,7 +2,6 @@ package com.me.mseotsanyana.mande.PL.ui.adapters.awpb;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.BLL.model.wpb.cIncomeModel;
-import com.me.mseotsanyana.mande.BLL.model.wpb.cMaterialModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cIncomeModel;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iInputPresenter;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.cConstant;

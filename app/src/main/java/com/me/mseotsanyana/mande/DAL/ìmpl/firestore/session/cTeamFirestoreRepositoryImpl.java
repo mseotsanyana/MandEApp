@@ -10,10 +10,10 @@ import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserAccountModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cUserAccountModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iTeamRepository;
 import com.me.mseotsanyana.mande.DAL.storage.database.cRealtimeHelper;
 import com.me.mseotsanyana.mande.DAL.ìmpl.cDatabaseUtils;
@@ -66,20 +66,20 @@ public class cTeamFirestoreRepositoryImpl implements iTeamRepository {
 
         teamQuery.get()
                 .addOnCompleteListener(task -> {
-                    List<cTeamModel> teamModels = new ArrayList<>();
+                    List<cWorkspaceModel> teamModels = new ArrayList<>();
                     for (DocumentSnapshot team_doc : Objects.requireNonNull(task.getResult())) {
-                        cTeamModel teamModel = team_doc.toObject(cTeamModel.class);
+                        cWorkspaceModel teamModel = team_doc.toObject(cWorkspaceModel.class);
 
                         if (teamModel != null) {
                             cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
                             perm.setUserOwnerID(teamModel.getUserOwnerID());
-                            perm.setTeamOwnerBIT(teamModel.getTeamOwnerBIT());
+                            perm.setTeamOwnerBIT(teamModel.getWorkspaceOwnerBIT());
                             perm.setUnixpermBITS(teamModel.getUnixpermBITS());
 
-                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                    secondaryTeamBITS)) {
-                                teamModels.add(teamModel);
-                            }
+//FIXME                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                    secondaryTeamBITS)) {
+//                                teamModels.add(teamModel);
+//                            }
                         }
                     }
 
@@ -104,22 +104,22 @@ public class cTeamFirestoreRepositoryImpl implements iTeamRepository {
 
         teamQuery.get()
                 .addOnCompleteListener(task -> {
-                    Map<String, cTeamModel> teamModelMap = new HashMap<>();
+                    Map<String, cWorkspaceModel> teamModelMap = new HashMap<>();
                     for (DocumentSnapshot team_doc : Objects.requireNonNull(task.getResult())) {
-                        cTeamModel teamModel = team_doc.toObject(cTeamModel.class);
+                        cWorkspaceModel teamModel = team_doc.toObject(cWorkspaceModel.class);
 
                         if (teamModel != null) {
                             teamModel.setCompositeServerID(team_doc.getId());
 
                             cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
                             perm.setUserOwnerID(teamModel.getUserOwnerID());
-                            perm.setTeamOwnerBIT(teamModel.getTeamOwnerBIT());
+                            perm.setTeamOwnerBIT(teamModel.getWorkspaceOwnerBIT());
                             perm.setUnixpermBITS(teamModel.getUnixpermBITS());
 
-                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                    secondaryTeamBITS)) {
-                                teamModelMap.put(teamModel.getCompositeServerID(), teamModel);
-                            }
+//FIXME                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                    secondaryTeamBITS)) {
+//                                teamModelMap.put(teamModel.getCompositeServerID(), teamModel);
+//                            }
                         }
                     }
 
@@ -132,7 +132,7 @@ public class cTeamFirestoreRepositoryImpl implements iTeamRepository {
 
     }
 
-    private void filterTeamMembers(Map<String, cTeamModel> teamModelMap,
+    private void filterTeamMembers(Map<String, cWorkspaceModel> teamModelMap,
                                    String organizationServerID, String userServerID,
                                    int primaryTeamBIT, List<Integer> secondaryTeamBITS,
                                    List<Integer> statusBITS,
@@ -157,9 +157,9 @@ public class cTeamFirestoreRepositoryImpl implements iTeamRepository {
                         }
 
                         /* map team model with a corresponding list of user account ids */
-                        Map<cTeamModel, List<String>> team_user_acc_ids = new HashMap<>();
-                        for (Map.Entry<String, cTeamModel> entry : teamModelMap.entrySet()) {
-                            cTeamModel teamModel = entry.getValue();
+                        Map<cWorkspaceModel, List<String>> team_user_acc_ids = new HashMap<>();
+                        for (Map.Entry<String, cWorkspaceModel> entry : teamModelMap.entrySet()) {
+                            cWorkspaceModel teamModel = entry.getValue();
 
                             List<String> user_acc_ids = new ArrayList<>();
                             for (Pair<String, String> pair : team_acc_ids) {
@@ -182,13 +182,13 @@ public class cTeamFirestoreRepositoryImpl implements iTeamRepository {
         }
     }
 
-    private void filterMemberAccounts(Map<cTeamModel, List<String>> team_user_acc_ids,
+    private void filterMemberAccounts(Map<cWorkspaceModel, List<String>> team_user_acc_ids,
                                       String organizationServerID, String userServerID,
                                       int primaryTeamBIT, List<Integer> secondaryTeamBITS,
                                       List<Integer> statusBITS,
                                       iReadTeamsWithMembersCallback callback) {
 
-        CollectionReference coUserAccountsRef = db.collection(cRealtimeHelper.KEY_USERACCOUNTS);
+        CollectionReference coUserAccountsRef = db.collection(cRealtimeHelper.KEY_ORGANIZATION_MEMBERS);
 
         /* collapsing the lists of user account ids to a list of all user account ids */
         Collection<List<String>> user_account_ids = team_user_acc_ids.values();
@@ -212,26 +212,26 @@ public class cTeamFirestoreRepositoryImpl implements iTeamRepository {
                         if (accountModel != null) {
                             cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
                             perm.setUserOwnerID(accountModel.getUserOwnerID());
-                            perm.setTeamOwnerBIT(accountModel.getTeamOwnerBIT());
+                            perm.setTeamOwnerBIT(accountModel.getWorkspaceOwnerBIT());
                             perm.setUnixpermBITS(accountModel.getUnixpermBITS());
                             perm.setStatusBIT(accountModel.getStatusBIT());
 
-                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                    secondaryTeamBITS, statusBITS)) {
-
-                                String userAccountID = accountModel.getUserAccountServerID();
-                                String userProfileID = accountModel.getUserServerID();
-                                user_acc_prof_map.put(userAccountID, userProfileID);
-                            }
+//FIXME                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                    secondaryTeamBITS, statusBITS)) {
+//
+//                                String userAccountID = accountModel.getUserAccountServerID();
+//                                String userProfileID = accountModel.getUserServerID();
+//                                user_acc_prof_map.put(userAccountID, userProfileID);
+//                            }
                         }
                     }
 
                     /* map team model with a corresponding list of user profile ids */
-                    Map<cTeamModel, List<String>> team_user_profile_map = new HashMap<>();
+                    Map<cWorkspaceModel, List<String>> team_user_profile_map = new HashMap<>();
 
-                    for (Map.Entry<cTeamModel,
+                    for (Map.Entry<cWorkspaceModel,
                             List<String>> map_entry : team_user_acc_ids.entrySet()) {
-                        cTeamModel teamModel = map_entry.getKey();
+                        cWorkspaceModel teamModel = map_entry.getKey();
 
                         List<String> user_profile_ids = new ArrayList<>();
                         for (Map.Entry<String, String> pair_entry : user_acc_prof_map.entrySet()) {
@@ -252,7 +252,7 @@ public class cTeamFirestoreRepositoryImpl implements iTeamRepository {
                         "Failed to filter member accounts"));
     }
 
-    private void filterUserProfiles(Map<cTeamModel, List<String>> team_user_profile_map,
+    private void filterUserProfiles(Map<cWorkspaceModel, List<String>> team_user_profile_map,
                                     iReadTeamsWithMembersCallback callback) {
 
         CollectionReference coUserProfilesRef = db.collection(cRealtimeHelper.KEY_USERPROFILES);
@@ -269,21 +269,21 @@ public class cTeamFirestoreRepositoryImpl implements iTeamRepository {
         userProfileQuery.get()
                 .addOnCompleteListener(task -> {
                     /* retrieve corresponding user profiles to their ids */
-                    List<cUserProfileModel> userProfileModels = new ArrayList<>();
+                    List<CUserProfileModel> userProfileModels = new ArrayList<>();
                     for (QueryDocumentSnapshot doc :
                             Objects.requireNonNull(task.getResult())) {
-                        cUserProfileModel user = doc.toObject(cUserProfileModel.class);
+                        CUserProfileModel user = doc.toObject(CUserProfileModel.class);
                         user.setUserServerID(doc.getId());
                         userProfileModels.add(user);
                     }
 
                     /* map team model with a corresponding list of user profile models */
-                    Map<cTeamModel, List<cUserProfileModel>> teamMemberMap = new HashMap<>();
-                    for (Map.Entry<cTeamModel,
+                    Map<cWorkspaceModel, List<CUserProfileModel>> teamMemberMap = new HashMap<>();
+                    for (Map.Entry<cWorkspaceModel,
                             List<String>> entry : team_user_profile_map.entrySet()) {
-                        cTeamModel teamModel = entry.getKey();
-                        List<cUserProfileModel> users = new ArrayList<>();
-                        for (cUserProfileModel user : userProfileModels) {
+                        cWorkspaceModel teamModel = entry.getKey();
+                        List<CUserProfileModel> users = new ArrayList<>();
+                        for (CUserProfileModel user : userProfileModels) {
                             if (entry.getValue().contains(user.getUserServerID())) {
                                 users.add(user);
                             }
@@ -312,22 +312,22 @@ public class cTeamFirestoreRepositoryImpl implements iTeamRepository {
 
         teamQuery.get()
                 .addOnCompleteListener(task -> {
-                    Map<String, cTeamModel> teamModelMap = new HashMap<>();
+                    Map<String, cWorkspaceModel> teamModelMap = new HashMap<>();
                     for (DocumentSnapshot team_doc : Objects.requireNonNull(task.getResult())) {
-                        cTeamModel teamModel = team_doc.toObject(cTeamModel.class);
+                        cWorkspaceModel teamModel = team_doc.toObject(cWorkspaceModel.class);
 
                         if (teamModel != null) {
                             teamModel.setCompositeServerID(team_doc.getId());
 
                             cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
                             perm.setUserOwnerID(teamModel.getUserOwnerID());
-                            perm.setTeamOwnerBIT(teamModel.getTeamOwnerBIT());
+                            perm.setTeamOwnerBIT(teamModel.getWorkspaceOwnerBIT());
                             perm.setUnixpermBITS(teamModel.getUnixpermBITS());
 
-                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                    secondaryTeamBITS)) {
-                                teamModelMap.put(teamModel.getCompositeServerID(), teamModel);
-                            }
+//FIXME                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                    secondaryTeamBITS)) {
+//                                teamModelMap.put(teamModel.getCompositeServerID(), teamModel);
+//                            }
                         }
                     }
 
@@ -340,7 +340,7 @@ public class cTeamFirestoreRepositoryImpl implements iTeamRepository {
 
     }
 
-    private void filterTeamsWithRoles(Map<String, cTeamModel> teamModelMap,
+    private void filterTeamsWithRoles(Map<String, cWorkspaceModel> teamModelMap,
                                       String organizationServerID, String userServerID,
                                       int primaryTeamBIT, List<Integer> secondaryTeamBITS,
                                       List<Integer> statusBITS, iReadTeamsWithRolesCallback callback) {
@@ -363,9 +363,9 @@ public class cTeamFirestoreRepositoryImpl implements iTeamRepository {
                     }
 
                     /* map team model with a corresponding list of role ids */
-                    Map<cTeamModel, List<String>> team_role_ids = new HashMap<>();
-                    for (Map.Entry<String, cTeamModel> entry : teamModelMap.entrySet()) {
-                        cTeamModel teamModel = entry.getValue();
+                    Map<cWorkspaceModel, List<String>> team_role_ids = new HashMap<>();
+                    for (Map.Entry<String, cWorkspaceModel> entry : teamModelMap.entrySet()) {
+                        cWorkspaceModel teamModel = entry.getValue();
 
                         List<String> role_ids = new ArrayList<>();
                         for (Pair<String, String> pair : team_role_pair) {
@@ -385,7 +385,7 @@ public class cTeamFirestoreRepositoryImpl implements iTeamRepository {
     }
 
 
-    private void mapRolesToTeams(Map<cTeamModel, List<String>> team_role_map,
+    private void mapRolesToTeams(Map<cWorkspaceModel, List<String>> team_role_map,
                                  String organizationServerID, String userServerID,
                                  int primaryTeamBIT, List<Integer> secondaryTeamBITS,
                                  List<Integer> statusBITS, iReadTeamsWithRolesCallback callback) {
@@ -405,31 +405,31 @@ public class cTeamFirestoreRepositoryImpl implements iTeamRepository {
         roleQuery.get()
                 .addOnCompleteListener(task -> {
                     /* retrieve corresponding roles to their ids */
-                    List<cRoleModel> roleModels = new ArrayList<>();
+                    List<cPrivilegeModel> roleModels = new ArrayList<>();
                     for (QueryDocumentSnapshot doc :
                             Objects.requireNonNull(task.getResult())) {
-                        cRoleModel roleModel = doc.toObject(cRoleModel.class);
-                        roleModel.setRoleServerID(doc.getId());
+                        cPrivilegeModel roleModel = doc.toObject(cPrivilegeModel.class);
+                        roleModel.setPrivilegeServerID(doc.getId());
 
                         cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
                         perm.setUserOwnerID(roleModel.getUserOwnerID());
-                        perm.setTeamOwnerBIT(roleModel.getTeamOwnerBIT());
+                        perm.setTeamOwnerBIT(roleModel.getWorkspaceOwnerBIT());
                         perm.setUnixpermBITS(roleModel.getUnixpermBITS());
                         perm.setStatusBIT(roleModel.getStatusBIT());
 
-                        if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                secondaryTeamBITS, statusBITS)) {
-                            roleModels.add(roleModel);
-                        }
+//FIXME                        if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                secondaryTeamBITS, statusBITS)) {
+//                            roleModels.add(roleModel);
+//                        }
                     }
 
                     /* map team model with a corresponding list of role models */
-                    Map<cTeamModel, List<cRoleModel>> teamRoleMap = new HashMap<>();
-                    for (Map.Entry<cTeamModel, List<String>> entry : team_role_map.entrySet()) {
-                        cTeamModel teamModel = entry.getKey();
-                        List<cRoleModel> roles = new ArrayList<>();
-                        for (cRoleModel roleModel : roleModels) {
-                            if (entry.getValue().contains(roleModel.getRoleServerID())) {
+                    Map<cWorkspaceModel, List<cPrivilegeModel>> teamRoleMap = new HashMap<>();
+                    for (Map.Entry<cWorkspaceModel, List<String>> entry : team_role_map.entrySet()) {
+                        cWorkspaceModel teamModel = entry.getKey();
+                        List<cPrivilegeModel> roles = new ArrayList<>();
+                        for (cPrivilegeModel roleModel : roleModels) {
+                            if (entry.getValue().contains(roleModel.getPrivilegeServerID())) {
                                 roles.add(roleModel);
                             }
                         }
@@ -509,22 +509,22 @@ public class cTeamFirestoreRepositoryImpl implements iTeamRepository {
 
         teamQuery.get()
                 .addOnCompleteListener(task -> {
-                    List<cRoleModel> roleModels = new ArrayList<>();
+                    List<cPrivilegeModel> roleModels = new ArrayList<>();
                     for (DocumentSnapshot role_doc :
                             Objects.requireNonNull(task.getResult())) {
 
-                        cRoleModel roleModel = role_doc.toObject(cRoleModel.class);
+                        cPrivilegeModel roleModel = role_doc.toObject(cPrivilegeModel.class);
                         if (roleModel != null) {
                             cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
                             perm.setUserOwnerID(roleModel.getUserOwnerID());
-                            perm.setTeamOwnerBIT(roleModel.getTeamOwnerBIT());
+                            perm.setTeamOwnerBIT(roleModel.getWorkspaceOwnerBIT());
                             perm.setUnixpermBITS(roleModel.getUnixpermBITS());
                             perm.setStatusBIT(roleModel.getStatusBIT());
 
-                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                    secondaryTeamBITS, statusBITS)) {
-                                roleModels.add(roleModel);
-                            }
+//FIXME                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                    secondaryTeamBITS, statusBITS)) {
+//                                roleModels.add(roleModel);
+//                            }
                         }
                     }
 

@@ -3,14 +3,14 @@ package com.me.mseotsanyana.mande.UTIL;
 import android.content.Context;
 
 
-import com.me.mseotsanyana.mande.BLL.model.session.cEntityModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cMenuModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cOperationModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cPermissionModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cSessionModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cStatusModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cEntityModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cMenuModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOperationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPermissionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cSessionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cStatusModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cUserModel;
 
 import org.apache.poi.ss.usermodel.Row;
 
@@ -21,7 +21,7 @@ import org.apache.poi.ss.usermodel.Row;
 public class cSetDomainsFromExcel {
     private cUserModel userDomain;
     private cSessionModel sessionDomain;
-    private cRoleModel roleDomain;
+    private cPrivilegeModel roleDomain;
     private cMenuModel menuDomain;
     private cOperationModel operationDomain;
     private cEntityModel entityDomain;
@@ -113,8 +113,8 @@ public class cSetDomainsFromExcel {
         return sessionDomain;
     }
 
-    public cRoleModel getRoleFromExcel(Row cRow) {
-        roleDomain = new cRoleModel();
+    public cPrivilegeModel getRoleFromExcel(Row cRow) {
+        roleDomain = new cPrivilegeModel();
 
         //roleDomain.setRoleID((int)cRow.getCell(0, Row.CREATE_NULL_AS_BLANK).getNumericCellValue());
         //roleDomain.setOrganizationID((int)cRow.getCell(1, Row.CREATE_NULL_AS_BLANK).getNumericCellValue());

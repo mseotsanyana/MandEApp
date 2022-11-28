@@ -19,14 +19,10 @@
     <output-test url="file://$MODULE_DIR$/../../../../Libraries/compilers/build/classes/java/test" />
     <exclude-output />
     <content url="file://$MODULE_DIR$/../../../../Libraries/compilers">
-      <sourceFolder url="file://$MODULE_DIR$/../../../../Libraries/compilers/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/../../../../Libraries/compilers/src/main/resources" type="java-resource" />
       <excludeFolder url="file://$MODULE_DIR$/../../../../Libraries/compilers/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/../../../../Libraries/compilers/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="MandE.annotations" />
-    <orderEntry type="library" name="Gradle: com.squareup:javapoet:1.13.0" level="project" />
   </component>
 </module>

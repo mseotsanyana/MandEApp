@@ -24,10 +24,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.me.mseotsanyana.mande.BLL.executor.Impl.cThreadExecutorImpl;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cImpactModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cOutcomeModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cQuestionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cImpactModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cOutcomeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cQuestionModel;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.programme.cImpactFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.Impl.cImpactPresenterImpl;
@@ -96,7 +96,7 @@ public class cImpactFragment extends Fragment implements iImpactPresenter.View,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        this.logFrameModel = cImpactFragmentArgs.fromBundle(requireArguments()).getLogFrameModel();
+        //this.logFrameModel = cImpactFragmentArgs.fromBundle(requireArguments()).getLogFrameModel();
     }
 
     @Override

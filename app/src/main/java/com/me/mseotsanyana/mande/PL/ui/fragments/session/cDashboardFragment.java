@@ -17,7 +17,7 @@ import androidx.navigation.Navigation;
 import com.me.mseotsanyana.bmblibrary.BoomButtons.cHamButton;
 import com.me.mseotsanyana.bmblibrary.CBoomMenuButton;
 import com.me.mseotsanyana.mande.BLL.executor.Impl.cThreadExecutorImpl;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.programme.cLogFrameFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.PL.presenters.session.Impl.cDashboardPresenterImpl;

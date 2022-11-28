@@ -24,11 +24,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.me.mseotsanyana.expandablelayoutlibrary.CExpandableLayout;
-import com.me.mseotsanyana.mande.BLL.model.session.cAddressModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cPermissionModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cStatusModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cAddressModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOrganizationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPermissionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cStatusModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cUserModel;
 import com.me.mseotsanyana.mande.UTIL.INTERFACE.iMEEntityInterface;
 import com.me.mseotsanyana.mande.UTIL.TextDrawable;
 import com.me.mseotsanyana.mande.UTIL.cFontManager;
@@ -358,7 +358,7 @@ public class cUserAdapter extends RecyclerView.Adapter<cUserAdapter.cUserViewHol
         );*/
 
         // get all organizations from database
-        final ArrayList<cStakeholderModel> orgs = null;/*
+        final ArrayList<cOrganizationModel> orgs = null;/*
                 organizationHandler.getOrganizationList(
                         session.loadUserID(),        /* loggedIn user id
                         session.loadOrgID(),         /* loggedIn own org.
@@ -647,7 +647,7 @@ public class cUserAdapter extends RecyclerView.Adapter<cUserAdapter.cUserViewHol
         );*/
 
         // get all organizations from database
-        final ArrayList<cStakeholderModel> orgs = null; /*
+        final ArrayList<cOrganizationModel> orgs = null; /*
                 organizationHandler.getOrganizationList(
                         session.loadUserID(),        /* loggedIn user id
                         session.loadOrgID(),         /* loggedIn own org.

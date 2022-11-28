@@ -43,7 +43,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.me.mseotsanyana.mande.BLL.executor.Impl.cThreadExecutorImpl;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.programme.cLogFrameFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.Impl.cLogFramePresenterImpl;
@@ -336,33 +336,33 @@ public class cLogFrameFragment extends Fragment implements iLogFramePresenter.Vi
         switch (menuIndex) {
             case 0: // Impact Fragment
                 /* navigate from logframe to impact */
-                action = cLogFrameFragmentDirections.
-                        actionCLogFrameFragmentToCImpactFragment(logFrameModel);
-                Navigation.findNavController(requireView()).navigate(action);
+//                action = cLogFrameFragmentDirections.
+//                        actionCLogFrameFragmentToCImpactFragment(logFrameModel);
+//                Navigation.findNavController(requireView()).navigate(action);
                 break;
             case 1: // Outcome Fragment
                 /* navigate from logframe to outcome */
-                action = cLogFrameFragmentDirections.
-                        actionCLogFrameFragmentToCOutcomeFragment(logFrameModel);
-                Navigation.findNavController(requireView()).navigate(action);
+//                action = cLogFrameFragmentDirections.
+//                        actionCLogFrameFragmentToCOutcomeFragment(logFrameModel);
+//                Navigation.findNavController(requireView()).navigate(action);
                 break;
             case 2: // Output Fragment
                 /* navigate from logframe to output */
-                action = cLogFrameFragmentDirections.
-                        actionCLogFrameFragmentToCOutputFragment(logFrameModel);
-                Navigation.findNavController(requireView()).navigate(action);
+//                action = cLogFrameFragmentDirections.
+//                        actionCLogFrameFragmentToCOutputFragment(logFrameModel);
+//                Navigation.findNavController(requireView()).navigate(action);
                 break;
             case 3: // Activity Fragment
                 /* navigate from logframe to activity */
-                action = cLogFrameFragmentDirections.
-                        actionCLogFrameFragmentToCActivityFragment(logFrameModel);
-                Navigation.findNavController(requireView()).navigate(action);
+//                action = cLogFrameFragmentDirections.
+//                        actionCLogFrameFragmentToCActivityFragment(logFrameModel);
+//                Navigation.findNavController(requireView()).navigate(action);
                 break;
             case 4: // Input Fragment
                 /* navigate from logframe to input */
-                action = cLogFrameFragmentDirections.
-                        actionCLogFrameFragmentToCInputFragment(logFrameModel);
-                Navigation.findNavController(requireView()).navigate(action);
+//                action = cLogFrameFragmentDirections.
+//                        actionCLogFrameFragmentToCInputFragment(logFrameModel);
+//                Navigation.findNavController(requireView()).navigate(action);
                 break;
 //            case 5: // Key Performance Question (KPQ) Fragment
 //                /* navigate from logframe to question */

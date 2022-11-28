@@ -15,11 +15,6 @@
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="10dp"
             app:cardElevation="10dp">
-            <!--
-                        <com.me.mseotsanyana.expandablelayoutlibrary.CExpandableLayout
-                            android:id="@+id/expandableLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" -->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -199,6 +194,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="2dp"
+                    android:background="@drawable/me_btn_flexible"
                     android:textSize="@dimen/text_size_very_large"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -206,13 +202,6 @@
                     app:layout_constraintTop_toBottomOf="@id/linearLayoutWebsite" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!--androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="2dp">
-
-            </androidx.constraintlayout.widget.ConstraintLayout-->
-            <!--/com.me.mseotsanyana.expandablelayoutlibrary.CExpandableLayout-->
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 </layout>

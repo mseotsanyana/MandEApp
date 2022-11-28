@@ -45,17 +45,17 @@ public class cReadMenuInteractorImpl extends cAbstractInteractor implements iRea
 
         // load user shared preferences
         this.userServerID = sharedPreferenceRepository.loadUserID();
-        this.organizationServerID = sharedPreferenceRepository.loadOrganizationID();
-        this.primaryTeamBIT = sharedPreferenceRepository.loadPrimaryTeamBIT();
-        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryTeams();
+        this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
+        this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
+        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
                 cSharedPreference.SESSION_MODULE);
         this.entitypermBITS = sharedPreferenceRepository.loadEntityPermissionBITS(
-                cSharedPreference.SESSION_MODULE, cSharedPreference.PERMISSION);
+                cSharedPreference.SESSION_MODULE, cSharedPreference.PRIVILEGE);
         this.statusBITS = sharedPreferenceRepository.loadOperationStatuses(
-                cSharedPreference.SESSION_MODULE, cSharedPreference.PERMISSION,
+                cSharedPreference.SESSION_MODULE, cSharedPreference.PRIVILEGE,
                 cSharedPreference.READ);
 
         Log.d(TAG, " \n USER ID = " + this.userServerID +
@@ -79,7 +79,7 @@ public class cReadMenuInteractorImpl extends cAbstractInteractor implements iRea
 
     @Override
     public void run() {
-        if ((this.entityBITS & cSharedPreference.PERMISSION) != 0) {
+        if ((this.entityBITS & cSharedPreference.PRIVILEGE) != 0) {
 
             if ((this.entitypermBITS & cSharedPreference.READ) != 0) {
                 this.menuRepository.readMenuPermissions(organizationServerID,

@@ -3,18 +3,18 @@ package com.me.mseotsanyana.mande.UTIL;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.BLL.model.session.cAddressModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cEntityModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cMenuModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cNotificationModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cOperationModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cPermissionModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cSettingModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cStatusModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cValueModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cAddressModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cEntityModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cMenuModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cNotificationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOperationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOrganizationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPermissionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cSettingModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cStatusModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cUserModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cValueModel;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -32,10 +32,10 @@ public class cSessionModelFromExcel {
     private static String TAG = cSessionModelFromExcel.class.getSimpleName();
 
     private cAddressModel addressModel;
-    private cStakeholderModel organizationModel;
+    private cOrganizationModel organizationModel;
     private cValueModel valueModel;
     private cUserModel userModel;
-    private cRoleModel roleModel;
+    private cPrivilegeModel roleModel;
     private cMenuModel menuModel;
     //private cPrivilegeModel privilegeModel;
     private cEntityModel entityModel;
@@ -100,7 +100,7 @@ public class cSessionModelFromExcel {
     // add an organization record from excel to database
     public void addOrganizationFromExcel(Row cRow, Sheet org_addresses,
                                          Sheet org_beneficiaries, Sheet org_funders,Sheet org_agencies){
-        organizationModel = new cStakeholderModel();
+        organizationModel = new cOrganizationModel();
 
         //organizationModel.setOrganizationID((int)cRow.getCell(0, Row.CREATE_NULL_AS_BLANK).getNumericCellValue());
         organizationModel.setName(cRow.getCell(1, Row.CREATE_NULL_AS_BLANK).getStringCellValue());
@@ -251,7 +251,7 @@ public class cSessionModelFromExcel {
     }
 
     public void addRoleFromExcel(Row cRow, Sheet role_users, Sheet role_menus) {
-        roleModel = new cRoleModel();
+        roleModel = new cPrivilegeModel();
 
         //roleModel.setRoleID((int)cRow.getCell(0, Row.CREATE_NULL_AS_BLANK).getNumericCellValue());
         //roleModel.setOrganizationID((int)cRow.getCell(1, Row.CREATE_NULL_AS_BLANK).getNumericCellValue());

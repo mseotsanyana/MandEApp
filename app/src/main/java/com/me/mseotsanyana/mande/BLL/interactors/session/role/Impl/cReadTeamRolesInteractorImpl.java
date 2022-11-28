@@ -6,7 +6,7 @@ import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.session.role.iReadTeamRolesInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPrivilegeModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iRoleRepository;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cSharedPreference;
@@ -46,9 +46,9 @@ public class cReadTeamRolesInteractorImpl extends cAbstractInteractor
 
         // load user shared preferences
         this.userServerID = sharedPreferencesRepository.loadUserID();
-        this.organizationServerID = sharedPreferencesRepository.loadOrganizationID();
-        this.primaryTeamBIT = sharedPreferencesRepository.loadPrimaryTeamBIT();
-        this.secondaryTeamBITS = sharedPreferencesRepository.loadSecondaryTeams();
+        this.organizationServerID = sharedPreferencesRepository.loadActiveOrganizationID();
+        this.primaryTeamBIT = sharedPreferencesRepository.loadActiveWorkspaceBIT();
+        this.secondaryTeamBITS = sharedPreferencesRepository.loadSecondaryWorkspaces();
         if (this.secondaryTeamBITS.isEmpty())
             this.secondaryTeamBITS.add(0);//FIXME
 
@@ -76,7 +76,7 @@ public class cReadTeamRolesInteractorImpl extends cAbstractInteractor
     }
 
     /* */
-    private void postMessage(List<cRoleModel> roleModels) {
+    private void postMessage(List<cPrivilegeModel> roleModels) {
         mainThread.post(() -> callback.onReadTeamRolesSucceeded(roleModels));
     }
 
@@ -89,7 +89,7 @@ public class cReadTeamRolesInteractorImpl extends cAbstractInteractor
                         primaryTeamBIT, secondaryTeamBITS, statusBITS,
                         new iRoleRepository.iReadTeamRolesCallback() {
                             @Override
-                            public void onReadTeamRolesSucceeded(List<cRoleModel> roleModels) {
+                            public void onReadTeamRolesSucceeded(List<cPrivilegeModel> roleModels) {
                                 postMessage(roleModels);
                             }
 

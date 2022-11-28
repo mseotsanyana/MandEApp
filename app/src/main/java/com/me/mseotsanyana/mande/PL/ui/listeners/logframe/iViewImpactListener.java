@@ -1,8 +1,8 @@
 package com.me.mseotsanyana.mande.PL.ui.listeners.logframe;
 
-import com.me.mseotsanyana.mande.BLL.model.logframe.cImpactModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cOutcomeModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cQuestionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cImpactModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cOutcomeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cQuestionModel;
 
 public interface iViewImpactListener {
     void onClickBMBImpact(int index, long impactID);

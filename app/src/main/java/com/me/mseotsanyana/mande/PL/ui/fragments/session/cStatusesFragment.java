@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.BLL.model.session.cStatusModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cStatusModel;
 import com.me.mseotsanyana.mande.PL.ui.adapters.session.cStatusAdapter;
 import com.me.mseotsanyana.mande.R;
 

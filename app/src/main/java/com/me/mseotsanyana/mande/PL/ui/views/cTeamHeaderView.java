@@ -1,13 +1,12 @@
 package com.me.mseotsanyana.mande.PL.ui.views;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.cFontManager;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Layout;
@@ -18,11 +17,10 @@ import com.me.mseotsanyana.placeholderview.annotationlibrary.expand.Expand;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.expand.Parent;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.expand.ParentPosition;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.expand.SingleTop;
-import com.me.mseotsanyana.placeholderview.annotationlibrary.expand.Toggle;
 
 @Parent
 @SingleTop
-@Layout(R.layout.session_team_cardview)
+@Layout(R.layout.session_workspace_cardview)
 public class cTeamHeaderView {
 
     @View(R.id.textViewName)
@@ -53,7 +51,7 @@ public class cTeamHeaderView {
     private final String name;
     private final String description;
 
-    public cTeamHeaderView(Context context, cTeamModel teamModel) {
+    public cTeamHeaderView(Context context, cWorkspaceModel teamModel) {
         this.context = context;
         this.name = teamModel.getName();
         this.description = teamModel.getDescription();

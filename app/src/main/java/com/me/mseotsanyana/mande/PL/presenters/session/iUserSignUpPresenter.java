@@ -2,7 +2,7 @@ package com.me.mseotsanyana.mande.PL.presenters.session;
 
 import android.widget.EditText;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.PL.presenters.base.iPresenter;
 import com.me.mseotsanyana.mande.PL.ui.iBaseView;
 
@@ -20,6 +20,6 @@ public interface iUserSignUpPresenter extends iPresenter {
     }
 
     /* implemented in PresenterImpl to link ui with InteractorImpl */
-    void createUserWithEmailAndPassword(cUserProfileModel userProfileModel);
+    void createUserWithEmailAndPassword(CUserProfileModel userProfileModel);
 }
 

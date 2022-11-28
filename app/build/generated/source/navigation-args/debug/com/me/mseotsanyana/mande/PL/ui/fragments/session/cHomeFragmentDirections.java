@@ -17,18 +17,8 @@ public class cHomeFragmentDirections {
   }
 
   @NonNull
-  public static NavDirections actionCHomeFragmentToCLoginFragment() {
-    return new ActionOnlyNavDirections(R.id.action_cHomeFragment_to_cLoginFragment);
-  }
-
-  @NonNull
   public static NavDirections actionCHomeFragmentToCMyUserProfileFragment() {
     return new ActionOnlyNavDirections(R.id.action_cHomeFragment_to_cMyUserProfileFragment);
-  }
-
-  @NonNull
-  public static NavDirections actionCHomeFragmentToCOrganizationDetailFragment() {
-    return new ActionOnlyNavDirections(R.id.action_cHomeFragment_to_cOrganizationDetailFragment);
   }
 
   @NonNull
@@ -91,6 +81,16 @@ public class cHomeFragmentDirections {
   @NonNull
   public static NavDirections actionCHomeFragmentToCLearningPlanFragment() {
     return new ActionOnlyNavDirections(R.id.action_cHomeFragment_to_cLearningPlanFragment);
+  }
+
+  @NonNull
+  public static NavDirections actionCHomeFragmentToCLoginFragment() {
+    return new ActionOnlyNavDirections(R.id.action_cHomeFragment_to_cLoginFragment);
+  }
+
+  @NonNull
+  public static NavDirections actionCHomeFragmentToCOrganizationFragment() {
+    return new ActionOnlyNavDirections(R.id.action_cHomeFragment_to_cOrganizationFragment);
   }
 
   public static class ActionCHomeFragmentToCLogFrameFragment implements NavDirections {

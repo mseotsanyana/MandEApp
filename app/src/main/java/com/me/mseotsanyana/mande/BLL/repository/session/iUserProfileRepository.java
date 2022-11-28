@@ -1,13 +1,13 @@
 package com.me.mseotsanyana.mande.BLL.repository.session;
 
 import com.google.firebase.firestore.ListenerRegistration;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.DAL.storage.base.cFirebaseChildCallBack;
 
 import java.util.List;
 
 public interface iUserProfileRepository {
-    void createUserWithEmailAndPassword(cUserProfileModel userProfileModel,
+    void createUserWithEmailAndPassword(CUserProfileModel userProfileModel,
                                         iSignUpRepositoryCallback callback);
     interface iSignUpRepositoryCallback{
         void onSignUpSucceeded(String msg);
@@ -22,13 +22,13 @@ public interface iUserProfileRepository {
 
     void readMyUserProfile(iReadMyUserProfileRepositoryCallback callback);
     interface iReadMyUserProfileRepositoryCallback {
-        void onReadMyUserProfileSucceeded(cUserProfileModel userProfileModel);
+        void onReadMyUserProfileSucceeded(CUserProfileModel userProfileModel);
         void onReadMyUserProfileFailed(String msg);
     }
 
     void readUserProfiles(iReadUserProfilesRepositoryCallback callback);
     interface iReadUserProfilesRepositoryCallback {
-        void onReadUserProfilesSucceeded(List<cUserProfileModel> userProfileModels);
+        void onReadUserProfilesSucceeded(List<CUserProfileModel> userProfileModels);
         void onReadUserProfilesFailed(String msg);
     }
 
@@ -39,12 +39,12 @@ public interface iUserProfileRepository {
     void signInWithEmailAndPassword(String email, String password,
                                     iSignInRepositoryCallback callback);
     interface iSignInRepositoryCallback{
-        void onSignInSucceeded();
-        void onSignInMessage(String msg);
+        void onSignInSucceeded(String msg);
+        void onSignInFailed(String msg);
     }
 
     void updateUserProfileImage(long userID, int primaryRole, int secondaryRoles, int statusBITS,
-                                cUserProfileModel userProfileModel,
+                                CUserProfileModel userProfileModel,
                                 iUpdateUserProfileRepositoryCallback callback);
 
     interface iUpdateUserProfileRepositoryCallback{
@@ -66,5 +66,21 @@ public interface iUserProfileRepository {
     interface iUploadUserProfilesRepositoryCallback {
         void onUploadUserProfilesSucceeded(String msg);
         void onUploadUserProfilesFailed(String msg);
+    }
+
+    void sendPasswordResetEmail(CUserProfileModel userProfileModel,
+                                iResetPasswordRepositoryCallback callback);
+
+    interface iResetPasswordRepositoryCallback{
+        void onResetPasswordSucceeded(String msg);
+        void onResetPasswordFailed(String msg);
+    }
+
+    void changePassword(CUserProfileModel userProfileModel,
+                        iChangePasswordRepositoryCallback callback);
+
+    interface iChangePasswordRepositoryCallback{
+        void onChangePasswordSucceeded(String msg);
+        void onChangePasswordFailed(String msg);
     }
 }

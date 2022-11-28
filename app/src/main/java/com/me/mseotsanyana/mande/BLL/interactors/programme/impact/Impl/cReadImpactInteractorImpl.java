@@ -8,9 +8,9 @@ import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.cInteractorUtils;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.impact.iReadImpactInteractor;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.BLL.repository.programme.iImpactRepository;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cImpactModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cImpactModel;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cSharedPreference;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
@@ -52,9 +52,9 @@ public class cReadImpactInteractorImpl extends cAbstractInteractor
 
         // load user shared preferences
         this.userServerID = sharedPreferenceRepository.loadUserID();
-        this.organizationServerID = sharedPreferenceRepository.loadOrganizationID();
-        this.primaryTeamBIT = sharedPreferenceRepository.loadPrimaryTeamBIT();
-        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryTeams();
+        this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
+        this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
+        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(

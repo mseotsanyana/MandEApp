@@ -1,6 +1,6 @@
 package com.me.mseotsanyana.mande.BLL.repository.awpb;
 
-import com.me.mseotsanyana.mande.BLL.model.wpb.cHumanModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cHumanModel;
 
 import java.util.Set;
 

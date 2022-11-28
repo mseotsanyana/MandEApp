@@ -1,6 +1,6 @@
 package com.me.mseotsanyana.mande.BLL.repository.awpb;
 
-import com.me.mseotsanyana.mande.BLL.model.wpb.cMaterialModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.wpb.cMaterialModel;
 
 import java.util.Set;
 

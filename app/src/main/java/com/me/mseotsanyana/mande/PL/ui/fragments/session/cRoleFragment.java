@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPrivilegeModel;
 import com.me.mseotsanyana.mande.PL.presenters.session.iRolePresenter;
 import com.me.mseotsanyana.mande.PL.ui.adapters.session.cRoleAdapter;
 import com.me.mseotsanyana.mande.R;
@@ -33,7 +33,7 @@ public class cRoleFragment extends Fragment implements iRolePresenter.View {
 
     private LinearLayout includeProgressBar;
 
-    private ArrayList<cRoleModel> roleModels;
+    private ArrayList<cPrivilegeModel> roleModels;
     private cRoleAdapter roleAdapter;
 
     public cRoleFragment() {
@@ -105,7 +105,7 @@ public class cRoleFragment extends Fragment implements iRolePresenter.View {
 
     private void initDataStructures() {
         assert getArguments() != null;
-        roleModels = getArguments().getParcelableArrayList("ORGANIZATION_MODELS");
+        //roleModels = getArguments().getParcelableArrayList("ORGANIZATION_MODELS");
         //roleAdapter = new cRoleAdapter(getActivity(), roleModels);
 
         /*rolePresenter = new cRolePresenterImpl(
@@ -139,7 +139,7 @@ public class cRoleFragment extends Fragment implements iRolePresenter.View {
 
     // READ ROLES
     @Override
-    public void onReadRolesSucceeded(List<cRoleModel> roleModels) {
+    public void onReadRolesSucceeded(List<cPrivilegeModel> roleModels) {
 
     }
 

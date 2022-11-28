@@ -34,8 +34,9 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.me.mseotsanyana.mande.BLL.executor.Impl.cThreadExecutorImpl;
-import com.me.mseotsanyana.mande.BLL.model.session.cMenuModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cMenuModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cHomePageFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cUserProfileFirestoreRepositoryImpl;
@@ -91,6 +92,12 @@ public class cHomeFragment extends Fragment implements iHomePagePresenter.View,
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //this.IsPermissionLoaded = cHomeFragmentArgs.fromBundle(requireArguments()).getPerm();
@@ -99,13 +106,6 @@ public class cHomeFragment extends Fragment implements iHomePagePresenter.View,
     @Override
     public void onStart() {
         super.onStart();
-        //FirebaseAuth.getInstance().signOut();
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        if (firebaseUser == null /*|| !firebaseUser.isEmailVerified()*/) {
-            NavDirections action = cHomeFragmentDirections.actionCHomeFragmentToCLoginFragment();
-            Navigation.findNavController(requireView()).navigate(action);
-        }
     }
 
     @Override
@@ -119,6 +119,7 @@ public class cHomeFragment extends Fragment implements iHomePagePresenter.View,
     public void onDestroy() {
         super.onDestroy();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -259,8 +260,6 @@ public class cHomeFragment extends Fragment implements iHomePagePresenter.View,
                 cMenuModel menuModel = expandableListAdapter.getGroup(groupPosition);
                 switch (menuModel.getMenuServerID()) {
                     case 0: // My Profile
-                        Toast.makeText(getActivity(), "My Profile Fragment",
-                                Toast.LENGTH_SHORT).show();
                         retVal = false;
                         break;
                     case 8: // User Management
@@ -302,18 +301,24 @@ public class cHomeFragment extends Fragment implements iHomePagePresenter.View,
                         case 1: // Profile
                             action = cHomeFragmentDirections.actionCHomeFragmentToCMyUserProfileFragment();
                             Navigation.findNavController(requireView()).navigate(action);
-                            //Toast.makeText(getActivity(),"Profile Fragment", Toast.LENGTH_SHORT).show();
                             break;
 
                         case 2: // Account Settings
                             action = cHomeFragmentDirections.actionCHomeFragmentToCUserProfilesFragment();
                             Navigation.findNavController(requireView()).navigate(action);
-                            //Toast.makeText(getActivity(), "Account Fragment", Toast.LENGTH_SHORT).show();
                             break;
 
-                        case 4: // Join Org.
-                            Toast.makeText(getActivity(),
-                                    "Join Org. Fragment", Toast.LENGTH_SHORT).show();
+                        case 4: // Switch Organization
+                            // clear current workspace settings
+                            iSharedPreferenceRepository settings;
+                            settings = new cSharedPreferenceFirestoreRepositoryImpl(requireContext());
+                            settings.deleteSettings();
+                            settings.commitSettings();
+
+                            // read organization with their workspaces
+                            action = cHomeFragmentDirections.actionCHomeFragmentToCOrganizationFragment();
+                            Navigation.findNavController(requireView()).navigate(action);
+
                             break;
 
                         default:
@@ -503,33 +508,38 @@ public class cHomeFragment extends Fragment implements iHomePagePresenter.View,
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onReadUserProfileSucceeded(cUserProfileModel userProfileModel) {
+    public void onReadHomePageSucceeded(@NonNull CUserProfileModel userProfileModel,
+                                        List<cMenuModel> menuModels) {
         /* update the user profile */
         currentDate.setText(tsdf.format(Calendar.getInstance().getTime()));
         displayName.setText(userProfileModel.getName() + " " + userProfileModel.getSurname());
         displayEmail.setText(userProfileModel.getEmail());
-    }
 
-    @Override
-    public void onReadMenuItemsSucceeded(List<cMenuModel> menuModels) {
-        // update the menu when there is a change
+        // update the menu items when there is a change
         this.expandableListAdapter.setMenuModels(menuModels);
         this.expandableListAdapter.notifyDataSetChanged();
-        hideProgress();
     }
 
-    @Override
-    public void onDefaultHomePageSucceeded(List<cMenuModel> menuModels) {
-        /* update the user profile
-        currentDate.setText(tsdf.format(Calendar.getInstance().getTime()));
-        displayName.setText(userProfileModel.getName() + " " + userProfileModel.getSurname());
-        displayEmail.setText(userProfileModel.getEmail());*/
-
-        // update the menu when there is a change
-        this.expandableListAdapter.setMenuModels(menuModels);
-        this.expandableListAdapter.notifyDataSetChanged();
-        hideProgress();
-    }
+//    @Override
+//    public void onReadMenuItemsSucceeded(List<cMenuModel> menuModels) {
+//        // update the menu when there is a change
+//        this.expandableListAdapter.setMenuModels(menuModels);
+//        this.expandableListAdapter.notifyDataSetChanged();
+//        hideProgress();
+//    }
+//
+//    @Override
+//    public void onDefaultHomePageSucceeded(List<cMenuModel> menuModels) {
+//        /* update the user profile
+//        currentDate.setText(tsdf.format(Calendar.getInstance().getTime()));
+//        displayName.setText(userProfileModel.getName() + " " + userProfileModel.getSurname());
+//        displayEmail.setText(userProfileModel.getEmail());*/
+//
+//        // update the menu when there is a change
+//        this.expandableListAdapter.setMenuModels(menuModels);
+//        this.expandableListAdapter.notifyDataSetChanged();
+//        hideProgress();
+//    }
 
     @Override
     public void onReadHomePageFailed(String msg) {

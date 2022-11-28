@@ -27,9 +27,9 @@ import android.widget.RadioGroup;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cAddressModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cAddressModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOrganizationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cUserModel;
 import com.me.mseotsanyana.mande.UTIL.INTERFACE.iMEEntityInterface;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.cUtil;
@@ -145,7 +145,7 @@ public class cUserAddFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         // get all organization from database
-        final ArrayList<cStakeholderModel> allOrganizations =null;
+        final ArrayList<cOrganizationModel> allOrganizations =null;
                 //organizationHandler.getOrganizationList();
 
         // create a action_list of organization ids and names

@@ -1,15 +1,15 @@
 package com.me.mseotsanyana.mande.PL.presenters.logframe.Impl;
 
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOrganizationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
 import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.project.Impl.cReadAllProjectsInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.project.Impl.cRemoveProjectListenerInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.project.Impl.cUploadProjectInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.programme.project.iProjectInteractor;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cProjectModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cProjectModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.repository.programme.iProjectRepository;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
@@ -236,17 +236,17 @@ public class cProjectPresenterImpl extends cAbstractPresenter implements iProjec
     }
 
     @Override
-    public void onReadUserProfilesSucceeded(List<cUserProfileModel> userProfileModels) {
+    public void onReadUserProfilesSucceeded(List<CUserProfileModel> userProfileModels) {
 
     }
 
     @Override
-    public void onReadTeamsSucceeded(List<cTeamModel> teamModels) {
+    public void onReadTeamsSucceeded(List<cWorkspaceModel> teamModels) {
 
     }
 
     @Override
-    public void onReadStakeholdersSucceeded(List<cStakeholderModel> stakeholderModels) {
+    public void onReadStakeholdersSucceeded(List<cOrganizationModel> stakeholderModels) {
 
     }
 

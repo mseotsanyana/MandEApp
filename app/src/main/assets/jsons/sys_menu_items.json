@@ -17,8 +17,8 @@
         },
         {
           "sub_menu_id": 4,
-          "sub_menu_name": "Join Organization",
-          "sub_menu_description": "Joining public Organizations."
+          "sub_menu_name": "Switch Organization",
+          "sub_menu_description": "Switching to another organizations."
         }
       ]
     },

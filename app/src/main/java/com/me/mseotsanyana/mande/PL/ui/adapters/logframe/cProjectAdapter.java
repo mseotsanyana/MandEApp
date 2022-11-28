@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cProjectModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cProjectModel;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iProjectPresenter;
 import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewProjectListener;
 import com.me.mseotsanyana.mande.R;

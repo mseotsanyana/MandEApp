@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.cFontManager;
 
@@ -35,17 +35,17 @@ public class cOrganizationMemberAdapter extends RecyclerView.Adapter<cOrganizati
     //private static SimpleDateFormat sdf = cConstant.SHORT_FORMAT_DATE;
 
     private final Context context;
-    private List<cUserProfileModel> userProfileModels;
-    private List<cUserProfileModel> filteredUserProfileModels;
+    private List<CUserProfileModel> userProfileModels;
+    private List<CUserProfileModel> filteredUserProfileModels;
 
 
-    public cOrganizationMemberAdapter(Context context, List<cUserProfileModel> userProfileModels) {
+    public cOrganizationMemberAdapter(Context context, List<CUserProfileModel> userProfileModels) {
         this.context = context;
         this.userProfileModels = userProfileModels;
         this.filteredUserProfileModels = userProfileModels;
     }
 
-    public void setOrganizationMemberModels(List<cUserProfileModel> userProfileModels) {
+    public void setOrganizationMemberModels(List<CUserProfileModel> userProfileModels) {
         this.userProfileModels = userProfileModels;
         this.filteredUserProfileModels = userProfileModels;
     }
@@ -65,7 +65,7 @@ public class cOrganizationMemberAdapter extends RecyclerView.Adapter<cOrganizati
 
     @SuppressLint("SetTextI18n")
     public void onBindViewHolder(@NonNull cOrganizationMemberViewHolder OH, int position) {
-        cUserProfileModel userProfileModel = this.filteredUserProfileModels.get(position);
+        CUserProfileModel userProfileModel = this.filteredUserProfileModels.get(position);
 
         OH.circleImageViewUser.setImageResource(gray);
         OH.textViewName.setText(userProfileModel.getName() +" "+userProfileModel.getSurname());
@@ -95,8 +95,8 @@ public class cOrganizationMemberAdapter extends RecyclerView.Adapter<cOrganizati
                     filteredUserProfileModels= userProfileModels;
                 } else {
 
-                    List<cUserProfileModel> filteredList = new ArrayList<>();
-                    for (cUserProfileModel userProfileModel : userProfileModels) {
+                    List<CUserProfileModel> filteredList = new ArrayList<>();
+                    for (CUserProfileModel userProfileModel : userProfileModels) {
                         if (userProfileModel.getName().toLowerCase().
                                 contains(charString.toLowerCase())) {
                             filteredList.add(userProfileModel);
@@ -115,7 +115,7 @@ public class cOrganizationMemberAdapter extends RecyclerView.Adapter<cOrganizati
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                filteredUserProfileModels = (List<cUserProfileModel>) filterResults.values;
+                filteredUserProfileModels = (List<CUserProfileModel>) filterResults.values;
                 notifyDataSetChanged();
             }
         };

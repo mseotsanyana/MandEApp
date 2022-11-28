@@ -8,10 +8,10 @@ import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserAccountModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOrganizationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cUserAccountModel;
 import com.me.mseotsanyana.mande.BLL.repository.common.iRecordPermissionRepository;
 import com.me.mseotsanyana.mande.DAL.storage.base.cFirebaseCallBack;
 import com.me.mseotsanyana.mande.DAL.storage.base.cFirebaseRepository;
@@ -54,22 +54,22 @@ public class cRecordPermissionFirestoreRepositoryImpl extends cFirebaseRepositor
                 if (querySnapshot == null)
                     return;
 
-                List<cStakeholderModel> stakeholderModels = new ArrayList<>();
+                List<cOrganizationModel> stakeholderModels = new ArrayList<>();
                 QuerySnapshot documentSnapshots = (QuerySnapshot) querySnapshot;
                 for (DocumentSnapshot stakeholder : documentSnapshots) {
-                    cStakeholderModel stakeholderModel;
-                    stakeholderModel = stakeholder.toObject(cStakeholderModel.class);
+                    cOrganizationModel stakeholderModel;
+                    stakeholderModel = stakeholder.toObject(cOrganizationModel.class);
                     assert stakeholderModel != null;
 
                     cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
                     perm.setUserOwnerID(stakeholderModel.getUserOwnerID());
-                    perm.setTeamOwnerBIT(stakeholderModel.getTeamOwnerBIT());
+                    perm.setTeamOwnerBIT(stakeholderModel.getWorkspaceOwnerBIT());
                     perm.setUnixpermBITS(stakeholderModel.getUnixpermBITS());
-                    if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                            secondaryTeamBITS)) {
-                        stakeholderModel.setStakeholderServerID(stakeholder.getId());
-                        stakeholderModels.add(stakeholderModel);
-                    }
+//FIXME                    if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                            secondaryTeamBITS)) {
+//                        stakeholderModel.setOrganizationServerID(stakeholder.getId());
+//                        stakeholderModels.add(stakeholderModel);
+//                    }
                 }
                 onMergeTeams(organizationServerID, userServerID, primaryTeamBIT, secondaryTeamBITS,
                         statusBITS, stakeholderModels, callback);
@@ -85,7 +85,7 @@ public class cRecordPermissionFirestoreRepositoryImpl extends cFirebaseRepositor
 
     private void onMergeTeams(String organizationServerID, String userServerID,
                               int primaryTeamBIT, List<Integer> secondaryTeamBITS,
-                              List<Integer> statusBITS, List<cStakeholderModel> stakeholderModels,
+                              List<Integer> statusBITS, List<cOrganizationModel> stakeholderModels,
                               iReadRecordPermissionsCallback callback) {
 
         CollectionReference coTeamRef = database.collection(cRealtimeHelper.KEY_TEAMS);
@@ -100,21 +100,21 @@ public class cRecordPermissionFirestoreRepositoryImpl extends cFirebaseRepositor
                 if (querySnapshot == null)
                     return;
 
-                List<cTeamModel> teamModels = new ArrayList<>();
+                List<cWorkspaceModel> teamModels = new ArrayList<>();
                 QuerySnapshot documentSnapshots = (QuerySnapshot) querySnapshot;
                 for (DocumentSnapshot team : documentSnapshots) {
-                    cTeamModel teamModel = team.toObject(cTeamModel.class);
+                    cWorkspaceModel teamModel = team.toObject(cWorkspaceModel.class);
                     assert teamModel != null;
 
                     cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
                     perm.setUserOwnerID(teamModel.getUserOwnerID());
-                    perm.setTeamOwnerBIT(teamModel.getTeamOwnerBIT());
+                    perm.setTeamOwnerBIT(teamModel.getWorkspaceOwnerBIT());
                     perm.setUnixpermBITS(teamModel.getUnixpermBITS());
-                    if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                            secondaryTeamBITS)) {
-                        teamModel.setCompositeServerID(team.getId());
-                        teamModels.add(teamModel);
-                    }
+//FIXME                    if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                            secondaryTeamBITS)) {
+//                        teamModel.setCompositeServerID(team.getId());
+//                        teamModels.add(teamModel);
+//                    }
                 }
 
                 onMergeUserAccounts(organizationServerID, userServerID, primaryTeamBIT,
@@ -132,11 +132,11 @@ public class cRecordPermissionFirestoreRepositoryImpl extends cFirebaseRepositor
     private void onMergeUserAccounts(String organizationServerID, String userServerID,
                                      int primaryTeamBIT, List<Integer> secondaryTeamBITS,
                                      List<Integer> statusBITS,
-                                     List<cStakeholderModel> stakeholderModels,
-                                     List<cTeamModel> teamModels,
+                                     List<cOrganizationModel> stakeholderModels,
+                                     List<cWorkspaceModel> teamModels,
                                      iReadRecordPermissionsCallback callback) {
 
-        CollectionReference coAccountRef = database.collection(cRealtimeHelper.KEY_USERACCOUNTS);
+        CollectionReference coAccountRef = database.collection(cRealtimeHelper.KEY_ORGANIZATION_MEMBERS);
         Query userAccountQuery = coAccountRef
                 .whereEqualTo("organizationOwnerID", organizationServerID)
                 .whereIn("statusBIT", statusBITS)
@@ -157,13 +157,13 @@ public class cRecordPermissionFirestoreRepositoryImpl extends cFirebaseRepositor
 
                     cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
                     perm.setUserOwnerID(userAccountModel.getUserOwnerID());
-                    perm.setTeamOwnerBIT(userAccountModel.getTeamOwnerBIT());
+                    perm.setTeamOwnerBIT(userAccountModel.getWorkspaceOwnerBIT());
                     perm.setUnixpermBITS(userAccountModel.getUnixpermBITS());
-                    if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                            secondaryTeamBITS)) {
-                        userAccountModel.setUserAccountServerID(account.getId());
-                        user_account_ids.add(userAccountModel.getUserServerID());
-                    }
+//FIXME                    if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                            secondaryTeamBITS)) {
+//                        userAccountModel.setUserAccountServerID(account.getId());
+//                        user_account_ids.add(userAccountModel.getUserServerID());
+//                    }
                 }
 
                 onMergeUserProfiles(stakeholderModels, teamModels, user_account_ids, callback);
@@ -176,8 +176,8 @@ public class cRecordPermissionFirestoreRepositoryImpl extends cFirebaseRepositor
         });
     }
 
-    private void onMergeUserProfiles(List<cStakeholderModel> stakeholderModels,
-                                     List<cTeamModel> teamModels, List<String> user_account_ids,
+    private void onMergeUserProfiles(List<cOrganizationModel> stakeholderModels,
+                                     List<cWorkspaceModel> teamModels, List<String> user_account_ids,
                                      @NonNull iReadRecordPermissionsCallback callback) {
 
         CollectionReference coProfileRef = database.collection(cRealtimeHelper.KEY_USERPROFILES);
@@ -191,10 +191,10 @@ public class cRecordPermissionFirestoreRepositoryImpl extends cFirebaseRepositor
                 if (querySnapshot == null)
                     return;
 
-                List<cUserProfileModel> userProfileModels = new ArrayList<>();
+                List<CUserProfileModel> userProfileModels = new ArrayList<>();
                 QuerySnapshot documentSnapshots = (QuerySnapshot) querySnapshot;
                 for (DocumentSnapshot user : documentSnapshots) {
-                    cUserProfileModel userProfileModel = user.toObject(cUserProfileModel.class);
+                    CUserProfileModel userProfileModel = user.toObject(CUserProfileModel.class);
                     assert userProfileModel != null;
                     userProfileModel.setUserServerID(user.getId());
                     userProfileModels.add(userProfileModel);

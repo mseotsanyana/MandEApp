@@ -1,0 +1,104 @@
+{
+  "unixperms": [
+    {
+      "id": 524288,
+      "name": "Owner Create",
+      "description": "Create own records in entities of own active workspace and organization."
+    },
+    {
+      "id": 262144,
+      "name": "Room Create",
+      "description": "Create records in entities of an active member workspace."
+    },
+    {
+      "id": 131072,
+      "name": "House Create",
+      "description": "Allowed to create records in entities of active and member workspaces."
+    },
+    {
+      "id": 65536,
+      "name": "Village Create",
+      "description": "Allowed to create records in entities of workspaces of an active organization"
+    },
+    {
+      "id": 32768,
+      "name": "Cloud Create",
+      "description": "Allowed to create records in entities of an active and own organizations."
+    },
+    {
+      "id": 16384,
+      "name": "Owner Read",
+      "description": "Read own entity records of an active workspace and organization."
+    },
+    {
+      "id": 8192,
+      "name": "Room Read",
+      "description": "Read entity records of active member workspace of an organization."
+    },
+    {
+      "id": 4096,
+      "name": "House Read",
+      "description": "Read entity records of active and member workspaces of an organization."
+    },
+    {
+      "id": 2048,
+      "name": "Village Read",
+      "description": "Read entity records of all workspaces of an active organization."
+    },
+    {
+      "id": 1024,
+      "name": "Cloud Read",
+      "description": "Read entity records of active and own organizations"
+    },
+    {
+      "id": 512,
+      "name": "Owner Update",
+      "description": "Update own entity records of an active workspace and organization."
+    },
+    {
+      "id": 256,
+      "name": "Room Update",
+      "description": "Update entity records of active member workspace of an organization."
+    },
+    {
+      "id": 128,
+      "name": "House Update",
+      "description": "Update entity records of active and member workspaces of an organization."
+    },
+    {
+      "id": 64,
+      "name": "Village Update",
+      "description": "Update entity records of all workspaces of an active organization."
+    },
+    {
+      "id": 32,
+      "name": "Cloud Update",
+      "description": "Update entity records of active and own organizations"
+    },
+    {
+      "id": 16,
+      "name": "Owner Delete",
+      "description": "Delete own entity records of an active workspace and organization."
+    },
+    {
+      "id": 8,
+      "name": "Room Delete",
+      "description": "Delete entity records of active member workspace of an organization."
+    },
+    {
+      "id": 4,
+      "name": "House Delete",
+      "description": "Delete entity records of active and member workspaces of an organization."
+    },
+    {
+      "id": 2,
+      "name": "Village Delete",
+      "description": "Delete entity records of all workspaces of an active organization."
+    },
+    {
+      "id": 1,
+      "name": "Cloud Delete",
+      "description": "Delete entity records of active and own organizations"
+    }
+  ]
+}

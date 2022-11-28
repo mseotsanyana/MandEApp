@@ -12,15 +12,15 @@ public class SessionOrganizationFragmentBindingImpl extends SessionOrganizationF
     @Nullable
     private static final android.util.SparseIntArray sViewsWithIds;
     static {
-        sIncludes = null;
+        sIncludes = new androidx.databinding.ViewDataBinding.IncludedLayouts(5);
+        sIncludes.setIncludes(0, 
+            new String[] {"me_toolbar_layout"},
+            new int[] {2},
+            new int[] {com.me.mseotsanyana.mande.R.layout.me_toolbar_layout});
         sViewsWithIds = new android.util.SparseIntArray();
-        sViewsWithIds.put(R.id.appBarLayout, 1);
-        sViewsWithIds.put(R.id.collapsingToolbarLayout, 2);
-        sViewsWithIds.put(R.id.header_text_layout, 3);
-        sViewsWithIds.put(R.id.appName, 4);
-        sViewsWithIds.put(R.id.toolbar, 5);
-        sViewsWithIds.put(R.id.organizationTabLayout, 6);
-        sViewsWithIds.put(R.id.organizationViewPager2, 7);
+        sViewsWithIds.put(R.id.includeProgressBar, 1);
+        sViewsWithIds.put(R.id.organizationRecyclerView, 3);
+        sViewsWithIds.put(R.id.organizationFAB, 4);
     }
     // views
     @NonNull
@@ -31,20 +31,18 @@ public class SessionOrganizationFragmentBindingImpl extends SessionOrganizationF
     // Inverse Binding Event Handlers
 
     public SessionOrganizationFragmentBindingImpl(@Nullable androidx.databinding.DataBindingComponent bindingComponent, @NonNull View root) {
-        this(bindingComponent, root, mapBindings(bindingComponent, root, 8, sIncludes, sViewsWithIds));
+        this(bindingComponent, root, mapBindings(bindingComponent, root, 5, sIncludes, sViewsWithIds));
     }
     private SessionOrganizationFragmentBindingImpl(androidx.databinding.DataBindingComponent bindingComponent, View root, Object[] bindings) {
-        super(bindingComponent, root, 0
-            , (com.google.android.material.appbar.AppBarLayout) bindings[1]
-            , (android.widget.TextView) bindings[4]
-            , (com.google.android.material.appbar.CollapsingToolbarLayout) bindings[2]
-            , (android.widget.LinearLayout) bindings[3]
-            , (com.google.android.material.tabs.TabLayout) bindings[6]
-            , (androidx.viewpager2.widget.ViewPager2) bindings[7]
-            , (androidx.appcompat.widget.Toolbar) bindings[5]
+        super(bindingComponent, root, 1
+            , (android.view.View) bindings[1]
+            , (com.me.mseotsanyana.bmblibrary.DraggableFAB) bindings[4]
+            , (androidx.recyclerview.widget.RecyclerView) bindings[3]
+            , (com.me.mseotsanyana.mande.databinding.MeToolbarLayoutBinding) bindings[2]
             );
         this.mboundView0 = (androidx.coordinatorlayout.widget.CoordinatorLayout) bindings[0];
         this.mboundView0.setTag(null);
+        setContainedBinding(this.toolbarLayout);
         setRootTag(root);
         // listeners
         invalidateAll();
@@ -53,8 +51,9 @@ public class SessionOrganizationFragmentBindingImpl extends SessionOrganizationF
     @Override
     public void invalidateAll() {
         synchronized(this) {
-                mDirtyFlags = 0x1L;
+                mDirtyFlags = 0x2L;
         }
+        toolbarLayout.invalidateAll();
         requestRebind();
     }
 
@@ -64,6 +63,9 @@ public class SessionOrganizationFragmentBindingImpl extends SessionOrganizationF
             if (mDirtyFlags != 0) {
                 return true;
             }
+        }
+        if (toolbarLayout.hasPendingBindings()) {
+            return true;
         }
         return false;
     }
@@ -75,8 +77,25 @@ public class SessionOrganizationFragmentBindingImpl extends SessionOrganizationF
     }
 
     @Override
+    public void setLifecycleOwner(@Nullable androidx.lifecycle.LifecycleOwner lifecycleOwner) {
+        super.setLifecycleOwner(lifecycleOwner);
+        toolbarLayout.setLifecycleOwner(lifecycleOwner);
+    }
+
+    @Override
     protected boolean onFieldChange(int localFieldId, Object object, int fieldId) {
         switch (localFieldId) {
+            case 0 :
+                return onChangeToolbarLayout((com.me.mseotsanyana.mande.databinding.MeToolbarLayoutBinding) object, fieldId);
+        }
+        return false;
+    }
+    private boolean onChangeToolbarLayout(com.me.mseotsanyana.mande.databinding.MeToolbarLayoutBinding ToolbarLayout, int fieldId) {
+        if (fieldId == BR._all) {
+            synchronized(this) {
+                    mDirtyFlags |= 0x1L;
+            }
+            return true;
         }
         return false;
     }
@@ -89,13 +108,15 @@ public class SessionOrganizationFragmentBindingImpl extends SessionOrganizationF
             mDirtyFlags = 0;
         }
         // batch finished
+        executeBindingsOn(toolbarLayout);
     }
     // Listener Stub Implementations
     // callback impls
     // dirty flag
     private  long mDirtyFlags = 0xffffffffffffffffL;
     /* flag mapping
-        flag 0 (0x1L): null
+        flag 0 (0x1L): toolbarLayout
+        flag 1 (0x2L): null
     flag mapping end*/
     //end
 }

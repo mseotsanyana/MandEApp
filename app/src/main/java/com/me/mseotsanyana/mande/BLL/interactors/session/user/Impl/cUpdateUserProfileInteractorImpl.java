@@ -1,10 +1,10 @@
 package com.me.mseotsanyana.mande.BLL.interactors.session.user.Impl;
 
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.session.user.iUpdateUserProfileInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.BLL.repository.session.iUserProfileRepository;
 
@@ -15,12 +15,12 @@ public class cUpdateUserProfileInteractorImpl extends cAbstractInteractor
     private Callback callback;
     private iSharedPreferenceRepository sessionManagerRepository;
     private iUserProfileRepository userProfileRepository;
-    private cUserProfileModel userProfileModel;
+    private CUserProfileModel userProfileModel;
 
     public cUpdateUserProfileInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
                                             iSharedPreferenceRepository sessionManagerRepository,
                                             iUserProfileRepository userProfileRepository,
-                                            Callback callback, cUserProfileModel userProfileModel) {
+                                            Callback callback, CUserProfileModel userProfileModel) {
         super(threadExecutor, mainThread);
 
         if (sessionManagerRepository == null || callback == null) {

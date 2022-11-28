@@ -2,20 +2,20 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation"
-    app:startDestination="@id/cHomeFragment">
+    app:startDestination="@id/cOrganizationFragment">
 
     <fragment
         android:id="@+id/cLoginFragment"
         android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cLoginFragment"
         android:label="Login">
-        <action
+        <!--action
             android:id="@+id/action_cLoginFragment_to_cHomeFragment"
             app:destination="@id/cHomeFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false" /-->
         <action
             android:id="@+id/action_cLoginFragment_to_cSignUpFragment"
             app:destination="@id/cSignUpFragment"
@@ -24,6 +24,23 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_cLoginFragment_to_cResetPasswordFragment"
+            app:destination="@id/cResetPasswordFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_cLoginFragment_to_cOrganizationFragment"
+            app:destination="@id/cOrganizationFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
+
     </fragment>
     <fragment
         android:id="@+id/cSignUpFragment"
@@ -102,7 +119,7 @@
         android:label="cImpactFragment" >
         <argument
             android:name="logFrameModel"
-            app:argType="com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel" />
+            app:argType="com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel" />
         <action
             android:id="@+id/action_cImpactFragment_to_cImpactDetailFragment"
             app:destination="@id/cImpactDetailFragment"
@@ -119,7 +136,7 @@
         android:label="cOutcomeFragment" >
         <argument
             android:name="logFrameModel"
-            app:argType="com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel" />
+            app:argType="com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel" />
     </fragment>
     <fragment
         android:id="@+id/cOutputFragment"
@@ -127,7 +144,7 @@
         android:label="cOutputFragment" >
         <argument
             android:name="logFrameModel"
-            app:argType="com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel" />
+            app:argType="com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel" />
     </fragment>
     <fragment
         android:id="@+id/cInputFragment"
@@ -135,7 +152,7 @@
         android:label="cInputFragment" >
         <argument
             android:name="logFrameModel"
-            app:argType="com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel" />
+            app:argType="com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel" />
     </fragment>
     <fragment
         android:id="@+id/cEvaluationFormFragment"
@@ -151,7 +168,7 @@
         android:label="cActivityFragment" >
         <argument
             android:name="logFrameModel"
-            app:argType="com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel" />
+            app:argType="com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel" />
     </fragment>
     <fragment
         android:id="@+id/cQuestionFragment"
@@ -229,13 +246,13 @@
         android:id="@+id/cHomeFragment"
         android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cHomeFragment"
         android:label="cHomeFragment" >
-        <action
+        <!--action
             android:id="@+id/action_cHomeFragment_to_cLoginFragment"
             app:destination="@id/cLoginFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right" /-->
         <action
             android:id="@+id/action_cHomeFragment_to_cMyUserProfileFragment"
             app:destination="@id/cMyUserProfileFragment"
@@ -244,14 +261,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" />
-        <action
+        <!--action
             android:id="@+id/action_cHomeFragment_to_cOrganizationDetailFragment"
             app:destination="@id/cOrganizationDetailFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false" /-->
         <action
             android:id="@+id/action_cHomeFragment_to_cTeamFragment"
             app:destination="@id/cTeamFragment"
@@ -322,15 +339,48 @@
         <action
             android:id="@+id/action_cHomeFragment_to_cLearningPlanFragment"
             app:destination="@id/cLearningPlanFragment" />
+        <action
+            android:id="@+id/action_cHomeFragment_to_cLoginFragment"
+            app:destination="@id/cLoginFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_cHomeFragment_to_cOrganizationFragment"
+            app:destination="@id/cOrganizationFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/cNotificationFragment"
         android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cMessagesFragment"
         android:label="cNotificationFragment" />
     <fragment
-        android:id="@+id/cOrganizationDetailFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cOrganizationDetailFragment"
-        android:label="cOrganizationFragment" />
+        android:id="@+id/cOrganizationFragment"
+        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cOrganizationFragment"
+        android:label="cOrganizationFragment" >
+        <action
+            android:id="@+id/action_cOrganizationFragment_to_cLoginFragment"
+            app:destination="@id/cLoginFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_cOrganizationFragment_to_cHomeFragment"
+            app:destination="@id/cHomeFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
+    </fragment>
     <fragment
         android:id="@+id/cDashboardFragment"
         android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cDashboardFragment"
@@ -417,4 +467,18 @@
         android:id="@+id/cLearningFormFragment"
         android:name="com.me.mseotsanyana.mande.PL.ui.fragments.learning.cLearningFormFragment"
         android:label="cLearningFormFragment" />
+    <fragment
+        android:id="@+id/cResetPasswordFragment"
+        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cResetPasswordFragment"
+        android:label="cResetPasswordFragment" >
+        <action
+            android:id="@+id/action_cResetPasswordFragment_to_cLoginFragment"
+            app:destination="@id/cLoginFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpToInclusive="false" />
+
+    </fragment>
 </navigation>

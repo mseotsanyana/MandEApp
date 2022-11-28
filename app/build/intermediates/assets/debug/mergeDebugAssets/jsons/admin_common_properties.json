@@ -1,7 +1,7 @@
 {
   "cproperties":
     {
-      "cteam": 1,
+      "cworkspace": 1,
       "cunixperms": [
         {"unix_op_id": 2048},
         {"unix_op_id": 1024},

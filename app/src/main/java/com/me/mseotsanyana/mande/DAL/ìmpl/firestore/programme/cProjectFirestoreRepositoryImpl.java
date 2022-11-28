@@ -15,9 +15,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
-import com.me.mseotsanyana.mande.BLL.model.common.cRecordPermissionModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cProjectModel;
-import com.me.mseotsanyana.mande.BLL.model.utils.cCommonPropertiesModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.common.cRecordPermissionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cProjectModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.utils.cCommonPropertiesModel;
 import com.me.mseotsanyana.mande.BLL.repository.programme.iProjectRepository;
 import com.me.mseotsanyana.mande.DAL.storage.base.cFirebaseCallBack;
 import com.me.mseotsanyana.mande.DAL.storage.base.cFirebaseRepository;
@@ -103,10 +103,10 @@ public class cProjectFirestoreRepositoryImpl extends cFirebaseRepository
                         perm.setTeamOwnerBIT(projectModel.getTeamOwnerBIT());
                         perm.setUnixpermBITS(projectModel.getUnixpermBITS());
 
-                        if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                secondaryTeamBITS)) {
-                            projectModels.add(projectModel);
-                        }
+//FIXME                        if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                secondaryTeamBITS)) {
+//                            projectModels.add(projectModel);
+//                        }
                     }
                 }
                 // call back on Projects
@@ -309,7 +309,7 @@ public class cProjectFirestoreRepositoryImpl extends cFirebaseRepository
             projectModel.setOrganizationOwnerID(stakeholderServerID);
             projectModel.setUserOwnerID(userServerID);
             projectModel.setTeamOwnerBIT(primaryTeamBIT);
-            projectModel.setUnixpermBITS(commonPropertiesModel.getCunixpermBITS());
+            projectModel.setUnixpermBITS(commonPropertiesModel.getUnixpermBITS());
             projectModel.setStatusBIT(statusBIT);
 
             projectModels.add(projectModel);

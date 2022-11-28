@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.BLL.model.logframe.cOutcomeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cOutcomeModel;
 import com.me.mseotsanyana.mande.PL.ui.adapters.logframe.cImpactOutcomeAdapter;
 import com.me.mseotsanyana.mande.R;
 

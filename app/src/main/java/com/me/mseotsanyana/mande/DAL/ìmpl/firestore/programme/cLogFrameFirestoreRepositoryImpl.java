@@ -15,10 +15,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cProjectModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cResourceTypeModel;
-import com.me.mseotsanyana.mande.BLL.model.utils.cCommonPropertiesModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cProjectModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cResourceTypeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.utils.cCommonPropertiesModel;
 import com.me.mseotsanyana.mande.BLL.repository.programme.iLogFrameRepository;
 import com.me.mseotsanyana.mande.DAL.storage.base.cFirebaseRepository;
 import com.me.mseotsanyana.mande.DAL.storage.database.cRealtimeHelper;
@@ -105,10 +105,10 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                             perm.setTeamOwnerBIT(logFrameModel.getTeamOwnerBIT());
                             perm.setUnixpermBITS(logFrameModel.getUnixpermBITS());
 
-                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                    secondaryTeamBITS)) {
-                                logFrameModels.add(logFrameModel);
-                            }
+//FIXME                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                    secondaryTeamBITS)) {
+//                                logFrameModels.add(logFrameModel);
+//                            }
                         }
                     }
 
@@ -143,10 +143,10 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                             perm.setTeamOwnerBIT(logFrameModel.getTeamOwnerBIT());
                             perm.setUnixpermBITS(logFrameModel.getUnixpermBITS());
 
-                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                    secondaryTeamBITS)) {
-                                logFrameModels.add(logFrameModel);
-                            }
+//FIXME                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                    secondaryTeamBITS)) {
+//                                logFrameModels.add(logFrameModel);
+//                            }
                         }
                     }
 
@@ -295,7 +295,7 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
             resourceTypeModel.setOrganizationOwnerID(organizationServerID);
             resourceTypeModel.setUserOwnerID(userServerID);
             resourceTypeModel.setTeamOwnerBIT(primaryTeamBIT);
-            resourceTypeModel.setUnixpermBITS(commonPropertiesModel.getCunixpermBITS());
+            resourceTypeModel.setUnixpermBITS(commonPropertiesModel.getUnixpermBITS());
             resourceTypeModel.setStatusBIT(statusBIT);
 
             resourceTypeModel.setCreatedDate(now);
@@ -371,7 +371,7 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
             projectModel.setOrganizationOwnerID(organizationServerID);
             projectModel.setUserOwnerID(userServerID);
             projectModel.setTeamOwnerBIT(primaryTeamBIT);
-            projectModel.setUnixpermBITS(commonPropertiesModel.getCunixpermBITS());
+            projectModel.setUnixpermBITS(commonPropertiesModel.getUnixpermBITS());
             projectModel.setStatusBIT(statusBIT);
 
             projectModel.setCreatedDate(now);
@@ -496,7 +496,7 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
             logFrameModel.setOrganizationOwnerID(organizationServerID);
             logFrameModel.setUserOwnerID(userServerID);
             logFrameModel.setTeamOwnerBIT(primaryTeamBIT);
-            logFrameModel.setUnixpermBITS(commonPropertiesModel.getCunixpermBITS());
+            logFrameModel.setUnixpermBITS(commonPropertiesModel.getUnixpermBITS());
             logFrameModel.setStatusBIT(statusBIT);
 
             logFrameModel.setCreatedDate(now);
@@ -536,7 +536,7 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                     componentModel.put("userOwnerID", userServerID);
                     componentModel.put("teamOwnerBIT", primaryTeamBIT);
                     componentModel.put("unixpermBITS",
-                            commonPropertiesModel.getCunixpermBITS());
+                            commonPropertiesModel.getUnixpermBITS());
                     componentModel.put("statusBIT", statusBIT);
                     componentModel.put("createdDate", now);
                     componentModel.put("modifiedDate", now);

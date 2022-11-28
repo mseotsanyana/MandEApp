@@ -2,13 +2,13 @@ package com.me.mseotsanyana.mande.BLL.interactors.session.session.Impl;
 
 import android.util.Log;
 
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.cInteractorUtils;
 import com.me.mseotsanyana.mande.BLL.interactors.session.session.iHomePageInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cMenuModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cMenuModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iHomePageRepository;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cSharedPreference;
@@ -32,6 +32,8 @@ public class cHomePageInteractorImpl extends cAbstractInteractor
     private final int entityBITS;
     private final int entitypermBITS;
 
+    private List<cMenuModel> menuModels;
+
     public cHomePageInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
                                    Callback callback,
                                    iSharedPreferenceRepository sharedPreferenceRepository,
@@ -46,11 +48,13 @@ public class cHomePageInteractorImpl extends cAbstractInteractor
         this.homePageRepository = homePageRepository;
         this.callback = callback;
 
+        this.setMenuModels(null);
+
         // load user shared preferences
         this.userServerID = sharedPreferenceRepository.loadUserID();
-        this.organizationServerID = sharedPreferenceRepository.loadOrganizationID();
-        this.primaryTeamBIT = sharedPreferenceRepository.loadPrimaryTeamBIT();
-        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryTeams();
+        this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
+        this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
+        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
@@ -76,18 +80,29 @@ public class cHomePageInteractorImpl extends cAbstractInteractor
     }
 
     /* call back on user profile */
-    private void userProfileMessage(cUserProfileModel userProfileModel) {
-        mainThread.post(() -> callback.onReadUserProfileSucceeded(userProfileModel));
+    private void userProfileMessage(CUserProfileModel userProfileModel, List<cMenuModel> menuModels) {
+        //Gson gson = new Gson();
+        //Log.d(TAG, "MENU ITEMS ================================================== "+gson.toJson(menuModels));
+
+        mainThread.post(() -> callback.onReadHomePageSucceeded(userProfileModel, menuModels));
     }
 
-    /* call back on role menu items */
-    private void menuItemsMessage(List<cMenuModel> menuModels) {
-        mainThread.post(() -> callback.onReadMenuItemsSucceeded(menuModels));
-    }
+//    /* call back on role menu items */
+//    private void menuItemsMessage(List<cMenuModel> menuModels) {
+//        mainThread.post(() -> callback.onReadMenuItemsSucceeded(menuModels));
+//    }
+//
+//    /* call back on user profile and default menu items */
+//    private void defaultProfileMessage(List<cMenuModel> menuModels) {
+//        mainThread.post(() -> callback.onDefaultHomePageSucceeded(menuModels));
+//    }
 
-    /* call back on user profile and default menu items */
-    private void defaultProfileMessage(List<cMenuModel> menuModels) {
-        mainThread.post(() -> callback.onDefaultHomePageSucceeded(menuModels));
+//    public List<cMenuModel> getMenuModels() {
+//        return menuModels;
+//    }
+
+    public void setMenuModels(List<cMenuModel> menuModels) {
+        this.menuModels = menuModels;
     }
 
     @Override
@@ -101,19 +116,22 @@ public class cHomePageInteractorImpl extends cAbstractInteractor
         this.homePageRepository.loadHomePage(isPermissionLoaded, sharedPreferenceRepository,
                 new iHomePageRepository.iHomePageCallback() {
                     @Override
-                    public void onReadUserProfileSucceeded(cUserProfileModel userProfileModel) {
-                        userProfileMessage(userProfileModel);
+                    public void onReadHomePageSucceeded(CUserProfileModel userProfileModel,
+                                                        List<cMenuModel> menuModels) {
+                        userProfileMessage(userProfileModel, menuModels);
                     }
 
-                    @Override
-                    public void onReadMenuItemsSucceeded(List<cMenuModel> menuModels) {
-                        menuItemsMessage(menuModels);
-                    }
-
-                    @Override
-                    public void onDefaultHomePageSucceeded(List<cMenuModel> menuModels) {
-                        defaultProfileMessage(menuModels);
-                    }
+//                    @Override
+//                    public void onReadMenuItemsSucceeded(List<cMenuModel> menuModels) {
+//                        setMenuModels(menuModels);
+//                        //menuItemsMessage(menuModels);
+//                    }
+//
+//                    @Override
+//                    public void onDefaultHomePageSucceeded(List<cMenuModel> menuModels) {
+//                        setMenuModels(menuModels);
+//                        //defaultProfileMessage(menuModels);
+//                    }
 
                     @Override
                     public void onReadHomePageFailed(String msg) {

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cValueModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cValueModel;
 import com.me.mseotsanyana.mande.R;
 
 import java.text.SimpleDateFormat;

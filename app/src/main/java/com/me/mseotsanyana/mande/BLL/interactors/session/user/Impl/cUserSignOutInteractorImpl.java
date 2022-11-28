@@ -31,22 +31,12 @@ public class cUserSignOutInteractorImpl extends cAbstractInteractor implements i
 
     /* */
     private void notifyError(String msg) {
-        mainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                callback.onUserSignOutFailed(msg);
-            }
-        });
+        mainThread.post(() -> callback.onUserSignOutFailed(msg));
     }
 
     /* */
     private void postMessage(String msg) {
-        mainThread.post(new Runnable() {
-            @Override
-            public void run() {
-                callback.onUserSignOutSucceeded(msg);
-            }
-        });
+        mainThread.post(() -> callback.onUserSignOutSucceeded(msg));
     }
 
     /* sign up a new user */

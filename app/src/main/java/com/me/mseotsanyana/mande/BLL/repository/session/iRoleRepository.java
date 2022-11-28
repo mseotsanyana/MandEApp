@@ -1,7 +1,7 @@
 package com.me.mseotsanyana.mande.BLL.repository.session;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public interface iRoleRepository {
                        List<Integer> statusBITS, iReadTeamRolesCallback callback);
 
     interface iReadTeamRolesCallback {
-        void onReadTeamRolesSucceeded(List<cRoleModel> roleModels);
+        void onReadTeamRolesSucceeded(List<cPrivilegeModel> roleModels);
 
         void onReadTeamRolesFailed(String msg);
     }
@@ -21,7 +21,7 @@ public interface iRoleRepository {
                        List<Integer> statusBITS, iReadRoleTeamsCallback callback);
 
     interface iReadRoleTeamsCallback {
-        void onReadRoleTeamsSucceeded(List<cTeamModel> teamModels);
+        void onReadRoleTeamsSucceeded(List<cWorkspaceModel> teamModels);
 
         void onReadRoleTeamsFailed(String msg);
     }

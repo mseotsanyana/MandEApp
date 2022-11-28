@@ -1,7 +1,7 @@
 package com.me.mseotsanyana.mande.UTIL;
 
 
-import com.me.mseotsanyana.mande.BLL.model.session.cPermissionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPermissionModel;
 
 import java.util.ArrayList;
 

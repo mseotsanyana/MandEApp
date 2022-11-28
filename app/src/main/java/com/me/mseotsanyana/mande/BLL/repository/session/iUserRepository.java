@@ -1,7 +1,6 @@
 package com.me.mseotsanyana.mande.BLL.repository.session;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cUserModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cUserModel;
 
 import java.util.Set;
 

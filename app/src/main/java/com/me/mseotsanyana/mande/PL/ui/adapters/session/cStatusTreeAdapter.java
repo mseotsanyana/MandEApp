@@ -24,12 +24,12 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cEntityModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cOperationModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cPermissionModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cStatusModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cEntityModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOperationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOrganizationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPermissionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cStatusModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cUserModel;
 import com.me.mseotsanyana.mande.UTIL.INTERFACE.iTreeAdapterCallback;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.cFontManager;
@@ -337,7 +337,7 @@ public class cStatusTreeAdapter extends RecyclerView.Adapter<cStatusTreeAdapter.
         );*/
 
         // get all organizations from database
-        final ArrayList<cStakeholderModel> orgs = null;/*
+        final ArrayList<cOrganizationModel> orgs = null;/*
                 organizationHandler.getOrganizationList(
                         session.loadUserID(),        /* loggedIn user id
                         session.loadOrgID(),         /* loggedIn own org.

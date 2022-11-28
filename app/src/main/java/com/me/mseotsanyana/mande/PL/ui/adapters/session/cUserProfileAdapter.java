@@ -20,7 +20,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.PL.presenters.session.iUserProfilePresenter;
 import com.me.mseotsanyana.mande.PL.ui.listeners.session.iAdapterUserProfileListener;
 import com.me.mseotsanyana.mande.R;
@@ -44,8 +44,8 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
     private static final SimpleDateFormat sdf = cConstant.SHORT_FORMAT_DATE;
 
     private final Context context;
-    private List<cUserProfileModel> userProfileModels;
-    private List<cUserProfileModel> filteredUserProfileModels;
+    private List<CUserProfileModel> userProfileModels;
+    private List<CUserProfileModel> filteredUserProfileModels;
     //private cIndexedLinkedHashMap<String, cUserProfileModel> userProfiles;
 
     private final SparseBooleanArray selectedItems;
@@ -54,7 +54,7 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
 
     Gson gson = new Gson();
 
-    public cUserProfileAdapter(Context context, List<cUserProfileModel> userProfileModels,
+    public cUserProfileAdapter(Context context, List<CUserProfileModel> userProfileModels,
                                iUserProfilePresenter.View iUserProfilePresenterView) {
         this.context = context;
         this.userProfileModels = userProfileModels;
@@ -79,7 +79,7 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
         // set interface between the adapter and view holder
         holder.circleImageViewUser.setOnClickListener(v -> {
             int position = holder.getAbsoluteAdapterPosition();
-            cUserProfileModel userProfileModel = filteredUserProfileModels.get(position);
+            CUserProfileModel userProfileModel = filteredUserProfileModels.get(position);
             holder.listener.onClickUpdateUserProfileImage(userProfileModel);
         });
 
@@ -104,7 +104,7 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
 
     @SuppressLint("SetTextI18n")
     public void onBindViewHolder(@NonNull cUserProfileViewHolder OH, int position) {
-        cUserProfileModel userProfileModel = this.filteredUserProfileModels.get(position);
+        CUserProfileModel userProfileModel = this.filteredUserProfileModels.get(position);
 
         if (selectedItems.get(position, false)) {
             OH.cardView.setCardBackgroundColor(Color.CYAN);
@@ -217,8 +217,8 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
                     filteredUserProfileModels = userProfileModels;
                 } else {
 
-                    ArrayList<cUserProfileModel> filteredList = new ArrayList<>();
-                    for (cUserProfileModel userProfileModel : userProfileModels) {
+                    ArrayList<CUserProfileModel> filteredList = new ArrayList<>();
+                    for (CUserProfileModel userProfileModel : userProfileModels) {
                         if (userProfileModel.getName().toLowerCase().
                                 contains(charString.toLowerCase()) ||
                                 userProfileModel.getSurname().toLowerCase().
@@ -239,14 +239,14 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                filteredUserProfileModels = (List<cUserProfileModel>) filterResults.values;
+                filteredUserProfileModels = (List<CUserProfileModel>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
     }
 
     //FIXME: refresh not working maybe read listener
-    public void updateUserProfileImage(cUserProfileModel userProfileModel) {
+    public void updateUserProfileImage(CUserProfileModel userProfileModel) {
         if (userProfileModel == null)
             return;
 
@@ -260,12 +260,12 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
         }
     }
 
-    public void setUserProfileModels(List<cUserProfileModel> userProfileModels) {
+    public void setUserProfileModels(List<CUserProfileModel> userProfileModels) {
         this.userProfileModels = userProfileModels;
         this.filteredUserProfileModels = userProfileModels;
     }
 
-    public List<cUserProfileModel> getUserProfileModels() {
+    public List<CUserProfileModel> getUserProfileModels() {
         return userProfileModels;
     }
 
@@ -277,7 +277,7 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
 
 
     @SuppressLint("NotifyDataSetChanged")
-    public void reloadList(List<cUserProfileModel> userProfileModels){
+    public void reloadList(List<CUserProfileModel> userProfileModels){
         this.userProfileModels = userProfileModels;
         notifyDataSetChanged();
     }
@@ -300,7 +300,7 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
     }
 
     @Override
-    public void onClickUpdateUserProfileImage(cUserProfileModel userProfileModel) {
+    public void onClickUpdateUserProfileImage(CUserProfileModel userProfileModel) {
         iUserProfilePresenterView.onClickUserProfileImage(userProfileModel);
     }
 

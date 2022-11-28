@@ -1,10 +1,10 @@
 package com.me.mseotsanyana.mande.PL.presenters.session.Impl;
 
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
 import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.session.team.Impl.cReadTeamsWithMembersInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.session.team.iReadTeamsWithMembersInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.BLL.repository.session.iTeamRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
@@ -33,7 +33,7 @@ public class cTeamsWithMembersPresenterImpl extends cAbstractPresenter implement
     }
 
     @Override
-    public void createTeam(cTeamModel teamModel) {
+    public void createTeam(cWorkspaceModel teamModel) {
 
     }
 

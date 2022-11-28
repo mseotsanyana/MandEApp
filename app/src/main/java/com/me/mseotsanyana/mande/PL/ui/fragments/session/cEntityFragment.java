@@ -5,12 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cEntityModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cEntityModel;
 import com.me.mseotsanyana.mande.PL.ui.adapters.session.cEntityPermissionAdapter;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
@@ -56,7 +55,7 @@ public class cEntityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.session_stakeholder_page, container, false);
+        return null;//inflater.inflate(R.layout.session_organization_fragment, container, false);
     }
 
     @Override

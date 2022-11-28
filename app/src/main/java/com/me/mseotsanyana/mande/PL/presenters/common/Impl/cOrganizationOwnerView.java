@@ -5,8 +5,8 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOrganizationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cUserModel;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cKeyPairBoolData;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cSingleSpinnerListener;
@@ -43,14 +43,14 @@ public class cOrganizationOwnerView {
     public CSingleSpinnerSearch singleSpinnerSearchOwners;
 
     private Context context;
-    private cStakeholderModel ownerModel;
+    private cOrganizationModel ownerModel;
     private String name;
     private String description;
-    private ArrayList<cStakeholderModel> owners;
+    private ArrayList<cOrganizationModel> owners;
     private List<cKeyPairBoolData> keyPairBoolOwners;
 
-    public cOrganizationOwnerView(Context context, cStakeholderModel ownerModel,
-                                  ArrayList<cStakeholderModel> owners) {
+    public cOrganizationOwnerView(Context context, cOrganizationModel ownerModel,
+                                  ArrayList<cOrganizationModel> owners) {
         this.context = context;
         this.ownerModel = ownerModel;
         this.name = ownerModel.getName();
@@ -90,8 +90,8 @@ public class cOrganizationOwnerView {
                 if (item.getObject() instanceof cUserModel){
                     textViewDescription.setText(((cUserModel)item.getObject()).getDescription());
                 }
-                if (item.getObject() instanceof cStakeholderModel){
-                    textViewDescription.setText(((cStakeholderModel)item.getObject()).getEmail());
+                if (item.getObject() instanceof cOrganizationModel){
+                    textViewDescription.setText(((cOrganizationModel)item.getObject()).getEmail());
                 }
                 Log.d(TAG, " ================================ "+item.getName());
             }

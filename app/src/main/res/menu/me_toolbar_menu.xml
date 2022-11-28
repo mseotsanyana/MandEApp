@@ -1,26 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
         android:id="@+id/searchItem"
-        android:orderInCategory="10"
         android:icon="@drawable/me_search_item"
+        android:orderInCategory="10"
         android:title="@string/common_search"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
 
     <item
         android:id="@+id/uploadItem"
+        android:icon="@drawable/me_ic_baseline_upload_24"
         android:orderInCategory="11"
         android:title="@string/common_upload"
-        android:icon="@drawable/me_ic_baseline_upload_24"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/downloadItem"
+        android:icon="@drawable/me_ic_baseline_upload_24"
         android:orderInCategory="12"
         android:title="@string/common_download"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/logoutItem"
         android:icon="@drawable/me_ic_baseline_upload_24"
+        android:orderInCategory="13"
+        android:title="@string/common_logout"
         app:showAsAction="never" />
 </menu>
+
+    <!--menu xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <item
+            android:id="@+id/searchItem"
+            android:orderInCategory="10"
+            android:icon="@drawable/me_search_item"
+            android:title="@string/common_search"
+            app:showAsAction="ifRoom|collapseActionView"
+            app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+
+        <item
+            android:id="@+id/uploadItem"
+            android:orderInCategory="11"
+            android:title="@string/common_upload"
+            android:icon="@drawable/me_ic_baseline_upload_24"
+            app:showAsAction="ifRoom" />
+
+        <item
+            android:id="@+id/downloadItem"
+            android:orderInCategory="12"
+            android:title="@string/common_download"
+            android:icon="@drawable/me_ic_baseline_upload_24"
+            app:showAsAction="ifRoom" />
+
+        <item
+            android:id="@+id/logoutItem"
+            android:orderInCategory="13"
+            android:title="@string/common_logout"
+            android:icon="@drawable/me_ic_baseline_upload_24"
+            app:showAsAction="ifRoom" />
+    </menu-->

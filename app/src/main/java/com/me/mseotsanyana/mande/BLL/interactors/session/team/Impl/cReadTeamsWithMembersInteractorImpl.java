@@ -3,13 +3,13 @@ package com.me.mseotsanyana.mande.BLL.interactors.session.team.Impl;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
 import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.cInteractorUtils;
 import com.me.mseotsanyana.mande.BLL.interactors.session.team.iReadTeamsWithMembersInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.BLL.repository.session.iTeamRepository;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cSharedPreference;
@@ -50,9 +50,9 @@ public class cReadTeamsWithMembersInteractorImpl extends cAbstractInteractor
 
         // load user shared preferences
         this.userServerID = sharedPreferenceRepository.loadUserID();
-        this.organizationServerID = sharedPreferenceRepository.loadOrganizationID();
-        this.primaryTeamBIT = sharedPreferenceRepository.loadPrimaryTeamBIT();
-        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryTeams();
+        this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
+        this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
+        this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
@@ -94,21 +94,21 @@ public class cReadTeamsWithMembersInteractorImpl extends cAbstractInteractor
                             primaryTeamBIT, secondaryTeamBITS, statusBITS,
                             new iTeamRepository.iReadTeamsWithMembersCallback() {
                                 @Override
-                                public void onReadTeamsWithMembersSucceeded(Map<cTeamModel,
-                                        List<cUserProfileModel>> teamMembersMap) {
+                                public void onReadTeamsWithMembersSucceeded(Map<cWorkspaceModel,
+                                        List<CUserProfileModel>> teamMembersMap) {
                                     List<cTreeModel> teamsMembersTree = new ArrayList<>();
                                     int parentIndex = 0, childIndex;
-                                    for (Map.Entry<cTeamModel, List<cUserProfileModel>> entry :
+                                    for (Map.Entry<cWorkspaceModel, List<CUserProfileModel>> entry :
                                             teamMembersMap.entrySet()) {
                                         /* a team */
-                                        cTeamModel teamModel = entry.getKey();
+                                        cWorkspaceModel teamModel = entry.getKey();
                                         teamsMembersTree.add(new cTreeModel(parentIndex,
                                                 -1, 0, teamModel));
 
                                         /* a list of team members under the team */
                                         Log.d(TAG, "teamMembersMap ==>> " + gson.toJson(entry.getValue()));
                                         childIndex = parentIndex;
-                                        for (cUserProfileModel userModel : entry.getValue()) {
+                                        for (CUserProfileModel userModel : entry.getValue()) {
                                             childIndex = childIndex + 1;
                                             teamsMembersTree.add(new cTreeModel(childIndex,
                                                     parentIndex, 1, userModel));

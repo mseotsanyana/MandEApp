@@ -12,8 +12,8 @@ import android.widget.Filterable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.cFontManager;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
@@ -56,7 +56,7 @@ public class cTeamRoleAdapter extends cTreeAdapter implements Filterable {
         View view;
         switch (viewType) {
             case TEAM:
-                view = inflater.inflate(R.layout.session_team_cardview, parent,
+                view = inflater.inflate(R.layout.session_workspace_cardview, parent,
                         false);
                 viewHolder = new cTeamViewHolder(view);
                 break;
@@ -81,7 +81,7 @@ public class cTeamRoleAdapter extends cTreeAdapter implements Filterable {
         if (obj != null) {
             switch (obj.getType()) {
                 case TEAM:
-                    cTeamModel teamModel = (cTeamModel) obj.getModelObject();
+                    cWorkspaceModel teamModel = (cWorkspaceModel) obj.getModelObject();
                     cTeamViewHolder TH = ((cTeamViewHolder) viewHolder);
 
                     TH.setPaddingLeft(20 * node.getLevel());
@@ -155,7 +155,7 @@ public class cTeamRoleAdapter extends cTreeAdapter implements Filterable {
                     break;
 
                 case ROLE:
-                    cRoleModel roleModel = (cRoleModel) obj.getModelObject();
+                    cPrivilegeModel roleModel = (cPrivilegeModel) obj.getModelObject();
                     cRoleViewHolder RH = ((cRoleViewHolder) viewHolder);
 
                     RH.setPaddingLeft(20 * node.getLevel());

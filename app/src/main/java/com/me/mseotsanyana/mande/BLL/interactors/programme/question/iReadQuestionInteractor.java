@@ -1,7 +1,7 @@
 package com.me.mseotsanyana.mande.BLL.interactors.programme.question;
 
 import com.me.mseotsanyana.mande.BLL.interactors.base.iInteractor;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cQuestionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cQuestionModel;
 
 import java.util.ArrayList;
 

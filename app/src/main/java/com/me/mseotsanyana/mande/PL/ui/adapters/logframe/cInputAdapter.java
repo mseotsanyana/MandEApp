@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.BLL.model.logframe.cInputModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cQuestionModel;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cRaidModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cInputModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cQuestionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cRaidModel;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iInputPresenter;
 import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewInputListener;
 import com.me.mseotsanyana.mande.PL.ui.views.cLogFrameHeaderView;

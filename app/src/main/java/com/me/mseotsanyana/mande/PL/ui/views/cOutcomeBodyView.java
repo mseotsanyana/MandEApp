@@ -15,7 +15,7 @@ import com.me.mseotsanyana.bmblibrary.CBoomMenuButton;
 import com.me.mseotsanyana.bmblibrary.Piece.cPiecePlaceEnum;
 import com.me.mseotsanyana.bmblibrary.cUtil;
 import com.me.mseotsanyana.expandablelayoutlibrary.CExpandableLayout;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cOutcomeModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cOutcomeModel;
 import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewOutcomeListener;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.UTIL.cConstant;

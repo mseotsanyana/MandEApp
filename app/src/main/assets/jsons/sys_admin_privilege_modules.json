@@ -1,0 +1,619 @@
+{
+  "modules": [
+    {
+      "module_id": 1,
+      "module_name": "SESSION MODULE",
+      "entities": [
+        {
+          "entity_id": 1,
+          "entity_name": "USERPROFILE",
+          "entity_description": "stores the collection of users.",
+
+          "states": [2, 8, 128, 32768, 262144, 524288, 1048576],
+
+          "actions": [0, 13],
+
+          "unixpermissions": [524288, 16384, 512, 16],
+
+          "transitions": [
+            {
+              "source_id": 524288,
+              "target_id": 10448576,
+              "event_id": 18,
+              "action_id": 0
+            },
+            {
+              "source_id": 10448576,
+              "target_id": 524288,
+              "event_id": 17,
+              "action_id": 0
+            },
+            {
+              "source_id": 10448576,
+              "target_id": 32768,
+              "event_id": 19,
+              "action_id":0
+            },
+            {
+              "source_id": 524288,
+              "target_id": 128,
+              "event_id": 5,
+              "action_id":0
+            },
+            {
+              "source_id": 128,
+              "target_id": 524288,
+              "event_id": 19,
+              "action_id":0
+            },
+            {
+              "source_id": 524288,
+              "target_id": 262144,
+              "event_id": 16,
+              "action_id":0
+            },
+            {
+              "source_id": 262144,
+              "target_id": 524288,
+              "event_id": 19,
+              "action_id":0
+            },
+            {
+              "source_id": 524288,
+              "target_id": 8,
+              "event_id": 19,
+              "action_id":0
+            },
+            {
+              "source_id": 524288,
+              "target_id": 32768,
+              "event_id": 19,
+              "action_id":0
+            },
+            {
+              "source_id": 524288,
+              "target_id": 2,
+              "event_id": 19,
+              "action_id":0
+            },
+            {
+              "source_id": 2,
+              "target_id": 524288,
+              "event_id": 13,
+              "action_id":13
+            }
+          ]
+        },
+
+        {
+          "entity_id": 2,
+          "entity_name": "SESSION",
+          "entity_description": "stores the currently logged in users.",
+
+          "states": [1, 2, 64],
+
+          "actions": [1,8],
+
+          "unixpermissions": [524288, 16384, 512, 16],
+
+          "transitions": [
+            {
+              "source_id": 1,
+              "target_id": 2,
+              "event_id": 21,
+              "action_id":1
+            },
+            {
+              "source_id": 2,
+              "target_id": 64,
+              "event_id": 22,
+              "action_id": 8
+            },
+            {
+              "source_id": 2,
+              "target_id": 64,
+              "event_id": 13,
+              "action_id":8
+            },
+            {
+              "source_id": 2,
+              "target_id": 64,
+              "event_id": 12,
+              "action_id":8
+            }
+          ]
+        },
+
+        {
+          "entity_id": 4,
+          "entity_name": "ORGANIZATION",
+          "entity_description": "stores the collection of organizations.",
+
+          "states": [1, 2, 8, 64, 32768],
+
+          "actions": [0, 1, 16, 64, 128],
+
+          "unixpermissions": [524288, 16384, 512, 16],
+
+          "transitions": [
+            {
+              "source_id": 1,
+              "target_id": 32768,
+              "event_id": 8,
+              "action_id":1
+            },
+            {
+              "source_id": 32768,
+              "target_id": 2,
+              "event_id": 2,
+              "action_id":16
+            },
+            {
+              "source_id": 32768,
+              "target_id": 8,
+              "event_id": 15,
+              "action_id":64
+            },
+            {
+              "source_id": 32768,
+              "target_id": 64,
+              "event_id": 15,
+              "action_id":128
+            },
+            {
+              "source_id": 2,
+              "target_id": 8,
+              "event_id": 15,
+              "action_id":64
+            },
+            {
+              "source_id": 8,
+              "target_id": 2,
+              "event_id": 1,
+              "action_id":16
+            },
+            {
+              "source_id": 2,
+              "target_id": 64,
+              "event_id": 6,
+              "action_id":0
+            },
+            {
+              "source_id": 8,
+              "target_id": 64,
+              "event_id": 6,
+              "action_id":0
+            }
+          ]
+        },
+
+        {
+          "entity_id": 8,
+          "entity_name": "WORKSPACE OPTIONS",
+          "entity_description": "stores the members of organizations.",
+
+          "states": [1, 2, 64, 1024, 2048, 4194304],
+
+          "actions": [1, 256, 8192],
+
+          "unixpermissions": [524288, 16384, 512, 16],
+
+          "transitions": [
+            {
+              "source_id": 1,
+              "target_id": 2048,
+              "event_id": 8,
+              "action_id":1
+            },
+            {
+              "source_id": 1,
+              "target_id": 4194304,
+              "event_id": 18,
+              "action_id":8192
+            },
+            {
+              "source_id": 4194304,
+              "target_id": 256,
+              "event_id": 14,
+              "action_id":256
+            },
+            {
+              "source_id": 2,
+              "target_id": 1024,
+              "event_id": 6,
+              "action_id":256
+            },
+            {
+              "source_id": 2,
+              "target_id": 4194304,
+              "event_id": 21,
+              "action_id":256
+            },
+            {
+              "source_id": 2,
+              "target_id": 64,
+              "event_id": 21,
+              "action_id":256
+            }
+          ]
+        },
+
+        {
+          "entity_id": 16,
+          "entity_name": "WORKSPACE",
+          "entity_description": "stores the workspaces of organizations.",
+
+          "states": [1, 2, 8, 64, 32768],
+
+          "actions": [1, 8, 16, 64],
+
+          "unixpermissions": [524288, 16384, 512, 16],
+
+          "transitions": [
+            {
+              "source_id": 1,
+              "target_id": 32768,
+              "event_id": 8,
+              "action_id":1
+            },
+            {
+              "source_id": 32768,
+              "target_id": 2,
+              "event_id": 2,
+              "action_id":16
+            },
+            {
+              "source_id": 32768,
+              "target_id": 8,
+              "event_id": 15,
+              "action_id":64
+            },
+            {
+              "source_id": 32768,
+              "target_id": 64,
+              "event_id": 15,
+              "action_id":64
+            },
+            {
+              "source_id": 2,
+              "target_id": 8,
+              "event_id": 3,
+              "action_id":64
+            },
+            {
+              "source_id": 2,
+              "target_id": 64,
+              "event_id": 3,
+              "action_id":8
+            },
+            {
+              "source_id": 8,
+              "target_id": 2,
+              "event_id": 1,
+              "action_id":16
+            },
+            {
+              "source_id": 8,
+              "target_id": 64,
+              "event_id": 6,
+              "action_id":8
+            }
+          ]
+        },
+
+        {
+          "entity_id": 32,
+          "entity_name": "BILATERAL AGREEMENT",
+          "entity_description": "stores the bilateral agreements between organizations.",
+
+          "states": [1, 4, 64, 512, 32768, 131072],
+
+          "actions": [0, 1, 8, 32, 1024],
+
+          "unixpermissions": [524288, 16384, 512, 16],
+
+          "transitions": [
+            {
+              "source_id": 1,
+              "target_id": 512,
+              "event_id": 8,
+              "action_id":1
+            },
+            {
+              "source_id": 512,
+              "target_id": 32768,
+              "event_id": 0,
+              "action_id":0
+            },
+            {
+              "source_id": 512,
+              "target_id": 64,
+              "event_id": 6,
+              "action_id":8
+            },
+            {
+              "source_id": 32768,
+              "target_id": 4,
+              "event_id": 2,
+              "action_id":32
+            },
+            {
+              "source_id": 32768,
+              "target_id": 131072,
+              "event_id": 15,
+              "action_id":1024
+            },
+            {
+              "source_id": 4,
+              "target_id": 131072,
+              "event_id": 15,
+              "action_id":1024
+            },
+            {
+              "source_id": 4,
+              "target_id": 64,
+              "event_id": 6,
+              "action_id":8
+            },
+            {
+              "source_id": 131072,
+              "target_id": 64,
+              "event_id": 6,
+              "action_id":8
+            }
+          ]
+        },
+
+        {
+          "entity_id": 64,
+          "entity_name": "BENEFICIARY AGREEMENT",
+          "entity_description": "stores the beneficiary agreements between organizations.",
+
+          "states": [1, 4, 64, 512, 32768, 131072],
+
+          "actions": [0, 1, 8, 32, 1024],
+
+          "unixpermissions": [524288, 16384, 512, 16],
+
+          "transitions": [
+            {
+              "source_id": 1,
+              "target_id": 512,
+              "event_id": 8,
+              "action_id":1
+            },
+            {
+              "source_id": 512,
+              "target_id": 32768,
+              "event_id": 0,
+              "action_id":0
+            },
+            {
+              "source_id": 512,
+              "target_id": 64,
+              "event_id": 6,
+              "action_id":8
+            },
+            {
+              "source_id": 32768,
+              "target_id": 4,
+              "event_id": 2,
+              "action_id":32
+            },
+            {
+              "source_id": 32768,
+              "target_id": 131072,
+              "event_id": 15,
+              "action_id":1024
+            },
+            {
+              "source_id": 4,
+              "target_id": 131072,
+              "event_id": 15,
+              "action_id":1024
+            },
+            {
+              "source_id": 4,
+              "target_id": 64,
+              "event_id": 6,
+              "action_id":8
+            },
+            {
+              "source_id": 131072,
+              "target_id": 64,
+              "event_id": 6,
+              "action_id":8
+            }
+          ]
+        },
+
+        {
+          "entity_id": 128,
+          "entity_name": "PLAN",
+          "entity_description": "stores the roles of teams.",
+
+          "states": [],
+
+          "actions": [],
+
+          "unixpermissions": [],
+
+          "transitions": []
+        },
+
+        {
+          "entity_id": 256,
+          "entity_name": "PRIVILEGES",
+          "entity_description": "stores workspace privileges.",
+
+          "states": [0],
+
+          "actions": [2],
+
+          "unixpermissions": [524288, 16384, 512, 16],
+
+          "transitions": [
+            {
+              "source_id": 0,
+              "target_id": 0,
+              "event_id": 0,
+              "action_id":2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "module_id": 2,
+      "module_name": "PROGRAMME MODULE",
+      "entities": [
+        {
+          "entity_id": 1,
+          "entity_name": "PROJECT",
+          "entity_description": "stores the programmes/projects of organizations.",
+
+          "statuses": [1, 4, 64, 256, 512, 1024],
+
+          "actions": [1, 4, 32, 128, 512, 1024],
+
+          "unixpermissions": [524288, 16384, 512, 16],
+
+          "transitions": [
+            {
+              "source_id": 1,
+              "target_id": 256,
+              "event_id": 0,
+              "action_id":1
+            },
+            {
+              "source_id": 256,
+              "target_id": 512,
+              "event_id": 0,
+              "action_id":1024
+            },
+            {
+              "source_id": 512,
+              "target_id": 4,
+              "event_id": 0,
+              "action_id":32
+            },
+            {
+              "source_id": 512,
+              "target_id": 1024,
+              "event_id": 0,
+              "action_id":512
+            },
+            {
+              "source_id": 4,
+              "target_id": 64,
+              "event_id": 0,
+              "action_id":128
+            },
+            {
+              "source_id": 1024,
+              "target_id": 256,
+              "event_id": 0,
+              "action_id":4
+            },
+            {
+              "source_id": 1024,
+              "target_id": 64,
+              "event_id": 0,
+              "action_id":128
+            }
+          ]
+        },
+
+        {
+          "entity_id": 2,
+          "entity_name": "LOGFRAME",
+          "entity_description": "stores the logframes of the programmes/projects.",
+
+          "statuses": [1, 4, 64, 256, 512, 1024],
+
+          "actions": [1, 4, 32, 128, 512, 1024],
+
+          "unixpermissions": [524288, 16384, 512, 16],
+
+          "transitions": [
+            {
+              "source_id": 1,
+              "target_id": 256,
+              "event_id": 0,
+              "action_id":1
+            },
+            {
+              "source_id": 256,
+              "target_id": 512,
+              "event_id": 0,
+              "action_id":1024
+            },
+            {
+              "source_id": 512,
+              "target_id": 4,
+              "event_id": 0,
+              "action_id":32
+            },
+            {
+              "source_id": 512,
+              "target_id": 1024,
+              "event_id": 0,
+              "action_id":512
+            },
+            {
+              "source_id": 4,
+              "target_id": 64,
+              "event_id": 0,
+              "action_id":128
+            },
+            {
+              "source_id": 1024,
+              "target_id": 256,
+              "event_id": 0,
+              "action_id":4
+            },
+            {
+              "source_id": 1024,
+              "target_id": 64,
+              "event_id": 0,
+              "action_id":128
+            }
+          ]
+        },
+
+        {
+          "entity_id": 4,
+          "entity_name": "COMPONENT",
+          "entity_description": "stores the components (impacts, outcomes, outputs and inputs) of logframes.",
+
+          "statuses": [1, 2, 8, 128],
+
+          "actions": [1, 16, 64],
+
+          "unixpermissions": [524288, 16384, 512, 16],
+
+          "transitions": [
+            {
+              "source_id": 1,
+              "target_id": 2,
+              "event_id": 0,
+              "action_id":16
+            },
+            {
+              "source_id": 2,
+              "target_id": 8,
+              "event_id": 0,
+              "action_id":1
+            },
+            {
+              "source_id": 8,
+              "target_id": 2,
+              "event_id": 0,
+              "action_id":64
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

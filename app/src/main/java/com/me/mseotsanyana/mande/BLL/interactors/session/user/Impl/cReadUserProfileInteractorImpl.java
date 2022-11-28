@@ -1,10 +1,10 @@
 package com.me.mseotsanyana.mande.BLL.interactors.session.user.Impl;
 
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.session.user.iReadUserProfileInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.BLL.repository.session.iUserProfileRepository;
 
@@ -43,7 +43,7 @@ public class cReadUserProfileInteractorImpl extends cAbstractInteractor
     }
 
     /* */
-    private void postMessage(cUserProfileModel userProfileModel) {
+    private void postMessage(CUserProfileModel userProfileModel) {
         mainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -58,7 +58,7 @@ public class cReadUserProfileInteractorImpl extends cAbstractInteractor
         userProfileRepository.readMyUserProfile(
                 new iUserProfileRepository.iReadMyUserProfileRepositoryCallback() {
                     @Override
-                    public void onReadMyUserProfileSucceeded(cUserProfileModel userProfileModel) {
+                    public void onReadMyUserProfileSucceeded(CUserProfileModel userProfileModel) {
                         postMessage(userProfileModel);
                     }
 

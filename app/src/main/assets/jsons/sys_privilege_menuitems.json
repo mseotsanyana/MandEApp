@@ -1,0 +1,75 @@
+{
+  "menuitems": [
+    {
+      "id": 0,
+      "item": "Profile Management",
+      "description": "Manage user profile settings.",
+      "sub_menu": [
+        {
+          "sub_id": 1,
+          "sub_item": "My Profile",
+          "sub_image": "myprofile",
+          "sub_description": "User personal details."
+        },
+        {
+          "sub_id": 2,
+          "sub_item": "User Profiles",
+          "sub_image": "userprofile",
+          "sub_description": "Password, deactivation, etc. Mgt."
+        },
+        {
+          "sub_id": 4,
+          "sub_item": "Switch Organization",
+          "sub_image": "switching",
+          "sub_description": "Switching to another organizations."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "item": "Permission Management",
+      "description": "Management of own Organizations, Teams, Roles and Permissions.",
+      "sub_menu": [
+        {
+          "sub_id": 16,
+          "sub_item": "Organization Members",
+          "sub_image": "member",
+          "sub_description": "People in Organizations and Teams the user belongs to."
+        },
+        {
+          "sub_id": 32,
+          "sub_item": "Team Roles",
+          "sub_image": "team",
+          "sub_description": "Teams of people the user belongs to."
+        },
+        {
+          "sub_id": 64,
+          "sub_item": "Role Permissions",
+          "sub_image": "permission",
+          "sub_description": "Role Permission Management."
+        }
+      ]
+    },
+    {
+      "id": 256,
+      "item": "Notifications",
+      "image": "notification",
+      "description": "Settings of publication, subscription of messages.",
+      "sub_menu": []
+    },
+    {
+      "id": 512,
+      "item": "Settings",
+      "image": "setting",
+      "description": "The settings related to the user.",
+      "sub_menu": []
+    },
+    {
+      "id": 1024,
+      "item": "Logout",
+      "image": "logout",
+      "description": "Allowing the logout option.",
+      "sub_menu": []
+    }
+  ]
+}

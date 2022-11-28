@@ -1,6 +1,6 @@
 package com.me.mseotsanyana.mande.BLL.repository.evaluator;
 
-import com.me.mseotsanyana.mande.BLL.model.evaluation.cEvaluationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.evaluation.cEvaluationModel;
 
 import java.util.Set;
 

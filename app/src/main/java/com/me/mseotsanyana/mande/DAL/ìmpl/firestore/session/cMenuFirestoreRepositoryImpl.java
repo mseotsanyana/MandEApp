@@ -7,8 +7,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.me.mseotsanyana.mande.BLL.model.session.cPermissionModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cRoleModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPermissionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPrivilegeModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iMenuRepository;
 import com.me.mseotsanyana.mande.DAL.storage.database.cRealtimeHelper;
 import com.me.mseotsanyana.mande.DAL.ìmpl.cDatabaseUtils;
@@ -48,24 +48,24 @@ public class cMenuFirestoreRepositoryImpl implements iMenuRepository {
         roleQuery.get()
                 .addOnCompleteListener(task -> {
                     //List<String> role_ids = new ArrayList<>();
-                    Map<String, cRoleModel> roleModelMap = new HashMap<>();
-                    cRoleModel roleModel;
+                    Map<String, cPrivilegeModel> roleModelMap = new HashMap<>();
+                    cPrivilegeModel roleModel;
                     for (DocumentSnapshot role_doc : Objects.requireNonNull(task.getResult())) {
-                        roleModel = role_doc.toObject(cRoleModel.class);
+                        roleModel = role_doc.toObject(cPrivilegeModel.class);
 
                         if (roleModel != null) {
-                            roleModel.setRoleServerID(role_doc.getId());
+                            roleModel.setPrivilegeServerID(role_doc.getId());
 
                             cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
                             perm.setUserOwnerID(roleModel.getUserOwnerID());
-                            perm.setTeamOwnerBIT(roleModel.getTeamOwnerBIT());
+                            perm.setTeamOwnerBIT(roleModel.getWorkspaceOwnerBIT());
                             perm.setUnixpermBITS(roleModel.getUnixpermBITS());
 
-                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
-                                    secondaryTeamBITS)) {
-                                //role_ids.add(roleModel.getRoleServerID());
-                                roleModelMap.put(roleModel.getRoleServerID(), roleModel);
-                            }
+//FIXME                            if (cDatabaseUtils.isPermitted(perm, userServerID, primaryTeamBIT,
+//                                    secondaryTeamBITS)) {
+//                                //role_ids.add(roleModel.getRoleServerID());
+//                                roleModelMap.put(roleModel.getPrivilegeServerID(), roleModel);
+//                            }
                         }
                     }
 
@@ -77,7 +77,7 @@ public class cMenuFirestoreRepositoryImpl implements iMenuRepository {
 
     }
 
-    private void filterMenuPermissions(Map<String, cRoleModel> roleModelMap,
+    private void filterMenuPermissions(Map<String, cPrivilegeModel> roleModelMap,
                                        iReadMenuPermissionsCallback callback) {
         CollectionReference coPermissionRef = db.collection(cRealtimeHelper.KEY_ROLE_PERMISSIONS);
         List<String> role_ids = new ArrayList<>(roleModelMap.keySet());
@@ -85,7 +85,7 @@ public class cMenuFirestoreRepositoryImpl implements iMenuRepository {
 
         permissionQuery.get()
                 .addOnCompleteListener(task -> {
-                    cRoleModel roleModel; cPermissionModel permissionModel;
+                    cPrivilegeModel roleModel; cPermissionModel permissionModel;
                     List<cTreeModel> treeModels = new ArrayList<>();
                     for (DocumentSnapshot perm_doc : Objects.requireNonNull(task.getResult())) {
 
@@ -93,13 +93,13 @@ public class cMenuFirestoreRepositoryImpl implements iMenuRepository {
 
                         if (permissionModel != null) {
                             permissionModel.setRoleServerID(perm_doc.getId());
-                            for (Map.Entry<String, cRoleModel> entry : roleModelMap.entrySet()) {
+                            for (Map.Entry<String, cPrivilegeModel> entry : roleModelMap.entrySet()) {
                                 if (entry.getKey().equals(permissionModel.getRoleServerID())) {
                                     // rolePermissionModels.put(entry.getValue(), permissionModel);
                                     // FIXME: what about if the user has list of multiple roles
                                     //  and permissions
                                     roleModel = entry.getValue();
-                                    roleModel.setRoleServerID(entry.getKey());
+                                    roleModel.setPrivilegeServerID(entry.getKey());
                                     permissionModel.setRoleServerID(perm_doc.getId());
                                     permissionModel.setName(roleModel.getName());
 

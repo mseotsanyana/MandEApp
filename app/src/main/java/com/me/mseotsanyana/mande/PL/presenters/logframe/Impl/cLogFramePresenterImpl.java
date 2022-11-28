@@ -12,7 +12,7 @@ import com.me.mseotsanyana.mande.BLL.interactors.programme.logframe.Impl.cUpload
 import com.me.mseotsanyana.mande.BLL.interactors.programme.logframe.iLogFrameInteractor;
 import com.me.mseotsanyana.mande.BLL.repository.programme.iLogFrameRepository;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cLogFrameModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
 import com.me.mseotsanyana.mande.PL.presenters.logframe.iLogFramePresenter;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;

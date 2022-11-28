@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.me.mseotsanyana.mande.BLL.executor.Impl.cThreadExecutorImpl;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cUserProfileFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.PL.presenters.session.Impl.cUserSignUpPresenterImpl;
 import com.me.mseotsanyana.mande.PL.presenters.session.iUserSignUpPresenter;
@@ -153,7 +153,7 @@ public class cSignUpFragment extends Fragment implements iUserSignUpPresenter.Vi
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
             byte[] imageData = bytes.toByteArray();
 
-            cUserProfileModel userProfileModel = new cUserProfileModel(imageData, name, surname,
+            CUserProfileModel userProfileModel = new CUserProfileModel(imageData, name, surname,
                     designation, email, password);
 
             if (!name.isEmpty() && !email.isEmpty() && !password.isEmpty() &&

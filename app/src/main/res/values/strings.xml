@@ -62,6 +62,7 @@
 
     <!-- start common attributes -->
     <!-- operations -->
+    <string name="blank_string">" "</string>
     <string name="Create">Create</string>
     <string name="Read">Read</string>
     <string name="Update">Update</string>
@@ -86,10 +87,11 @@
     <string name="Ok">OK</string>
 
     <!-- unix groups -->
-    <string name="Owner">Own Record</string>
-    <string name="Primary">Primary Team</string>
-    <string name="Secondary">Secondary Team</string>
-    <string name="Organization">Own Organization</string>
+    <string name="Cloud">Cloud</string>
+    <string name="Village">Village</string>
+    <string name="House">House</string>
+    <string name="Room">Room</string>
+    <string name="Owner">Owner</string>
 
     <!-- common dates -->
     <string name="createdOn">created on:</string>
@@ -109,6 +111,7 @@
     <string name="common_search">Search</string>
     <string name="common_upload">Upload</string>
     <string name="common_download">Download</string>
+    <string name="common_logout">Logout</string>
 
     <!-- the notification strings -->
     <string name="notification_name_caption">notification</string>
@@ -139,7 +142,12 @@
     <string name="user_login">LOGIN</string>
     <string name="user_sign_up">Sign Up</string>
     <string name="user_sign_in">Sign In</string>
-    <string name="user_forgot_password">Forgot Password?</string>
+    <string name="user_change_password">Change Password?</string>
+    <string name="user_confirm_change_password">Change Password</string>
+    <string name="user_forgot_password">Forgot Password ?</string>
+    <string name="user_reset_password">Reset Password</string>
+    <string name="user_recover_password_msg">Enter your email below and instructions to reset password or unlock account will be send to the email.</string>
+
 
     <string name="user_profile_image">Profile Image</string>
     <string name="user_edit_profile">Edit Profile</string>
@@ -160,6 +168,8 @@
     <string name="user_hint_website">Website</string>
     <string name="user_hint_phone">Phone</string>
     <string name="user_hint_password">Password</string>
+    <string name="user_hint_old_password">Old Password</string>
+    <string name="user_hint_new_password">New Password</string>
     <string name="user_hint_confirm_password">Confirm Password</string>
 
     <string name="text_save">Save</string>

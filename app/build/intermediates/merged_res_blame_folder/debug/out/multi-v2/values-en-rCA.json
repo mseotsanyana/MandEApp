@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/mseotsanyana/AndroidStudioProjects/MandEApp/MandE/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rCA/values-en-rCA.xml",
+            "outputFile": "com.me.mseotsanyana.mande.app-mergeDebugResources-54:/values-en-rCA/values-en-rCA.xml",
             "map": [
                 {
-                    "source": "/Users/mseotsanyana/.gradle/caches/transforms-3/8bda889fb2568cb63797ab15d948a5f8/transformed/appcompat-1.4.1/res/values-en-rCA/values-en-rCA.xml",
+                    "source": "/Users/mseotsanyana/.gradle/caches/transforms-3/636cf00956e42901257c1b56095eb250/transformed/appcompat-1.4.1/res/values-en-rCA/values-en-rCA.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/Users/mseotsanyana/.gradle/caches/transforms-3/2d59c699cb9aaed5339db980513619de/transformed/core-1.7.0/res/values-en-rCA/values-en-rCA.xml",
+                    "source": "/Users/mseotsanyana/.gradle/caches/transforms-3/1884a1c11ab3a4f81c0c8a95d6e79b58/transformed/core-1.7.0/res/values-en-rCA/values-en-rCA.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",

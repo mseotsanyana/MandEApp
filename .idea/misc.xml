@@ -4,31 +4,96 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/me_bottom_layout_background.xml" value="0.2065" />
         <entry key="app/src/main/res/font/aclonica.xml" value="0.1648148148148148" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2368659420289855" />
         <entry key="app/src/main/res/layout/component_child_cardview.xml" value="0.2421875" />
         <entry key="app/src/main/res/layout/component_parent_cardview.xml" value="0.2421875" />
+        <entry key="app/src/main/res/layout/dialog_change_password.xml" value="0.33697916666666666" />
         <entry key="app/src/main/res/layout/impact_detail_list_fragment.xml" value="0.253125" />
         <entry key="app/src/main/res/layout/impact_list_fragment.xml" value="0.2296195652173913" />
         <entry key="app/src/main/res/layout/logframe_child_cardview.xml" value="0.2375" />
         <entry key="app/src/main/res/layout/logframe_list_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/layout/logframe_parent_cardview.xml" value="0.29635416666666664" />
         <entry key="app/src/main/res/layout/logframe_update.xml" value="0.21920289855072464" />
+        <entry key="app/src/main/res/layout/me_bottom_layout.xml" value="0.33697916666666666" />
         <entry key="app/src/main/res/layout/me_common_attributes.xml" value="0.16" />
         <entry key="app/src/main/res/layout/me_logframe_filter.xml" value="0.18211752786220872" />
         <entry key="app/src/main/res/layout/me_tablayout_viewpager2.xml" value="0.253125" />
+        <entry key="app/src/main/res/layout/me_toolbar_layout.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/project_child_cardview.xml" value="0.2375" />
         <entry key="app/src/main/res/layout/project_list_fragment.xml" value="0.21603260869565216" />
         <entry key="app/src/main/res/layout/project_parent_cardview.xml" value="0.18" />
         <entry key="app/src/main/res/layout/project_update.xml" value="0.2368659420289855" />
+        <entry key="app/src/main/res/layout/session_changepassword_fragment.xml" value="0.33697916666666666" />
         <entry key="app/src/main/res/layout/session_dashboard_fragment.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/session_entity_operation_cardview.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/session_home_fragment.xml" value="0.20440251572327045" />
+        <entry key="app/src/main/res/layout/session_login_fragment.xml" value="0.33697916666666666" />
+        <entry key="app/src/main/res/layout/session_menu_entity_cardview.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/session_menu_items_fragment.xml" value="0.2" />
         <entry key="app/src/main/res/layout/session_notifications_fragment.xml" value="0.19927536231884058" />
         <entry key="app/src/main/res/layout/session_org_create_update.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/session_org_member_cardview.xml" value="0.20052083333333334" />
+        <entry key="app/src/main/res/layout/session_organization_cardview.xml" value="0.20052083333333334" />
+        <entry key="app/src/main/res/layout/session_organization_fragment.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/session_organization_page.xml" value="0.24320652173913043" />
+        <entry key="app/src/main/res/layout/session_permission_cardview.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/session_privilege_cardview.xml" value="0.20520833333333333" />
+        <entry key="app/src/main/res/layout/session_resetpassword_fragment.xml" value="0.33697916666666666" />
+        <entry key="app/src/main/res/layout/session_section_fragment.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/session_signup_fragment.xml" value="0.33697916666666666" />
         <entry key="app/src/main/res/layout/session_stakeholder_page.xml" value="0.23097826086956522" />
+        <entry key="app/src/main/res/layout/session_status_cardview.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/session_team_cardview.xml" value="0.24114583333333334" />
+        <entry key="app/src/main/res/layout/session_teams_fragment.xml" value="0.20208333333333334" />
+        <entry key="app/src/main/res/layout/session_unix_permission.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/session_user_profile.xml" value="0.20885416666666667" />
+        <entry key="app/src/main/res/layout/session_userprofiles_fragment.xml" value="0.20885416666666667" />
+        <entry key="app/src/main/res/layout/session_workspace_cardview.xml" value="0.16822916666666668" />
         <entry key="app/src/main/res/menu/home_toolbar_menu.xml" value="0.29635416666666664" />
+        <entry key="app/src/main/res/menu/me_toolbar_menu.xml" value="0.2869791666666667" />
         <entry key="app/src/main/res/xml/pref_data_sync.xml" value="0.1" />
       </map>
+    </option>
+  </component>
+  <component name="NullableNotNullManager">
+    <option name="myDefaultNullable" value="androidx.annotation.Nullable" />
+    <option name="myDefaultNotNull" value="androidx.annotation.NonNull" />
+    <option name="myNullables">
+      <value>
+        <list size="12">
+          <item index="0" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NullableDecl" />
+          <item index="1" class="java.lang.String" itemvalue="org.jetbrains.annotations.Nullable" />
+          <item index="2" class="java.lang.String" itemvalue="androidx.annotation.Nullable" />
+          <item index="3" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.Nullable" />
+          <item index="4" class="java.lang.String" itemvalue="com.android.annotations.Nullable" />
+          <item index="5" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.Nullable" />
+          <item index="6" class="java.lang.String" itemvalue="androidx.annotation.RecentlyNullable" />
+          <item index="7" class="java.lang.String" itemvalue="android.support.annotation.Nullable" />
+          <item index="8" class="java.lang.String" itemvalue="javax.annotation.CheckForNull" />
+          <item index="9" class="java.lang.String" itemvalue="javax.annotation.Nullable" />
+          <item index="10" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.qual.Nullable" />
+          <item index="11" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NullableType" />
+        </list>
+      </value>
+    </option>
+    <option name="myNotNulls">
+      <value>
+        <list size="11">
+          <item index="0" class="java.lang.String" itemvalue="androidx.annotation.RecentlyNonNull" />
+          <item index="1" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.qual.NonNull" />
+          <item index="2" class="java.lang.String" itemvalue="com.android.annotations.NonNull" />
+          <item index="3" class="java.lang.String" itemvalue="androidx.annotation.NonNull" />
+          <item index="4" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NonNullType" />
+          <item index="5" class="java.lang.String" itemvalue="edu.umd.cs.findbugs.annotations.NonNull" />
+          <item index="6" class="java.lang.String" itemvalue="org.checkerframework.checker.nullness.compatqual.NonNullDecl" />
+          <item index="7" class="java.lang.String" itemvalue="android.support.annotation.NonNull" />
+          <item index="8" class="java.lang.String" itemvalue="org.jetbrains.annotations.NotNull" />
+          <item index="9" class="java.lang.String" itemvalue="javax.annotation.Nonnull" />
+          <item index="10" class="java.lang.String" itemvalue="org.eclipse.jdt.annotation.NonNull" />
+        </list>
+      </value>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">

@@ -1,153 +1,209 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TableLayout
-        android:id="@+id/tableLayoutPermission"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:background="@drawable/me_rounded_corner_white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:shrinkColumns="*"
-        android:stretchColumns="*">
+        android:layout_height="wrap_content">
 
-        <TableRow
-            android:id="@+id/tableRowOperations"
+        <TableLayout
+            android:id="@+id/tableLayoutPermission"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/me_rounded_corner_white"
+            android:padding="10dp"
+            android:shrinkColumns="*"
+            android:stretchColumns="*"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/textViewEmpty"
-                android:text="   "
-                android:layout_gravity="center"/>
+            <TableRow
+                android:id="@+id/tableRowOperations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/textViewRead"
-                android:text="@string/Read"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:typeface="serif" />
+                <TextView
+                    android:id="@+id/textViewEmpty"
+                    android:layout_gravity="center"
+                    android:text="@string/blank_string"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
-            <TextView
-                android:id="@+id/textViewUpdate"
-                android:text="@string/Update"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:typeface="serif" />
+                <TextView
+                    android:id="@+id/textViewCreate"
+                    android:text="@string/Create"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:typeface="serif" />
 
-            <TextView
-                android:id="@+id/textViewDelete"
-                android:text="@string/Delete"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:typeface="serif" />
+                <TextView
+                    android:id="@+id/textViewRead"
+                    android:text="@string/Read"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:typeface="serif" />
 
-        </TableRow>
+                <TextView
+                    android:id="@+id/textViewUpdate"
+                    android:text="@string/Update"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:typeface="serif" />
 
-        <TableRow
-            android:id="@+id/tableRowOwner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textViewDelete"
+                    android:text="@string/Delete"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:typeface="serif" />
 
-            <TextView
-                android:id="@+id/textViewOwner"
-                android:text="@string/Owner"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_gravity="start|center" />
+            </TableRow>
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkBoxOwnerRead"
-                android:layout_gravity="center" />
+            <TableRow
+                android:id="@+id/tableRowCloud"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkBoxOwnerUpdate"
-                android:layout_gravity="center" />
+                <TextView
+                    android:id="@+id/textViewCloud"
+                    android:layout_gravity="start|center"
+                    android:text="@string/Cloud"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkBoxOwnerDelete"
-                android:layout_gravity="center" />
-        </TableRow>
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxCloudCreate"
+                    android:layout_gravity="center" />
 
-        <TableRow
-            android:id="@+id/tableRowPrimary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxCloudRead"
+                    android:layout_gravity="center" />
 
-            <TextView
-                android:id="@+id/textViewPrimary"
-                android:text="@string/Primary"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_gravity="start|center"/>
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxCloudUpdate"
+                    android:layout_gravity="center" />
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkBoxPrimaryRead"
-                android:layout_gravity="center" />
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxCloudDelete"
+                    android:layout_gravity="center" />
+            </TableRow>
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkBoxPrimaryUpdate"
-                android:layout_gravity="center" />
+            <TableRow
+                android:id="@+id/tableRowVillage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkBoxPrimaryDelete"
-                android:layout_gravity="center" />
+                <TextView
+                    android:id="@+id/textViewVillage"
+                    android:layout_gravity="start|center"
+                    android:text="@string/Village"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
-        </TableRow>
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxVillageCreate"
+                    android:layout_gravity="center" />
 
-        <TableRow
-            android:id="@+id/tableRowSecondary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxVillageRead"
+                    android:layout_gravity="center" />
 
-            <TextView
-                android:id="@+id/textViewSecondary"
-                android:text="@string/Secondary"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_gravity="start|center" />
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxVillageUpdate"
+                    android:layout_gravity="center" />
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkBoxSecondaryRead"
-                android:layout_gravity="center" />
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxVillageDelete"
+                    android:layout_gravity="center" />
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkBoxSecondaryUpdate"
-                android:layout_gravity="center" />
+            </TableRow>
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkBoxSecondaryDelete"
-                android:layout_gravity="center" />
-        </TableRow>
+            <TableRow
+                android:id="@+id/tableRowHouse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <TableRow
-            android:id="@+id/tableRowOrganization"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/textViewHouse"
+                    android:layout_gravity="start|center"
+                    android:text="@string/House"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/textViewOrganization"
-                android:text="@string/Organization"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:layout_gravity="start|center" />
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxHouseCreate"
+                    android:layout_gravity="center" />
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkBoxOrganizationRead"
-                android:layout_gravity="center" />
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxHouseRead"
+                    android:layout_gravity="center" />
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkBoxOrganizationUpdate"
-                android:layout_gravity="center" />
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxHouseUpdate"
+                    android:layout_gravity="center" />
 
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/checkBoxOrganizationDelete"
-                android:layout_gravity="center" />
-        </TableRow>
-    </TableLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxHouseDelete"
+                    android:layout_gravity="center" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRowRoom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textViewRoom"
+                    android:layout_gravity="start|center"
+                    android:text="@string/Room"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxRoomCreate"
+                    android:layout_gravity="center" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxRoomRead"
+                    android:layout_gravity="center" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxRoomUpdate"
+                    android:layout_gravity="center" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxRoomDelete"
+                    android:layout_gravity="center" />
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRowOwner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textViewOwner"
+                    android:layout_gravity="start|center"
+                    android:text="@string/Owner"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxOwnerCreate"
+                    android:layout_gravity="center" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxOwnerRead"
+                    android:layout_gravity="center" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxOwnerUpdate"
+                    android:layout_gravity="center" />
+
+                <androidx.appcompat.widget.AppCompatCheckBox
+                    android:id="@+id/checkBoxOwnerDelete"
+                    android:layout_gravity="center" />
+            </TableRow>
+        </TableLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

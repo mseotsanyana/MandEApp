@@ -1,10 +1,10 @@
 package com.me.mseotsanyana.mande.BLL.interactors.programme.project;
 
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
 import com.me.mseotsanyana.mande.BLL.interactors.base.iInteractor;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cProjectModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cProjectModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOrganizationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.List;
@@ -33,9 +33,9 @@ public interface iProjectInteractor extends iInteractor {
         void onUploadProjectsFailed(String msg);
 
         // update common properties
-        void onReadUserProfilesSucceeded(List<cUserProfileModel> userProfileModels);
-        void onReadTeamsSucceeded(List<cTeamModel> teamModels);
-        void onReadStakeholdersSucceeded(List<cStakeholderModel> stakeholderModels);
+        void onReadUserProfilesSucceeded(List<CUserProfileModel> userProfileModels);
+        void onReadTeamsSucceeded(List<cWorkspaceModel> teamModels);
+        void onReadStakeholdersSucceeded(List<cOrganizationModel> stakeholderModels);
         void onReadCommonPropertiesFailed(String msg);
     }
 }

@@ -19,7 +19,8 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:text="or" />
+            android:text="or"
+            android:textColor="@color/lightWhite"/>
 
         <TextView
             android:id="@+id/signTextView"
@@ -29,7 +30,8 @@
             android:gravity="center"
             android:text="Sign Up"
             android:textAppearance="?android:textAppearanceLarge"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="@color/lightWhite"/>
     </LinearLayout>
 
     <LinearLayout

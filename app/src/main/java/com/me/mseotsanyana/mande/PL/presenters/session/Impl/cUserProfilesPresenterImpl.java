@@ -6,7 +6,7 @@ import com.me.mseotsanyana.mande.BLL.interactors.session.userprofile.Impl.cReadU
 import com.me.mseotsanyana.mande.BLL.interactors.session.userprofile.Impl.cUpdateUserProfileImageInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.session.userprofile.Impl.cUploadUserProfilesInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.session.userprofile.iUserProfilesInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.BLL.repository.session.iUserProfileRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
@@ -58,7 +58,7 @@ public class cUserProfilesPresenterImpl extends cAbstractPresenter implements iU
     }
 
     @Override
-    public void onReadUserProfilesSucceeded(List<cUserProfileModel> userProfileModels) {
+    public void onReadUserProfilesSucceeded(List<CUserProfileModel> userProfileModels) {
         if (this.view != null) {
             this.view.onReadUserProfilesSucceeded(userProfileModels);
             this.view.hideProgress();

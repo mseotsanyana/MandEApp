@@ -4,7 +4,7 @@ import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.session.user.Impl.cUserSignUpInteractorImpl;
 import com.me.mseotsanyana.mande.BLL.interactors.session.user.iUserSignUpInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iUserProfileRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
 import com.me.mseotsanyana.mande.PL.presenters.session.iUserSignUpPresenter;
@@ -34,7 +34,7 @@ public class cUserSignUpPresenterImpl extends cAbstractPresenter implements iUse
 
 
     @Override
-    public void createUserWithEmailAndPassword(cUserProfileModel userProfileModel) {
+    public void createUserWithEmailAndPassword(CUserProfileModel userProfileModel) {
         if (!inputValidation.isEditTextFilled(view.getEmailEditText(),
                 view.getResourceString(R.string.error_message_email))) {
             return;

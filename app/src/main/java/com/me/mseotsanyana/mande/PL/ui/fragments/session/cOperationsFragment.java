@@ -18,10 +18,10 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.me.mseotsanyana.expandablelayoutlibrary.CExpandableLayout;
 
-import com.me.mseotsanyana.mande.BLL.model.session.cEntityModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cOperationModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cPermissionModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cStatusModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cEntityModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOperationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cPermissionModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cStatusModel;
 import com.me.mseotsanyana.mande.PL.ui.adapters.session.cStatusTreeAdapter;
 import com.me.mseotsanyana.mande.UTIL.INTERFACE.iEntityTVHInterface;
 import com.me.mseotsanyana.mande.R;

@@ -32,11 +32,6 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <!-- progress bar for loading menu-->
-        <include
-            android:id="@+id/progressbar"
-            layout="@layout/me_progress_view" />
-
         <!-- container for organizations, notifications and settings -->
         <FrameLayout
             android:id="@+id/sessionFrameLayout"
@@ -58,6 +53,12 @@
                 app:itemTextColor="@drawable/tabs"
                 app:menu="@menu/home_menu_navigation" />
         </FrameLayout>
+
+        <!-- progress bar for loading menu-->
+        <include
+            android:id="@+id/progressbar"
+            layout="@layout/me_progress_view" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <!-- housing the drawer header and navigation menu

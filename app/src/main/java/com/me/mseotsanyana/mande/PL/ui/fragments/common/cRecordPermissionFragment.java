@@ -15,13 +15,13 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cOrganizationModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cWorkspaceModel;
 import com.me.mseotsanyana.mande.BLL.executor.Impl.cThreadExecutorImpl;
-import com.me.mseotsanyana.mande.BLL.model.common.cRecordPermissionCaretakerModel;
-import com.me.mseotsanyana.mande.BLL.model.common.cRecordPermissionMementoModel;
-import com.me.mseotsanyana.mande.BLL.model.common.cRecordPermissionModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cStakeholderModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cTeamModel;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.common.cRecordPermissionCaretakerModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.common.cRecordPermissionMementoModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.common.cRecordPermissionModel;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cBitwise;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.common.cRecordPermissionFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
@@ -235,158 +235,158 @@ public class cRecordPermissionFragment extends Fragment implements iRecordPermis
             enableButtons();
         });
 
-        /* owner permissions */
-        binding.checkBoxOwnerRead.setOnClickListener(ownerReadView -> {
-            boolean checked = ((CheckBox) ownerReadView).isChecked();
-            binding.checkBoxOwnerRead.setChecked(checked);
-            if (checked) {
-                recordPermissionModel.getUnixpermBITS().add(cBitwise.OWNER_READ);
-            } else {
-                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.OWNER_READ);
-            }
-            recordPermissionModel.setModifiedDate(new Date());
-
-            enableButtons();
-        });
-        binding.checkBoxOwnerUpdate.setOnClickListener(ownerUpdateView -> {
-            boolean checked = ((CheckBox) ownerUpdateView).isChecked();
-            binding.checkBoxOwnerUpdate.setChecked(checked);
-            if (checked) {
-                recordPermissionModel.getUnixpermBITS().add(cBitwise.OWNER_UPDATE);
-            } else {
-                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.OWNER_UPDATE);
-            }
-            recordPermissionModel.setModifiedDate(new Date());
-
-            enableButtons();
-        });
-        binding.checkBoxOwnerDelete.setOnClickListener(ownerDeleteView -> {
-            boolean checked = ((CheckBox) ownerDeleteView).isChecked();
-            binding.checkBoxOwnerDelete.setChecked(checked);
-            if (checked) {
-                recordPermissionModel.getUnixpermBITS().add(cBitwise.OWNER_DELETE);
-            } else {
-                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.OWNER_DELETE);
-            }
-            recordPermissionModel.setModifiedDate(new Date());
-
-            enableButtons();
-        });
-
-        /* primary permissions */
-        binding.checkBoxPrimaryRead.setOnClickListener(primaryReadView -> {
-            boolean checked = ((CheckBox) primaryReadView).isChecked();
-            binding.checkBoxPrimaryRead.setChecked(checked);
-            if (checked) {
-                recordPermissionModel.getUnixpermBITS().add(cBitwise.PRIMARY_TEAM_READ);
-            } else {
-                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.PRIMARY_TEAM_READ);
-            }
-            recordPermissionModel.setModifiedDate(new Date());
-
-            enableButtons();
-        });
-        binding.checkBoxPrimaryUpdate.setOnClickListener(primaryUpdateView -> {
-            boolean checked = ((CheckBox) primaryUpdateView).isChecked();
-            binding.checkBoxPrimaryUpdate.setChecked(checked);
-            if (checked) {
-                recordPermissionModel.getUnixpermBITS().add(cBitwise.PRIMARY_TEAM_UPDATE);
-            } else {
-                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.PRIMARY_TEAM_UPDATE);
-            }
-            recordPermissionModel.setModifiedDate(new Date());
-
-            enableButtons();
-        });
-        binding.checkBoxPrimaryDelete.setOnClickListener(primaryDeleteView -> {
-            boolean checked = ((CheckBox) primaryDeleteView).isChecked();
-            binding.checkBoxPrimaryDelete.setChecked(checked);
-            if (checked) {
-                recordPermissionModel.getUnixpermBITS().add(cBitwise.PRIMARY_TEAM_DELETE);
-            } else {
-                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.PRIMARY_TEAM_DELETE);
-            }
-            recordPermissionModel.setModifiedDate(new Date());
-
-            enableButtons();
-        });
-
-        /* secondary permissions */
-        binding.checkBoxSecondaryRead.setOnClickListener(secondaryReadView -> {
-            boolean checked = ((CheckBox) secondaryReadView).isChecked();
-            binding.checkBoxSecondaryRead.setChecked(checked);
-            if (checked) {
-                recordPermissionModel.getUnixpermBITS().add(cBitwise.SECONDARY_TEAM_READ);
-            } else {
-                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.SECONDARY_TEAM_READ);
-            }
-            recordPermissionModel.setModifiedDate(new Date());
-
-            enableButtons();
-        });
-        binding.checkBoxSecondaryUpdate.setOnClickListener(secondaryUpdateView -> {
-            boolean checked = ((CheckBox) secondaryUpdateView).isChecked();
-            binding.checkBoxSecondaryUpdate.setChecked(checked);
-            if (checked) {
-                recordPermissionModel.getUnixpermBITS().add(cBitwise.SECONDARY_TEAM_UPDATE);
-            } else {
-                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.SECONDARY_TEAM_UPDATE);
-            }
-            recordPermissionModel.setModifiedDate(new Date());
-
-            enableButtons();
-        });
-        binding.checkBoxSecondaryDelete.setOnClickListener(secondaryDeleteView -> {
-            boolean checked = ((CheckBox) secondaryDeleteView).isChecked();
-            binding.checkBoxSecondaryDelete.setChecked(checked);
-            if (checked) {
-                recordPermissionModel.getUnixpermBITS().add(cBitwise.SECONDARY_TEAM_DELETE);
-            } else {
-                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.SECONDARY_TEAM_DELETE);
-            }
-            recordPermissionModel.setModifiedDate(new Date());
-
-            enableButtons();
-        });
-
-        /* organization permissions */
-        binding.checkBoxOrganizationRead.setOnClickListener(organizationReadView -> {
-            boolean checked = ((CheckBox) organizationReadView).isChecked();
-            binding.checkBoxOrganizationRead.setChecked(checked);
-            if (checked) {
-                recordPermissionModel.getUnixpermBITS().add(cBitwise.ORGANIZATION_READ);
-            } else {
-                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.ORGANIZATION_READ);
-            }
-            recordPermissionModel.setModifiedDate(new Date());
-
-            enableButtons();
-        });
-        binding.checkBoxOrganizationUpdate.setOnClickListener(organizationUpdateView -> {
-            boolean checked = ((CheckBox) organizationUpdateView).isChecked();
-            binding.checkBoxOrganizationUpdate.setChecked(checked);
-            if (checked) {
-                recordPermissionModel.getUnixpermBITS().add(cBitwise.ORGANIZATION_UPDATE);
-            } else {
-                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.ORGANIZATION_UPDATE);
-            }
-            recordPermissionModel.setModifiedDate(new Date());
-
-            enableButtons();
-        });
-        binding.checkBoxOrganizationDelete.setOnClickListener(organizationDeleteView -> {
-            boolean checked = ((CheckBox) organizationDeleteView).isChecked();
-            binding.checkBoxOrganizationDelete.setChecked(checked);
-
-            if (checked) {
-                recordPermissionModel.getUnixpermBITS().add(cBitwise.ORGANIZATION_DELETE);
-            } else {
-                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.ORGANIZATION_DELETE);
-            }
-            recordPermissionModel.setModifiedDate(new Date());
-
-            enableButtons();
-        });
+//FIXME        /* owner permissions */
+//        binding.checkBoxOwnerRead.setOnClickListener(ownerReadView -> {
+//            boolean checked = ((CheckBox) ownerReadView).isChecked();
+//            binding.checkBoxOwnerRead.setChecked(checked);
+//            if (checked) {
+//                recordPermissionModel.getUnixpermBITS().add(cBitwise.OWNER_READ);
+//            } else {
+//                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.OWNER_READ);
+//            }
+//            recordPermissionModel.setModifiedDate(new Date());
+//
+//            enableButtons();
+//        });
+//        binding.checkBoxOwnerUpdate.setOnClickListener(ownerUpdateView -> {
+//            boolean checked = ((CheckBox) ownerUpdateView).isChecked();
+//            binding.checkBoxOwnerUpdate.setChecked(checked);
+//            if (checked) {
+//                recordPermissionModel.getUnixpermBITS().add(cBitwise.OWNER_UPDATE);
+//            } else {
+//                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.OWNER_UPDATE);
+//            }
+//            recordPermissionModel.setModifiedDate(new Date());
+//
+//            enableButtons();
+//        });
+//        binding.checkBoxOwnerDelete.setOnClickListener(ownerDeleteView -> {
+//            boolean checked = ((CheckBox) ownerDeleteView).isChecked();
+//            binding.checkBoxOwnerDelete.setChecked(checked);
+//            if (checked) {
+//                recordPermissionModel.getUnixpermBITS().add(cBitwise.OWNER_DELETE);
+//            } else {
+//                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.OWNER_DELETE);
+//            }
+//            recordPermissionModel.setModifiedDate(new Date());
+//
+//            enableButtons();
+//        });
+//
+//        /* primary permissions */
+//        binding.checkBoxPrimaryRead.setOnClickListener(primaryReadView -> {
+//            boolean checked = ((CheckBox) primaryReadView).isChecked();
+//            binding.checkBoxPrimaryRead.setChecked(checked);
+//            if (checked) {
+//                recordPermissionModel.getUnixpermBITS().add(cBitwise.PRIMARY_TEAM_READ);
+//            } else {
+//                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.PRIMARY_TEAM_READ);
+//            }
+//            recordPermissionModel.setModifiedDate(new Date());
+//
+//            enableButtons();
+//        });
+//        binding.checkBoxPrimaryUpdate.setOnClickListener(primaryUpdateView -> {
+//            boolean checked = ((CheckBox) primaryUpdateView).isChecked();
+//            binding.checkBoxPrimaryUpdate.setChecked(checked);
+//            if (checked) {
+//                recordPermissionModel.getUnixpermBITS().add(cBitwise.PRIMARY_TEAM_UPDATE);
+//            } else {
+//                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.PRIMARY_TEAM_UPDATE);
+//            }
+//            recordPermissionModel.setModifiedDate(new Date());
+//
+//            enableButtons();
+//        });
+//        binding.checkBoxPrimaryDelete.setOnClickListener(primaryDeleteView -> {
+//            boolean checked = ((CheckBox) primaryDeleteView).isChecked();
+//            binding.checkBoxPrimaryDelete.setChecked(checked);
+//            if (checked) {
+//                recordPermissionModel.getUnixpermBITS().add(cBitwise.PRIMARY_TEAM_DELETE);
+//            } else {
+//                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.PRIMARY_TEAM_DELETE);
+//            }
+//            recordPermissionModel.setModifiedDate(new Date());
+//
+//            enableButtons();
+//        });
+//
+//        /* secondary permissions */
+//        binding.checkBoxSecondaryRead.setOnClickListener(secondaryReadView -> {
+//            boolean checked = ((CheckBox) secondaryReadView).isChecked();
+//            binding.checkBoxSecondaryRead.setChecked(checked);
+//            if (checked) {
+//                recordPermissionModel.getUnixpermBITS().add(cBitwise.SECONDARY_TEAM_READ);
+//            } else {
+//                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.SECONDARY_TEAM_READ);
+//            }
+//            recordPermissionModel.setModifiedDate(new Date());
+//
+//            enableButtons();
+//        });
+//        binding.checkBoxSecondaryUpdate.setOnClickListener(secondaryUpdateView -> {
+//            boolean checked = ((CheckBox) secondaryUpdateView).isChecked();
+//            binding.checkBoxSecondaryUpdate.setChecked(checked);
+//            if (checked) {
+//                recordPermissionModel.getUnixpermBITS().add(cBitwise.SECONDARY_TEAM_UPDATE);
+//            } else {
+//                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.SECONDARY_TEAM_UPDATE);
+//            }
+//            recordPermissionModel.setModifiedDate(new Date());
+//
+//            enableButtons();
+//        });
+//        binding.checkBoxSecondaryDelete.setOnClickListener(secondaryDeleteView -> {
+//            boolean checked = ((CheckBox) secondaryDeleteView).isChecked();
+//            binding.checkBoxSecondaryDelete.setChecked(checked);
+//            if (checked) {
+//                recordPermissionModel.getUnixpermBITS().add(cBitwise.SECONDARY_TEAM_DELETE);
+//            } else {
+//                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.SECONDARY_TEAM_DELETE);
+//            }
+//            recordPermissionModel.setModifiedDate(new Date());
+//
+//            enableButtons();
+//        });
+//
+//        /* organization permissions */
+//        binding.checkBoxOrganizationRead.setOnClickListener(organizationReadView -> {
+//            boolean checked = ((CheckBox) organizationReadView).isChecked();
+//            binding.checkBoxOrganizationRead.setChecked(checked);
+//            if (checked) {
+//                recordPermissionModel.getUnixpermBITS().add(cBitwise.ORGANIZATION_READ);
+//            } else {
+//                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.ORGANIZATION_READ);
+//            }
+//            recordPermissionModel.setModifiedDate(new Date());
+//
+//            enableButtons();
+//        });
+//        binding.checkBoxOrganizationUpdate.setOnClickListener(organizationUpdateView -> {
+//            boolean checked = ((CheckBox) organizationUpdateView).isChecked();
+//            binding.checkBoxOrganizationUpdate.setChecked(checked);
+//            if (checked) {
+//                recordPermissionModel.getUnixpermBITS().add(cBitwise.ORGANIZATION_UPDATE);
+//            } else {
+//                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.ORGANIZATION_UPDATE);
+//            }
+//            recordPermissionModel.setModifiedDate(new Date());
+//
+//            enableButtons();
+//        });
+//        binding.checkBoxOrganizationDelete.setOnClickListener(organizationDeleteView -> {
+//            boolean checked = ((CheckBox) organizationDeleteView).isChecked();
+//            binding.checkBoxOrganizationDelete.setChecked(checked);
+//
+//            if (checked) {
+//                recordPermissionModel.getUnixpermBITS().add(cBitwise.ORGANIZATION_DELETE);
+//            } else {
+//                recordPermissionModel.getUnixpermBITS().remove((Integer) cBitwise.ORGANIZATION_DELETE);
+//            }
+//            recordPermissionModel.setModifiedDate(new Date());
+//
+//            enableButtons();
+//        });
 
         binding.buttonReset.setOnClickListener(ownerReadView -> {
             cRecordPermissionMementoModel memento = caretaker.getMemento();
@@ -431,68 +431,68 @@ public class cRecordPermissionFragment extends Fragment implements iRecordPermis
         }
     }
 
-    private void setupUnixPerms(@NonNull List<Integer> unixpermBITS) {
+    private void setupUnixPerms(int unixpermBITS) {
 
         clearPermissions();
 
-        for (Integer perm_bit : unixpermBITS) {
-            switch (perm_bit) {
-                case cBitwise.OWNER_READ:
-                    binding.checkBoxOwnerRead.setChecked(true);
-                    binding.checkBoxOwnerRead.setTag(perm_bit.toString());
-                    break;
-                case cBitwise.OWNER_UPDATE:
-                    binding.checkBoxOwnerUpdate.setChecked(true);
-                    binding.checkBoxOwnerUpdate.setTag(perm_bit.toString());
-                    break;
-                case cBitwise.OWNER_DELETE:
-                    binding.checkBoxOwnerDelete.setChecked(true);
-                    binding.checkBoxOwnerDelete.setTag(perm_bit.toString());
-                    break;
-                case cBitwise.PRIMARY_TEAM_READ:
-                    binding.checkBoxPrimaryRead.setChecked(true);
-                    binding.checkBoxPrimaryRead.setTag(perm_bit.toString());
-                    break;
-                case cBitwise.PRIMARY_TEAM_UPDATE:
-                    binding.checkBoxPrimaryUpdate.setChecked(true);
-                    binding.checkBoxPrimaryUpdate.setTag(perm_bit.toString());
-                    break;
-                case cBitwise.PRIMARY_TEAM_DELETE:
-                    binding.checkBoxPrimaryDelete.setChecked(true);
-                    binding.checkBoxPrimaryDelete.setTag(perm_bit.toString());
-                    break;
-                case cBitwise.SECONDARY_TEAM_READ:
-                    binding.checkBoxSecondaryRead.setChecked(true);
-                    binding.checkBoxSecondaryRead.setTag(perm_bit.toString());
-                    break;
-                case cBitwise.SECONDARY_TEAM_UPDATE:
-                    binding.checkBoxSecondaryUpdate.setChecked(true);
-                    binding.checkBoxSecondaryUpdate.setTag(perm_bit.toString());
-                    break;
-                case cBitwise.SECONDARY_TEAM_DELETE:
-                    binding.checkBoxSecondaryDelete.setChecked(true);
-                    binding.checkBoxSecondaryDelete.setTag(perm_bit.toString());
-                    break;
-                case cBitwise.ORGANIZATION_READ:
-                    binding.checkBoxOrganizationRead.setChecked(true);
-                    binding.checkBoxOrganizationRead.setTag(perm_bit.toString());
-                    break;
-                case cBitwise.ORGANIZATION_UPDATE:
-                    binding.checkBoxOrganizationUpdate.setChecked(true);
-                    binding.checkBoxOrganizationUpdate.setTag(perm_bit.toString());
-                    break;
-                case cBitwise.ORGANIZATION_DELETE:
-                    binding.checkBoxOrganizationDelete.setChecked(true);
-                    binding.checkBoxOrganizationDelete.setTag(perm_bit.toString());
-                    break;
-            }
-        }
+//FIXME        for (Integer perm_bit : unixpermBITS) {
+//            switch (perm_bit) {
+//                case cBitwise.OWNER_READ:
+//                    binding.checkBoxOwnerRead.setChecked(true);
+//                    binding.checkBoxOwnerRead.setTag(perm_bit.toString());
+//                    break;
+//                case cBitwise.OWNER_UPDATE:
+//                    binding.checkBoxOwnerUpdate.setChecked(true);
+//                    binding.checkBoxOwnerUpdate.setTag(perm_bit.toString());
+//                    break;
+//                case cBitwise.OWNER_DELETE:
+//                    binding.checkBoxOwnerDelete.setChecked(true);
+//                    binding.checkBoxOwnerDelete.setTag(perm_bit.toString());
+//                    break;
+//                case cBitwise.PRIMARY_TEAM_READ:
+//                    binding.checkBoxPrimaryRead.setChecked(true);
+//                    binding.checkBoxPrimaryRead.setTag(perm_bit.toString());
+//                    break;
+//                case cBitwise.PRIMARY_TEAM_UPDATE:
+//                    binding.checkBoxPrimaryUpdate.setChecked(true);
+//                    binding.checkBoxPrimaryUpdate.setTag(perm_bit.toString());
+//                    break;
+//                case cBitwise.PRIMARY_TEAM_DELETE:
+//                    binding.checkBoxPrimaryDelete.setChecked(true);
+//                    binding.checkBoxPrimaryDelete.setTag(perm_bit.toString());
+//                    break;
+//                case cBitwise.SECONDARY_TEAM_READ:
+//                    binding.checkBoxSecondaryRead.setChecked(true);
+//                    binding.checkBoxSecondaryRead.setTag(perm_bit.toString());
+//                    break;
+//                case cBitwise.SECONDARY_TEAM_UPDATE:
+//                    binding.checkBoxSecondaryUpdate.setChecked(true);
+//                    binding.checkBoxSecondaryUpdate.setTag(perm_bit.toString());
+//                    break;
+//                case cBitwise.SECONDARY_TEAM_DELETE:
+//                    binding.checkBoxSecondaryDelete.setChecked(true);
+//                    binding.checkBoxSecondaryDelete.setTag(perm_bit.toString());
+//                    break;
+//                case cBitwise.ORGANIZATION_READ:
+//                    binding.checkBoxOrganizationRead.setChecked(true);
+//                    binding.checkBoxOrganizationRead.setTag(perm_bit.toString());
+//                    break;
+//                case cBitwise.ORGANIZATION_UPDATE:
+//                    binding.checkBoxOrganizationUpdate.setChecked(true);
+//                    binding.checkBoxOrganizationUpdate.setTag(perm_bit.toString());
+//                    break;
+//                case cBitwise.ORGANIZATION_DELETE:
+//                    binding.checkBoxOrganizationDelete.setChecked(true);
+//                    binding.checkBoxOrganizationDelete.setTag(perm_bit.toString());
+//                    break;
+//            }
+//        }
     }
 
     @Nullable
     private Pair<String, String> getOwnerName(String ownerID,
-                                              @NonNull List<cUserProfileModel> userProfileModels) {
-        for (cUserProfileModel user : userProfileModels) {
+                                              @NonNull List<CUserProfileModel> userProfileModels) {
+        for (CUserProfileModel user : userProfileModels) {
             if (user.getUserOwnerID().equals(ownerID)) {
                 return new Pair<>(user.getName(), user.getSurname());
             }
@@ -501,9 +501,9 @@ public class cRecordPermissionFragment extends Fragment implements iRecordPermis
     }
 
     @Nullable
-    private String getTeamName(String teamID, @NonNull List<cTeamModel> teamModels) {
-        for (cTeamModel team : teamModels) {
-            if (team.getTeamServerID().equals(teamID)) {
+    private String getTeamName(String teamID, @NonNull List<cWorkspaceModel> teamModels) {
+        for (cWorkspaceModel team : teamModels) {
+            if (team.getWorkspaceServerID().equals(teamID)) {
                 return team.getName();
             }
         }
@@ -512,9 +512,9 @@ public class cRecordPermissionFragment extends Fragment implements iRecordPermis
 
     @Nullable
     private String getOrganizationName(String stakeholderID,
-                                       @NonNull List<cStakeholderModel> stakeholderModels) {
-        for (cStakeholderModel stakeholder : stakeholderModels) {
-            if (stakeholder.getStakeholderOwnerID().equals(stakeholderID)) {
+                                       @NonNull List<cOrganizationModel> stakeholderModels) {
+        for (cOrganizationModel stakeholder : stakeholderModels) {
+            if (stakeholder.getOrganizationOwnerID().equals(stakeholderID)) {
                 return stakeholder.getName();
             }
         }
@@ -530,8 +530,8 @@ public class cRecordPermissionFragment extends Fragment implements iRecordPermis
             switch (key) {
                 case "ORGANIZATIONS":
                     // assign organization label
-                    List<cStakeholderModel> stakeholderModels;
-                    stakeholderModels = (List<cStakeholderModel>) object;
+                    List<cOrganizationModel> stakeholderModels;
+                    stakeholderModels = (List<cOrganizationModel>) object;
                     String organizationID = String.valueOf(recordPermissionModel.getOrganizationOwnerID());
                     binding.appCompatTextViewOrganization.setText(
                             getOrganizationName(organizationID, stakeholderModels));
@@ -541,10 +541,10 @@ public class cRecordPermissionFragment extends Fragment implements iRecordPermis
                     for (int i = 0; i < stakeholderModels.size(); i++) {
                         cKeyPairBoolData idNameBool = new cKeyPairBoolData();
                         idNameBool.setId(i);
-                        idNameBool.setRefStringID(stakeholderModels.get(i).getStakeholderServerID());
+                        idNameBool.setRefStringID(stakeholderModels.get(i).getOrganizationServerID());
                         idNameBool.setName(stakeholderModels.get(i).getName());
                         idNameBool.setSelected(organizationID.equals(
-                                stakeholderModels.get(i).getStakeholderServerID()));
+                                stakeholderModels.get(i).getOrganizationServerID()));
                         stakeholders.add(idNameBool);
                     }
 
@@ -565,8 +565,8 @@ public class cRecordPermissionFragment extends Fragment implements iRecordPermis
 
                 case "TEAMS":
                     // assign team label
-                    List<cTeamModel> teamModels;
-                    teamModels = (List<cTeamModel>) object;
+                    List<cWorkspaceModel> teamModels;
+                    teamModels = (List<cWorkspaceModel>) object;
                     String teamID = String.valueOf(recordPermissionModel.getTeamOwnerBIT());
                     binding.appCompatTextViewTeam.setText(getTeamName(teamID, teamModels));
 
@@ -575,9 +575,9 @@ public class cRecordPermissionFragment extends Fragment implements iRecordPermis
                     for (int i = 0; i < teamModels.size(); i++) {
                         cKeyPairBoolData idNameBool = new cKeyPairBoolData();
                         idNameBool.setId(i);
-                        idNameBool.setRefStringID(teamModels.get(i).getTeamServerID());
+                        idNameBool.setRefStringID(teamModels.get(i).getWorkspaceServerID());
                         idNameBool.setName(teamModels.get(i).getName());
-                        idNameBool.setSelected(teamID.equals(teamModels.get(i).getTeamServerID()));
+                        idNameBool.setSelected(teamID.equals(teamModels.get(i).getWorkspaceServerID()));
                         teams.add(idNameBool);
                     }
 
@@ -599,8 +599,8 @@ public class cRecordPermissionFragment extends Fragment implements iRecordPermis
 
                 case "USERS":
                     // assign user profile label
-                    List<cUserProfileModel> userProfileModels;
-                    userProfileModels = (List<cUserProfileModel>) object;
+                    List<CUserProfileModel> userProfileModels;
+                    userProfileModels = (List<CUserProfileModel>) object;
                     String userID = String.valueOf(recordPermissionModel.getUserOwnerID());
                     Pair<String, String> pair = getOwnerName(userID, userProfileModels);
                     assert pair != null;

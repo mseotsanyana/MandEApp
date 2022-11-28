@@ -27,7 +27,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
-import com.me.mseotsanyana.mande.BLL.model.logframe.cRaidModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.logframe.cRaidModel;
 import com.me.mseotsanyana.mande.PL.ui.adapters.logframe.cImpactViewPagerAdapter;
 import com.me.mseotsanyana.mande.R;
 

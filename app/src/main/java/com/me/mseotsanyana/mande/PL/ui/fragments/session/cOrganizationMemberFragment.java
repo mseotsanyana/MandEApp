@@ -24,8 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.me.mseotsanyana.mande.BLL.executor.Impl.cThreadExecutorImpl;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
-import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cStakeholderFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
+import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.session.cOrganizationFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.DAL.ìmpl.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
 import com.me.mseotsanyana.mande.PL.presenters.session.Impl.cOrganizationMemberPresenterImpl;
 import com.me.mseotsanyana.mande.PL.presenters.session.iOrganizationMemberPresenter;
@@ -118,7 +118,7 @@ public class cOrganizationMemberFragment extends Fragment implements iOrganizati
     }
 
     private void initDataStructures() {
-        List<cUserProfileModel> userProfileModels = new ArrayList<>();
+        List<CUserProfileModel> userProfileModels = new ArrayList<>();
 
         organizationMemberAdapter = new cOrganizationMemberAdapter(getActivity(), userProfileModels);
 
@@ -127,7 +127,7 @@ public class cOrganizationMemberFragment extends Fragment implements iOrganizati
                 cMainThreadImpl.getInstance(),
                 this,
                 new cSharedPreferenceFirestoreRepositoryImpl(getContext()),
-                new cStakeholderFirestoreRepositoryImpl(getContext()));
+                new cOrganizationFirestoreRepositoryImpl(getContext()));
 
         activity = ((AppCompatActivity) getActivity());
 
@@ -230,7 +230,7 @@ public class cOrganizationMemberFragment extends Fragment implements iOrganizati
     }
 
     @Override
-    public void onReadOrganizationMembersSucceeded(List<cUserProfileModel> userProfileModels) {
+    public void onReadOrganizationMembersSucceeded(List<CUserProfileModel> userProfileModels) {
         this.organizationMemberAdapter.setOrganizationMemberModels(userProfileModels);
         this.organizationMemberAdapter.notifyDataSetChanged();
     }

@@ -2,10 +2,10 @@ package com.me.mseotsanyana.mande.PL.presenters.session.Impl;
 
 import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
-import com.me.mseotsanyana.mande.BLL.interactors.session.stakeholder.Impl.cReadStakeholderMembersInteractorImpl;
-import com.me.mseotsanyana.mande.BLL.interactors.session.stakeholder.iStakeholderMembersInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
-import com.me.mseotsanyana.mande.BLL.repository.session.iStakeholderRepository;
+import com.me.mseotsanyana.mande.BLL.interactors.session.organization.Impl.cReadOrganizationMembersInteractorImpl;
+import com.me.mseotsanyana.mande.BLL.interactors.session.organization.iOrganizationInteractor;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.repository.session.iOrganizationRepository;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
 import com.me.mseotsanyana.mande.PL.presenters.session.iOrganizationMemberPresenter;
@@ -13,19 +13,19 @@ import com.me.mseotsanyana.mande.PL.presenters.session.iOrganizationMemberPresen
 import java.util.List;
 
 public class cOrganizationMemberPresenterImpl extends cAbstractPresenter implements
-        iOrganizationMemberPresenter, iStakeholderMembersInteractor.Callback {
+        iOrganizationMemberPresenter, iOrganizationInteractor.MemberCallback {
     //private static final String TAG = cOrganizationMemberPresenterImpl.class.getSimpleName();
 
     private View view;
     private final iSharedPreferenceRepository sharedPreferenceRepository;
-    private final iStakeholderRepository organizationRepository;
+    private final iOrganizationRepository organizationRepository;
 
     //private final cInputValidation inputValidation;
 
     public cOrganizationMemberPresenterImpl(iExecutor executor, iMainThread mainThread,
                                             View view,
                                             iSharedPreferenceRepository sharedPreferenceRepository,
-                                            iStakeholderRepository organizationRepository) {
+                                            iOrganizationRepository organizationRepository) {
         super(executor, mainThread);
 
         this.view = view;
@@ -41,19 +41,19 @@ public class cOrganizationMemberPresenterImpl extends cAbstractPresenter impleme
 
     @Override
     public void readOrganizationMembers() {
-        iStakeholderMembersInteractor readOrganizationMembersInteractor =
-                new cReadStakeholderMembersInteractorImpl(
+        iOrganizationInteractor readOrganizationInteractor =
+                new cReadOrganizationMembersInteractorImpl(
                         executor, mainThread, this,
                         sharedPreferenceRepository,
                         organizationRepository
                 );
 
         view.showProgress();
-        readOrganizationMembersInteractor.execute();
+        readOrganizationInteractor.execute();
     }
 
     @Override
-    public void onReadStakeholderMembersRetrieved(List<cUserProfileModel> userProfileModels) {
+    public void onReadOrganizationMembersRetrieved(List<CUserProfileModel> userProfileModels) {
         if (this.view != null) {
             this.view.onReadOrganizationMembersSucceeded(userProfileModels);
             this.view.hideProgress();
@@ -61,12 +61,36 @@ public class cOrganizationMemberPresenterImpl extends cAbstractPresenter impleme
     }
 
     @Override
-    public void onReadStakeholderMembersFailed(String msg) {
+    public void onReadOrganizationMembersFailed(String msg) {
         if (this.view != null) {
             this.view.onReadOrganizationMembersFailed(msg);
             this.view.hideProgress();
         }
     }
+
+    // READ ORGANIZATION MEMBERS
+
+//    @Override
+//    public void readOrganizationMembers() {
+//        iOrganizationInteractor readOrganizationsInteractor =
+//                new cReadOrganizationMembersInteractorImpl(
+//                        executor,
+//                        mainThread, this,
+//                        sharedPreferenceRepository,
+//                        organizationRepository
+//                );
+//
+//        view.showProgress();
+//        readOrganizationsInteractor.execute();
+//    }
+
+//    @Override
+//    public void onReadOrganizationMembersRetrieved(List<CUserProfileModel> userProfileModels) {
+//        if (this.view != null) {
+//            this.view.onReadOrganizationMembersSucceeded(userProfileModels);
+//            this.view.hideProgress();
+//        }
+//    }
 
     // PRESENTER FUNCTIONS
 
@@ -96,4 +120,5 @@ public class cOrganizationMemberPresenterImpl extends cAbstractPresenter impleme
     public void onError(String message) {
 
     }
+
 }

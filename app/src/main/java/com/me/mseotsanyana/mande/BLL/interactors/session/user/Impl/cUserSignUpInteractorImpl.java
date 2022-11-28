@@ -4,7 +4,7 @@ import com.me.mseotsanyana.mande.BLL.executor.iExecutor;
 import com.me.mseotsanyana.mande.BLL.executor.iMainThread;
 import com.me.mseotsanyana.mande.BLL.interactors.base.cAbstractInteractor;
 import com.me.mseotsanyana.mande.BLL.interactors.session.user.iUserSignUpInteractor;
-import com.me.mseotsanyana.mande.BLL.model.session.cUserProfileModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.BLL.repository.session.iUserProfileRepository;
 
 public class cUserSignUpInteractorImpl extends cAbstractInteractor implements iUserSignUpInteractor{
@@ -13,12 +13,12 @@ public class cUserSignUpInteractorImpl extends cAbstractInteractor implements iU
     private final Callback callback;
     private final iUserProfileRepository userProfileRepository;
 
-    private final cUserProfileModel userProfileModel;
+    private final CUserProfileModel userProfileModel;
 
     public cUserSignUpInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
                                      iUserProfileRepository userProfileRepository,
                                      Callback callback,
-                                     cUserProfileModel userProfileModel) {
+                                     CUserProfileModel userProfileModel) {
         super(threadExecutor, mainThread);
 
         if (userProfileRepository == null || callback == null) {

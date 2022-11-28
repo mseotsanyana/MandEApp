@@ -1,12 +1,13 @@
 package com.me.mseotsanyana.mande.DAL.ìmpl.firestore.common;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.me.mseotsanyana.mande.BLL.model.session.cMenuModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.session.cMenuModel;
 import com.me.mseotsanyana.mande.BLL.repository.common.iSharedPreferenceRepository;
 import com.me.mseotsanyana.mande.DAL.storage.preference.cSharedPreference;
 
@@ -24,15 +25,14 @@ public class cSharedPreferenceFirestoreRepositoryImpl implements iSharedPreferen
     private SharedPreferences settings;
     private SharedPreferences.Editor editor;
 
-    @SuppressLint("CommitPrefEdits")
-    public cSharedPreferenceFirestoreRepositoryImpl(Context context) {
+    public cSharedPreferenceFirestoreRepositoryImpl(@NonNull Context context) {
         setSettings(context.getSharedPreferences(KEY_USER_PREFS, Context.MODE_PRIVATE));
         setEditor(settings.edit());
     }
 
-//    public SharedPreferences.Editor getEditor() {
-//        return editor;
-//    }
+    public SharedPreferences.Editor getEditor() {
+        return editor;
+    }
 
     public void setEditor(SharedPreferences.Editor editor) {
         this.editor = editor;
@@ -121,7 +121,7 @@ public class cSharedPreferenceFirestoreRepositoryImpl implements iSharedPreferen
      * @param value value
      */
     @Override
-    public void saveListIntegerSetting(String key, List<Integer> value) {
+    public void saveListOfIntegerSetting(String key, List<Integer> value) {
         String intString;
 
         JSONArray jsonArr = new JSONArray();
@@ -134,25 +134,54 @@ public class cSharedPreferenceFirestoreRepositoryImpl implements iSharedPreferen
     }
 
     @Override
+    public void saveListOfStringSetting(String key, List<String> value) {
+        String JSONString = new Gson().toJson(value);
+        editor.putString(key, JSONString);
+    }
+
+    @Override
     public void saveMenuItems(String key, List<cMenuModel> value) {
         String menuJSONString = new Gson().toJson(value);
         editor.putString(cSharedPreference.KEY_MENU_ITEM_BITS, menuJSONString);
     }
 
+    // LOAD PREFERENCES
+
+    /**
+     * load an active organization identification.
+     *
+     * @return identification
+     */
     @Override
-    public String loadOrganizationID() {
+    public String loadActiveOrganizationID() {
         return settings.getString(cSharedPreference.KEY_ORG_ID, null);
     }
 
-
     @Override
-    public int loadPrimaryTeamBIT() {
-        return settings.getInt(cSharedPreference.KEY_PRIMARY_TEAM_BIT, -1);
+    public List<String> loadMyOrganizations() {
+        String jsonString = settings.getString(cSharedPreference.KEY_USER_ORGANIZATIONS,null);
+        Type type = new TypeToken<List<String>>() {}.getType();
+        return new Gson().fromJson(jsonString, type);
     }
 
+    /**
+     * load a bit of an active workspace of an active organization.
+     *
+     * @return bit
+     */
     @Override
-    public List<Integer> loadSecondaryTeams() {
-        String intString = settings.getString(cSharedPreference.KEY_SECONDARY_TEAMS, "");
+    public int loadActiveWorkspaceBIT() {
+        return settings.getInt(cSharedPreference.KEY_WORKSPACE_OWNER_BIT, -1);
+    }
+
+    /**
+     * load bits of workspaces of an active organization.
+     *
+     * @return bits
+     */
+    @Override
+    public List<Integer> loadSecondaryWorkspaces() {
+        String intString = settings.getString(cSharedPreference.KEY_SECONDARY_WORKSPACES, "");
         try {
             JSONArray jsonArr = new JSONArray(new JSONTokener(intString));
             List<Integer> result = new ArrayList<>();
@@ -167,14 +196,55 @@ public class cSharedPreferenceFirestoreRepositoryImpl implements iSharedPreferen
     }
 
     @Override
+    public String loadCurrentWorkspace() {
+        return settings.getString(cSharedPreference.KEY_WORKSPACE_ID, null);
+    }
+
+    @Override
+    public int loadWorkspaceServerID() {
+        return 0;
+    }
+
+    /**
+     * load identification number of an active user.
+     *
+     * @return identification.
+     */
+    @Override
     public String loadUserID() {
         return settings.getString(cSharedPreference.KEY_USER_ID, null);
     }
 
     @Override
+    public int loadWorkspaceMembershipBITS() {
+        return settings.getInt(cSharedPreference.KEY_USER_WORKSPACE_MEMBERSHIP_BITS,-1);
+    }
+
+    /**
+     * load a bit of all modules selected.
+     *
+     * @return bit
+     */
+    @Override
+    public int loadModuleBITS() {
+        return settings.getInt(cSharedPreference.KEY_MODULE_BITS, -1);
+    }
+
+    /**
+     * load a bit of all entities under a module.
+     *
+     * @param moduleKey module identification.
+     * @return bit
+     */
+    @Override
     public int loadEntityBITS(int moduleKey) {
         return settings.getInt(cSharedPreference.KEY_MODULE_ENTITY_BITS + "-" +
                 moduleKey, -1);
+    }
+
+    @Override
+    public int loadActionPermissionBITS(int moduleKey, int entityKey, String actionKey) {
+        return 0;
     }
 
     @Override
@@ -211,5 +281,18 @@ public class cSharedPreferenceFirestoreRepositoryImpl implements iSharedPreferen
         String jsonString = settings.getString(cSharedPreference.KEY_MENU_ITEM_BITS,null);
         Type type = new TypeToken<List<cMenuModel>>() {}.getType();
         return new Gson().fromJson(jsonString, type);
+    }
+
+    @Override
+    public void deleteCurrentWorkspace() {
+        removeSetting(cSharedPreference.KEY_WORKSPACE_ID);
+        commitSettings();
+    }
+
+    @Override
+    public void saveCurrentWorkspace(String compositeServerID) {
+        saveStringSetting(
+                cSharedPreference.KEY_WORKSPACE_ID, compositeServerID);
+        commitSettings();
     }
 }

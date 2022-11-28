@@ -1,7 +1,7 @@
 package com.me.mseotsanyana.mande.UTIL;
 
-import com.me.mseotsanyana.mande.BLL.model.monitoring.cIndicatorMilestoneModel;
-import com.me.mseotsanyana.mande.BLL.model.monitoring.cIndicatorModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.monitoring.cIndicatorMilestoneModel;
+import com.me.mseotsanyana.mande.BLL.entities.models.monitoring.cIndicatorModel;
 
 import java.time.Instant;
 import java.time.LocalDate;

@@ -1,0 +1,604 @@
+<html>
+<head>
+<title>COrganizationWorkspaceViewModel.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #0033b3;}
+.s1 { color: #080808;}
+.s2 { color: #8c8c8c; font-style: italic;}
+.s3 { color: #067d17;}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+COrganizationWorkspaceViewModel.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.me.mseotsanyana.mande.framework.modelviews.session;</span>
+
+<span class="s0">import </span><span class="s1">android.graphics.Color;</span>
+<span class="s0">import </span><span class="s1">android.util.Log;</span>
+<span class="s0">import </span><span class="s1">android.view.View;</span>
+<span class="s0">import </span><span class="s1">android.widget.TextView;</span>
+<span class="s0">import </span><span class="s1">android.widget.Toast;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.ActionBar;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.app.AppCompatActivity;</span>
+<span class="s0">import </span><span class="s1">androidx.appcompat.widget.Toolbar;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.DefaultItemAnimator;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.LinearLayoutManager;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.RecyclerView;</span>
+
+<span class="s0">import </span><span class="s1">com.google.android.material.appbar.CollapsingToolbarLayout;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.R;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.application.structures.IResponseDTO;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.application.structures.enums.EAction;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.databinding.SessionOrganizationWorkspaceFragmentBinding;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ports.IOrganizationWorkspaceListener;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ports.base.AGUIFactory;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ports.base.CFactoryProvider;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ports.base.EAdapterType;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ports.base.EDialogType;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ports.base.ERouterType;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ports.base.IBaseAdapter;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ports.base.IBaseDialog;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ports.base.IBaseRouter;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ui.routers.session.COrganizationWorkspaceRouter;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ui.adapters.session.COrganizationWorkspaceAdapter;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ui.dialogs.session.COrganizationWorkspaceDialog;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ui.fragments.session.COrganizationWorkspaceFragment;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.application.structures.CIndexedLinkedHashMap;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.controllers.session.COrganizationWorkspaceControllerImpl;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.ports.session.IOrganizationWorkspaceController;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.presenters.session.COrganizationWorkspacePresenterImpl;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.COrganizationFirestoreRepositoryImpl;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.CUserProfileFirestoreRepositoryImpl;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.CWorkspaceFirestoreRepositoryImpl;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.services.CSessionManagerImpl;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;</span>
+
+<span class="s0">public class </span><span class="s1">COrganizationWorkspaceViewModel </span><span class="s0">implements </span><span class="s1">IOrganizationWorkspaceController.IViewModel {</span>
+    <span class="s0">private static final </span><span class="s1">String TAG = COrganizationWorkspaceViewModel.</span><span class="s0">class</span><span class="s1">.getSimpleName();</span>
+    <span class="s2">/* organization workspace binding */</span>
+    <span class="s0">private final </span><span class="s1">SessionOrganizationWorkspaceFragmentBinding binding;</span>
+    <span class="s2">/* organization workspace view interface */</span>
+    <span class="s0">private final </span><span class="s1">COrganizationWorkspaceFragment fragment;</span>
+    <span class="s2">/* organization workspace dialog */</span>
+    <span class="s0">private final </span><span class="s1">COrganizationWorkspaceDialog dialog;</span>
+    <span class="s2">/* navigation to and from other views */</span>
+    <span class="s0">private final </span><span class="s1">COrganizationWorkspaceRouter router;</span>
+    <span class="s2">/* organization workspace adapters */</span>
+    <span class="s0">private final </span><span class="s1">COrganizationWorkspaceAdapter adapter;</span>
+    <span class="s2">/* organization workspace controller */</span>
+    <span class="s0">private </span><span class="s1">IOrganizationWorkspaceController controller;</span>
+
+    <span class="s0">public </span><span class="s1">COrganizationWorkspaceViewModel(COrganizationWorkspaceFragment fragment,</span>
+                                           <span class="s1">SessionOrganizationWorkspaceFragmentBinding binding) {</span>
+        <span class="s0">this</span><span class="s1">.fragment = fragment;</span>
+        <span class="s0">this</span><span class="s1">.binding = binding;</span>
+
+        <span class="s1">CFactoryProvider factoryProvider = </span><span class="s0">new </span><span class="s1">CFactoryProvider(fragment.getContext(),</span>
+                <span class="s1">fragment, </span><span class="s0">this</span><span class="s1">, </span><span class="s0">new </span><span class="s1">CIndexedLinkedHashMap&lt;&gt;());</span>
+
+        <span class="s1">AGUIFactory&lt;IBaseRouter&gt; routerFactory;</span>
+        <span class="s1">routerFactory = factoryProvider.getRouterFactory(ERouterType.ORG_WKS);</span>
+        <span class="s0">this</span><span class="s1">.router = (COrganizationWorkspaceRouter) routerFactory.create();</span>
+
+        <span class="s1">AGUIFactory&lt;IBaseDialog&gt; dialogFactory;</span>
+        <span class="s1">dialogFactory = factoryProvider.getDialogFactory(EDialogType.ORG_WKS);</span>
+        <span class="s0">this</span><span class="s1">.dialog = (COrganizationWorkspaceDialog) dialogFactory.create();</span>
+
+        <span class="s1">AGUIFactory&lt;IBaseAdapter&gt; adapterFactory;</span>
+        <span class="s1">adapterFactory = factoryProvider.getAdapterFactory(EAdapterType.ORG_WKS);</span>
+        <span class="s0">this</span><span class="s1">.adapter = (COrganizationWorkspaceAdapter) adapterFactory.create();</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">initAppBarLayout(Toolbar toolbar, TextView textView,</span>
+                                 <span class="s1">CollapsingToolbarLayout collapsingToolbarLayout) {</span>
+        <span class="s1">textView.setText(R.string.app_name);</span>
+        <span class="s1">collapsingToolbarLayout.setContentScrimColor(Color.WHITE);</span>
+        <span class="s1">collapsingToolbarLayout.setTitle(</span><span class="s3">&quot;My Workspaces&quot;</span><span class="s1">);</span>
+
+        <span class="s2">/* show the back arrow button*/</span>
+        <span class="s1">AppCompatActivity activity = ((AppCompatActivity) fragment.getActivity());</span>
+        <span class="s0">if </span><span class="s1">(activity != </span><span class="s0">null</span><span class="s1">) {</span>
+            <span class="s1">activity.setSupportActionBar(toolbar);</span>
+            <span class="s1">ActionBar actionBar = activity.getSupportActionBar();</span>
+            <span class="s0">if </span><span class="s1">(actionBar != </span><span class="s0">null</span><span class="s1">) {</span>
+                <span class="s1">actionBar.setDisplayHomeAsUpEnabled(</span><span class="s0">false</span><span class="s1">);</span>
+                <span class="s1">actionBar.setDisplayShowHomeEnabled(</span><span class="s0">false</span><span class="s1">);</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">initDraggableFAB() {</span>
+        <span class="s1">binding.organizationFAB.setOnClickListener(view -&gt; dialog.createOrganizationDialog());</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">initController() {</span>
+        <span class="s1">controller = </span><span class="s0">new </span><span class="s1">COrganizationWorkspaceControllerImpl(</span>
+                <span class="s1">CThreadExecutorImpl.getInstance(),</span>
+                <span class="s1">CMainThreadImpl.getInstance(),</span>
+                <span class="s1">CSessionManagerImpl.getInstance(fragment.getContext()),</span>
+                <span class="s0">this</span><span class="s1">,</span>
+                <span class="s0">new </span><span class="s1">COrganizationWorkspacePresenterImpl(</span><span class="s0">this</span><span class="s1">),</span>
+                <span class="s0">new </span><span class="s1">COrganizationFirestoreRepositoryImpl(fragment.getContext()),</span>
+                <span class="s0">new </span><span class="s1">CWorkspaceFirestoreRepositoryImpl(fragment.getContext()),</span>
+                <span class="s0">new </span><span class="s1">CUserProfileFirestoreRepositoryImpl(fragment.getContext())</span>
+        <span class="s1">);</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">setAdapter(EAction action, CTreeModel treeModel) {</span>
+        <span class="s2">//if (adapter == null) {</span>
+        <span class="s0">if </span><span class="s1">(binding.organizationRecyclerView.getAdapter() == </span><span class="s0">null</span><span class="s1">) {</span>
+            <span class="s2">//adapter = new COrganizationWorkspaceAdapter(fragment.getContext(),</span>
+            <span class="s2">//        this, organizationTreeModels);</span>
+
+            <span class="s1">binding.organizationRecyclerView.setHasFixedSize(</span><span class="s0">true</span><span class="s1">);</span>
+            <span class="s1">RecyclerView.LayoutManager mLayoutManager;</span>
+            <span class="s1">mLayoutManager = </span><span class="s0">new </span><span class="s1">LinearLayoutManager(fragment.getContext());</span>
+            <span class="s1">binding.organizationRecyclerView.setLayoutManager(mLayoutManager);</span>
+            <span class="s1">binding.organizationRecyclerView.setItemAnimator(</span><span class="s0">new </span><span class="s1">DefaultItemAnimator());</span>
+            <span class="s1">binding.organizationRecyclerView.setAdapter(adapter);</span>
+        <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+            <span class="s1">adapter.add2TreeModels(action, treeModel);</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s2">/**************************** event messages received from fragment ***************************/</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onViewCreated() {</span>
+        <span class="s1">initAppBarLayout(binding.toolbarLayout.toolbar, binding.toolbarLayout.appName,</span>
+                <span class="s1">binding.toolbarLayout.collapsingToolbarLayout);</span>
+        <span class="s1">initDraggableFAB();</span>
+        <span class="s1">initController();</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onResumeView() {</span>
+        <span class="s1">controller.resume();</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onRemoveListener() {</span>
+        <span class="s1">controller.removeListener();</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onSearchAdapter(String query) {</span>
+        <span class="s1">adapter.getFilter().filter(query);</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onUserLogOut() {</span>
+        <span class="s1">controller.signOutWithEmailAndPassword();</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onUserLoggedOut() {</span>
+        <span class="s1">router.actionCOrganizationWorkspaceFragmentToCLoginFragment();</span>
+        <span class="s1">Toast.makeText(fragment.getContext(), </span><span class="s3">&quot;No user signed in!&quot;</span><span class="s1">, Toast.LENGTH_SHORT).show();</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onEmailUnverified() {</span>
+        <span class="s1">router.actionCOrganizationWorkspaceFragmentToCLoginFragment();</span>
+        <span class="s1">Toast.makeText(fragment.getContext(), </span><span class="s3">&quot;Please check and verify your email!&quot;</span><span class="s1">,</span>
+                <span class="s1">Toast.LENGTH_SHORT).show();</span>
+    <span class="s1">}</span>
+
+    <span class="s2">/************************** controller and presenter feedback methods *************************/</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">showProgress() {</span>
+        <span class="s1">binding.includeProgressBar.setVisibility(View.VISIBLE);</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">hideProgress() {</span>
+        <span class="s1">binding.includeProgressBar.setVisibility(View.GONE);</span>
+    <span class="s1">}</span>
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void showResponse(@NonNull Map&lt;String, CTreeModel&gt; response) {</span>
+<span class="s2">//</span>
+<span class="s2">//        if (response.containsValue(null)) {</span>
+<span class="s2">//            router.actionCOrganizationWorkspaceFragmentToCLoginFragment();</span>
+<span class="s2">//            Set&lt;String&gt; msg = response.keySet();</span>
+<span class="s2">//            Log.i(TAG, (String) msg.toArray()[0]);</span>
+<span class="s2">//        } else {</span>
+<span class="s2">//            setAdapter((CIndexedLinkedHashMap&lt;String, CTreeModel&gt;) response);</span>
+<span class="s2">//        }</span>
+<span class="s2">//    }</span>
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void showResponse(String response) {</span>
+<span class="s2">//        setAdapter((CIndexedLinkedHashMap&lt;String, CTreeModel&gt;) response);</span>
+<span class="s2">//    }</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onAddTreeModel(IResponseDTO&lt;CTreeModel&gt; response) {</span>
+        <span class="s0">if </span><span class="s1">(response.getAction().equals(EAction.Added_ORGANIZATION)) {</span>
+            <span class="s1">setAdapter(EAction.Added_ORGANIZATION, response.getData());</span>
+        <span class="s1">}</span>
+
+        <span class="s0">if </span><span class="s1">(response.getAction().equals(EAction.Modified_ORGANIZATION)) {</span>
+            <span class="s1">adapter.updateTreeModels(response.getData());</span>
+        <span class="s1">}</span>
+
+        <span class="s0">if </span><span class="s1">(response.getAction().equals(EAction.Added_WORKSPACE)) {</span>
+            <span class="s1">setAdapter(EAction.Added_WORKSPACE, response.getData());</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onUpdateTreeModels(IResponseDTO&lt;String&gt; response) {</span>
+        <span class="s0">if </span><span class="s1">(response.getAction().equals(EAction.Deleted_WORKSPACE)) {</span>
+            <span class="s1">Log.d(TAG, </span><span class="s3">&quot;-------&gt;&gt;&gt;&gt;&gt;&gt;&gt; &quot; </span><span class="s1">+ response.getData());</span>
+            <span class="s1">adapter.reloadTreeModels(response.getData());</span>
+            <span class="s2">//adapter.reloadList((CIndexedLinkedHashMap&lt;String, CTreeModel&gt;) response.getData());</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">switchResponse(String response) {</span>
+        <span class="s1">router.actionCOrganizationWorkspaceFragmentToCHomePageFragment();</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">showMessage(String message) {</span>
+        <span class="s1">Toast.makeText(fragment.getContext(), message, Toast.LENGTH_SHORT).show();</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">showResponseMessage(String message) {</span>
+        <span class="s1">router.actionCOrganizationWorkspaceFragmentToCLoginFragment();</span>
+        <span class="s1">Log.i(TAG, message);</span>
+    <span class="s1">}</span>
+
+    <span class="s2">/*********************************** on click event methods ***********************************/</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onClickCreateWorkspace(CWorkspaceModel workspaceModel) {</span>
+        <span class="s1">dialog.createWorkspaceDialog(workspaceModel, listener);</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onClickDeleteWorkspace(</span><span class="s0">int </span><span class="s1">workspaceBITS, CWorkspaceModel workspaceModel) {</span>
+        <span class="s1">dialog.showDeleteDialog(workspaceBITS, workspaceModel, listener);</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onClickReadOrganizationWorkspaces(String organizationServerID) {</span>
+        <span class="s2">//fragment.onClickReadOrganizationWorkspaces(organizationServerID);</span>
+        <span class="s1">controller.readWorkspaces(organizationServerID);</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onLongClickWorkspace(@NonNull CWorkspaceModel workspaceModel) {</span>
+        <span class="s1">controller.chooseWorkspaceRequest(workspaceModel);</span>
+        <span class="s2">//fragment.onLongClickWorkspace(workspaceModel);</span>
+        <span class="s2">//fragment.switchOrganizationWorkspace(workspaceModel);</span>
+        <span class="s2">//Toast.makeText(fragment.getContext(), workspaceModel.toString(), Toast.LENGTH_SHORT).show();</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onClickCreateOrganization(COrganizationModel organizationModel) {</span>
+        <span class="s1">controller.createOrganization(organizationModel);</span>
+    <span class="s1">}</span>
+
+    <span class="s2">//---- control handler</span>
+    <span class="s0">private final </span><span class="s1">IOrganizationWorkspaceListener listener = </span><span class="s0">new </span><span class="s1">IOrganizationWorkspaceListener() {</span>
+        <span class="s1">@Override</span>
+        <span class="s0">public void </span><span class="s1">OnDeleteWorkspace(String dialogAction, </span><span class="s0">int </span><span class="s1">workspaceBITS,</span>
+                                      <span class="s1">CWorkspaceModel workspaceModel) {</span>
+            <span class="s1">controller.deleteWorkspace(workspaceBITS, workspaceModel);</span>
+        <span class="s1">}</span>
+
+        <span class="s1">@Override</span>
+        <span class="s0">public void </span><span class="s1">OnCreateOrganization(Object object) {</span>
+
+        <span class="s1">}</span>
+
+        <span class="s1">@Override</span>
+        <span class="s0">public void </span><span class="s1">OnUpdateOrganization(Object object) {</span>
+
+        <span class="s1">}</span>
+
+        <span class="s1">@Override</span>
+        <span class="s0">public void </span><span class="s1">OnDeleteOrganization(String dialogAction) {</span>
+
+        <span class="s1">}</span>
+
+        <span class="s1">@Override</span>
+        <span class="s0">public void </span><span class="s1">OnCreateWorkspace(CWorkspaceModel workspaceModel) {</span>
+            <span class="s1">controller.createWorkspace(workspaceModel);</span>
+        <span class="s1">}</span>
+
+        <span class="s1">@Override</span>
+        <span class="s0">public void </span><span class="s1">OnUpdateWorkspace(Object object) {</span>
+
+        <span class="s1">}</span>
+    <span class="s1">};</span>
+
+    <span class="s2">//----</span>
+
+<span class="s2">//    void showDialog(String action){</span>
+<span class="s2">//        dialog.showDeleteDialog(action, new IOrganizationWorkspaceListener() {</span>
+<span class="s2">//            @Override</span>
+<span class="s2">//            public void OnDeleteWorkspace(String dialogAction) {</span>
+<span class="s2">//                if(dialogAction.equals(&quot;YES&quot;)){</span>
+<span class="s2">//                    controller.deleteWorkspace(workspaceServerID, workspaceMembers);</span>
+<span class="s2">//                }else {</span>
+<span class="s2">//                    Toast.makeText(fragment.getContext(), &quot;Action Cancelled&quot;, Toast.LENGTH_SHORT).show();</span>
+<span class="s2">//                }</span>
+<span class="s2">//            }</span>
+<span class="s2">//</span>
+<span class="s2">//            @Override</span>
+<span class="s2">//            public void OnCreateWorkspace(Object object) {</span>
+<span class="s2">//</span>
+<span class="s2">//            }</span>
+<span class="s2">//        });</span>
+<span class="s2">//    }</span>
+
+<span class="s1">}</span>
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void onError(String msg) {</span>
+<span class="s2">//        //Toast.makeText(iView.getContext(), msg, Toast.LENGTH_SHORT).show();</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void onSuccess(CIndexedLinkedHashMap&lt;String, CTreeModel&gt; treeModels) {</span>
+<span class="s2">//        //setAdapter(treeModels);</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnReadWorkspaceSucceeded(CTreeModel treeModel) {</span>
+<span class="s2">//        //adapter.updateAllNodes(treeModel, absoluteAdapterPosition);</span>
+<span class="s2">//    }</span>
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void onReadOrganizationFailed(String msg) {</span>
+<span class="s2">//        //Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();</span>
+<span class="s2">//    }</span>
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void onReadOrganizationSucceeded(COrganizationModel organization, String operation) {</span>
+<span class="s2">//        if (adapter == null)</span>
+<span class="s2">//            setAdapter(new cIndexedLinkedHashMap&lt;&gt;());</span>
+<span class="s2">//        if (operation.equals(&quot;ADD&quot;)) {</span>
+<span class="s2">//            adapter.getOrganizationList().add(organization.getOrganizationServerID(),</span>
+<span class="s2">//                    organization);</span>
+<span class="s2">//            adapter.reloadList(</span>
+<span class="s2">//                    adapter.getOrganizationList().size() - 1, operation);</span>
+<span class="s2">//        }</span>
+<span class="s2">//</span>
+<span class="s2">//        if (operation.equals(&quot;UPDATE&quot;)) {</span>
+<span class="s2">//            adapter.getOrganizationList().update(organization.getOrganizationServerID(),</span>
+<span class="s2">//                    organization);</span>
+<span class="s2">//            adapter.reloadList(</span>
+<span class="s2">//                    adapter.getOrganizationList().getIndexByKey(</span>
+<span class="s2">//                            organization.getOrganizationServerID()), operation);</span>
+<span class="s2">//        }</span>
+<span class="s2">//</span>
+<span class="s2">//        if (operation.equals(&quot;DELETE&quot;)) {</span>
+<span class="s2">//            adapter.getOrganizationList().update(organization.getOrganizationServerID(),</span>
+<span class="s2">//                    organization);</span>
+<span class="s2">//            adapter.reloadList(</span>
+<span class="s2">//                    adapter.getOrganizationList().getIndexByKey(</span>
+<span class="s2">//                            organization.getOrganizationServerID()), operation);</span>
+<span class="s2">//        }</span>
+<span class="s2">//    }</span>
+
+
+<span class="s2">// SWITCH ORGANIZATION WORKSPACES</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void onSwitchOrganizationWorkspaceFailed(String msg) {</span>
+<span class="s2">//        //Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void onSwitchOrganizationWorkspaceSucceeded(String msg) {</span>
+<span class="s2">//        router.actionCOrganizationFragmentToCHomeFragment();</span>
+<span class="s2">//</span>
+
+<span class="s2">//        NavDirections action;</span>
+<span class="s2">//        action = COrganizationWorkspaceFragmentDirections.actionCOrganizationFragmentToCHomeFragment();</span>
+<span class="s2">//        Navigation.findNavController(requireView()).navigate(action);</span>
+
+<span class="s2">//Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();</span>
+
+
+<span class="s2">//        // save settings for the long clicked workspace</span>
+<span class="s2">//        iSharedPreferenceRepository settings;</span>
+<span class="s2">//        settings = new cSharedPreferenceFirestoreRepositoryImpl(requireContext());</span>
+<span class="s2">//        settings.saveCurrentWorkspace(workspaceModel.getCompositeServerID());</span>
+<span class="s2">//</span>
+<span class="s2">//        Toast.makeText(getContext(), &quot;Workspace '&quot; + workspaceModel.getName() + &quot;' loaded.&quot;,</span>
+<span class="s2">//                Toast.LENGTH_SHORT).show();</span>
+<span class="s2">//    }</span>
+
+<span class="s2">// READ ORGANIZATION MEMBERS</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void onReadOrganizationMembersFailed(String msg) {</span>
+<span class="s2">//        //Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void onReadOrganizationMembersSucceeded(List&lt;CUserProfileModel&gt; userProfileModels) {</span>
+<span class="s2">//</span>
+<span class="s2">//    }</span>
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnCreateOrganizationFailed(String msg) {</span>
+<span class="s2">//        Toast.makeText(fragment.getContext(), msg, Toast.LENGTH_SHORT).show();</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnCreateOrganizationSucceeded(String msg) {</span>
+<span class="s2">//        Toast.makeText(fragment.getContext(), msg, Toast.LENGTH_SHORT).show();</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    // LOGOUT USER</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnUserSignOutFailed(String msg) {</span>
+<span class="s2">//        Toast.makeText(fragment.getContext(), msg, Toast.LENGTH_SHORT).show();</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnUserSignOutSucceeded(String msg) {</span>
+<span class="s2">//        router.actionCOrganizationWorkspaceFragmentToCHomeFragment();</span>
+<span class="s2">//    }</span>
+
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnPreferenceClearedSucceeded(String msg) {</span>
+<span class="s2">//        Log.d(TAG, msg);</span>
+<span class="s2">//        router.actionCOrganizationWorkspaceFragmentToCLoginFragment();</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnPreferenceClearedFailed(String msg) {</span>
+<span class="s2">//        Toast.makeText(fragment.getContext(), msg, Toast.LENGTH_SHORT).show();</span>
+<span class="s2">//        router.actionCOrganizationWorkspaceFragmentToCLoginFragment();</span>
+<span class="s2">//    }</span>
+
+
+<span class="s2">//    private void setAdapter(List&lt;cTreeModel&gt; organizationTreeModels) {</span>
+<span class="s2">//        if (adapter == null) {</span>
+<span class="s2">//            adapter = new COrganizationWorkspaceAdapter(fragment.getContext(),</span>
+<span class="s2">//                    this, organizationTreeModels);</span>
+<span class="s2">//</span>
+<span class="s2">//            binding.organizationRecyclerView.setHasFixedSize(true);</span>
+<span class="s2">//            RecyclerView.LayoutManager mLayoutManager;</span>
+<span class="s2">//            mLayoutManager = new LinearLayoutManager(fragment.getContext());</span>
+<span class="s2">//            binding.organizationRecyclerView.setLayoutManager(mLayoutManager);</span>
+<span class="s2">//            binding.organizationRecyclerView.setItemAnimator(new DefaultItemAnimator());</span>
+<span class="s2">//            binding.organizationRecyclerView.setAdapter(adapter);</span>
+<span class="s2">//        } else {</span>
+<span class="s2">//            try {</span>
+<span class="s2">//                adapter.notifyTreeModelChanged(organizationTreeModels);</span>
+<span class="s2">//            } catch (IllegalAccessException e) {</span>
+<span class="s2">//                e.printStackTrace();</span>
+<span class="s2">//            }</span>
+<span class="s2">//        }</span>
+<span class="s2">//    }</span>
+
+
+<span class="s2">//=========================================</span>
+
+<span class="s2">//    private void readAllOrganizations() {</span>
+<span class="s2">//        if (listenerRegistration != null)</span>
+<span class="s2">//            listenerRegistration.remove();</span>
+<span class="s2">//</span>
+<span class="s2">//        listenerRegistration = organizationRepository.readAllOrganizationsByChildEvent(</span>
+<span class="s2">//                new cFirebaseChildCallBack() {</span>
+<span class="s2">//                    @Override</span>
+<span class="s2">//                    public void onChildAdded(Object object) {</span>
+<span class="s2">//                        if (object != null) {</span>
+<span class="s2">//                            cOrganizationModel organizationModel = (cOrganizationModel) object;</span>
+<span class="s2">//                            Log.d(TAG, &quot; ADD =============&gt;&gt;&gt;&gt;&gt; &quot; + gson.toJson(organizationModel));</span>
+<span class="s2">//</span>
+<span class="s2">////                    if (organizationAdapter == null)</span>
+<span class="s2">////                        organizationAdapter = new cIndexedLinkedHashMap&lt;String, cOrganizationModel&gt;();</span>
+<span class="s2">//</span>
+<span class="s2">//                            organizationAdapter.getOrganizationList().add(</span>
+<span class="s2">//                                    organizationModel.getOrganizationServerID(), organizationModel);</span>
+<span class="s2">//</span>
+<span class="s2">//                            organizationAdapter.notifyItemInserted(organizationAdapter.getReversePosition(</span>
+<span class="s2">//                                    organizationAdapter.getOrganizationList().size() - 1));</span>
+<span class="s2">//</span>
+<span class="s2">//                            //organizationAdapter.reloadList(</span>
+<span class="s2">//                            //        organizationAdapter.getOrganizationList().size() - 1,</span>
+<span class="s2">//                            //        &quot;ADD&quot;);</span>
+<span class="s2">//                        }</span>
+<span class="s2">//                    }</span>
+<span class="s2">//</span>
+<span class="s2">//                    @Override</span>
+<span class="s2">//                    public void onChildChanged(Object object) {</span>
+<span class="s2">//                        if (object != null) {</span>
+<span class="s2">//                            cOrganizationModel organizationModel = (cOrganizationModel) object;</span>
+<span class="s2">//                            organizationAdapter.getOrganizationList().update(</span>
+<span class="s2">//                                    organizationModel.getOrganizationServerID(), organizationModel);</span>
+<span class="s2">//</span>
+<span class="s2">//</span>
+<span class="s2">//                            organizationAdapter.reloadList(organizationAdapter.getOrganizationList().</span>
+<span class="s2">//                                            getIndexByKey(organizationModel.getOrganizationServerID()),</span>
+<span class="s2">//                                    &quot;UPDATE&quot;);</span>
+<span class="s2">//                        }</span>
+<span class="s2">//                    }</span>
+<span class="s2">//</span>
+<span class="s2">//                    @Override</span>
+<span class="s2">//                    public void onChildRemoved(Object object) {</span>
+<span class="s2">//                        if (object != null) {</span>
+<span class="s2">//                            cOrganizationModel organizationModel = (cOrganizationModel) object;</span>
+<span class="s2">//                            organizationAdapter.getOrganizationList().update(</span>
+<span class="s2">//                                    organizationModel.getOrganizationServerID(), organizationModel);</span>
+<span class="s2">//                            organizationAdapter.reloadList(organizationAdapter.getOrganizationList().</span>
+<span class="s2">//                                            getIndexByKey(organizationModel.getOrganizationServerID()),</span>
+<span class="s2">//                                    &quot;DELETE&quot;);</span>
+<span class="s2">//                        }</span>
+<span class="s2">//                    }</span>
+<span class="s2">//</span>
+<span class="s2">//                    @Override</span>
+<span class="s2">//                    public void onCancelled(Object object) {</span>
+<span class="s2">//                        if (object != null)</span>
+<span class="s2">//                            Toast.makeText(getContext(), &quot;getAllOrganization&quot;, Toast.LENGTH_SHORT).show();</span>
+<span class="s2">//                    }</span>
+<span class="s2">//                });</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+
+<span class="s2">//    }</span>
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void onResume() {</span>
+<span class="s2">//        super.onResume();</span>
+<span class="s2">//        /* get all organizations from the database */</span>
+<span class="s2">//        //organizationPresenter.readOrganizations();</span>
+<span class="s2">//    }</span>
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public View onCreateView(LayoutInflater inflater, ViewGroup container,</span>
+<span class="s2">//                             Bundle savedInstanceState) {</span>
+<span class="s2">//        // Inflate the layout for this fragment</span>
+<span class="s2">//        return inflater.inflate(R.layout.session_organizations_fragment, container, false);</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {</span>
+<span class="s2">//        /* create data structures */</span>
+<span class="s2">//        initDataStructures();</span>
+<span class="s2">//</span>
+<span class="s2">//        /* create RecyclerView */</span>
+<span class="s2">//        initOrganizationViews(view);</span>
+<span class="s2">//</span>
+<span class="s2">//        /* draggable floating button */</span>
+<span class="s2">//        initDraggableFAB(view);</span>
+<span class="s2">//    }</span>
+
+<span class="s2">//    private void initOrganizationViews(View view) {</span>
+<span class="s2">//        binding.organizationRecyclerView.</span>
+<span class="s2">//</span>
+<span class="s2">//</span>
+<span class="s2">//        includeProgressBar = view.findViewById(R.id.includeProgressBar);</span>
+<span class="s2">//        orgRecyclerView = view.findViewById(R.id.orgRecyclerView);</span>
+<span class="s2">//</span>
+<span class="s2">//        orgRecyclerView.setHasFixedSize(true);</span>
+<span class="s2">//        LinearLayoutManager llm = new LinearLayoutManager(getActivity());</span>
+<span class="s2">//        llm.setOrientation(LinearLayoutManager.VERTICAL);</span>
+<span class="s2">//</span>
+<span class="s2">//        orgRecyclerView.setAdapter(organizationAdapter);</span>
+<span class="s2">//        orgRecyclerView.setLayoutManager(llm);</span>
+<span class="s2">//    }</span>
+</pre>
+</body>
+</html>

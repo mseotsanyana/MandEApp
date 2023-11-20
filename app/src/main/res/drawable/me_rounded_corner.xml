@@ -3,12 +3,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <!-- view background color -->
+    <!-- viewModel background color -->
     <solid
         android:color="@color/parent_header_colour" >
     </solid>
 
-    <!-- view border color and width -->
+    <!-- viewModel border color and width -->
     <stroke
         android:width="3dp"
         android:color="@color/colorPrimary" >

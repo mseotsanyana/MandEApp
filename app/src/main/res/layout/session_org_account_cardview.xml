@@ -1,0 +1,269 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="10dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="0dp">
+
+                <!-- organization details -->
+                <LinearLayout
+                    android:id="@+id/linearLayoutName"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewOrganizationIcon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="2dp"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/textViewName"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/organization"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_medium"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textViewOrganizationIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
+
+                <!-- organization's email -->
+                <LinearLayout
+                    android:id="@+id/linearLayoutEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayoutName">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewEmailIcon"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginTop="0dp"
+                        android:textSize="@dimen/text_size_small_medium"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/textViewEmail"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <!-- organization's email -->
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
+                        android:text="@string/description_caption"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/text_size_small_medium"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textViewEmailIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
+
+                <!-- subscription -->
+                <LinearLayout
+                    android:id="@+id/linearLayoutSubscription"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayoutEmail">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewSubscriptionDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@string/subscription"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/text_size_small_medium"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewSubscription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/description_caption"
+                        android:textSize="@dimen/text_size_small_medium"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textViewSubscriptionDescription"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
+
+                <!-- status -->
+                <LinearLayout
+                    android:id="@+id/linearLayoutStatus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayoutEmail">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewStatusDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:text="@string/status"
+                        android:textColor="@color/text_color"
+                        android:textSize="@dimen/text_size_small_medium"
+                        app:layout_constraintBottom_toTopOf="@id/textViewCreatedDateCaption"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/linearLayoutEmail" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="2dp"
+                        android:text="@string/description_caption"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_small_medium"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textViewEmailIcon"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </LinearLayout>
+
+                <!-- create date caption -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewCreatedDateCaption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="0dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:text="@string/created_date"
+                    android:textColor="@color/android_text_color"
+                    android:textSize="@dimen/text_size_small_medium"
+                    app:layout_constraintBottom_toTopOf="@id/textViewDeleteIcon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayoutSubscription" />
+
+                <!-- create date -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewCreatedDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_size_small_medium"
+                    app:layout_constraintBottom_toTopOf="@id/textViewDeleteIcon"
+                    app:layout_constraintStart_toEndOf="@+id/textViewCreatedDateCaption"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayoutSubscription" />
+
+                <!-- modify date caption -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewModifiedDateCaption"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="0dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:text="@string/modified_date"
+                    android:textColor="@color/android_text_color"
+                    android:textSize="@dimen/text_size_small_medium"
+                    app:layout_constraintBottom_toTopOf="@id/textViewDeleteIcon"
+                    app:layout_constraintEnd_toStartOf="@+id/textViewModifiedDate"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayoutSubscription" />
+
+                <!-- modify date -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewModifiedDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_small_medium"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@id/textViewDeleteIcon"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayoutSubscription" />
+
+                <!-- update an account -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewUpdateIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/me_btn_flexible"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/textViewDeleteIcon"
+                    app:layout_constraintTop_toBottomOf="@id/textViewCreatedDateCaption" />
+
+                <!-- delete an account -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewDeleteIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/me_btn_flexible"
+                    android:textSize="@dimen/text_size_large"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewCreatedDateCaption" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</layout>

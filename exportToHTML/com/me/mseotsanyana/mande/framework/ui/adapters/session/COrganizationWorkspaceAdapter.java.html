@@ -1,0 +1,516 @@
+<html>
+<head>
+<title>COrganizationWorkspaceAdapter.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #0033b3;}
+.s1 { color: #080808;}
+.s2 { color: #8c8c8c; font-style: italic;}
+.s3 { color: #1750eb;}
+.s4 { color: #067d17;}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+COrganizationWorkspaceAdapter.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.me.mseotsanyana.mande.framework.ui.adapters.session;</span>
+
+<span class="s0">import </span><span class="s1">android.content.Context;</span>
+<span class="s0">import </span><span class="s1">android.graphics.Color;</span>
+<span class="s0">import </span><span class="s1">android.graphics.Typeface;</span>
+<span class="s0">import </span><span class="s1">android.util.Log;</span>
+<span class="s0">import </span><span class="s1">android.view.LayoutInflater;</span>
+<span class="s0">import </span><span class="s1">android.view.View;</span>
+<span class="s0">import </span><span class="s1">android.view.ViewGroup;</span>
+<span class="s0">import </span><span class="s1">android.widget.Filter;</span>
+<span class="s0">import </span><span class="s1">android.widget.Filterable;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull;</span>
+<span class="s0">import </span><span class="s1">androidx.core.content.ContextCompat;</span>
+<span class="s0">import </span><span class="s1">androidx.databinding.DataBindingUtil;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.RecyclerView;</span>
+
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.application.structures.enums.EAction;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ports.adapters.session.IOrganizationWorkspaceAdapter;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.R;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.ports.base.IBaseAdapter;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.framework.utils.CFontManager;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.databinding.SessionChildWorkspaceCardviewBinding;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.databinding.SessionOrganizationParentCardviewBinding;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.application.structures.CIndexedLinkedHashMap;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.ports.session.IOrganizationWorkspaceController;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CNode;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeAdapter;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;</span>
+
+<span class="s0">import </span><span class="s1">java.util.Map;</span>
+
+<span class="s2">/**</span>
+ <span class="s2">* Created by mseotsanyana on 2017/02/27.</span>
+ <span class="s2">*/</span>
+
+<span class="s0">public class </span><span class="s1">COrganizationWorkspaceAdapter </span><span class="s0">extends </span><span class="s1">CTreeAdapter</span>
+        <span class="s0">implements </span><span class="s1">IBaseAdapter, IOrganizationWorkspaceAdapter, Filterable {</span>
+    <span class="s0">private static final </span><span class="s1">String TAG = COrganizationWorkspaceAdapter.</span><span class="s0">class</span><span class="s1">.getSimpleName();</span>
+    <span class="s2">//private static SimpleDateFormat sdf = cConstant.SHORT_FORMAT_DATE;</span>
+
+    <span class="s0">private static final int </span><span class="s1">ORGANIZATION = </span><span class="s3">0</span><span class="s1">;</span>
+    <span class="s0">private static final int </span><span class="s1">WORKSPACE = </span><span class="s3">1</span><span class="s1">;</span>
+
+    <span class="s0">private final </span><span class="s1">Context context;</span>
+    <span class="s0">private final </span><span class="s1">IOrganizationWorkspaceController.IViewModel iViewModel;</span>
+
+    <span class="s0">private final </span><span class="s1">CIndexedLinkedHashMap&lt;String, CTreeModel&gt; unFilteredTreeModels;</span>
+
+    <span class="s0">private </span><span class="s1">COrganizationModel organizationModel;</span>
+
+    <span class="s0">private int </span><span class="s1">absoluteAdapterPosition = -</span><span class="s3">1</span><span class="s1">;</span>
+
+    <span class="s0">private </span><span class="s1">LayoutInflater layoutInflater;</span>
+
+    <span class="s2">//Gson gson = new Gson();</span>
+
+    <span class="s0">public </span><span class="s1">COrganizationWorkspaceAdapter(</span>
+            <span class="s1">Context context,</span>
+            <span class="s1">IOrganizationWorkspaceController.IViewModel iViewModel,</span>
+            <span class="s1">CIndexedLinkedHashMap&lt;String, CTreeModel&gt; treeModels) {</span>
+        <span class="s0">super</span><span class="s1">(context, treeModels);</span>
+
+        <span class="s0">this</span><span class="s1">.context = context;</span>
+        <span class="s0">this</span><span class="s1">.iViewModel = iViewModel;</span>
+        <span class="s0">this</span><span class="s1">.unFilteredTreeModels = treeModels;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public int </span><span class="s1">getReversePosition(</span><span class="s0">int </span><span class="s1">index) {</span>
+        <span class="s0">if </span><span class="s1">(treeModels != </span><span class="s0">null </span><span class="s1">&amp;&amp; !treeModels.isEmpty())</span>
+            <span class="s0">return </span><span class="s1">treeModels.size() - </span><span class="s3">1 </span><span class="s1">- index;</span>
+        <span class="s0">else return </span><span class="s3">0</span><span class="s1">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">add2TreeModels(EAction action, CTreeModel treeModel) {</span>
+
+        <span class="s2">//treeModels = list;</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s2">//for(Map.Entry&lt;String, CTreeModel&gt; entry: treeModels.entrySet()){</span>
+            <span class="s2">//CTreeModel treeModel = entry.getValue();</span>
+            <span class="s1">addTreeModelToAllNodes(treeModel);</span>
+            <span class="s2">//}</span>
+
+            <span class="s0">if </span><span class="s1">(absoluteAdapterPosition &gt; -</span><span class="s3">1</span><span class="s1">) {</span>
+                <span class="s1">expandOrCollapse(absoluteAdapterPosition);</span>
+                <span class="s2">// make sure the expand corresponds to the click, not number of reads.</span>
+                <span class="s1">absoluteAdapterPosition = -</span><span class="s3">1</span><span class="s1">;</span>
+            <span class="s1">}</span>
+
+        <span class="s1">} </span><span class="s0">catch </span><span class="s1">(IllegalAccessException e) {</span>
+            <span class="s1">e.printStackTrace();</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">updateTreeModels(CTreeModel treeModel) {</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s1">updateTreeModelInAllNodes(treeModel);</span>
+        <span class="s1">} </span><span class="s0">catch </span><span class="s1">(IllegalAccessException e) {</span>
+            <span class="s1">e.printStackTrace();</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+<span class="s2">/*    public void updateAllNodes(CTreeModel treeModel, int position) { 
+        try { 
+            this.addTreeModel2AllNodes(treeModel); 
+            expandOrCollapse(position); 
+        } catch (IllegalAccessException e) { 
+            e.printStackTrace(); 
+        } 
+    }*/</span>
+
+    <span class="s0">public void </span><span class="s1">add2TreeModels(</span><span class="s0">int </span><span class="s1">index, String operation) {</span>
+        <span class="s0">switch </span><span class="s1">(operation) {</span>
+            <span class="s0">case </span><span class="s4">&quot;ADD&quot;</span><span class="s1">:</span>
+                <span class="s1">notifyItemInserted(getReversePosition(index));</span>
+                <span class="s1">Log.d(TAG, </span><span class="s4">&quot;INDEX = &quot; </span><span class="s1">+ index + </span><span class="s4">&quot; - &quot; </span><span class="s1">+ getReversePosition(index));</span>
+                <span class="s0">break</span><span class="s1">;</span>
+            <span class="s0">case </span><span class="s4">&quot;UPDATE&quot;</span><span class="s1">:</span>
+                <span class="s1">notifyItemChanged(getReversePosition(index));</span>
+                <span class="s0">break</span><span class="s1">;</span>
+            <span class="s0">case </span><span class="s4">&quot;DELETE&quot;</span><span class="s1">:</span>
+                <span class="s1">notifyItemRemoved(getReversePosition(index));</span>
+                <span class="s0">break</span><span class="s1">;</span>
+            <span class="s0">default</span><span class="s1">:</span>
+                <span class="s1">notifyDataSetChanged();</span>
+                <span class="s0">break</span><span class="s1">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">RecyclerView.ViewHolder OnCreateTreeViewHolder(ViewGroup parent, </span><span class="s0">int </span><span class="s1">viewType) {</span>
+        <span class="s1">RecyclerView.ViewHolder viewHolder;</span>
+        <span class="s0">switch </span><span class="s1">(viewType) {</span>
+            <span class="s0">case </span><span class="s1">ORGANIZATION:</span>
+                <span class="s0">if </span><span class="s1">(layoutInflater == </span><span class="s0">null</span><span class="s1">) {</span>
+                    <span class="s1">layoutInflater = LayoutInflater.from(parent.getContext());</span>
+                <span class="s1">}</span>
+
+                <span class="s1">SessionOrganizationParentCardviewBinding parentBinding = DataBindingUtil.inflate(</span>
+                        <span class="s1">layoutInflater, R.layout.session_organization_parent_cardview, parent,</span>
+                        <span class="s0">false</span><span class="s1">);</span>
+
+                <span class="s1">viewHolder = </span><span class="s0">new </span><span class="s1">cOrganizationViewHolder(parentBinding, </span><span class="s0">this</span><span class="s1">);</span>
+                <span class="s1">cOrganizationViewHolder POH = (cOrganizationViewHolder) viewHolder;</span>
+
+                <span class="s2">// initialise organization listeners</span>
+                <span class="s1">POH.parentBinding.textViewDetailIcon.setOnClickListener(v -&gt; {</span>
+                    <span class="s0">int </span><span class="s1">absoluteAdapterPosition = POH.getAbsoluteAdapterPosition();</span>
+                    <span class="s1">CNode node = visibleNodes.get(absoluteAdapterPosition);</span>
+
+                    <span class="s1">CTreeModel treeModel = node.getTreeModelObject();</span>
+                    <span class="s1">String organizationServerID = treeModel.getChildID();</span>
+
+                    <span class="s0">if </span><span class="s1">(!node.isExpand()) {</span>
+                        <span class="s1">POH.listener.onClickOrganization(organizationServerID, absoluteAdapterPosition);</span>
+                    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                        <span class="s1">expandOrCollapse(absoluteAdapterPosition);</span>
+                    <span class="s1">}</span>
+                <span class="s1">});</span>
+
+                <span class="s2">// create organization workspace</span>
+                <span class="s1">POH.parentBinding.textViewCreateIcon.setOnClickListener(view -&gt; {</span>
+                    <span class="s0">int </span><span class="s1">absoluteAdapterPosition = POH.getAbsoluteAdapterPosition();</span>
+                    <span class="s1">CNode node = visibleNodes.get(absoluteAdapterPosition);</span>
+
+                    <span class="s1">CTreeModel treeModel = node.getTreeModelObject();</span>
+
+                    <span class="s1">String organizationServerID = treeModel.getChildID();</span>
+                    <span class="s1">organizationModel = (COrganizationModel) treeModel.getModelObject();</span>
+                    <span class="s0">int </span><span class="s1">workspaceBITS = organizationModel.getWorkspaceBITS();</span>
+
+                    <span class="s1">POH.listener.onClickCreateWorkspace(organizationServerID, workspaceBITS,</span>
+                            <span class="s1">absoluteAdapterPosition);</span>
+                <span class="s1">});</span>
+
+                <span class="s0">break</span><span class="s1">;</span>
+
+            <span class="s0">case </span><span class="s1">WORKSPACE:</span>
+                <span class="s0">if </span><span class="s1">(layoutInflater == </span><span class="s0">null</span><span class="s1">) {</span>
+                    <span class="s1">layoutInflater = LayoutInflater.from(parent.getContext());</span>
+                <span class="s1">}</span>
+                <span class="s1">SessionChildWorkspaceCardviewBinding childBinding;</span>
+                <span class="s1">childBinding = DataBindingUtil.inflate(layoutInflater,</span>
+                        <span class="s1">R.layout.session_child_workspace_cardview, parent, </span><span class="s0">false</span><span class="s1">);</span>
+
+                <span class="s1">viewHolder = </span><span class="s0">new </span><span class="s1">cWorkspaceViewHolder(childBinding, </span><span class="s0">this</span><span class="s1">);</span>
+                <span class="s1">cWorkspaceViewHolder CWH = (cWorkspaceViewHolder) viewHolder;</span>
+
+                <span class="s2">// initialise workspace listeners</span>
+                <span class="s1">CWH.childBinding.cardView.setOnLongClickListener(view -&gt; {</span>
+                    <span class="s0">int </span><span class="s1">position = CWH.getAbsoluteAdapterPosition();</span>
+                    <span class="s1">CWH.listener.onLongClickWorkspace(position);</span>
+                    <span class="s0">return false</span><span class="s1">;</span>
+                <span class="s1">});</span>
+
+                <span class="s1">CWH.childBinding.textViewDeleteIcon.setOnClickListener(view -&gt; {</span>
+                    <span class="s0">int </span><span class="s1">absoluteAdapterPosition = CWH.getAbsoluteAdapterPosition();</span>
+                    <span class="s1">CNode node = visibleNodes.get(absoluteAdapterPosition);</span>
+                    <span class="s1">CNode parentNode = node.getParent();</span>
+
+                    <span class="s1">CTreeModel treeModel = node.getTreeModelObject();</span>
+                    <span class="s1">CTreeModel parentTreeModel = parentNode.getTreeModelObject();</span>
+
+                    <span class="s1">CWorkspaceModel workspaceModel;</span>
+                    <span class="s1">workspaceModel = (CWorkspaceModel) treeModel.getModelObject();</span>
+
+                    <span class="s1">COrganizationModel organizationModel;</span>
+                    <span class="s1">organizationModel = (COrganizationModel) parentTreeModel.getModelObject();</span>
+
+                    <span class="s1">CWH.listener.onClickDeleteWorkspace(organizationModel.getWorkspaceBITS(),</span>
+                            <span class="s1">workspaceModel);</span>
+                <span class="s1">});</span>
+
+                <span class="s0">break</span><span class="s1">;</span>
+            <span class="s0">default</span><span class="s1">:</span>
+                <span class="s1">viewHolder = </span><span class="s0">null</span><span class="s1">;</span>
+                <span class="s0">break</span><span class="s1">;</span>
+        <span class="s1">}</span>
+        <span class="s0">return </span><span class="s1">viewHolder;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">OnBindTreeViewHolder(RecyclerView.ViewHolder viewHolder, </span><span class="s0">int </span><span class="s1">position) {</span>
+        <span class="s1">CNode node = visibleNodes.get(position);</span>
+        <span class="s1">CTreeModel treeModel = (CTreeModel) node.getTreeModelObject();</span>
+
+        <span class="s0">if </span><span class="s1">(treeModel != </span><span class="s0">null</span><span class="s1">) {</span>
+            <span class="s0">switch </span><span class="s1">(treeModel.getType()) {</span>
+                <span class="s0">case </span><span class="s1">ORGANIZATION:</span>
+
+                    <span class="s1">COrganizationModel organizationModel;</span>
+                    <span class="s1">organizationModel = (COrganizationModel) treeModel.getModelObject();</span>
+                    <span class="s1">cOrganizationViewHolder POH = ((cOrganizationViewHolder) viewHolder);</span>
+
+                    <span class="s2">/* icon for name of an organization */</span>
+                    <span class="s1">POH.parentBinding.textViewOrganizationIcon.setTypeface(</span><span class="s0">null</span><span class="s1">, Typeface.NORMAL);</span>
+                    <span class="s1">POH.parentBinding.textViewOrganizationIcon.setTypeface(</span>
+                            <span class="s1">CFontManager.getTypeface(context, CFontManager.FONTAWESOME));</span>
+
+                    <span class="s0">if </span><span class="s1">(organizationModel.getTypeID() == </span><span class="s3">0</span><span class="s1">) {</span>
+                        <span class="s1">POH.parentBinding.textViewOrganizationIcon.setTextColor(Color.RED);</span>
+                    <span class="s1">} </span><span class="s0">else if </span><span class="s1">(organizationModel.getTypeID() == </span><span class="s3">1</span><span class="s1">) {</span>
+                        <span class="s1">POH.parentBinding.textViewOrganizationIcon.setTextColor(Color.GREEN);</span>
+                    <span class="s1">} </span><span class="s0">else if </span><span class="s1">(organizationModel.getTypeID() == </span><span class="s3">2</span><span class="s1">) {</span>
+                        <span class="s1">POH.parentBinding.textViewOrganizationIcon.setTextColor(Color.BLUE);</span>
+                    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                        <span class="s1">POH.parentBinding.textViewOrganizationIcon.setTextColor(Color.MAGENTA);</span>
+                    <span class="s1">}</span>
+
+                    <span class="s1">POH.parentBinding.textViewOrganizationIcon.setText(context.getResources().getString(R.string.fa_organization));</span>
+                    <span class="s1">POH.parentBinding.textViewName.setText(organizationModel.getName());</span>
+
+                    <span class="s1">POH.parentBinding.textViewEmailIcon.setTypeface(</span><span class="s0">null</span><span class="s1">, Typeface.NORMAL);</span>
+                    <span class="s1">POH.parentBinding.textViewEmailIcon.setTypeface(</span>
+                            <span class="s1">CFontManager.getTypeface(context, CFontManager.FONTAWESOME));</span>
+                    <span class="s1">POH.parentBinding.textViewEmailIcon.setTextColor(context.getColor(R.color.black));</span>
+                    <span class="s1">POH.parentBinding.textViewEmailIcon.setText(context.getResources().getString(R.string.fa_email));</span>
+                    <span class="s1">POH.parentBinding.textViewEmail.setText(organizationModel.getEmail());</span>
+
+                    <span class="s1">POH.parentBinding.textViewWebsiteIcon.setTypeface(</span><span class="s0">null</span><span class="s1">, Typeface.NORMAL);</span>
+                    <span class="s1">POH.parentBinding.textViewWebsiteIcon.setTypeface(</span>
+                            <span class="s1">CFontManager.getTypeface(context, CFontManager.FONTAWESOME));</span>
+                    <span class="s1">POH.parentBinding.textViewWebsiteIcon.setTextColor(context.getColor(R.color.black));</span>
+                    <span class="s1">POH.parentBinding.textViewWebsiteIcon.setText(context.getResources().getString(R.string.fa_website));</span>
+                    <span class="s1">POH.parentBinding.textViewWebsite.setText(organizationModel.getWebsite());</span>
+
+                    <span class="s2">/* icon for deleting a record */</span>
+                    <span class="s1">POH.parentBinding.textViewDeleteIcon.setTypeface(</span><span class="s0">null</span><span class="s1">, Typeface.NORMAL);</span>
+                    <span class="s1">POH.parentBinding.textViewDeleteIcon.setTypeface(</span>
+                            <span class="s1">CFontManager.getTypeface(context, CFontManager.FONTAWESOME));</span>
+                    <span class="s1">POH.parentBinding.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimary));</span>
+                    <span class="s1">POH.parentBinding.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));</span>
+                    <span class="s1">POH.parentBinding.textViewDeleteIcon.setOnClickListener(view -&gt; {</span>
+                        <span class="s2">//PVH.logFrameListener.onClickDeleteLogFrame(position,parentLogFrame.getLogFrameID());</span>
+                    <span class="s1">});</span>
+
+                    <span class="s2">/* icon for saving updated record */</span>
+                    <span class="s1">POH.parentBinding.textViewUpdateIcon.setTypeface(</span><span class="s0">null</span><span class="s1">, Typeface.NORMAL);</span>
+                    <span class="s1">POH.parentBinding.textViewUpdateIcon.setTypeface(</span>
+                            <span class="s1">CFontManager.getTypeface(context, CFontManager.FONTAWESOME));</span>
+                    <span class="s1">POH.parentBinding.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimary));</span>
+                    <span class="s1">POH.parentBinding.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));</span>
+                    <span class="s1">POH.parentBinding.textViewUpdateIcon.setOnClickListener(view -&gt; {</span>
+                        <span class="s2">//HPH.logFrameListener.onClickUpdateLogFrame(position, parentLogFrame);</span>
+                    <span class="s1">});</span>
+
+                    <span class="s2">/* icon for joining a record 
+                    POH.parentBinding.textViewJoinIcon.setTypeface(null, Typeface.NORMAL); 
+                    POH.parentBinding.textViewJoinIcon.setTypeface( 
+                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME)); 
+                    POH.parentBinding.textViewJoinIcon.setTextColor(context.getColor(R.color.colorPrimary)); 
+                    POH.parentBinding.textViewJoinIcon.setText(context.getResources().getString(R.string.fa_join)); 
+                    POH.parentBinding.textViewJoinIcon.setOnClickListener(view -&gt; { 
+                        //PVH.logFrameListener.onClickSyncLogFrame(position, parentLogFrame); 
+                    }); */</span>
+
+                    <span class="s2">/* icon for creating a record */</span>
+                    <span class="s1">POH.parentBinding.textViewCreateIcon.setTypeface(</span><span class="s0">null</span><span class="s1">, Typeface.NORMAL);</span>
+                    <span class="s1">POH.parentBinding.textViewCreateIcon.setTypeface(</span>
+                            <span class="s1">CFontManager.getTypeface(context, CFontManager.FONTAWESOME));</span>
+                    <span class="s1">POH.parentBinding.textViewCreateIcon.setTextColor(context.getColor(R.color.colorPrimary));</span>
+                    <span class="s1">POH.parentBinding.textViewCreateIcon.setText(context.getResources().getString(R.string.fa_create));</span>
+<span class="s2">//                    POH.parentBinding.textViewCreateIcon.setOnClickListener(view -&gt; {</span>
+<span class="s2">//                        int absoluteAdapterPosition = POH.getAbsoluteAdapterPosition();</span>
+<span class="s2">//                        CNode node = visibleNodes.get(absoluteAdapterPosition);</span>
+<span class="s2">//</span>
+<span class="s2">//                        CTreeModel treeModel = node.getTreeModelObject();</span>
+<span class="s2">//                        String organizationServerID = treeModel.getChildID();</span>
+<span class="s2">//                        POH.listener.onClickCreateWorkspace(organizationServerID, absoluteAdapterPosition);</span>
+<span class="s2">//                    });</span>
+
+                    <span class="s2">/* the collapse and expansion of the parent logframe */</span>
+                    <span class="s1">POH.parentBinding.textViewDetailIcon.setTypeface(</span><span class="s0">null</span><span class="s1">, Typeface.NORMAL);</span>
+                    <span class="s1">POH.parentBinding.textViewDetailIcon.setTypeface(</span>
+                            <span class="s1">CFontManager.getTypeface(context, CFontManager.FONTAWESOME));</span>
+                    <span class="s1">POH.parentBinding.textViewDetailIcon.setTextColor(</span>
+                            <span class="s1">context.getColor(R.color.colorPrimaryDark));</span>
+                    <span class="s1">POH.parentBinding.textViewDetailIcon.setVisibility(View.VISIBLE);</span>
+                    <span class="s0">if </span><span class="s1">(node.isExpand()) {</span>
+                        <span class="s1">POH.parentBinding.textViewDetailIcon.setText(</span>
+                                <span class="s1">context.getResources().getString(R.string.fa_angle_up));</span>
+                    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                        <span class="s1">POH.parentBinding.textViewDetailIcon.setText(</span>
+                                <span class="s1">context.getResources().getString(R.string.fa_angle_down));</span>
+                    <span class="s1">}</span>
+                    <span class="s0">break</span><span class="s1">;</span>
+
+                <span class="s0">case </span><span class="s1">WORKSPACE:</span>
+                    <span class="s1">CWorkspaceModel workspaceModel;</span>
+                    <span class="s1">workspaceModel = (CWorkspaceModel) treeModel.getModelObject();</span>
+                    <span class="s1">cWorkspaceViewHolder COH = ((cWorkspaceViewHolder) viewHolder);</span>
+
+                    <span class="s1">COH.setPaddingLeft(</span><span class="s3">20 </span><span class="s1">* node.getLevel());</span>
+
+                    <span class="s1">COH.childBinding.cardView.setCardBackgroundColor(ContextCompat.getColor(</span>
+                            <span class="s1">context, R.color.child_body_colour));</span>
+                    <span class="s1">COH.childBinding.textViewName.setText(workspaceModel.getName());</span>
+                    <span class="s1">COH.childBinding.textViewDescription.setText(workspaceModel.getDescription());</span>
+
+                    <span class="s2">/* icon for deleting a record */</span>
+                    <span class="s1">COH.childBinding.textViewDeleteIcon.setTypeface(</span><span class="s0">null</span><span class="s1">, Typeface.NORMAL);</span>
+                    <span class="s1">COH.childBinding.textViewDeleteIcon.setTypeface(</span>
+                            <span class="s1">CFontManager.getTypeface(context, CFontManager.FONTAWESOME));</span>
+                    <span class="s1">COH.childBinding.textViewDeleteIcon.setTextColor(</span>
+                            <span class="s1">context.getColor(R.color.colorAccent));</span>
+                    <span class="s1">COH.childBinding.textViewDeleteIcon.setText(</span>
+                            <span class="s1">context.getResources().getString(R.string.fa_delete));</span>
+
+                    <span class="s2">/* icon for saving updated record */</span>
+                    <span class="s1">COH.childBinding.textViewUpdateIcon.setTypeface(</span><span class="s0">null</span><span class="s1">, Typeface.NORMAL);</span>
+                    <span class="s1">COH.childBinding.textViewUpdateIcon.setTypeface(</span>
+                            <span class="s1">CFontManager.getTypeface(context, CFontManager.FONTAWESOME));</span>
+                    <span class="s1">COH.childBinding.textViewUpdateIcon.setTextColor(</span>
+                            <span class="s1">context.getColor(R.color.colorAccent));</span>
+                    <span class="s1">COH.childBinding.textViewUpdateIcon.setText(</span>
+                            <span class="s1">context.getResources().getString(R.string.fa_update));</span>
+                    <span class="s1">COH.childBinding.textViewUpdateIcon.setOnClickListener(view -&gt; {</span>
+                            <span class="s1">}</span>
+                            <span class="s2">/*CVH.logFrameListener.onClickUpdateLogFrame(position, 
+                                    childLogFrameModel)*/</span><span class="s1">);</span>
+                    <span class="s0">break</span><span class="s1">;</span>
+
+                <span class="s0">default</span><span class="s1">:</span>
+                    <span class="s0">throw new </span><span class="s1">IllegalStateException(</span><span class="s4">&quot;Unexpected value: &quot; </span><span class="s1">+ treeModel.getType());</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">Filter getFilter() {</span>
+        <span class="s0">return new </span><span class="s1">Filter() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">protected </span><span class="s1">FilterResults performFiltering(CharSequence charSequence) {</span>
+
+                <span class="s1">String charString = charSequence.toString();</span>
+                <span class="s2">//Toast.makeText(fragment.getContext(), , Toast.LENGTH_SHORT).show();</span>
+                <span class="s1">Log.d(TAG, </span><span class="s4">&quot;onSearchAdapter = &quot; </span><span class="s1">+ charString);</span>
+                <span class="s0">if </span><span class="s1">(charString.isEmpty()) {</span>
+                    <span class="s1">treeModels = unFilteredTreeModels;</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+
+                    <span class="s1">CIndexedLinkedHashMap&lt;String, CTreeModel&gt; filteredList = </span><span class="s0">new </span><span class="s1">CIndexedLinkedHashMap&lt;&gt;();</span>
+
+                    <span class="s0">for </span><span class="s1">(Map.Entry&lt;String, CTreeModel&gt; entry : unFilteredTreeModels.entrySet()) {</span>
+                        <span class="s1">String serverID = entry.getKey();</span>
+                        <span class="s1">CTreeModel treeModel = (CTreeModel) entry.getValue();</span>
+                        <span class="s0">switch </span><span class="s1">(treeModel.getType()) {</span>
+
+                            <span class="s0">case </span><span class="s1">ORGANIZATION:</span>
+                                <span class="s1">COrganizationModel organizationModel;</span>
+                                <span class="s1">organizationModel = (COrganizationModel) treeModel.getModelObject();</span>
+                                <span class="s0">if </span><span class="s1">(organizationModel.getName().toLowerCase().</span>
+                                        <span class="s1">contains(charString.toLowerCase())) {</span>
+                                    <span class="s1">filteredList.put(serverID, treeModel);</span>
+                                <span class="s1">}</span>
+                                <span class="s0">break</span><span class="s1">;</span>
+
+                            <span class="s0">case </span><span class="s1">WORKSPACE:</span><span class="s2">//FIXME: check whether filter works for workspaces</span>
+                                <span class="s1">CWorkspaceModel workspaceModel;</span>
+                                <span class="s1">workspaceModel = (CWorkspaceModel) treeModel.getModelObject();</span>
+                                <span class="s0">if </span><span class="s1">(workspaceModel.getName().toLowerCase().</span>
+                                        <span class="s1">contains(charString.toLowerCase())) {</span>
+                                    <span class="s1">filteredList.put(serverID, treeModel);</span>
+                                <span class="s1">}</span>
+                                <span class="s0">break</span><span class="s1">;</span>
+                        <span class="s1">}</span>
+                    <span class="s1">}</span>
+                    <span class="s1">treeModels = filteredList;</span>
+                <span class="s1">}</span>
+
+                <span class="s1">FilterResults filterResults = </span><span class="s0">new </span><span class="s1">FilterResults();</span>
+                <span class="s1">filterResults.count = treeModels.size();</span>
+                <span class="s1">filterResults.values = treeModels;</span>
+
+                <span class="s0">return </span><span class="s1">filterResults;</span>
+            <span class="s1">}</span>
+
+            <span class="s1">@Override</span>
+            <span class="s0">protected void </span><span class="s1">publishResults(CharSequence charSequence, FilterResults filterResults) {</span>
+                <span class="s0">try </span><span class="s1">{</span>
+                    <span class="s1">setTreeModel(treeModels);</span>
+                <span class="s1">} </span><span class="s0">catch </span><span class="s1">(IllegalAccessException e) {</span>
+                    <span class="s1">e.printStackTrace();</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">};</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onClickOrganization(String organizationServerID, </span><span class="s0">int </span><span class="s1">absoluteAdapterPosition) {</span>
+        <span class="s0">this</span><span class="s1">.absoluteAdapterPosition = absoluteAdapterPosition;</span>
+        <span class="s1">iViewModel.onClickReadOrganizationWorkspaces(organizationServerID);</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onLongClickWorkspace(</span><span class="s0">int </span><span class="s1">position) {</span>
+        <span class="s1">CNode node = visibleNodes.get(position);</span>
+        <span class="s1">CTreeModel obj = (CTreeModel) node.getTreeModelObject();</span>
+        <span class="s1">CWorkspaceModel workspaceModel = (CWorkspaceModel) obj.getModelObject();</span>
+        <span class="s1">iViewModel.onLongClickWorkspace(workspaceModel);</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onClickCreateWorkspace(String organizationServerID, </span><span class="s0">int </span><span class="s1">workspaceBITS, </span><span class="s0">int </span><span class="s1">position) {</span>
+        <span class="s1">CWorkspaceModel workspaceModel = </span><span class="s0">new </span><span class="s1">CWorkspaceModel();</span>
+        <span class="s1">workspaceModel.setOrganizationServerID(organizationServerID);</span>
+        <span class="s1">workspaceModel.setWorkspaceServerID(String.valueOf(workspaceBITS));</span>
+        <span class="s1">iViewModel.onClickCreateWorkspace(workspaceModel);</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onClickDeleteWorkspace(</span><span class="s0">int </span><span class="s1">workspaceBITS, CWorkspaceModel workspaceModel) {</span>
+        <span class="s1">iViewModel.onClickDeleteWorkspace(workspaceBITS, workspaceModel);</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public static class </span><span class="s1">cOrganizationViewHolder </span><span class="s0">extends </span><span class="s1">RecyclerView.ViewHolder {</span>
+        <span class="s0">private final </span><span class="s1">SessionOrganizationParentCardviewBinding parentBinding;</span>
+        <span class="s0">private final </span><span class="s1">IOrganizationWorkspaceAdapter listener;</span>
+        <span class="s0">private final </span><span class="s1">View treeView;</span>
+
+        <span class="s0">private </span><span class="s1">cOrganizationViewHolder(SessionOrganizationParentCardviewBinding parentBinding,</span>
+                                        <span class="s1">IOrganizationWorkspaceAdapter listener) {</span>
+            <span class="s0">super</span><span class="s1">(parentBinding.getRoot());</span>
+
+            <span class="s0">this</span><span class="s1">.parentBinding = parentBinding;</span>
+            <span class="s0">this</span><span class="s1">.listener = listener;</span>
+            <span class="s0">this</span><span class="s1">.treeView = parentBinding.getRoot();</span>
+        <span class="s1">}</span>
+
+        <span class="s0">public void </span><span class="s1">setPaddingLeft(</span><span class="s0">int </span><span class="s1">paddingLeft) {</span>
+            <span class="s0">this</span><span class="s1">.treeView.setPadding(paddingLeft, </span><span class="s3">0</span><span class="s1">, </span><span class="s3">0</span><span class="s1">, </span><span class="s3">0</span><span class="s1">);</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public static class </span><span class="s1">cWorkspaceViewHolder </span><span class="s0">extends </span><span class="s1">RecyclerView.ViewHolder {</span>
+        <span class="s0">private final </span><span class="s1">SessionChildWorkspaceCardviewBinding childBinding;</span>
+        <span class="s0">private final </span><span class="s1">IOrganizationWorkspaceAdapter listener;</span>
+        <span class="s0">private final </span><span class="s1">View treeView;</span>
+
+        <span class="s0">private </span><span class="s1">cWorkspaceViewHolder(@NonNull SessionChildWorkspaceCardviewBinding childBinding,</span>
+                                     <span class="s1">IOrganizationWorkspaceAdapter listener) {</span>
+            <span class="s0">super</span><span class="s1">(childBinding.getRoot());</span>
+
+            <span class="s0">this</span><span class="s1">.childBinding = childBinding;</span>
+            <span class="s0">this</span><span class="s1">.listener = listener;</span>
+            <span class="s0">this</span><span class="s1">.treeView = childBinding.getRoot();</span>
+        <span class="s1">}</span>
+
+        <span class="s0">public void </span><span class="s1">setPaddingLeft(</span><span class="s0">int </span><span class="s1">paddingLeft) {</span>
+            <span class="s0">this</span><span class="s1">.treeView.setPadding(paddingLeft, </span><span class="s3">0</span><span class="s1">, </span><span class="s3">0</span><span class="s1">, </span><span class="s3">0</span><span class="s1">);</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>

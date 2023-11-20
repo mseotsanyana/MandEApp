@@ -1342,18 +1342,36 @@ public final class cDatabaseUtils {
     private static List<String> getEntityIDs(@NonNull cPrivilegeModel privilegeModel,
                                              String moduleID) {
         List<String> entity_ids = new ArrayList<>();
-        for (Map.Entry<String, Object> modules_entry : privilegeModel.getModules().entrySet()) {
-            if (modules_entry.getKey().equals(moduleID)) {
-                Map<String, Object> entities_label = (Map<String, Object>) modules_entry.getValue();
-                for (Map.Entry<String, Object> entities_entry : entities_label.entrySet()) {
-                    Map<String, Object> entities = (Map<String, Object>) entities_entry.getValue();
-                    for (Map.Entry<String, Object> entityModel : entities.entrySet()) {
-                        entity_ids.add(entityModel.getKey());
+        JSONObject jsonModules = new JSONObject(privilegeModel.getModules());
+        for (Iterator<String> itModules = jsonModules.keys(); itModules.hasNext();) {
+            String moduleKey = itModules.next();
+            if (moduleKey.equals(moduleID)) {
+                try {
+                    JSONObject jsonModule = new JSONObject(jsonModules.getString(moduleKey));
+                    JSONObject jsonEntities = (JSONObject) jsonModule.remove("entities");
+                    assert jsonEntities != null;
+                    for (Iterator<String> itEntities = jsonEntities.keys(); itEntities.hasNext();) {
+                        String entityKey = itEntities.next();
+                        entity_ids.add(entityKey);
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                break;
             }
         }
+
+//        for (Map.Entry<String, Object> modules_entry : privilegeModel.getModules().entrySet()) {
+//            if (modules_entry.getKey().equals(moduleID)) {
+//                Map<String, Object> entities_label = (Map<String, Object>) modules_entry.getValue();
+//                for (Map.Entry<String, Object> entities_entry : entities_label.entrySet()) {
+//                    Map<String, Object> entities = (Map<String, Object>) entities_entry.getValue();
+//                    for (Map.Entry<String, Object> entityModel : entities.entrySet()) {
+//                        entity_ids.add(entityModel.getKey());
+//                    }
+//                }
+//                break;
+//            }
+//        }
         return entity_ids;
     }
 

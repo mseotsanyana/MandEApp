@@ -1,33 +1,36 @@
-package com.me.mseotsanyana.mande.framework.ui;
+package com.me.mseotsanyana.mande.framework.ports.base;
 
-import com.me.mseotsanyana.mande.framework.ports.base.IBaseDialog;
-import com.me.mseotsanyana.mande.framework.ports.base.IBaseFragment;
-import com.me.mseotsanyana.mande.framework.ports.base.IBaseRouter;
-import com.me.mseotsanyana.mande.framework.ports.base.AGUIFactory;
-import com.me.mseotsanyana.mande.framework.ui.routers.session.COrganizationWorkspaceRouter;
-import com.me.mseotsanyana.mande.framework.ui.dialogs.session.COrganizationWorkspaceDialog;
-import com.me.mseotsanyana.mande.framework.ui.fragments.session.COrganizationWorkspaceFragment;
+import android.content.Context;
 
+import com.me.mseotsanyana.mande.framework.ports.CStandardDialog;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.IBaseView;
 
-public class COrganizationWorkspaceFactory extends AGUIFactory {
+public class CDialogFactory implements AGUIFactory<IBaseDialog> {
 
-    private final IBaseFragment fragment;
+    private final Context context;
+    private final IBaseFragment baseFragment;
+    private final IBaseView baseView;
+    private final EDialogType dialogType;
 
-    public COrganizationWorkspaceFactory(IBaseFragment fragment) {
-        this.fragment = fragment;
+    public CDialogFactory(Context context, IBaseFragment baseFragment, IBaseView baseView,
+                          EDialogType dialogType) {
+        this.context = context;
+        this.baseFragment = baseFragment;
+        this.baseView = baseView;
+        this.dialogType = dialogType;
     }
 
-//    @Override
-//    public IBaseDialog createDialog(IBaseFragment fragment) {
-//        return new COrganizationWorkspaceDialog((COrganizationWorkspaceFragment) getFragment());
-//    }
-//
-//    @Override
-//    public IBaseRouter createRouter() {
-//        return new COrganizationWorkspaceRouter();
-//    }
+    public IBaseFragment getBaseFragment() {
+        return baseFragment;
+    }
 
-    public IBaseFragment getFragment() {
-        return fragment;
+    public IBaseView getIBaseView() {
+        return baseView;
+    }
+
+    @Override
+    public IBaseDialog create() {
+        return new CStandardDialog(context
+        );
     }
 }

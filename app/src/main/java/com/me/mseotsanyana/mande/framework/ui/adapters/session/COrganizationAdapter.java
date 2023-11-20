@@ -17,13 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
-import com.me.mseotsanyana.mande.PL.presenters.session.iOrganizationPresenter;
-import com.me.mseotsanyana.mande.PL.ui.listeners.session.IOrganizationAdapterListener;
-import com.me.mseotsanyana.mande.PL.utils.cIndexedLinkedHashMap;
+import com.me.mseotsanyana.mande.framework.ports.adapters.session.IOrganizationAdapterListener;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
+import com.me.mseotsanyana.mande.application.structures.CIndexedLinkedHashMap;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
 import com.me.mseotsanyana.mande.databinding.SessionOrganizationChildCardviewBinding;
 import com.me.mseotsanyana.mande.databinding.SessionOrganizationParentCardviewBinding;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.IOrganizationController;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeAdapter;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
@@ -42,30 +42,30 @@ public class COrganizationAdapter extends cTreeAdapter implements IOrganizationA
     private static final int CHILD_ORGANIZATION = 1;
 
     private final Context context;
-    private final iOrganizationPresenter.View organizationPresenterView;
+    private final IOrganizationController.IViewModel iViewModel;
 
-    private cIndexedLinkedHashMap<String, COrganizationModel> organizationModels;
-    private cIndexedLinkedHashMap<String, COrganizationModel> filteredStakeholderModels;
+    private CIndexedLinkedHashMap<String, COrganizationModel> organizationModels;
+    private CIndexedLinkedHashMap<String, COrganizationModel> filteredStakeholderModels;
     private List<cTreeModel> filteredTreeModels;
 
     private LayoutInflater layoutInflater;
 
     Gson gson = new Gson();
 
-    public COrganizationAdapter(Context context, iOrganizationPresenter.View organizationPresenterView,
+    public COrganizationAdapter(Context context, IOrganizationController.IViewModel iViewModel,
                                 List<cTreeModel> treeModels) {
         super(context, treeModels);
         this.context = context;
-        this.organizationPresenterView = organizationPresenterView;
+        this.iViewModel = iViewModel;
         this.filteredTreeModels = treeModels;
     }
 
-    public COrganizationAdapter(Context context, iOrganizationPresenter.View organizationPresenterView,
-                                cIndexedLinkedHashMap<String,
-                                        COrganizationModel> organizationModels) {
+    public COrganizationAdapter(Context context, IOrganizationController.IViewModel iViewModel,
+                                CIndexedLinkedHashMap<String,
+                                                                        COrganizationModel> organizationModels) {
         super(context, null, 0);//fixme
         this.context = context;
-        this.organizationPresenterView = organizationPresenterView;
+        this.iViewModel = iViewModel;
         this.organizationModels = organizationModels;
         this.filteredStakeholderModels = organizationModels;
     }
@@ -77,7 +77,7 @@ public class COrganizationAdapter extends cTreeAdapter implements IOrganizationA
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void reloadList(cIndexedLinkedHashMap<String, COrganizationModel> list) {
+    public void reloadList(CIndexedLinkedHashMap<String, COrganizationModel> list) {
         //organizationModels = list;
         filteredStakeholderModels = list;
         notifyDataSetChanged();
@@ -102,7 +102,7 @@ public class COrganizationAdapter extends cTreeAdapter implements IOrganizationA
         }
     }
 
-    public cIndexedLinkedHashMap<String, COrganizationModel> getOrganizationList() {
+    public CIndexedLinkedHashMap<String, COrganizationModel> getOrganizationList() {
         return filteredStakeholderModels;
     }
 
@@ -132,8 +132,8 @@ public class COrganizationAdapter extends cTreeAdapter implements IOrganizationA
                 // set listener on detail icon
                 /* the collapse and expansion of the impact */
                 POH.parentBinding.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-                POH.parentBinding.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                        cFontManager.FONTAWESOME));
+                POH.parentBinding.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                        CFontManager.FONTAWESOME));
                 POH.parentBinding.textViewDetailIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                 POH.parentBinding.textViewDetailIcon.setText(
                         context.getResources().getString(R.string.fa_angle_down));
@@ -212,7 +212,7 @@ public class COrganizationAdapter extends cTreeAdapter implements IOrganizationA
                     /* icon for name of an organization */
                     POH.parentBinding.textViewOrganizationIcon.setTypeface(null, Typeface.NORMAL);
                     POH.parentBinding.textViewOrganizationIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
 
                     if (organizationModel.getTypeID() == 0) {
                         POH.parentBinding.textViewOrganizationIcon.setTextColor(Color.RED);
@@ -229,14 +229,14 @@ public class COrganizationAdapter extends cTreeAdapter implements IOrganizationA
 
                     POH.parentBinding.textViewEmailIcon.setTypeface(null, Typeface.NORMAL);
                     POH.parentBinding.textViewEmailIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     POH.parentBinding.textViewEmailIcon.setTextColor(context.getColor(R.color.black));
                     POH.parentBinding.textViewEmailIcon.setText(context.getResources().getString(R.string.fa_email));
                     POH.parentBinding.textViewEmail.setText(organizationModel.getEmail());
 
                     POH.parentBinding.textViewWebsiteIcon.setTypeface(null, Typeface.NORMAL);
                     POH.parentBinding.textViewWebsiteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     POH.parentBinding.textViewWebsiteIcon.setTextColor(context.getColor(R.color.black));
                     POH.parentBinding.textViewWebsiteIcon.setText(context.getResources().getString(R.string.fa_website));
                     POH.parentBinding.textViewWebsite.setText(organizationModel.getWebsite());
@@ -244,7 +244,7 @@ public class COrganizationAdapter extends cTreeAdapter implements IOrganizationA
                     /* icon for deleting a record */
                     POH.parentBinding.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     POH.parentBinding.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     POH.parentBinding.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimary));
                     POH.parentBinding.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
                     POH.parentBinding.textViewDeleteIcon.setOnClickListener(view -> {
@@ -254,7 +254,7 @@ public class COrganizationAdapter extends cTreeAdapter implements IOrganizationA
                     /* icon for saving updated record */
                     POH.parentBinding.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
                     POH.parentBinding.textViewUpdateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     POH.parentBinding.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimary));
                     POH.parentBinding.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
                     POH.parentBinding.textViewUpdateIcon.setOnClickListener(view -> {
@@ -274,7 +274,7 @@ public class COrganizationAdapter extends cTreeAdapter implements IOrganizationA
                     /* icon for creating a record */
                     POH.parentBinding.textViewCreateIcon.setTypeface(null, Typeface.NORMAL);
                     POH.parentBinding.textViewCreateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     POH.parentBinding.textViewCreateIcon.setTextColor(context.getColor(R.color.colorPrimary));
                     POH.parentBinding.textViewCreateIcon.setText(context.getResources().getString(R.string.fa_create));
                     POH.parentBinding.textViewCreateIcon.setOnClickListener(view -> {
@@ -297,7 +297,7 @@ public class COrganizationAdapter extends cTreeAdapter implements IOrganizationA
                         if (node.isExpand()) {
                             POH.parentBinding.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                             POH.parentBinding.textViewDetailIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             POH.parentBinding.textViewDetailIcon.setTextColor(
                                     context.getColor(R.color.colorPrimaryDark));
                             POH.parentBinding.textViewDetailIcon.setText(
@@ -305,7 +305,7 @@ public class COrganizationAdapter extends cTreeAdapter implements IOrganizationA
                         } else {
                             POH.parentBinding.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                             POH.parentBinding.textViewDetailIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             POH.parentBinding.textViewDetailIcon.setTextColor(
                                     context.getColor(R.color.colorPrimaryDark));
                             POH.parentBinding.textViewDetailIcon.setText(

@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.session;
+package com.me.mseotsanyana.mande.framework.ui.fragments.session;
 
 import android.content.Context;
 import android.graphics.Color;

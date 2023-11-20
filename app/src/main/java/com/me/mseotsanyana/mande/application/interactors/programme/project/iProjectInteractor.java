@@ -1,7 +1,7 @@
 package com.me.mseotsanyana.mande.application.interactors.programme.project;
 
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
-import com.me.mseotsanyana.mande.application.interactors.base.iInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cProjectModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
@@ -9,7 +9,7 @@ import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.List;
 
-public interface iProjectInteractor extends iInteractor {
+public interface iProjectInteractor extends IInteractor {
     interface Callback{
         // create
         void onCreateProjectCompleted(cProjectModel projectModel, String msg);

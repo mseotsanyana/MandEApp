@@ -1,20 +1,21 @@
 package com.me.mseotsanyana.mande.application.interactors.wpb.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.wpb.iUploadAWPBInteractor;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.repository.awpb.iUploadAWPBRepository;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 
-public class cUploadAWPBInteractorImpl extends cAbstractInteractor
+public class cUploadAWPBInteractorImpl extends CAbstractInteractor<IResponseDTO>
         implements iUploadAWPBInteractor {
     private Callback callback;
     private iUploadAWPBRepository uploadAWPBRepository;
 
-    public cUploadAWPBInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
+    public cUploadAWPBInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
                                      iUploadAWPBRepository uploadAWPBRepository,
                                      Callback callback) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
 
 
@@ -100,5 +101,15 @@ public class cUploadAWPBInteractorImpl extends cAbstractInteractor
         }else {
             notifyError("Failed to Add Journal Entity");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

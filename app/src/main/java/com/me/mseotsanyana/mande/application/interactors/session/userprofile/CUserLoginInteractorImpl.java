@@ -1,26 +1,32 @@
-package com.me.mseotsanyana.mande.application.interactors.session.user.Impl;
+package com.me.mseotsanyana.mande.application.interactors.session.userprofile;
 
 import com.me.mseotsanyana.mande.application.exceptions.CGeneralException;
 import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
-import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirebaseCallBack;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreCallBack;
 import com.me.mseotsanyana.mande.application.structures.CConstantModel;
 import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
 import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.repository.session.IUserProfileRepository;
+import com.me.mseotsanyana.mande.application.structures.CResponseDTO;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
+import com.me.mseotsanyana.mande.application.structures.enums.EAction;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CMenuModel;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class CUserLoginInteractorImpl extends CAbstractInteractor implements IInteractor {
-    private final IPresenter<Map<String, Object>> iPresenter;
+public class CUserLoginInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
+        implements IInteractor {
+    private final IPresenter<IResponseDTO<Object>> iPresenter;
     private final IUserProfileRepository userProfileRepository;
 
     private final String email;
     private final String password;
 
     public CUserLoginInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
-                                    IPresenter<Map<String, Object>> iPresenter,
+                                    IPresenter<IResponseDTO<Object>> iPresenter,
                                     IUserProfileRepository userProfileRepository,
                                     String email, String password) {
 
@@ -45,33 +51,37 @@ public class CUserLoginInteractorImpl extends CAbstractInteractor implements IIn
     }
 
     /**
-     * send an error message to the user
-     *
-     * @param msg error message
-     */
-    private void postError(String msg) {
-        mainThread.post(() -> iPresenter.onError(new CGeneralException(msg)));
-    }
-
-    /**
      * send a login success message to the user
      *
-     * @param msg success message
+     * @param resultMap result map
      */
-    private void postResult(Map<String, Object> msg) {
-        mainThread.post(() -> iPresenter.onSuccess(msg));
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+        mainThread.post(() -> iPresenter.onSuccess(resultMap));
+    }
+    /**
+     * send an error message to the user
+     *
+     * @param errorMessage error message
+     */
+    @Override
+    public void postError(String errorMessage) {
+        mainThread.post(() -> iPresenter.onError(new CGeneralException(errorMessage)));
     }
 
     @Override
     public void run() {
         /* sign in with email and password */
         userProfileRepository.signInWithEmailAndPassword(email, password,
-                new CFirebaseCallBack() {
+                new CFirestoreCallBack() {
                     @Override
                     public void onFirebaseSuccess(Object object) {
-                        Map<String, Object> map = new HashMap<>();
-                        map.put(CConstantModel.SIGNIN, object);
-                        postResult(map);
+                        //Map<String, Object> map = new HashMap<>();
+                        //map.put(CConstantModel.SIGNIN, object);
+
+                        IResponseDTO<Object> responseModel;
+                        responseModel = new CResponseDTO<>(EAction.Signedin_USER, object);
+                        postResult(responseModel);
                     }
 
                     @Override
@@ -79,6 +89,97 @@ public class CUserLoginInteractorImpl extends CAbstractInteractor implements IIn
                         postError((String) object);
                     }
                 });
+    }
+
+    private void saveUserPermissions() {
+        userProfileRepository.saveUserPermissions(null,
+                new IUserProfileRepository.ISaveUserPermissionsCallback() {
+            @Override
+            public void onSaveUserPermissionsSucceeded(String msg) {
+
+            }
+
+            @Override
+            public void onSaveUserPermissionsFailed(String msg) {
+
+            }
+
+            @Override
+            public void onSaveOrganizationServerID(String organizationServerID) {
+
+            }
+
+            @Override
+            public void onSaveOrganizationOwnerServerID(String organizationOwnerServerID) {
+
+            }
+
+            @Override
+            public void onSaveCompositeServerID(String compositeServerID) {
+
+            }
+
+            @Override
+            public void onSaveWorkspaceServerID(String workspaceServerID) {
+
+            }
+
+            @Override
+            public void onSaveUserServerID(String userServerID) {
+
+            }
+
+            @Override
+            public void onSaveOwnerServerID(String ownerServerID) {
+
+            }
+
+            @Override
+            public void onSaveWorkspaceOwnerBIT(int workspaceOwnerBIT) {
+
+            }
+
+            @Override
+            public void onSaveWorkspaceMembershipBITS(int workspaceMembershipBITS) {
+
+            }
+
+            @Override
+            public void onSaveMyOrganizations(List<String> organizations) {
+
+            }
+
+            @Override
+            public void onSaveMenuItems(List<CMenuModel> menuModels) {
+
+            }
+
+            @Override
+            public void onSaveModuleBITS(int moduleBITS) {
+
+            }
+
+            @Override
+            public void onSaveEntityBITS(String moduleKey, int entityBITS) {
+
+            }
+
+            @Override
+            public void onSaveActionBITS(int moduleKey, int entityKey, int actionBITS) {
+
+            }
+
+            @Override
+            public void onSaveStatusBITS(String moduleKey, String entityKey, String actionKey, int statusBITS) {
+
+            }
+
+            @Override
+            public void onSavePermissionBITS(String moduleKey, String entityKey, int permBITS) {
+
+            }
+        });
+
     }
 }
 

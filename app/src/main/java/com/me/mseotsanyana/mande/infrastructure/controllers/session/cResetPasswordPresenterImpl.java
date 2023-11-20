@@ -1,25 +1,25 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
-import com.me.mseotsanyana.mande.usecases.executor.iExecutor;
-import com.me.mseotsanyana.mande.usecases.executor.iMainThread;
-import com.me.mseotsanyana.mande.usecases.interactors.session.userprofile.Impl.cResetPasswordInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.userprofile.iResetPasswordInteractor;
-import com.me.mseotsanyana.mande.usecases.repository.session.iUserProfileRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.session.iResetPasswordPresenter;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.interactors.session.userprofile.Impl.cResetPasswordInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.session.userprofile.iResetPasswordInteractor;
+import com.me.mseotsanyana.mande.application.repository.session.IUserProfileRepository;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iResetPasswordPresenter;
 
 public class cResetPasswordPresenterImpl extends cAbstractPresenter
         implements iResetPasswordPresenter, iResetPasswordInteractor.Callback{
     //private static String TAG = cResetPasswordPresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iUserProfileRepository userProfileRepository;
+    private final IUserProfileRepository userProfileRepository;
 
-    public cResetPasswordPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cResetPasswordPresenterImpl(IExecutor executor, IMainThread mainThread,
                                        View view,
-                                       iUserProfileRepository userProfileRepository) {
-        super(executor, mainThread);
+                                       IUserProfileRepository userProfileRepository) {
+        super(executor, mainThread, null);
 
         this.view = view;
         this.userProfileRepository = userProfileRepository;

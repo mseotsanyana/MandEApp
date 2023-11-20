@@ -1,12 +1,12 @@
-package com.me.mseotsanyana.mande.PL.presenters.monitor.Impl;
+package com.me.mseotsanyana.mande.infrastructure.controllers.monitor.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.monitoring.Impl.cUploadMonitoringInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.monitoring.iUploadMonitoringInteractor;
 import com.me.mseotsanyana.mande.application.repository.monitor.iUploadMonitoringRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.monitor.iUploadMonitoringPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.monitor.iUploadMonitoringPresenter;
 
 public class cUploadMonitoringPresenterImpl extends cAbstractPresenter implements iUploadMonitoringPresenter,
         iUploadMonitoringInteractor.Callback {
@@ -15,9 +15,9 @@ public class cUploadMonitoringPresenterImpl extends cAbstractPresenter implement
     private View view;
     private iUploadMonitoringRepository uploadMonitoringRepository;
 
-    public cUploadMonitoringPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cUploadMonitoringPresenterImpl(IExecutor executor, IMainThread mainThread,
                                           View view, iUploadMonitoringRepository uploadMonitoringRepository) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.uploadMonitoringRepository = uploadMonitoringRepository;

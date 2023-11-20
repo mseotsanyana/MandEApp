@@ -1,12 +1,12 @@
-package com.me.mseotsanyana.mande.PL.presenters.evaluator.Impl;
+package com.me.mseotsanyana.mande.infrastructure.controllers.evaluator.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.evaluation.Impl.cUploadEvaluationInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.evaluation.iUploadEvaluationInteractor;
 import com.me.mseotsanyana.mande.application.repository.evaluator.iUploadEvaluationRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.evaluator.iUploadEvaluationPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.evaluator.iUploadEvaluationPresenter;
 
 public class cUploadEvaluationPresenterImpl extends cAbstractPresenter implements iUploadEvaluationPresenter,
         iUploadEvaluationInteractor.Callback {
@@ -15,9 +15,9 @@ public class cUploadEvaluationPresenterImpl extends cAbstractPresenter implement
     private View view;
     private iUploadEvaluationRepository uploadEvaluationRepository;
 
-    public cUploadEvaluationPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cUploadEvaluationPresenterImpl(IExecutor executor, IMainThread mainThread,
                                           View view, iUploadEvaluationRepository uploadEvaluationRepository) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.uploadEvaluationRepository = uploadEvaluationRepository;

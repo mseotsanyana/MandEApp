@@ -1,15 +1,17 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
-import com.me.mseotsanyana.mande.usecases.executor.iExecutor;
-import com.me.mseotsanyana.mande.usecases.executor.iMainThread;
-import com.me.mseotsanyana.mande.usecases.interactors.session.user.Impl.cUserSignUpInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.user.iUserSignUpInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.interactors.session.userprofile.CUserSignUpInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.session.user.iUserSignUpInteractor;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
-import com.me.mseotsanyana.mande.usecases.repository.session.iUserProfileRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.session.iUserSignUpPresenter;
+import com.me.mseotsanyana.mande.application.repository.session.IUserProfileRepository;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iUserSignUpPresenter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cInputValidation;
+import com.me.mseotsanyana.mande.OLD.cInputValidation;
 
 
 public class cUserSignUpPresenterImpl extends cAbstractPresenter implements iUserSignUpPresenter,
@@ -17,14 +19,15 @@ public class cUserSignUpPresenterImpl extends cAbstractPresenter implements iUse
     //private static String TAG = cUserSignUpPresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iUserProfileRepository userProfileRepository;
+    private final IUserProfileRepository userProfileRepository;
 
     private final cInputValidation inputValidation;
 
-    public cUserSignUpPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cUserSignUpPresenterImpl(IExecutor executor, IMainThread mainThread,
+                                    ISessionManager sessionManager,
                                     View view,
-                                    iUserProfileRepository userProfileRepository) {
-        super(executor, mainThread);
+                                    IUserProfileRepository userProfileRepository) {
+        super(executor, mainThread, sessionManager);
 
         this.view = view;
         this.userProfileRepository = userProfileRepository;
@@ -61,16 +64,16 @@ public class cUserSignUpPresenterImpl extends cAbstractPresenter implements iUse
             return;
         }
 
-        iUserSignUpInteractor userSignUpInteractor = new cUserSignUpInteractorImpl(
+        IInteractor iInteractor = new CUserSignUpInteractorImpl(
                 executor,
                 mainThread,
                 userProfileRepository,
-                this,
+                null,
                 userProfileModel);
 
         view.showProgress();
 
-        userSignUpInteractor.execute();
+        iInteractor.execute();
     }
 
     @Override

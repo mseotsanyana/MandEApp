@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.session;
+package com.me.mseotsanyana.mande.framework.ui.fragments.session;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,9 +15,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.snackbar.Snackbar;
-import com.me.mseotsanyana.mande.PL.presenters.session.iChangePasswordPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iChangePasswordPresenter;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.databinding.SessionChangepasswordFragmentBinding;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
+
+import java.util.Map;
 
 public class cChangePasswordFragment extends Fragment implements iChangePasswordPresenter.View {
     private static final String TAG = cChangePasswordFragment.class.getSimpleName();
@@ -120,9 +123,18 @@ public class cChangePasswordFragment extends Fragment implements iChangePassword
         binding.progressBar.setVisibility(View.GONE);
     }
 
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String msg) {
+    public void showMessage(String msg) {
         Log.d(TAG, msg);
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
+
     }
 
     /* getters and setters */

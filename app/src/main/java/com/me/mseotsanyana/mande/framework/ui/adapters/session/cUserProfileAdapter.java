@@ -21,11 +21,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
-import com.me.mseotsanyana.mande.PL.presenters.session.iUserProfilePresenter;
-import com.me.mseotsanyana.mande.PL.ui.listeners.session.iAdapterUserProfileListener;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iUserProfilePresenter;
+import com.me.mseotsanyana.mande.framework.ports.adapters.session.iAdapterUserProfileListener;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -128,7 +128,7 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
         // email
         OH.textViewEmailIcon.setTypeface(null, Typeface.NORMAL);
         OH.textViewEmailIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.textViewEmailIcon.setTextColor(context.getColor(R.color.black));
         OH.textViewEmailIcon.setText(context.getResources().getString(R.string.fa_email));
         OH.textViewEmail.setText(userProfileModel.getEmail());
@@ -136,7 +136,7 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
         // phone
         OH.textViewPhoneIcon.setTypeface(null, Typeface.NORMAL);
         OH.textViewPhoneIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.textViewPhoneIcon.setTextColor(context.getColor(R.color.black));
         OH.textViewPhoneIcon.setText(context.getResources().getString(R.string.fa_phone));
         OH.textViewPhone.setText(userProfileModel.getPhone());
@@ -144,7 +144,7 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
         // website
         OH.textViewWebsiteIcon.setTypeface(null, Typeface.NORMAL);
         OH.textViewWebsiteIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.textViewWebsiteIcon.setTextColor(context.getColor(R.color.black));
         OH.textViewWebsiteIcon.setText(context.getResources().getString(R.string.fa_website));
         OH.textViewWebsite.setText(userProfileModel.getWebsite());
@@ -152,7 +152,7 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
         // location
         OH.textViewLocationIcon.setTypeface(null, Typeface.NORMAL);
         OH.textViewLocationIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.textViewLocationIcon.setTextColor(context.getColor(R.color.black));
         OH.textViewLocationIcon.setText(context.getResources().getString(R.string.fa_location));
         OH.textViewLocation.setText(userProfileModel.getLocation());
@@ -167,7 +167,7 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
         /* icon for deleting a record */
         OH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
         OH.textViewDeleteIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimary));
         OH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
         OH.textViewDeleteIcon.setOnClickListener(view -> {
@@ -177,7 +177,7 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
         /* icon for saving updated record */
         OH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
         OH.textViewUpdateIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimary));
         OH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
         OH.textViewUpdateIcon.setOnClickListener(view -> {
@@ -187,7 +187,7 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
         /* icon for joining a record */
         OH.textViewJoinIcon.setTypeface(null, Typeface.NORMAL);
         OH.textViewJoinIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.textViewJoinIcon.setTextColor(context.getColor(R.color.colorPrimary));
         OH.textViewJoinIcon.setText(context.getResources().getString(R.string.fa_join));
         OH.textViewJoinIcon.setOnClickListener(view -> {
@@ -197,7 +197,7 @@ public class cUserProfileAdapter extends RecyclerView.Adapter<cUserProfileAdapte
         /* icon for changing ownership of the record */
         OH.textViewChangeIcon.setTypeface(null, Typeface.NORMAL);
         OH.textViewChangeIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.textViewChangeIcon.setTextColor(context.getColor(R.color.colorPrimary));
         OH.textViewChangeIcon.setText(context.getResources().getString(R.string.fa_change));
         OH.textViewChangeIcon.setOnClickListener(view -> {

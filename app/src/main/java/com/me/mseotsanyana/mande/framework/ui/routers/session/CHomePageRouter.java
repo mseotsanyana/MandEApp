@@ -1,5 +1,4 @@
-package com.me.mseotsanyana.mande.framework.routers;
-
+package com.me.mseotsanyana.mande.framework.ui.routers.session;
 
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;

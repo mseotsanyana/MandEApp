@@ -1,26 +1,27 @@
 package com.me.mseotsanyana.mande.application.interactors.session.userprofile.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.session.userprofile.iUserProfilesInteractor;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.application.repository.session.iUserProfileRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.repository.session.IUserProfileRepository;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 
-public class cUploadUserProfilesInteractorImpl extends cAbstractInteractor
+public class cUploadUserProfilesInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iUserProfilesInteractor {
 
     //private static final String TAG = cUploadUserProfilesInteractorImpl.class.getSimpleName();
 
     private final Callback callback;
-    private final iUserProfileRepository userProfileRepository;
+    private final IUserProfileRepository userProfileRepository;
 
     private final String filename;
-    public cUploadUserProfilesInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                             iSharedPreferenceRepository sharedPreferenceRepository,
-                                             iUserProfileRepository userProfileRepository,
+    public cUploadUserProfilesInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                             ISessionManager sharedPreferenceRepository,
+                                             IUserProfileRepository userProfileRepository,
                                              Callback callback, String filename) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sharedPreferenceRepository == null || userProfileRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -44,7 +45,7 @@ public class cUploadUserProfilesInteractorImpl extends cAbstractInteractor
     @Override
     public void run() {
         this.userProfileRepository.uploadUserProfilesFromExcel(filename,
-                new iUserProfileRepository.iUploadUserProfilesRepositoryCallback() {
+                new IUserProfileRepository.iUploadUserProfilesRepositoryCallback() {
                     @Override
                     public void onUploadUserProfilesSucceeded(String msg) {
                         postMessage(msg);
@@ -55,5 +56,15 @@ public class cUploadUserProfilesInteractorImpl extends cAbstractInteractor
                         notifyError(msg);
                     }
                 });
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

@@ -1,20 +1,21 @@
 package com.me.mseotsanyana.mande.application.interactors.shared.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.shared.iUploadGlobalInteractor;
-import com.me.mseotsanyana.mande.application.repository.common.iUploadGlobalRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.iUploadGlobalRepository;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 
-public class cUploadGlobalInteractorImpl extends cAbstractInteractor
+public class cUploadGlobalInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iUploadGlobalInteractor {
     private Callback callback;
     private iUploadGlobalRepository uploadGlobalRepository;
 
-    public cUploadGlobalInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
+    public cUploadGlobalInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
                                        iUploadGlobalRepository uploadGlobalRepository,
                                        Callback callback) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
 
 
@@ -74,5 +75,15 @@ public class cUploadGlobalInteractorImpl extends cAbstractInteractor
         }else {
             notifyError("Failed to Add Chart Entity");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

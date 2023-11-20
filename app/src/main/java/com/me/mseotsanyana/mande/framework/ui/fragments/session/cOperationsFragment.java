@@ -1,12 +1,12 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.session;
+package com.me.mseotsanyana.mande.framework.ui.fragments.session;
 
-import static com.me.mseotsanyana.mande.UTIL.cConstant.COLLAPSE;
-import static com.me.mseotsanyana.mande.UTIL.cConstant.EXPAND;
-import static com.me.mseotsanyana.mande.UTIL.cConstant.GROUP;
-import static com.me.mseotsanyana.mande.UTIL.cConstant.NUM_OPS;
-import static com.me.mseotsanyana.mande.UTIL.cConstant.NUM_STS;
-import static com.me.mseotsanyana.mande.UTIL.cConstant.OTHER;
-import static com.me.mseotsanyana.mande.UTIL.cConstant.OWNER;
+import static com.me.mseotsanyana.mande.OLD.cConstant.COLLAPSE;
+import static com.me.mseotsanyana.mande.OLD.cConstant.EXPAND;
+import static com.me.mseotsanyana.mande.OLD.cConstant.GROUP;
+import static com.me.mseotsanyana.mande.OLD.cConstant.NUM_OPS;
+import static com.me.mseotsanyana.mande.OLD.cConstant.NUM_STS;
+import static com.me.mseotsanyana.mande.OLD.cConstant.OTHER;
+import static com.me.mseotsanyana.mande.OLD.cConstant.OWNER;
 
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -27,9 +27,9 @@ import com.google.gson.Gson;
 import com.me.mseotsanyana.expandablelayoutlibrary.CExpandableLayout;
 import com.me.mseotsanyana.mande.framework.ui.adapters.session.cStatusTreeAdapter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.INTERFACE.iEntityTVHInterface;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
-import com.me.mseotsanyana.mande.UTIL.cPermParam;
+import com.me.mseotsanyana.mande.OLD.INTERFACE.iEntityTVHInterface;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
+import com.me.mseotsanyana.mande.OLD.cPermParam;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cEntityModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cOperationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cPermissionModel;
@@ -249,18 +249,18 @@ public class cOperationsFragment extends Fragment /*implements iTreeAdapterCallb
 
         /** assign icons to expand and collapse statuses for operations **/
         textViewStatusIconOwner.setTypeface(null, Typeface.NORMAL);
-        textViewStatusIconOwner.setTypeface(cFontManager.getTypeface(getContext(),
-                cFontManager.FONTAWESOME));
+        textViewStatusIconOwner.setTypeface(CFontManager.getTypeface(getContext(),
+                CFontManager.FONTAWESOME));
         textViewStatusIconOwner.setText(getContext().getResources().getString(R.string.fa_plus));
 
         textViewStatusIconGroup.setTypeface(null, Typeface.NORMAL);
-        textViewStatusIconGroup.setTypeface(cFontManager.getTypeface(getContext(),
-                cFontManager.FONTAWESOME));
+        textViewStatusIconGroup.setTypeface(CFontManager.getTypeface(getContext(),
+                CFontManager.FONTAWESOME));
         textViewStatusIconGroup.setText(getContext().getResources().getString(R.string.fa_plus));
 
         textViewStatusIconOther.setTypeface(null, Typeface.NORMAL);
-        textViewStatusIconOther.setTypeface(cFontManager.getTypeface(getContext(),
-                cFontManager.FONTAWESOME));
+        textViewStatusIconOther.setTypeface(CFontManager.getTypeface(getContext(),
+                CFontManager.FONTAWESOME));
         textViewStatusIconOther.setText(getContext().getResources().getString(R.string.fa_plus));
 
 

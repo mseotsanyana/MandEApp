@@ -1,13 +1,13 @@
-package com.me.mseotsanyana.mande.PL.presenters.evaluator.Impl;
+package com.me.mseotsanyana.mande.infrastructure.controllers.evaluator.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.evaluation.Impl.cReadEvaluationInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.evaluation.iReadEvaluationInteractor;
 import com.me.mseotsanyana.mande.application.repository.evaluator.iEvaluationRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.evaluator.iEvaluationPresenter;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.evaluator.iEvaluationPresenter;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
@@ -17,15 +17,15 @@ public class cEvaluationPresenterImpl extends cAbstractPresenter implements iEva
     private static String TAG = cEvaluationPresenterImpl.class.getSimpleName();
 
     private View view;
-    private iSharedPreferenceRepository sessionManagerRepository;
+    private ISessionManager sessionManagerRepository;
     private iEvaluationRepository evaluationRepository;
     private long logFrameID;
 
-    public cEvaluationPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cEvaluationPresenterImpl(IExecutor executor, IMainThread mainThread,
                                     View view,
-                                    iSharedPreferenceRepository sessionManagerRepository,
+                                    ISessionManager sessionManagerRepository,
                                     iEvaluationRepository evaluationRepository, long logFrameID) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sessionManagerRepository = sessionManagerRepository;

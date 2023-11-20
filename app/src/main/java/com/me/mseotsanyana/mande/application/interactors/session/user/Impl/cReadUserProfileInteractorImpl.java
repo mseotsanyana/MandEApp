@@ -1,26 +1,30 @@
 package com.me.mseotsanyana.mande.application.interactors.session.user.Impl;
 
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreCallBack;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.session.user.iReadUserProfileInteractor;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.application.repository.session.iUserProfileRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.repository.session.IUserProfileRepository;
 
-public class cReadUserProfileInteractorImpl extends cAbstractInteractor
+public class cReadUserProfileInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iReadUserProfileInteractor {
     private static String TAG = cReadUserProfileInteractorImpl.class.getSimpleName();
 
     private Callback callback;
-    private iSharedPreferenceRepository preferenceRepository;
-    private final iUserProfileRepository userProfileRepository;
+    private ISessionManager preferenceRepository;
+    private final IUserProfileRepository userProfileRepository;
 
-    public cReadUserProfileInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                          iSharedPreferenceRepository preferenceRepository,
-                                          iUserProfileRepository userProfileRepository,
+    private String userServerID;
+
+    public cReadUserProfileInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                          ISessionManager preferenceRepository,
+                                          IUserProfileRepository userProfileRepository,
                                           Callback callback) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (preferenceRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -29,11 +33,10 @@ public class cReadUserProfileInteractorImpl extends cAbstractInteractor
         this.preferenceRepository = preferenceRepository;
         this.userProfileRepository = userProfileRepository;
         this.callback = callback;
-
     }
 
     /* */
-    private void notifyError(String msg) {
+    public void postError(String msg) {
         mainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -43,7 +46,7 @@ public class cReadUserProfileInteractorImpl extends cAbstractInteractor
     }
 
     /* */
-    private void postMessage(CUserProfileModel userProfileModel) {
+    private void postResult(CUserProfileModel userProfileModel) {
         mainThread.post(new Runnable() {
             @Override
             public void run() {
@@ -52,20 +55,35 @@ public class cReadUserProfileInteractorImpl extends cAbstractInteractor
         });
     }
 
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
 
     @Override
     public void run() {
-        userProfileRepository.readMyUserProfile(
-                new iUserProfileRepository.iReadMyUserProfileRepositoryCallback() {
-                    @Override
-                    public void onReadMyUserProfileSucceeded(CUserProfileModel userProfileModel) {
-                        postMessage(userProfileModel);
-                    }
+        userProfileRepository.readUserProfileByID(userServerID, new CFirestoreCallBack() {
+            @Override
+            public void onFirebaseSuccess(Object object) {
+                postResult((CUserProfileModel) object);
+            }
 
-                    @Override
-                    public void onReadMyUserProfileFailed(String msg) {
-                        notifyError(msg);
-                    }
-                });
+            @Override
+            public void onFirebaseFailure(Object object) {
+                postError((String) object);
+            }
+        });
     }
 }
+
+//{
+//@Override
+//public void onReadMyUserProfileSucceeded(CUserProfileModel userProfileModel) {
+//        postMessage(userProfileModel);
+//        }
+//
+//@Override
+//public void onReadMyUserProfileFailed(String msg) {
+//        notifyError(msg);
+//        }
+//        });

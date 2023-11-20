@@ -1,15 +1,15 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
-import com.me.mseotsanyana.mande.usecases.executor.iExecutor;
-import com.me.mseotsanyana.mande.usecases.executor.iMainThread;
-import com.me.mseotsanyana.mande.usecases.interactors.session.privilege.Impl.cReadWorkspacePrivilegesInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.privilege.Impl.cUpdateWorkspacePrivilegeInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.privilege.iReadWorkspacePrivilegesInteractor;
-import com.me.mseotsanyana.mande.usecases.interactors.session.privilege.iUpdateWorkspacePrivilegeInteractor;
-import com.me.mseotsanyana.mande.usecases.repository.session.iPrivilegeRepository;
-import com.me.mseotsanyana.mande.usecases.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.session.iPrivilegePresenter;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.interactors.session.privilege.Impl.cReadWorkspacePrivilegesInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.session.privilege.Impl.cUpdateWorkspacePrivilegeInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.session.privilege.iReadWorkspacePrivilegesInteractor;
+import com.me.mseotsanyana.mande.application.interactors.session.privilege.iUpdateWorkspacePrivilegeInteractor;
+import com.me.mseotsanyana.mande.application.repository.session.IPermissionRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iPrivilegePresenter;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
@@ -20,14 +20,14 @@ public class cPrivilegePresenterImpl extends cAbstractPresenter implements iPriv
     //private static String TAG = cTeamPresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iSharedPreferenceRepository sharedPreferenceRepository;
-    private final iPrivilegeRepository privilegeRepository;
+    private final ISessionManager sharedPreferenceRepository;
+    private final IPermissionRepository privilegeRepository;
 
-    public cPrivilegePresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cPrivilegePresenterImpl(IExecutor executor, IMainThread mainThread,
                                    View view,
-                                   iSharedPreferenceRepository sharedPreferenceRepository,
-                                   iPrivilegeRepository privilegeRepository) {
-        super(executor, mainThread);
+                                   ISessionManager sharedPreferenceRepository,
+                                   IPermissionRepository privilegeRepository) {
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sharedPreferenceRepository = sharedPreferenceRepository;

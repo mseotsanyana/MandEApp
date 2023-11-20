@@ -1,28 +1,54 @@
 package com.me.mseotsanyana.mande.application.repository.preference;
 
-import com.me.mseotsanyana.mande.domain.entities.models.session.cMenuModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CMenuModel;
 
 import java.util.List;
+import java.util.Map;
 
-public interface ISessionManagerRepository {
+public interface ISessionManager {
     /* user shared preferences */
+    boolean isCommitted();
+    void clearApplied();
+    boolean isClearCommitted();
+    boolean updateDocumentReference(String documentID);
+
     void commitSettings();
     void deleteSettings();
-    void clearAllSettings();
     void removeSetting(String key);
 
-    void saveIntSetting(String key, int value);
-    void saveStringSetting(String key, String value);
+    void saveWorkspaceMembershipBITS(String key, int value);
+    void saveUserServerID(String key, String value);
+    void saveCompositeServerID(String key, String value);
+    void saveOwnerServerID(String key, String value);
+    void saveLoggedInUserServerID(String key, String value);
+    void saveOrganizationSeverID(String key, String value);
+    void saveOrganizationOwnerSeverID(String key, String value);
+    void saveWorkspaceOwnerBIT(String key, int value);
+    void saveMyOrganizations(String key, List<String> value);
+    void saveStatusBITS(String key, int value);
+    void saveActionBITS(String key, int value);
+    void savePermissionBITS(String key, int value);
+    void saveEntityBITS(String key, int value);
+    void saveModuleBITS(String key, int value);
+
     void saveBooleanSetting(String key, Boolean value);
     void saveListOfIntegerSetting(String key, List<Integer> value);
-    void saveListOfStringSetting(String key, List<String> value);
-    void saveMenuItems(String key, List<cMenuModel> value);
+    void saveMenuItems(String key, List<CMenuModel> value);
 
     void saveCurrentWorkspace(String compositeServerID);
 
     /* load personal preferences of the loggedIn user */
+    /**
+     *     Save and get HashMap in SharedPreference
+     */
 
-    String loadUserID();
+    void saveHashMap(String key , Object obj);
+    Map<String, Object> loadHashMap(String key);
+
+
+    String loadCompositeServerID();
+
+    String loadLoggedInUserServerID();
     String loadActiveOrganizationID();
     String loadCurrentWorkspace();
     int loadWorkspaceServerID();
@@ -41,7 +67,7 @@ public interface ISessionManagerRepository {
 
     List<Integer> loadOperationStatuses(int moduleKey, int entityKey, int operationKey);
     int loadUnixPermissionBITS(int moduleKey, int entityKey);
-    List<cMenuModel> loadMenuItems();
+    List<CMenuModel> loadMenuItems(String key);
 
     /* delete personal preferences of the loggedIn user */
 
@@ -54,7 +80,7 @@ public interface ISessionManagerRepository {
 //
 //    void savePermissionBITS(Set<cPermissionModel> permissionSet);
 //
-//    //void saveOrganizationID(long organizationID);
+//
 //    //void savePrimaryTeamBIT(String teamID);
 //    //void saveSecondaryTeamsBITS();
 //    void saveDefaultPermsBITS(int bitNumber);

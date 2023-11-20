@@ -3,20 +3,21 @@ package com.me.mseotsanyana.mande.application.interactors.programme.outcome.Impl
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.programme.outcome.iReadOutcomeInteractor;
 import com.me.mseotsanyana.mande.application.repository.programme.iOutcomeRepository;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cOutcomeModel;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cBitwise;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.OLD.storage.preference.cBitwise;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 import java.util.Set;
 
-public class cReadOutcomeInteractorImpl extends cAbstractInteractor
+public class cReadOutcomeInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iReadOutcomeInteractor {
     private static String TAG = cReadOutcomeInteractorImpl.class.getSimpleName();
 
@@ -27,11 +28,11 @@ public class cReadOutcomeInteractorImpl extends cAbstractInteractor
 
     private String logFrameName;
 
-    public cReadOutcomeInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                      iSharedPreferenceRepository sessionManagerRepository,
+    public cReadOutcomeInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                      ISessionManager sessionManagerRepository,
                                       iOutcomeRepository outcomeRepository,
                                       Callback callback, long logFrameID) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sessionManagerRepository == null || outcomeRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -85,7 +86,7 @@ public class cReadOutcomeInteractorImpl extends cAbstractInteractor
         for (int i = 0; i < outcomeModels.size(); i++) {
             /* impact parent */
             cOutcomeModel outcomeModel = outcomeModels.get(i);
-            outcomeTreeModels.add(new cTreeModel(parentIndex, -1, 0, outcomeModel));
+            //outcomeTreeModels.add(new cTreeModel(parentIndex, -1, 0, outcomeModel));
 
             /* set of impact children under the impact */
             childIndex = parentIndex;
@@ -175,5 +176,15 @@ public class cReadOutcomeInteractorImpl extends cAbstractInteractor
         } else {
             notifyError("Failed due to reading access rights !!");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

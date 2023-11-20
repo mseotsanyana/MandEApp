@@ -1,4 +1,8 @@
-package com.me.mseotsanyana.mande.framework.ports.base;
+package com.me.mseotsanyana.mande.application.structures;
 
-public interface IResponseDTO {
+import com.me.mseotsanyana.mande.application.structures.enums.EAction;
+
+public interface IResponseDTO <T> {
+    EAction getAction();
+    T getData();
 }

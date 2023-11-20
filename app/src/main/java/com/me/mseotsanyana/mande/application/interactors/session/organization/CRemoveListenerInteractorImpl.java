@@ -1,32 +1,49 @@
-package com.me.mseotsanyana.mande.application.interactors.session.organization.Impl;
+package com.me.mseotsanyana.mande.application.interactors.session.organization;
 
-import com.me.mseotsanyana.mande.application.ports.base.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.ports.base.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.ports.base.cAbstractInteractor;
-import com.me.mseotsanyana.mande.application.interactors.session.organization.iOrganizationInteractor;
-import com.me.mseotsanyana.mande.application.repository.session.iOrganizationRepository;
+import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.repository.session.IOrganizationRepository;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 
-public class cRemoveListenerInteractorImpl extends cAbstractInteractor
-        implements iOrganizationInteractor {
-    private static String TAG = cRemoveListenerInteractorImpl.class.getSimpleName();
-    private final iOrganizationRepository organizationRepository;
-    private final Callback callback;
+import java.util.Map;
 
-    public cRemoveListenerInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                         iOrganizationRepository organizationRepository,
-                                         Callback callback) {
-        super(threadExecutor, mainThread);
+public class CRemoveListenerInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>implements IInteractor {
+    private static String TAG = CRemoveListenerInteractorImpl.class.getSimpleName();
+    private final IOrganizationRepository organizationRepository;
+    private final IPresenter<IResponseDTO<Object>> iPresenter;
 
-        if (organizationRepository != null && callback == null) {
+    public CRemoveListenerInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                         ISessionManager sessionManager,
+                                         IPresenter<IResponseDTO<Object>> iPresenter,
+                                         IOrganizationRepository organizationRepository) {
+
+        super(threadExecutor, mainThread, sessionManager);
+
+        if (organizationRepository != null && iPresenter == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
         }
+
+        this.iPresenter = iPresenter;
         this.organizationRepository = organizationRepository;
-        this.callback = callback;
 
     }
 
     @Override
     public void run() {
+        //FIXME: include callbacks to get out thread to the main one.
         organizationRepository.removeListener();
+    }
+
+    @Override
+    public void postResult(IResponseDTO<Object> resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

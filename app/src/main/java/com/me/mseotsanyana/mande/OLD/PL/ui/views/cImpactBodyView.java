@@ -19,7 +19,7 @@ import com.me.mseotsanyana.mande.domain.entities.models.logframe.cImpactModel;
 import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.logframe.iViewImpactListener;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.OLD.cConstant;
-import com.me.mseotsanyana.mande.OLD.cFontManager;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Click;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Layout;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Resolve;
@@ -120,29 +120,29 @@ public class cImpactBodyView {
 
         /* collapse and expansion of the details */
         this.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-        this.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                cFontManager.FONTAWESOME));
+        this.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                CFontManager.FONTAWESOME));
         this.textViewDetailIcon.setTextColor(context.getColor(R.color.colorAccent));
         this.textViewDetailIcon.setText(context.getResources().getString(R.string.fa_angle_down));
 
         /* icon for saving updated record */
         this.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
         this.textViewUpdateIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         this.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorAccent));
         this.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
 
         /* icon for deleting a record */
         this.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
         this.textViewDeleteIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         this.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorAccent));
         this.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
 
         /* icon for syncing a record */
         this.textViewSyncIcon.setTypeface(null, Typeface.NORMAL);
         this.textViewSyncIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         this.textViewSyncIcon.setTextColor(context.getColor(R.color.colorAccent));
         this.textViewSyncIcon.setText(context.getResources().getString(R.string.fa_sync));
 

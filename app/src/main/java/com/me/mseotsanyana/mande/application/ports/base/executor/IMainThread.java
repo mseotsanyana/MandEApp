@@ -7,7 +7,7 @@ package com.me.mseotsanyana.mande.application.ports.base.executor;
  * needs to show an object to the UI this can be used to make sure the
  * show method is called on the UI thread.
  */
-public interface iMainThread {
+public interface IMainThread {
     /**
      * Make runnable operation run in the main thread.
      *

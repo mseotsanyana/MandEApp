@@ -1,14 +1,14 @@
-package com.me.mseotsanyana.mande.infrastructure.controllers.logframe.Impl;
+package com.me.mseotsanyana.mande.infrastructure.controllers.logframe;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.programme.impact.Impl.cReadImpactInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.programme.impact.iReadImpactInteractor;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.application.repository.programme.iImpactRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.OLD.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.iImpactPresenter;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iImpactPresenter;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.List;
@@ -21,15 +21,15 @@ public class cImpactPresenterImpl extends cAbstractPresenter implements iImpactP
     private static String TAG = cImpactPresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iSharedPreferenceRepository sharedPreferenceRepository;
+    private final ISessionManager sharedPreferenceRepository;
     private final iImpactRepository impactRepository;
     private final cLogFrameModel logFrameModel;
 
-    public cImpactPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cImpactPresenterImpl(IExecutor executor, IMainThread mainThread,
                                 View view,
-                                iSharedPreferenceRepository sharedPreferenceRepository,
+                                ISessionManager sharedPreferenceRepository,
                                 iImpactRepository impactRepository, cLogFrameModel logFrameModel) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sharedPreferenceRepository = sharedPreferenceRepository;

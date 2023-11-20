@@ -2,53 +2,45 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation"
-    app:startDestination="@id/cOrganizationFragment">
+    app:startDestination="@id/COrganizationWorkspaceFragment">
 
     <fragment
-        android:id="@+id/cLoginFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cLoginFragment"
+        android:id="@+id/CUserLoginFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.CUserLoginFragment"
         android:label="Login">
-        <!--action
-            android:id="@+id/action_cLoginFragment_to_cHomeFragment"
-            app:destination="@id/cHomeFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" /-->
         <action
-            android:id="@+id/action_cLoginFragment_to_cSignUpFragment"
-            app:destination="@id/cSignUpFragment"
+            android:id="@+id/action_CUserLoginFragment_to_CUserSignupFragment"
+            app:destination="@id/CUserSignupFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false"/>
         <action
-            android:id="@+id/action_cLoginFragment_to_cResetPasswordFragment"
-            app:destination="@id/cResetPasswordFragment"
+            android:id="@+id/action_CUserLoginFragment_to_CUserResetPasswordFragment"
+            app:destination="@id/CUserResetPasswordFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false"/>
         <action
-            android:id="@+id/action_cLoginFragment_to_cOrganizationFragment"
-            app:destination="@id/cOrganizationFragment"
+            android:id="@+id/action_CUserLoginFragment_to_COrganizationWorkspaceFragment"
+            app:destination="@id/COrganizationWorkspaceFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false"/>
 
     </fragment>
     <fragment
-        android:id="@+id/cSignUpFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cSignUpFragment"
+        android:id="@+id/CUserSignupFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.CUserSignupFragment"
         android:label="cSignUpFragment">
         <action
-            android:id="@+id/action_cSignUpFragment_to_cLoginFragment"
-            app:destination="@id/cLoginFragment"
+            android:id="@+id/action_CUserSignupFragment_to_CUserLoginFragment"
+            app:destination="@id/CUserLoginFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
@@ -57,11 +49,11 @@
     </fragment>
     <fragment
         android:id="@+id/cSettingsFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cSettingsFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.cSettingsFragment"
         android:label="cSettingsFragment" />
     <fragment
         android:id="@+id/cLogFrameFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cLogFrameFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.programme.cLogFrameFragment"
         android:label="cLogFrameFragment" >
         <action
             android:id="@+id/action_cLogFrameFragment_to_cImpactFragment"
@@ -115,11 +107,11 @@
     </fragment>
     <fragment
         android:id="@+id/cImpactFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cImpactFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.programme.cImpactFragment"
         android:label="cImpactFragment" >
         <argument
             android:name="logFrameModel"
-            app:argType="com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel" />
+            app:argType="com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel" />
         <action
             android:id="@+id/action_cImpactFragment_to_cImpactDetailFragment"
             app:destination="@id/cImpactDetailFragment"
@@ -132,31 +124,31 @@
     </fragment>
     <fragment
         android:id="@+id/cOutcomeFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cOutcomeFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.programme.cOutcomeFragment"
         android:label="cOutcomeFragment" >
         <argument
             android:name="logFrameModel"
-            app:argType="com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel" />
+            app:argType="com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel" />
     </fragment>
     <fragment
         android:id="@+id/cOutputFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cOutputFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.programme.cOutputFragment"
         android:label="cOutputFragment" >
         <argument
             android:name="logFrameModel"
-            app:argType="com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel" />
+            app:argType="com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel" />
     </fragment>
     <fragment
         android:id="@+id/cInputFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cInputFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.programme.cInputFragment"
         android:label="cInputFragment" >
         <argument
             android:name="logFrameModel"
-            app:argType="com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel" />
+            app:argType="com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel" />
     </fragment>
     <fragment
         android:id="@+id/cEvaluationFormFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.evaluation.cEvaluationFormFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.evaluation.cEvaluationFormFragment"
         android:label="cEvaluationFormFragment" >
         <argument
             android:name="dbQuestionnaire"
@@ -164,15 +156,15 @@
     </fragment>
     <fragment
         android:id="@+id/cActivityFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cActivityFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.programme.cActivityFragment"
         android:label="cActivityFragment" >
         <argument
             android:name="logFrameModel"
-            app:argType="com.me.mseotsanyana.mande.BLL.entities.models.logframe.cLogFrameModel" />
+            app:argType="com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel" />
     </fragment>
     <fragment
         android:id="@+id/cQuestionFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cQuestionFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.programme.cQuestionFragment"
         android:label="cQuestionFragment" >
         <argument
             android:name="logFrameID"
@@ -180,7 +172,7 @@
     </fragment>
     <fragment
         android:id="@+id/cIndicatorFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.monitoring.cIndicatorFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.monitoring.cIndicatorFragment"
         android:label="cIndicatorFragment" >
         <argument
             android:name="logFrameID"
@@ -188,7 +180,7 @@
     </fragment>
     <fragment
         android:id="@+id/cRAIDLogFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.raid.cRAIDLogFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.raid.cRAIDLogFragment"
         android:label="cRAIDLogFragment">
         <action
             android:id="@+id/action_cRAIDLogFragment_to_cRiskRegisterFragment"
@@ -208,23 +200,23 @@
     </fragment>
     <fragment
         android:id="@+id/cAssumptionRegisterFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.raid.cAssumptionRegisterFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.raid.cAssumptionRegisterFragment"
         android:label="cAssumptionRegisterFragment" />
     <fragment
         android:id="@+id/cIssueRegisterFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.raid.cIssueRegisterFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.raid.cIssueRegisterFragment"
         android:label="cIssueRegisterFragment" />
     <fragment
         android:id="@+id/cDependencyRegisterFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.raid.cDependencyRegisterFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.raid.cDependencyRegisterFragment"
         android:label="cDependencyRegisterFragment" />
     <fragment
         android:id="@+id/cRiskRegisterFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.raid.cRiskRegisterFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.raid.cRiskRegisterFragment"
         android:label="cRiskRegisterFragment" />
     <fragment
         android:id="@+id/cAWPBFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.awpb.cAWPBFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.awpb.cAWPBFragment"
         android:label="cAWPBFragment" >
         <argument
             android:name="logFrameID"
@@ -232,7 +224,7 @@
     </fragment>
     <fragment
         android:id="@+id/cBookKeepingFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.awpb.cBookKeepingFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.awpb.cBookKeepingFragment"
         android:label="cBookKeepingFragment" >
         <argument
             android:name="logFrameID"
@@ -240,11 +232,11 @@
     </fragment>
     <fragment
         android:id="@+id/cImpactDetailFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cImpactDetailFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.programme.cImpactDetailFragment"
         android:label="cImpactDetailFragment" />
     <fragment
-        android:id="@+id/cHomeFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cHomeFragment"
+        android:id="@+id/CHomePageFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.CHomePageFragment"
         android:label="cHomeFragment" >
         <!--action
             android:id="@+id/action_cHomeFragment_to_cLoginFragment"
@@ -254,7 +246,7 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" /-->
         <action
-            android:id="@+id/action_cHomeFragment_to_cMyUserProfileFragment"
+            android:id="@+id/action_CHomePageFragment_to_CMyUserProfileFragment"
             app:destination="@id/cMyUserProfileFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
@@ -270,7 +262,7 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" /-->
         <action
-            android:id="@+id/action_cHomeFragment_to_cTeamFragment"
+            android:id="@+id/action_CHomePageFragment_to_cTeamFragment"
             app:destination="@id/cTeamFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
@@ -278,15 +270,7 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_cHomeFragment_to_cOrganizationMemberFragment"
-            app:destination="@id/cOrganizationMemberFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
-        <action
-            android:id="@+id/action_cHomeFragment_to_cTeamRoleFragment"
+            android:id="@+id/action_CHomePageFragment_to_cTeamRoleFragment"
             app:destination="@id/cTeamRoleFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
@@ -294,7 +278,7 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_cHomeFragment_to_cMenuFragment"
+            android:id="@+id/action_CHomePageFragment_to_cMenuFragment"
             app:destination="@id/cMenuFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
@@ -302,14 +286,14 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_cHomeFragment_to_cPermissionFragment"
+            android:id="@+id/action_CHomePageFragment_to_cPermissionFragment"
             app:destination="@id/cPermissionFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
         <action
-            android:id="@+id/action_cHomeFragment_to_cLogFrameFragment"
+            android:id="@+id/action_CHomePageFragment_to_cLogFrameFragment"
             app:destination="@id/cLogFrameFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
@@ -317,16 +301,16 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_cHomeFragment_to_cUserProfilesFragment"
+            android:id="@+id/action_CHomePageFragment_to_cUserProfilesFragment"
             app:destination="@id/cUserProfilesFragment" />
         <action
-            android:id="@+id/action_cHomeFragment_to_cMonitoringPlanFragment"
+            android:id="@+id/action_CHomePageFragment_to_cMonitoringPlanFragment"
             app:destination="@id/cMonitoringPlanFragment" />
         <action
-            android:id="@+id/action_cHomeFragment_to_cEvaluationPlanFragment"
+            android:id="@+id/action_CHomePageFragment_to_cEvaluationPlanFragment"
             app:destination="@id/cEvaluationPlanFragment" />
         <action
-            android:id="@+id/action_cHomeFragment_to_cRaidLogFragment"
+            android:id="@+id/action_CHomePageFragment_to_cRaidLogFragment"
             app:destination="@id/cRAIDLogFragment" />
         <action
             android:id="@+id/action_cHomeFragment_to_cProjectFragment"
@@ -337,19 +321,34 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="true" />
         <action
-            android:id="@+id/action_cHomeFragment_to_cLearningPlanFragment"
+            android:id="@+id/action_CHomePageFragment_to_cLearningPlanFragment"
             app:destination="@id/cLearningPlanFragment" />
+
         <action
-            android:id="@+id/action_cHomeFragment_to_cLoginFragment"
-            app:destination="@id/cLoginFragment"
+            android:id="@+id/action_CHomePageFragment_to_COrganizationWorkspaceFragment"
+            app:destination="@id/COrganizationWorkspaceFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_cHomeFragment_to_cOrganizationFragment"
-            app:destination="@id/cOrganizationFragment"
+            android:id="@+id/action_CHomePageFragment_to_cOrganizationAccountFragment"
+            app:destination="@id/cOrganizationAccountFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_CHomePageFragment_to_cOrganizationWithTabsFragment"
+            app:destination="@id/cOrganizationWithTabsFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_CHomePageFragment_to_CUserLoginFragment"
+            app:destination="@id/CUserLoginFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
@@ -358,64 +357,63 @@
     </fragment>
     <fragment
         android:id="@+id/cNotificationFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cMessagesFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.cMessagesFragment"
         android:label="cNotificationFragment" />
     <fragment
-        android:id="@+id/cOrganizationFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cOrganizationFragment"
-        android:label="cOrganizationFragment" >
+        android:id="@+id/COrganizationWorkspaceFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.COrganizationWorkspaceFragment"
+        android:label="COrganizationWorkspaceFragment" >
+
         <action
-            android:id="@+id/action_cOrganizationFragment_to_cLoginFragment"
-            app:destination="@id/cLoginFragment"
+            android:id="@+id/action_COrganizationWorkspaceFragment_to_CHomePageFragment"
+            app:destination="@id/CHomePageFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false"/>
+
         <action
-            android:id="@+id/action_cOrganizationFragment_to_cHomeFragment"
-            app:destination="@id/cHomeFragment"
+            android:id="@+id/action_COrganizationWorkspaceFragment_to_CUserLoginFragment"
+            app:destination="@id/CUserLoginFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
+            app:popUpToInclusive="false"/>
+
     </fragment>
     <fragment
         android:id="@+id/cDashboardFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cDashboardFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.cDashboardFragment"
         android:label="cDashboardFragment" />
     <fragment
         android:id="@+id/cMyUserProfileFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cMyUserProfileFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.cMyUserProfileFragment"
         android:label="cMyUserProfileFragment" />
     <fragment
         android:id="@+id/cTeamFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cTeamMemberFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.cTeamMemberFragment"
         android:label="cTeamFragment" />
     <fragment
-        android:id="@+id/cOrganizationMemberFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cOrganizationMemberFragment"
-        android:label="cOrganizationMemberFragment" />
-    <fragment
         android:id="@+id/cTeamRoleFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cTeamRoleFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.cTeamRoleFragment"
         android:label="cTeamRoleFragment" />
     <fragment
         android:id="@+id/cMenuFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cMenuFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.cMenuFragment"
         android:label="cMenuFragment" />
     <fragment
         android:id="@+id/cPermissionFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cPermissionFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.cPrivilegeFragment"
         android:label="cPermissionFragment" />
     <fragment
         android:id="@+id/cUserProfilesFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cUserProfileFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.cUserProfileFragment"
         android:label="cUserProfilesFragment" />
     <fragment
         android:id="@+id/cMonitoringPlanFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.monitoring.cMonitoringPlanFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.monitoring.cMonitoringPlanFragment"
         android:label="cMonitoringPlanFragment" >
         <action
             android:id="@+id/action_cMonitoringPlanFragment_to_cMonitoringFormFragment"
@@ -423,7 +421,7 @@
     </fragment>
     <fragment
         android:id="@+id/cEvaluationPlanFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.evaluation.cEvaluationPlanFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.evaluation.cEvaluationPlanFragment"
         android:label="cEvaluationPlanFragment" >
         <action
             android:id="@+id/action_cEvaluationPlanFragment_to_cEvaluationFormFragment"
@@ -431,7 +429,7 @@
     </fragment>
     <fragment
         android:id="@+id/cProjectFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.programme.cProjectFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.programme.cProjectFragment"
         android:label="cProjectFragment" >
         <action
             android:id="@+id/action_cProjectFragment_to_cLogFrameFragment"
@@ -445,19 +443,19 @@
     </fragment>
     <fragment
         android:id="@+id/cWorkPlanFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.awpb.cWorkPlanFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.awpb.cWorkPlanFragment"
         android:label="cWorkPlanFragment" />
     <fragment
         android:id="@+id/cBudgetPlanFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.awpb.cBudgetPlanFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.awpb.cBudgetPlanFragment"
         android:label="cBudgetPlanFragment" />
     <fragment
         android:id="@+id/cMonitoringFormFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.monitoring.cMonitoringFormFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.monitoring.cMonitoringFormFragment"
         android:label="cMonitoringFormFragment" />
     <fragment
         android:id="@+id/cLearningPlanFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.learning.cLearningPlanFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.learning.cLearningPlanFragment"
         android:label="cLearningPlanFragment" >
         <action
             android:id="@+id/action_cLearningPlanFragment_to_cLearningFormFragment"
@@ -465,20 +463,27 @@
     </fragment>
     <fragment
         android:id="@+id/cLearningFormFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.learning.cLearningFormFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.learning.cLearningFormFragment"
         android:label="cLearningFormFragment" />
     <fragment
-        android:id="@+id/cResetPasswordFragment"
-        android:name="com.me.mseotsanyana.mande.PL.ui.fragments.session.cResetPasswordFragment"
+        android:id="@+id/CUserResetPasswordFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.CUserResetPasswordFragment"
         android:label="cResetPasswordFragment" >
         <action
-            android:id="@+id/action_cResetPasswordFragment_to_cLoginFragment"
-            app:destination="@id/cLoginFragment"
+            android:id="@+id/action_CUserResetPasswordFragment_to_CUserLoginFragment"
+            app:destination="@id/CUserLoginFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false" />
-
+            app:popUpToInclusive="false"/>
     </fragment>
+    <fragment
+        android:id="@+id/cOrganizationAccountFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.COrganizationAccountFragment"
+        android:label="cOrganizationAccountFragment" />
+    <fragment
+        android:id="@+id/cOrganizationWithTabsFragment"
+        android:name="com.me.mseotsanyana.mande.framework.ui.fragments.session.COrganizationFragment"
+        android:label="cOrganizationWithTabsFragment" />
 </navigation>

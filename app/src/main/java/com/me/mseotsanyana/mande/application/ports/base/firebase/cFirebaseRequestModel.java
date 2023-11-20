@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.infrastructure.ports.base.firebase;
+package com.me.mseotsanyana.mande.application.ports.base.firebase;
 
 import com.google.firebase.firestore.Query;
 

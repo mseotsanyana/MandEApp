@@ -1,14 +1,14 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
-import com.me.mseotsanyana.mande.domain.entities.models.session.cPrivilegeModel;
-import com.me.mseotsanyana.mande.usecases.executor.iExecutor;
-import com.me.mseotsanyana.mande.usecases.executor.iMainThread;
-import com.me.mseotsanyana.mande.usecases.interactors.session.role.Impl.cReadTeamRolesInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.role.iReadTeamRolesInteractor;
-import com.me.mseotsanyana.mande.usecases.repository.session.iRoleRepository;
-import com.me.mseotsanyana.mande.usecases.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.session.iRolePresenter;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CPrivilegeModel;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.interactors.session.role.Impl.cReadTeamRolesInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.session.role.iReadTeamRolesInteractor;
+import com.me.mseotsanyana.mande.application.repository.session.iRoleRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iRolePresenter;
 
 import java.util.List;
 
@@ -17,14 +17,14 @@ public class cRolePresenterImpl extends cAbstractPresenter implements iRolePrese
     //private static String TAG = cTeamPresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iSharedPreferenceRepository sharedPreferenceRepository;
+    private final ISessionManager sharedPreferenceRepository;
     private final iRoleRepository roleRepository;
 
-    public cRolePresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cRolePresenterImpl(IExecutor executor, IMainThread mainThread,
                               View view,
-                              iSharedPreferenceRepository sharedPreferenceRepository,
+                              ISessionManager sharedPreferenceRepository,
                               iRoleRepository roleRepository) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sharedPreferenceRepository = sharedPreferenceRepository;
@@ -47,7 +47,7 @@ public class cRolePresenterImpl extends cAbstractPresenter implements iRolePrese
     }
 
     @Override
-    public void onReadTeamRolesSucceeded(List<cPrivilegeModel> roleModels) {
+    public void onReadTeamRolesSucceeded(List<CPrivilegeModel> roleModels) {
         if(this.view != null) {
             this.view.onReadRolesSucceeded(roleModels);
             this.view.hideProgress();

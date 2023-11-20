@@ -1,6 +1,6 @@
 package com.me.mseotsanyana.mande.domain.entities.models.utils;
 
-public class cCommonPropertiesModel {
+public class CCommonAttributeModel {
     private String ownerID;
     private String orgOwnerID;
     private int workspaceOwnerBIT;

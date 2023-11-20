@@ -1,33 +1,34 @@
-package com.me.mseotsanyana.mande.application.interactors.session.organization.Impl;
+package com.me.mseotsanyana.mande.application.interactors.session.organization;
 
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
-import com.me.mseotsanyana.mande.application.ports.base.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.ports.base.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.ports.base.cAbstractInteractor;
-import com.me.mseotsanyana.mande.application.interactors.session.organization.iOrganizationInteractor;
-import com.me.mseotsanyana.mande.application.preference.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.session.IOrganizationInteractor;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
 
 import java.util.ArrayList;
 import java.util.Set;
 
-public class cReadSharedOrganizationsInteractorImpl extends cAbstractInteractor
-        implements iOrganizationInteractor {
-    private static String TAG = cReadSharedOrganizationsInteractorImpl.class.getSimpleName();
+public class CReadSharedOrganizationsInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
+        implements IOrganizationInteractor {
+    private static String TAG = CReadSharedOrganizationsInteractorImpl.class.getSimpleName();
 
-    private Callback callback;
-    private iSharedPreferenceRepository sessionManagerRepository;
+    private IOrganizationPresenter IOrganizationPresenter;
+    private ISessionManager sessionManagerRepository;
 
-    public cReadSharedOrganizationsInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                                  iSharedPreferenceRepository sessionManagerRepository,
-                                                  Callback callback) {
-        super(threadExecutor, mainThread);
+    public CReadSharedOrganizationsInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                                  ISessionManager sessionManagerRepository,
+                                                  IOrganizationPresenter IOrganizationPresenter) {
+        super(threadExecutor, mainThread, null);
 
-        if (sessionManagerRepository == null || callback == null) {
+        if (sessionManagerRepository == null || IOrganizationPresenter == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
         }
 
         this.sessionManagerRepository = sessionManagerRepository;
-        this.callback = callback;
+        this.IOrganizationPresenter = IOrganizationPresenter;
 
     }
 
@@ -61,5 +62,15 @@ public class cReadSharedOrganizationsInteractorImpl extends cAbstractInteractor
         } else {
             notifyError("Failed to load shared organization preferences !!");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

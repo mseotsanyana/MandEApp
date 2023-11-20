@@ -1,14 +1,14 @@
-package com.me.mseotsanyana.mande.PL.presenters.session;
+package com.me.mseotsanyana.mande.infrastructure.ports.session;
 
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
-import com.me.mseotsanyana.mande.PL.presenters.base.iPresenter;
-import com.me.mseotsanyana.mande.PL.ui.iBaseView;
+import com.me.mseotsanyana.mande.OLD.PL.presenters.base.iPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.IBaseView;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.List;
 
 public interface iTeamsWithMembersPresenter extends iPresenter {
-    interface View extends iBaseView {
+    interface View extends IBaseView {
         void onClickCreateTeam();
 
         void onCreateTeamFailed(String msg);

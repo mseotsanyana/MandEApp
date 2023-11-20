@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.OLD;
+package com.me.mseotsanyana.mande.framework.utils;
 
 
 import android.content.Context;
@@ -22,7 +22,7 @@ import android.util.TypedValue;
  * Created by mseotsanyana on 2017/11/23.
  */
 
-public class TextDrawable extends Drawable {
+public class CTextDrawable extends Drawable {
     /* Platform XML constants for typeface */
     private static final int SANS = 1;
     private static final int SERIF = 2;
@@ -57,7 +57,7 @@ public class TextDrawable extends Drawable {
     };
 
 
-    public TextDrawable(Context context) {
+    public CTextDrawable(Context context) {
         super();
         //Used to load and scale resource items
         mResources = context.getResources();

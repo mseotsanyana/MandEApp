@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.framework.ui.dialogboxes;
+package com.me.mseotsanyana.mande.framework.ui.dialogs.session;
 
 import android.text.Layout;
 import android.util.TypedValue;

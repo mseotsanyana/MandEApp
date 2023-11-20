@@ -1,5 +1,6 @@
-package com.me.mseotsanyana.mande.infrastructure.repository.preference;
+package com.me.mseotsanyana.mande.infrastructure.services;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
@@ -10,13 +11,17 @@ import androidx.annotation.Nullable;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
 import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cMenuModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CMenuModel;
 import com.me.mseotsanyana.mande.infrastructure.ports.preference.OnPullCompleteListener;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,36 +35,44 @@ public class CSessionManagerImpl implements SharedPreferences,
         ISessionManager {
     private static final String TAG = CSessionManagerImpl.class.getSimpleName();
 
+    private static CSessionManagerImpl sInstance;
     private final SharedPreferences sharedPreferences;
-    private final DatabaseReference databaseReference;
+    private final FirebaseFirestore databaseReference;
     private final CSyncAdapter syncAdapter;
+    private DocumentReference documentReference;
 
     private final List<String> ommitedKeys = new ArrayList<>();
 
     private static final Map<String, CSessionManagerImpl> prefInstances = new HashMap<>();
 
-    private static final String pathPattern = String.format(Locale.ENGLISH,"/%s/%s/%s",
-            CPreferenceConstant.KEY_USER_PREFS, CPreferenceConstant.KEY_USER_ID,
-            CPreferenceConstant.KEY_USER_NAME);
+    private static final String pathPattern = String.format(Locale.ENGLISH, "/%s/%s",
+            CPreferenceConstant.KEY_USER_PREFS, CPreferenceConstant.KEY_USER_ID);
 
     protected CSessionManagerImpl(SharedPreferences sharedPreferences,
-                                  DatabaseReference databaseReference){
+                                  DocumentReference documentReference) {
         this.sharedPreferences = sharedPreferences;
-        this.databaseReference = databaseReference;
+        this.databaseReference = FirebaseFirestore.getInstance();
+        this.documentReference = documentReference;
         this.syncAdapter = new CSyncAdapter(this);
     }
 
-    public synchronized static CSessionManagerImpl getInstance(Context context, String name,
-                                                               int mode){
-        return getInstance(context, name, mode, FirebaseDatabase.getInstance());
+    public synchronized static CSessionManagerImpl getInstance(Context context) {
+        if (sInstance == null)
+            sInstance = getInstance(context,
+                    CPreferenceConstant.KEY_USER_PREFS, Context.MODE_PRIVATE);
+        return sInstance;
+    }
+
+    public static CSessionManagerImpl getInstance(Context context, String name, int mode) {
+        return getInstance(context, name, mode, FirebaseFirestore.getInstance());
     }
 
     private static CSessionManagerImpl getInstance(Context context, String name, int mode,
-                                                   FirebaseDatabase firebaseDatabase) {
+                                                   FirebaseFirestore db) {
         if (!prefInstances.containsKey(name)) {
             prefInstances.put(name, new CSessionManagerImpl(
                     context.getApplicationContext().getSharedPreferences(name, mode),
-                    getDatabaseReference(name, firebaseDatabase)));
+                    getDocumentReference(name, db)));
         }
         return prefInstances.get(name);
     }
@@ -82,14 +95,11 @@ public class CSessionManagerImpl implements SharedPreferences,
 
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-        Log.i(TAG, "onAuthStateChanged of "+firebaseAuth.getCurrentUser() +" called");
+        Log.i(TAG, "onAuthStateChanged of " + firebaseAuth.getCurrentUser() + " triggered.");
 
-        if(firebaseAuth.getCurrentUser() != null){
+        if (firebaseAuth.getCurrentUser() != null) {
 
-            //sharedPreferences = CSharedFirebasePreferences.getInstance(this.context,
-            //        CPreferenceConstant.KEY_USER_PREFS, Context.MODE_PRIVATE);
-
-            keepSynced(true);
+            //keepSynced(true);
 
             registerOnSharedPreferenceChangeListener(this);
 
@@ -97,13 +107,13 @@ public class CSessionManagerImpl implements SharedPreferences,
                 @Override
                 public void OnPullSucceeded(CSessionManagerImpl preferences) {
                     // go to the view model: FIXME
-                    Log.i(TAG, "OnPullSucceeded of "+preferences.getAll() +" called");
+                    Log.i(TAG, "OnPullSucceeded of " + preferences.getAll() + " triggered.");
                 }
 
                 @Override
                 public void OnPullFailed(Exception e) {
                     // go to the view model: FIXME
-                    Log.e(TAG, "OnPullFailed of "+ e.toString() +" failed", e);
+                    Log.e(TAG, "OnPullFailed of " + e.toString() + " failed", e);
                 }
             });
         }
@@ -112,60 +122,67 @@ public class CSessionManagerImpl implements SharedPreferences,
     public Task<Void> push() {
         return new CPushTaskWrapper(this)
                 .addOnSuccessListener(unused ->
-                        Log.i(TAG, "Push of "+getDatabaseReference().toString() +" succeeded"))
+                        Log.i(TAG, "Push of " + getDocumentReference().toString() + " succeeded"))
                 .addOnFailureListener(e ->
-                        Log.e(TAG, "Push of "+getDatabaseReference().toString() +" failed", e));
+                        Log.e(TAG, "Push of " + getDocumentReference().toString() + " failed", e));
     }
 
-    public CPullValueEventListenerWrapper pull(){
-        return new CPullValueEventListenerWrapper(this).
+    public CPullEventListenerWrapper pull() {
+        return new CPullEventListenerWrapper(this).
                 addOnPullCompleteListener(new OnPullCompleteListener() {
                     @Override
                     public void OnPullSucceeded(CSessionManagerImpl preferences) {
-                        Log.i(TAG, "Pull of "+getDatabaseReference().toString() + "succeeded");
+                        Log.i(TAG, "Pull of " + getDocumentReference().toString() + "succeeded");
                     }
 
                     @Override
                     public void OnPullFailed(Exception e) {
-                        Log.e(TAG, "Pull of "+getDatabaseReference().toString() + "failed ", e);
+                        Log.e(TAG, "Pull of " + getDocumentReference().toString() + "failed ", e);
                     }
                 });
     }
 
-    public DatabaseReference getDatabaseReference() {
-        return databaseReference;
+    public DocumentReference getDocumentReference() {
+        return documentReference;
     }
 
-    @NonNull
-    private static DatabaseReference getDatabaseReference(String name, FirebaseDatabase db){
+    public void setDocumentReference(DocumentReference documentReference){
+        this.documentReference = documentReference;
+    }
+
+    private static DocumentReference getDocumentReference(String name, FirebaseFirestore db) {
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        if(firebaseUser == null) {
+
+//        assert firebaseUser != null;
+//        Log.i(TAG, "Name = "+ formatFirebasePath(name) + ", Database = "+
+//                db.collection(name).document("ttt") +", Document = "+
+//                pathPattern.replace(CPreferenceConstant.KEY_USER_ID, firebaseUser.getUid())+", ALL = "+
+//                db.collection(formatFirebasePath(name)).document(firebaseUser.getUid()));
+
+        if (firebaseUser == null) {
             throw new IllegalStateException("No user signed in with firebase");
         }
 
-        return db.getReference(formatFirebasePath(pathPattern.
-                replace(CPreferenceConstant.KEY_USER_ID, firebaseUser.getUid()).
-                replace(CPreferenceConstant.KEY_USER_PREFS, name)));
+        return db.collection(formatFirebasePath(name)).document(firebaseUser.getUid());
     }
 
-    public void keepSynced(boolean b){
-        databaseReference.keepSynced(b);
-        if(b){
-            databaseReference.addValueEventListener(syncAdapter);
-        } else {
-            databaseReference.removeEventListener(syncAdapter);
-        }
-    }
-
+//    public void keepSynced(boolean b) {
+//        databaseReference.keepSynced(b);
+//        if (b) {
+//            databaseReference.keepSynced.addSnapshotListener(syncAdapter);
+//        } else {
+//            databaseReference.(syncAdapter);
+//        }
+//    }
 
     @NonNull
-    private static String formatFirebasePath(@NonNull String pathPattern){
+    private static String formatFirebasePath(@NonNull String pathPattern) {
         return pathPattern.
-                replace('.','-').
-                replace('#','-').
-                replace('$','-').
-                replace('[','-').
-                replace(']','-');
+                replace('.', '-').
+                replace('#', '-').
+                replace('$', '-').
+                replace('[', '-').
+                replace(']', '-');
     }
 
     /************************** overridden methods from SharedPreferences *************************/
@@ -173,7 +190,7 @@ public class CSessionManagerImpl implements SharedPreferences,
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         // go to the view model: FIXME
-        Log.i(TAG, "onSharedPreferenceChanged of "+ s +" called");
+        Log.i(TAG, "onSharedPreferenceChanged of " + s + " called");
     }
 
     @Override
@@ -238,8 +255,13 @@ public class CSessionManagerImpl implements SharedPreferences,
     /************************************ user session methods ************************************/
 
     @Override
-    public void commitSettings() {
+    public boolean isCommitted() {
+        return edit().commit();
+    }
 
+    @Override
+    public void commitSettings() {
+        edit().apply();
     }
 
     @Override
@@ -248,8 +270,43 @@ public class CSessionManagerImpl implements SharedPreferences,
     }
 
     @Override
-    public void clearAllSettings() {
+    public void clearApplied() {
+        edit().clear().apply();
+    }
 
+    @Override
+    public boolean isClearCommitted() {
+        return edit().clear().commit();
+    }
+
+    public boolean updateDocumentReference(String documentID) {
+        if (!documentID.isEmpty()){
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            setDocumentReference(db.collection(formatFirebasePath(CPreferenceConstant.KEY_USER_PREFS)).
+                    document(documentID));
+
+            return true;
+        } else {
+            throw new IllegalStateException("Failed to update document identification!");
+        }
+    }
+
+    /**
+     *     Save and get HashMap in SharedPreference
+     */
+    @Override
+    public void saveHashMap(String key , Object obj) {
+        Gson gson = new Gson();
+        String json = gson.toJson(obj);
+        edit().putString(key,json).apply();
+    }
+
+    @Override
+    public HashMap<String, Object> loadHashMap(String key) {
+        Gson gson = new Gson();
+        String json = getString(key,"");
+        java.lang.reflect.Type type = new TypeToken<HashMap<String,Object>>(){}.getType();
+        return gson.fromJson(json, type);
     }
 
     @Override
@@ -258,13 +315,43 @@ public class CSessionManagerImpl implements SharedPreferences,
     }
 
     @Override
-    public void saveIntSetting(String key, int value) {
-
+    public void saveWorkspaceMembershipBITS(String key, int value) {
+        edit().putInt(key, value).apply();
     }
 
     @Override
-    public void saveStringSetting(String key, String value) {
+    public void saveUserServerID(String key, String value) {
+        edit().putString(key, value).apply();
+    }
 
+    @Override
+    public void saveCompositeServerID(String key, String value) {
+        edit().putString(key, value).apply();
+    }
+
+    @Override
+    public void saveOwnerServerID(String key, String value) {
+        edit().putString(key, value).apply();
+    }
+
+    @Override
+    public void saveLoggedInUserServerID(String key, String value) {
+        edit().putString(key, value).apply();
+    }
+
+    @Override
+    public void saveOrganizationSeverID(String key, String value) {
+        edit().putString(key, value).apply();
+    }
+
+    @Override
+    public void saveOrganizationOwnerSeverID(String key, String value) {
+        edit().putString(key, value).apply();
+    }
+
+    @Override
+    public void saveWorkspaceOwnerBIT(String key, int value) {
+        edit().putInt(key, value).apply();
     }
 
     @Override
@@ -278,13 +365,40 @@ public class CSessionManagerImpl implements SharedPreferences,
     }
 
     @Override
-    public void saveListOfStringSetting(String key, List<String> value) {
-
+    public void saveMyOrganizations(String key, List<String> value) {
+        String JSONString = new Gson().toJson(value);
+        edit().putString(key, JSONString).apply();
     }
 
     @Override
-    public void saveMenuItems(String key, List<cMenuModel> value) {
+    public void saveStatusBITS(String key, int value) {
+        edit().putInt(key, value).apply();
+    }
 
+    @Override
+    public void saveActionBITS(String key, int value) {
+        edit().putInt(key, value).apply();
+    }
+
+    @Override
+    public void savePermissionBITS(String key, int value) {
+        edit().putInt(key, value).apply();
+    }
+
+    @Override
+    public void saveEntityBITS(String key, int value) {
+        edit().putInt(key, value).apply();
+    }
+
+    @Override
+    public void saveModuleBITS(String key, int value) {
+        edit().putInt(key, value).apply();
+    }
+
+    @Override
+    public void saveMenuItems(String key, List<CMenuModel> value) {
+        String menuJSONString = new Gson().toJson(value);
+        edit().putString(key, menuJSONString).apply();
     }
 
     @Override
@@ -293,13 +407,29 @@ public class CSessionManagerImpl implements SharedPreferences,
     }
 
     @Override
-    public String loadUserID() {
-        return null;
+    public String loadCompositeServerID() {
+        return getSharedPreferences().getString(CPreferenceConstant.KEY_WORKSPACE_COMPOSITE_ID, null);
+    }
+
+    @Override
+    public String loadLoggedInUserServerID() {
+        return getSharedPreferences().getString(CPreferenceConstant.KEY_USER_ID, null);
     }
 
     @Override
     public String loadActiveOrganizationID() {
-        return null;
+        return getSharedPreferences().getString(CPreferenceConstant.KEY_ORG_ID,null);
+    }
+
+    @Override
+    public int loadActiveWorkspaceBIT() {
+        return getSharedPreferences().getInt(CPreferenceConstant.KEY_WORKSPACE_OWNER_BIT, -1);
+    }
+
+    @Override
+    public int loadUnixPermissionBITS(int moduleKey, int entityKey) {
+        return getSharedPreferences().getInt(CPreferenceConstant.KEY_UNIX_PERM_BITS + "-" +
+                moduleKey + "-" + entityKey, -1);
     }
 
     @Override
@@ -322,10 +452,7 @@ public class CSessionManagerImpl implements SharedPreferences,
         return null;
     }
 
-    @Override
-    public int loadActiveWorkspaceBIT() {
-        return 0;
-    }
+
 
     @Override
     public List<Integer> loadSecondaryWorkspaces() {
@@ -358,13 +485,10 @@ public class CSessionManagerImpl implements SharedPreferences,
     }
 
     @Override
-    public int loadUnixPermissionBITS(int moduleKey, int entityKey) {
-        return 0;
-    }
-
-    @Override
-    public List<cMenuModel> loadMenuItems() {
-        return null;
+    public List<CMenuModel> loadMenuItems(String key) {
+        String jsonString = getSharedPreferences().getString(key,null);
+        Type type = new TypeToken<List<CMenuModel>>() {}.getType();
+        return new Gson().fromJson(jsonString, type);
     }
 
     @Override
@@ -372,3 +496,28 @@ public class CSessionManagerImpl implements SharedPreferences,
 
     }
 }
+
+//    private static final String pathPattern = String.format(Locale.ENGLISH, "/%s/%s/%s",
+//            CPreferenceConstant.KEY_USER_PREFS, CPreferenceConstant.KEY_USER_ID,
+//            CPreferenceConstant.KEY_USER_NAME);
+
+//    @NonNull
+//    private static CollectionReference getDatabaseReference(String name, FirebaseFirestore db) {
+//        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+//        if (firebaseUser == null) {
+//            throw new IllegalStateException("No user signed in with firebase");
+//        }
+//
+//        return db.collection(formatFirebasePath(pathPattern.
+//                replace(CPreferenceConstant.KEY_USER_ID, firebaseUser.getUid()).
+//                replace(CPreferenceConstant.KEY_USER_PREFS, name)));
+//    }
+
+//    public void keepSynced(boolean b) {
+//        databaseReference.keepSynced(b);
+//        if (b) {
+//            databaseReference.addEventListener(syncAdapter);
+//        } else {
+//            databaseReference.removeEventListener(syncAdapter);
+//        }
+//    }

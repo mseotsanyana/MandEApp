@@ -1,6 +1,7 @@
-package com.me.mseotsanyana.mande.infrastructure.repository.preference;
+package com.me.mseotsanyana.mande.infrastructure.services;
 
 import android.app.Activity;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,29 +12,46 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.MissingFormatArgumentException;
 import java.util.Set;
 import java.util.concurrent.Executor;
 
 public class CPushTaskWrapper extends Task<Void> {
+    private static final String TAG = CPushTaskWrapper.class.getSimpleName();
 
     private final Task<Void> pushTaskWrapper;
 
-    CPushTaskWrapper(@NonNull CSessionManagerImpl preferences){
-        HashMap<String, Object> values = new HashMap<>(preferences.getAll());
-        for (String key: values.keySet()) {
-            if (values.get(key) instanceof Set) {
-                values.put(key, new ArrayList<>((Set<String>) values.get(key)));
+    CPushTaskWrapper(@NonNull CSessionManagerImpl sessionManager) {
+        HashMap<String, Object> preferences = new HashMap<>(sessionManager.getAll());
+
+        Log.d(TAG, "===================================== "+preferences.values());
+
+        for (String key : preferences.keySet()) {
+            if (preferences.get(key) instanceof Set) {
+                preferences.put(key, new ArrayList<>((Set<String>) preferences.get(key)));
+            }
+
+//            if (values.get(key) instanceof Map) {
+//                values.put(key,  new ArrayList<>((Set<String>) values.get(key)));
+//            }
+        }
+
+        for (String key : new ArrayList<>(preferences.keySet())) {
+            if (sessionManager.getOmmitedKeys().contains(key)) {
+                preferences.remove(key);
             }
         }
 
-        for (String key: new ArrayList<>(values.keySet())){
-            if(preferences.getOmmitedKeys().contains(key)){
-                values.remove(key);
-            }
-        }
 
-        // push the preferences to the Firestore database
-        pushTaskWrapper = preferences.getDatabaseReference().updateChildren(values);
+        if (!preferences.isEmpty()) {
+            // push the preferences to the Firestore database
+            pushTaskWrapper = sessionManager.getDocumentReference().set(preferences);
+            Log.i(TAG, "Preferences saved in database : " + preferences);
+        } else {
+            pushTaskWrapper = sessionManager.getDocumentReference().delete();
+            Log.i(TAG, "Preferences deleted from database : " + preferences);
+        }
     }
 
     /***************************** overridden methods from Task<Void> *****************************/

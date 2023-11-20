@@ -5,7 +5,7 @@ import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.List;
 
-public interface iPrivilegeRepository {
+public interface IPermissionRepository {
 
     // create workspace privilege
     void createWorkspacePrivilege(String workspaceServerID,

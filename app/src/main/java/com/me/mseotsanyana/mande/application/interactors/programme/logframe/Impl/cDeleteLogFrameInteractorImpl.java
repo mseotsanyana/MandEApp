@@ -1,12 +1,13 @@
 package com.me.mseotsanyana.mande.application.interactors.programme.logframe.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.programme.logframe.iLogFrameInteractor;
 import com.me.mseotsanyana.mande.application.repository.programme.iLogFrameRepository;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 
-public class cDeleteLogFrameInteractorImpl extends cAbstractInteractor
+public class cDeleteLogFrameInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iLogFrameInteractor {
     private static String TAG = cDeleteLogFrameInteractorImpl.class.getSimpleName();
 
@@ -15,10 +16,10 @@ public class cDeleteLogFrameInteractorImpl extends cAbstractInteractor
     private String logFrameID;
     private int position;
 
-    public cDeleteLogFrameInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
+    public cDeleteLogFrameInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
                                          iLogFrameRepository logFrameRepository, Callback callback,
                                          String logFrameID) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (logFrameRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -60,5 +61,15 @@ public class cDeleteLogFrameInteractorImpl extends cAbstractInteractor
         }else {
             notifyError("Failed to delete !!");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

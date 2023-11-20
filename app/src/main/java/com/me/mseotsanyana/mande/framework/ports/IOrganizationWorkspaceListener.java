@@ -1,6 +1,12 @@
 package com.me.mseotsanyana.mande.framework.ports;
 
-public interface IDialogHandler {
-    void OnDeleteDialog(String dialogAction);
-    void OnCreateDialog(Object object);
+import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
+
+public interface IOrganizationWorkspaceListener {
+    void OnCreateOrganization(Object object);
+    void OnUpdateOrganization(Object object);
+    void OnDeleteOrganization(String dialogAction);
+    void OnCreateWorkspace(CWorkspaceModel workspaceModel);
+    void OnUpdateWorkspace(Object object);
+    void OnDeleteWorkspace(String dialogAction, int workspaceBITS, CWorkspaceModel workspaceModel);
 }

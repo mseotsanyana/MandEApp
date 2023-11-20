@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.evaluation;
+package com.me.mseotsanyana.mande.framework.ui.fragments.evaluation;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -28,20 +28,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.PL.presenters.evaluator.Impl.cEvaluationPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.evaluator.iEvaluationPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.evaluator.Impl.cEvaluationPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.controllers.evaluator.iEvaluationPresenter;
 import com.me.mseotsanyana.mande.framework.ui.adapters.evaluator.cEvaluationAdapter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.TextDrawable;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
+import com.me.mseotsanyana.mande.framework.utils.CTextDrawable;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.domain.entities.models.evaluation.cEvaluationModel;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 import com.me.mseotsanyana.questionnairelibrary.forms.db.cDBQuestionnaire;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -135,8 +137,8 @@ public class cEvaluationPlanFragment extends Fragment implements iEvaluationPres
 
         // setup a presenter
         evaluationPresenter = new cEvaluationPresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
                 this,
                 null/*cSessionManagerImpl(getContext())*/,
                 null,//new cEvaluationRepositoryImpl(getContext()),
@@ -219,10 +221,10 @@ public class cEvaluationPlanFragment extends Fragment implements iEvaluationPres
         Menu toolBarMenu = toolbar.getMenu();
 
         MenuItem homeIcon = toolBarMenu.findItem(R.id.homeItem);
-        TextDrawable faIcon = new TextDrawable(requireContext());
+        CTextDrawable faIcon = new CTextDrawable(requireContext());
         faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
         faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-        faIcon.setTypeface(cFontManager.getTypeface(getContext(), cFontManager.FONTAWESOME));
+        faIcon.setTypeface(CFontManager.getTypeface(getContext(), CFontManager.FONTAWESOME));
         faIcon.setText(getContext().getResources().getText(R.string.fa_home));
         faIcon.setTextColor(Color.WHITE);
 
@@ -279,8 +281,18 @@ public class cEvaluationPlanFragment extends Fragment implements iEvaluationPres
         evaluationProgressBar.setVisibility(View.GONE);
     }
 
+
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 

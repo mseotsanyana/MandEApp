@@ -3,21 +3,22 @@ package com.me.mseotsanyana.mande.application.interactors.programme.question.Imp
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.programme.question.iReadQuestionInteractor;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cOutputModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cQuestionModel;
 import com.me.mseotsanyana.mande.application.repository.programme.iQuestionRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cBitwise;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.OLD.storage.preference.cBitwise;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 import java.util.Set;
 
-public class cReadQuestionInteractorImpl extends cAbstractInteractor
+public class cReadQuestionInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iReadQuestionInteractor {
     private static String TAG = cReadQuestionInteractorImpl.class.getSimpleName();
 
@@ -28,11 +29,11 @@ public class cReadQuestionInteractorImpl extends cAbstractInteractor
 
     private String logFrameName;
 
-    public cReadQuestionInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                       iSharedPreferenceRepository sessionManagerRepository,
+    public cReadQuestionInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                       ISessionManager sessionManagerRepository,
                                        iQuestionRepository questionRepository,
                                        Callback callback, long logFrameID) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sessionManagerRepository == null || questionRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -87,14 +88,14 @@ public class cReadQuestionInteractorImpl extends cAbstractInteractor
         for (int i = 0; i < outputModels.size(); i++) {
             /* output */
             cOutputModel outputModel = outputModels.get(i);
-            outputTreeModels.add(new cTreeModel(parentIndex, -1, 0, outputModel));
+            //outputTreeModels.add(new cTreeModel(parentIndex, -1, 0, outputModel));
 
             /* set of output children under the output */
             childIndex = parentIndex;
             ArrayList<cOutputModel> outputs = null;//--new ArrayList<>(outputModel.getChildrenOutputModelSet());
             for (int j = 0; j < outputs.size(); j++) {
                 childIndex = childIndex + 1;
-                outputTreeModels.add(new cTreeModel(childIndex, parentIndex, 1, outputs));
+                //outputTreeModels.add(new cTreeModel(childIndex, parentIndex, 1, outputs));
             }
 
             /* next parent index */
@@ -158,5 +159,15 @@ public class cReadQuestionInteractorImpl extends cAbstractInteractor
         } else {
             notifyError("Failed due to reading access rights !!");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

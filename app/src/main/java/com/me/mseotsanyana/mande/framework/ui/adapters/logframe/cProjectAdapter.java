@@ -16,11 +16,11 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cProjectModel;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iProjectPresenter;
-import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewProjectListener;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iProjectPresenter;
+import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.logframe.iViewProjectListener;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.mande.databinding.ProjectChildCardviewBinding;
 import com.me.mseotsanyana.mande.databinding.ProjectParentCardviewBinding;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
@@ -90,8 +90,8 @@ public class cProjectAdapter extends cTreeAdapter implements iViewProjectListene
 
                 /* the collapse and expansion of the impact */
                 PPH.binding.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-                PPH.binding.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                        cFontManager.FONTAWESOME));
+                PPH.binding.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                        CFontManager.FONTAWESOME));
                 PPH.binding.textViewDetailIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                 PPH.binding.textViewDetailIcon.setText(
                         context.getResources().getString(R.string.fa_angle_down));
@@ -223,14 +223,14 @@ public class cProjectAdapter extends cTreeAdapter implements iViewProjectListene
                         if (node.isExpand()) {
                             PPH.binding.textViewExpandIcon.setTypeface(null, Typeface.NORMAL);
                             PPH.binding.textViewExpandIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             PPH.binding.textViewExpandIcon.setText(
                                     context.getResources().getString(R.string.fa_minus));
 
                         } else {
                             PPH.binding.textViewExpandIcon.setTypeface(null, Typeface.NORMAL);
                             PPH.binding.textViewExpandIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             PPH.binding.textViewExpandIcon.setText(
                                     context.getResources().getString(R.string.fa_plus));
                         }
@@ -239,28 +239,28 @@ public class cProjectAdapter extends cTreeAdapter implements iViewProjectListene
                     /* icon for accessing a logframe */
                     PPH.binding.textViewLogframeIcon.setTypeface(null, Typeface.NORMAL);
                     PPH.binding.textViewLogframeIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     PPH.binding.textViewLogframeIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     PPH.binding.textViewLogframeIcon.setText(context.getResources().getString(R.string.fa_logframe));
 
                     /* icon for deleting a record */
                     PPH.binding.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     PPH.binding.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     PPH.binding.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     PPH.binding.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
 
                     /* icon for saving updated record */
                     PPH.binding.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
                     PPH.binding.textViewUpdateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     PPH.binding.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     PPH.binding.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
 
                     /* icon for create subproject record */
                     PPH.binding.textViewCreateIcon.setTypeface(null, Typeface.NORMAL);
                     PPH.binding.textViewCreateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     PPH.binding.textViewCreateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     PPH.binding.textViewCreateIcon.setText(context.getResources().getString(R.string.fa_plus));
 
@@ -287,8 +287,8 @@ public class cProjectAdapter extends cTreeAdapter implements iViewProjectListene
 
                     /* the collapse and expansion of the impact */
                     ICH.binding.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-                    ICH.binding.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                            cFontManager.FONTAWESOME));
+                    ICH.binding.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                            CFontManager.FONTAWESOME));
                     ICH.binding.textViewDetailIcon.setTextColor(context.getColor(R.color.black));
                     ICH.binding.textViewDetailIcon.setText(
                             context.getResources().getString(R.string.fa_angle_down));

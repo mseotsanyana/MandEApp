@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cJournalModel;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.OLD.cConstant;
-import com.me.mseotsanyana.mande.OLD.cFontManager;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Layout;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Resolve;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.View;
@@ -68,14 +68,14 @@ public class cJournalBodyView {
         /* icon for clock */
         this.appCompatTextViewDateIcon.setTypeface(null, Typeface.NORMAL);
         this.appCompatTextViewDateIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         //this.appCompatTextViewDateIcon.setTextColor(context.getColor(R.color.colorAccent));
         this.appCompatTextViewDateIcon.setText(context.getResources().getString(R.string.fa_clock));
 
         /* icon for action */
         this.appCompatTextViewActionIcon.setTypeface(null, Typeface.NORMAL);
         this.appCompatTextViewActionIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         //this.appCompatTextViewDateIcon.setTextColor(context.getColor(R.color.colorAccent));
         this.appCompatTextViewActionIcon.setText(context.getResources().getString(R.string.fa_ellipsis_h));
     }

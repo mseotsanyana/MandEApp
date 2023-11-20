@@ -1,17 +1,17 @@
-package com.me.mseotsanyana.mande.infrastructure.controllers.logframe;
+package com.me.mseotsanyana.mande.infrastructure.ports.logframe;
 
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cImpactModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cOutcomeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cQuestionModel;
 import com.me.mseotsanyana.mande.OLD.PL.presenters.base.iPresenter;
-import com.me.mseotsanyana.mande.OLD.PL.ui.iBaseView;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.IBaseView;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.List;
 
 public interface iImpactPresenter extends iPresenter {
-    interface View extends iBaseView {
+    interface View extends IBaseView {
         /* pass data from presenter to the view */
         void onClickBMBImpact(int menuIndex);
         void onClickCreateImpact(cImpactModel impactModel);

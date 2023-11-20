@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.session;
+package com.me.mseotsanyana.mande.framework.ui.fragments.session;
 
 import android.app.AlertDialog;
 import android.app.SearchManager;
@@ -26,13 +26,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.me.mseotsanyana.mande.framework.ui.adapters.session.cUserAdapter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.INTERFACE.iMEEntityInterface;
-import com.me.mseotsanyana.mande.UTIL.TextDrawable;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
-import com.me.mseotsanyana.mande.UTIL.cParam;
+import com.me.mseotsanyana.mande.OLD.INTERFACE.iMEEntityInterface;
+import com.me.mseotsanyana.mande.framework.utils.CTextDrawable;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
+import com.me.mseotsanyana.mande.OLD.cParam;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cStatusModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUserModel;
-import com.me.mseotsanyana.mande.usecases.interactors.session.status.Impl.cStatusInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.session.status.Impl.cStatusInteractorImpl;
 
 import java.util.ArrayList;
 
@@ -212,10 +212,10 @@ public class cUserFragment extends Fragment implements iMEEntityInterface {
                 alertDialog.setMessage(message);
 
                 // setting icon to dialog
-                TextDrawable faIcon = new TextDrawable(getContext());
+                CTextDrawable faIcon = new CTextDrawable(getContext());
                 faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
                 faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-                faIcon.setTypeface(cFontManager.getTypeface(getContext(), cFontManager.FONTAWESOME));
+                faIcon.setTypeface(CFontManager.getTypeface(getContext(), CFontManager.FONTAWESOME));
                 faIcon.setText(getContext().getResources().getText(R.string.fa_exclamation_triangle));
                 faIcon.setTextColor(Color.BLUE);
 

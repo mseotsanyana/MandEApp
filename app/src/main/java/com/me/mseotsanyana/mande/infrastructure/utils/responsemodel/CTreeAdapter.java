@@ -1,65 +1,49 @@
-package com.me.mseotsanyana.treeadapterlibrary;
-
-import androidx.annotation.NonNull;
+package com.me.mseotsanyana.mande.infrastructure.utils.responsemodel;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by mseotsanyana on 2017/02/20.
  */
 
-abstract public class cTreeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
-    private static String TAG = cTreeAdapter.class.getSimpleName();
+abstract public class CTreeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private static final String TAG = CTreeAdapter.class.getSimpleName();
     protected Context context;
-    protected List<cTreeModel> treeModels;
-    protected List<cNode> visibleNodes;
-    protected List<cNode> allNodes;
-    //protected Map<Integer, cDataBinder> dataBinders;
+    protected List<CNode> visibleNodes;
+    protected List<CNode> allNodes;
 
-    public cTreeAdapter(Context context, List<cTreeModel> treeModels){
-        //super(context, data);
+    public CTreeAdapter(Context context, int expLevel) {
         this.context = context;
-        this.treeModels = treeModels;
-        try {
-            this.sort();
-        }catch(IllegalAccessException e){
-            Log.e(TAG, "Error "+e.getMessage());
-        }
-    }
-
-    public cTreeAdapter(Context context, List<cTreeModel> treeModels, int expLevel){
-        //super(context, data);
-        this.context = context;
-        this.treeModels = treeModels;
         try {
             this.sort(expLevel);
-        }catch(IllegalAccessException e){
-            Log.e(TAG, "Error "+e.getMessage());
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, "Error " + e.getMessage());
         }
     }
 
-    public cTreeAdapter(Context context, CIndexedLinkedHashMap<String, cTreeModel> treeModels){
-        //super(context, data);
+    public CTreeAdapter(Context context) {
+        allNodes = new ArrayList<>();
         this.context = context;
-        this.treeModels = treeModels;
         try {
             this.sort();
-        }catch(IllegalAccessException e){
-            Log.e(TAG, "Error "+e.getMessage());
+        } catch (IllegalAccessException e) {
+            Log.e(TAG, "Error " + e.getMessage());
         }
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return OnCreateTreeViewHolder(parent,viewType);
+        return OnCreateTreeViewHolder(parent, viewType);
     }
 
     @Override
@@ -68,8 +52,8 @@ abstract public class cTreeAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     @Override
-    public int getItemViewType(int position){
-        cTreeModel model = (cTreeModel) visibleNodes.get(position).getObj();
+    public int getItemViewType(int position) {
+        CTreeModel model = visibleNodes.get(position).getTreeModelObject();
         return model.getType();
     }
 
@@ -82,141 +66,162 @@ abstract public class cTreeAdapter extends RecyclerView.Adapter<RecyclerView.Vie
      * These are abstract methods
      */
     public abstract RecyclerView.ViewHolder OnCreateTreeViewHolder(ViewGroup parent, int viewType);
+
     public abstract void OnBindTreeViewHolder(RecyclerView.ViewHolder viewHolder, int position);
-    //cTreeModel obj, boolean isLeaf, boolean isExpand, int level);
-    //public abstract int getItemTreeViewType(int position);
-    //public abstract int getTreeItemCount();
 
     public void sort() throws IllegalAccessException {
         sort(-1);
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void sort(int defaultExpandLevel) throws IllegalAccessException, IllegalArgumentException{
-        List<cNode> unsortedNodes = cNodeHelper.convertDataSet2Nodes(treeModels);
-
-        allNodes = cNodeHelper.getSortedNodes(unsortedNodes);
-        cNodeHelper.setExpandLevel(allNodes, defaultExpandLevel);
-        visibleNodes = cNodeHelper.filterVisibleNodes(allNodes);
+    public void sort(int defaultExpandLevel) throws IllegalAccessException, IllegalArgumentException {
+        /* List<CNode> unsortedNodes = CNodeHelper.convertTreeModels2Nodes(treeModels);,allNodes = CNodeHelper.getSortedNodes(unsortedNodes);*/
+        CNodeHelper.setExpandLevel(allNodes, defaultExpandLevel);
+        visibleNodes = CNodeHelper.filterVisibleNodes(allNodes);
         notifyDataSetChanged();
     }
 
-//    public int getMaxParentIndex(){
-//        int maxParentIndex = -1;
-//        for (int i = 0; i < treeModels.size(); i++){
-//            int parentID = treeModels.get(i).getParentID();
-//            if(maxParentIndex <= parentID){
-//                maxParentIndex = parentID + 1;
-//            }
+//    public void setTreeModel(CIndexedLinkedHashMap<String, CTreeModel> treeModels) throws IllegalAccessException {
+//        this.treeModels = treeModels;
+//        try {
+//            this.sort();
+//        } catch (IllegalAccessException e) {
+//            Log.e(TAG, "Error " + e.getMessage());
 //        }
+//    }
 //
-//        return maxParentIndex;
+//    public void setTreeModel(CIndexedLinkedHashMap<String, CTreeModel> treeModels, int defaultExpandLevel) throws
+//            IllegalAccessException {
+//        this.treeModels = treeModels;
+//        try {
+//            this.sort(defaultExpandLevel);
+//        } catch (IllegalAccessException e) {
+//            Log.e(TAG, "Error " + e.getMessage());
+//        }
 //    }
 
-    /*public void addData(cTreeModel model) throws IllegalAccessException {
-        treeModels.add(model);
-
-        cNode node = cNodeHelper.convertData2Node(model) ;
-        allNodes.add(node);
-
-        allNodes = cNodeHelper.getSortedNodes(allNodes);
-        node.getParent().setExpand(true);
-        visibleNodes = cNodeHelper.fliterVisibleNodes(allNodes);
-        notifyDataSetChanged();
-    }*/
-
-    public void addData(cTreeModel model) throws IllegalAccessException {
-        treeModels.add(model);
-
-        List<cNode> unsortedNodes = cNodeHelper.convertDataSet2Nodes(treeModels);
-
-        allNodes = cNodeHelper.getSortedNodes(unsortedNodes);
-        cNodeHelper.setExpandLevel(allNodes, -1);
-        visibleNodes = cNodeHelper.filterVisibleNodes(allNodes);
-
-        notifyDataSetChanged();
+    /**************************************** CRUD methods *****************************************
+     *
+     * add a tree model to an existing allNodes list without overriding the list
+     *
+     * @param treeModel tree model
+     * @throws IllegalAccessException exception
+     */
+    public void addTreeModel2TreeAdapter(CTreeModel treeModel) throws IllegalAccessException {
+        CNode node = CNodeHelper.convertTreeModel2NodeModel(treeModel);
+        addNodeToAllNodes(node);
     }
 
-    public void setTreeModel(List<cTreeModel> treeModels) throws IllegalAccessException {
-        this.treeModels = treeModels;
-        try {
-            this.sort();
-        }catch(IllegalAccessException e){
-            Log.e(TAG, "Error "+e.getMessage());
-        }
+    public void modifyTreeModelInTreeAdapter(CTreeModel treeModel) throws IllegalAccessException {
+        CNode node = CNodeHelper.convertTreeModel2NodeModel(treeModel);
+        modifyNodeInAllNodes(node);
     }
 
-    public List<cTreeModel> getTreeModel() {
-        return this.treeModels;
+    public void deleteTreeModelInTreeAdapter(CTreeModel treeModel) throws IllegalAccessException {
+        CNode node = CNodeHelper.convertTreeModel2NodeModel(treeModel);
+        deleteNodeInAllNodes(node);
     }
 
+    /************************************* additional methods *************************************/
+
+    @SuppressLint("NotifyDataSetChanged")
     protected void expandOrCollapse(int position) {
-        cNode node = visibleNodes.get(position);
+        CNode node = visibleNodes.get(position);
         if (node == null) {
             return;
         }
         if (node.isLeaf()) {
             return;
         }
-        //Log.d("All Nodes ",""+allNodes);
         node.setExpand(!node.isExpand());
-        visibleNodes = cNodeHelper.filterVisibleNodes(allNodes);
-        //Log.d("Visible Nodes ",""+visibleNodes);
-        notifyDataSetChanged();
-    }
-
-    /**
-     * this takes the new tree model to refresh the list, used to filter
-     * the list of tree models in an adapter.
-     *
-     * @param treeModels
-     * @throws IllegalAccessException
-     * @throws IllegalArgumentException
-     */
-    public void notifyTreeModelChanged(List<cTreeModel> treeModels ) throws IllegalAccessException,
-            IllegalArgumentException{
-
-        List<cNode> unsortedNodes = cNodeHelper.convertDataSet2Nodes(treeModels);
-
-        allNodes = cNodeHelper.getSortedNodes(unsortedNodes);
-        cNodeHelper.setExpandLevel(allNodes, -1);
-        visibleNodes = cNodeHelper.filterVisibleNodes(allNodes);
-
-        notifyDataSetChanged();
-    }
-
-    public void notifyTreeModelUpdated(cTreeModel treeModel, int position) throws
-            IllegalArgumentException{
-        /* get the modified tree model */
-        cTreeModel currTreeModel = (cTreeModel) visibleNodes.get(position).getObj();
-        /* replaces the old tree model with the new one */
-        treeModels.remove(currTreeModel);
-        currTreeModel.setModelObject(treeModel.getModelObject());
-        treeModels.add(currTreeModel);
-        /* override the old obj in the visible nodes */
-        visibleNodes.get(position).setObj(currTreeModel);
-        /* refresh the list */
-        notifyDataSetChanged();
-    }
-
-    public void notifyTreeModelDeleted(int position) throws IllegalAccessException,
-            IllegalArgumentException{
-        cTreeModel treeModel = (cTreeModel) visibleNodes.get(position).getObj();
-        /* remove in both lists */
-        treeModels.remove(treeModel);
-
-        List<cNode> unsortedNodes = cNodeHelper.convertDataSet2Nodes(treeModels);
-        allNodes = cNodeHelper.getSortedNodes(unsortedNodes);
-        cNodeHelper.setExpandLevel(allNodes, -1);
-        visibleNodes = cNodeHelper.filterVisibleNodes(allNodes);
-
-        //visibleNodes.remove(position);
-        /* refresh the list */
+        visibleNodes = CNodeHelper.filterVisibleNodes(allNodes);
         notifyDataSetChanged();
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void notifyTreeModelChanged(){
-        notifyDataSetChanged();
+    private void addNodeToAllNodes(CNode node) {
+        boolean isDuplicate = false;
+        for (CNode curr_node : allNodes) {
+            if (curr_node.getChildID().equals(node.getChildID())) {
+                isDuplicate = true;
+                break;
+            }
+        }
+        if (!isDuplicate) {
+            allNodes.add(node);
+
+            allNodes = CNodeHelper.getSortedNodes(allNodes);
+            CNodeHelper.setExpandLevel(allNodes, -1);
+
+            visibleNodes = CNodeHelper.filterVisibleNodes(allNodes);
+            notifyDataSetChanged();
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void modifyNodeInAllNodes(CNode node) {
+        for (int i = 0; i <= allNodes.size(); i++) {
+            if (allNodes.get(i).getChildID().equals(node.getChildID())) {
+                // update node in AllNodes - only tree model changes
+                allNodes.get(i).setTreeModelObject(node.getTreeModelObject());
+                notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void deleteNodeInAllNodes(CNode node) {
+        for (int i = 0; i <= allNodes.size(); i++) {
+            if (allNodes.get(i).getChildID().equals(node.getChildID())) {
+                allNodes.remove(allNodes.get(i));
+                visibleNodes = CNodeHelper.filterVisibleNodes(allNodes);
+                notifyDataSetChanged();
+                break;
+            }
+        }
+    }
+
+//    public void reloadTreeModels(String treeModelID) {
+//        for (CNode node : allNodes) {
+//            if (node.getChildID().equals(treeModelID)) {
+//                CNodeHelper.removeNode(allNodes, node);
+//                break;
+//            }
+//        }
+//        visibleNodes = CNodeHelper.filterVisibleNodes(allNodes);
+//
+//        Log.d(TAG, "ALL NODES ===== " + allNodes.size());
+//        Log.d(TAG, "VISIBLE NODES ===== " + visibleNodes.size());
+//        //Log.d(TAG, "TREE MODELS ===== " + treeModels.size());
+//
+//        notifyDataSetChanged();
+//    }
+
+    public void printNodeInAllNodes(String nodeID) {
+        StringBuilder builder = new StringBuilder("Node : ");
+        for (CNode node : allNodes) {
+            if (node.getChildID().equals(nodeID)) {
+                builder.append(node);
+                break;
+            }
+        }
+        Log.d(TAG, " " + builder);
+    }
+
+    public void printAllNodes() {
+        StringBuilder nodes = new StringBuilder("All Nodes: ");
+        for (CNode node : allNodes) {
+            nodes.append(node);
+        }
+        Log.d(TAG, " " + nodes);
+    }
+
+    public void printVisibleNodes() {
+        StringBuilder nodes = new StringBuilder("Visible Nodes: ");
+        for (CNode node : visibleNodes) {
+            nodes.append(node);
+        }
+        Log.d(TAG, " " + nodes);
     }
 }

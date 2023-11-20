@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.raid;
+package com.me.mseotsanyana.mande.framework.ui.fragments.raid;
 
 import android.content.Context;
 import android.os.Bundle;

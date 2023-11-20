@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.report;
+package com.me.mseotsanyana.mande.framework.ui.fragments.report;
 
 /**
  * Created by mseotsanyana on 2017/02/28.

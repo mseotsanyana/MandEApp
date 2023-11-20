@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.session;
+package com.me.mseotsanyana.mande.infrastructure.repository.firestore.session;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,11 +7,11 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CPrivilegeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
-import com.me.mseotsanyana.mande.usecases.repository.session.iRoleRepository;
-import com.me.mseotsanyana.mande.framework.storage.database.cRealtimeHelper;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.cDatabaseUtils;
+import com.me.mseotsanyana.mande.application.repository.session.iRoleRepository;
+import com.me.mseotsanyana.mande.application.structures.CFirestoreConstant;
+import com.me.mseotsanyana.mande.application.utils.CFirestoreUtility;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -50,7 +50,7 @@ public class cRoleFirestoreRepositoryImpl implements iRoleRepository {
                               List<Integer> secondaryTeamBITS, List<Integer> statusBITS,
                               iReadTeamRolesCallback callback) {
 
-        CollectionReference coRoleRef = db.collection(cRealtimeHelper.KEY_ROLES);
+        CollectionReference coRoleRef = db.collection(CFirestoreConstant.KEY_ROLES);
 
         Query roleQuery = coRoleRef
                 .whereEqualTo("organizationOwnerID", organizationServerID)
@@ -58,12 +58,12 @@ public class cRoleFirestoreRepositoryImpl implements iRoleRepository {
 
         roleQuery.get()
                 .addOnCompleteListener(task -> {
-                    List<cPrivilegeModel> roleModels = new ArrayList<>();
+                    List<CPrivilegeModel> roleModels = new ArrayList<>();
                     for (DocumentSnapshot role_doc : Objects.requireNonNull(task.getResult())) {
-                        cPrivilegeModel roleModel = role_doc.toObject(cPrivilegeModel.class);
+                        CPrivilegeModel roleModel = role_doc.toObject(CPrivilegeModel.class);
 
                         if (roleModel != null) {
-                            cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
+                            CFirestoreUtility.cUnixPerm perm = new CFirestoreUtility.cUnixPerm();
                             perm.setUserOwnerID(roleModel.getUserOwnerID());
                             perm.setTeamOwnerBIT(roleModel.getWorkspaceOwnerBIT());
                             perm.setUnixpermBITS(roleModel.getUnixpermBITS());
@@ -97,7 +97,7 @@ public class cRoleFirestoreRepositoryImpl implements iRoleRepository {
                               int primaryTeamBIT, List<Integer> secondaryTeamBITS,
                               List<Integer> statusBITS, iReadRoleTeamsCallback callback) {
 
-        CollectionReference coRoleTeamsRef = db.collection(cRealtimeHelper.KEY_TEAM_ROLES);
+        CollectionReference coRoleTeamsRef = db.collection(CFirestoreConstant.KEY_TEAM_ROLES);
         Query roleTeamsQuery = coRoleTeamsRef.whereEqualTo("roleServerID", roleServerID);
 
         roleTeamsQuery.get()
@@ -137,7 +137,7 @@ public class cRoleFirestoreRepositoryImpl implements iRoleRepository {
                                  List<Integer> secondaryTeamBITS, List<Integer> statusBITS,
                                  iReadRoleTeamsCallback callback) {
 
-        CollectionReference coTeamRef = db.collection(cRealtimeHelper.KEY_TEAMS);
+        CollectionReference coTeamRef = db.collection(CFirestoreConstant.KEY_WORKSPACES);
 
         Query teamQuery = coTeamRef
                 .whereEqualTo("organizationOwnerID", organizationServerID)
@@ -152,7 +152,7 @@ public class cRoleFirestoreRepositoryImpl implements iRoleRepository {
 
                         CWorkspaceModel teamModel = team_doc.toObject(CWorkspaceModel.class);
                         if (teamModel != null) {
-                            cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
+                            CFirestoreUtility.cUnixPerm perm = new CFirestoreUtility.cUnixPerm();
                             perm.setUserOwnerID(teamModel.getUserOwnerID());
                             perm.setTeamOwnerBIT(teamModel.getWorkspaceOwnerBIT());
                             perm.setUnixpermBITS(teamModel.getUnixpermBITS());

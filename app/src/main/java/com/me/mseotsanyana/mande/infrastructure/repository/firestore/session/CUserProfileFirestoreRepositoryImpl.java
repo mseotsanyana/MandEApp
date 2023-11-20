@@ -1,4 +1,7 @@
-package com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.session;
+package com.me.mseotsanyana.mande.infrastructure.repository.firestore.session;
+
+import static com.me.mseotsanyana.mande.application.structures.CFirestoreConstant.FAILURE;
+import static com.me.mseotsanyana.mande.application.structures.CFirestoreConstant.SUCCESS;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,7 +9,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,19 +24,21 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cEntityModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cMenuModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CMenuModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CPrivilegeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cTransitionModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
-import com.me.mseotsanyana.mande.usecases.repository.session.iUserProfileRepository;
-import com.me.mseotsanyana.mande.framework.storage.base.cFirebaseCallBack;
-import com.me.mseotsanyana.mande.framework.storage.base.cFirebaseChildCallBack;
-import com.me.mseotsanyana.mande.framework.storage.base.cFirebaseRepository;
-import com.me.mseotsanyana.mande.framework.storage.database.cRealtimeHelper;
-import com.me.mseotsanyana.mande.framework.storage.excel.cExcelHelper;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.cDatabaseUtils;
+import com.me.mseotsanyana.mande.application.repository.session.IUserProfileRepository;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreCallBack;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreChildCallBack;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreRepository;
+import com.me.mseotsanyana.mande.application.structures.CFirestoreConstant;
+import com.me.mseotsanyana.mande.OLD.storage.excel.cExcelHelper;
+import com.me.mseotsanyana.mande.application.utils.CFirestoreUtility;
+import com.me.mseotsanyana.mande.infrastructure.services.CSessionManagerImpl;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -55,26 +59,151 @@ import java.util.Objects;
 /**
  * Created by mseotsanyana on 2016/10/23.
  */
-public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
-        implements iUserProfileRepository {
-    private static final String TAG = cUserProfileFirestoreRepositoryImpl.class.getSimpleName();
+public class CUserProfileFirestoreRepositoryImpl extends CFirestoreRepository
+        implements IUserProfileRepository {
+    private static final String TAG = CUserProfileFirestoreRepositoryImpl.class.getSimpleName();
 
     // an object of the database helper
     private final FirebaseFirestore db;
     private final FirebaseStorage storage;
     private final FirebaseAuth firebaseAuth;
+    private final CollectionReference userProfileCollectionReference;
     private final Context context;
 
-    public cUserProfileFirestoreRepositoryImpl(Context context) {
+    public CUserProfileFirestoreRepositoryImpl(Context context) {
         this.context = context;
-        this.firebaseAuth = FirebaseAuth.getInstance();
         this.db = FirebaseFirestore.getInstance();
+        this.firebaseAuth = FirebaseAuth.getInstance();
         this.storage = FirebaseStorage.getInstance();
+        this.userProfileCollectionReference = db.collection(CFirestoreConstant.KEY_USERPROFILES);
     }
 
-    /* ##################################### CREATE ACTIONS ##################################### */
+    /********************************** Authentication Operations **********************************
+     *
+     * sign in with email and password
+     *
+     * @param email    email
+     * @param password password
+     * @param callback callback
+     */
+    @Override
+    public void signInWithEmailAndPassword(String email, String password,
+                                           CFirestoreCallBack callback) {
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (firebaseUser != null) {
+                    if (!firebaseUser.isEmailVerified()) {
+                        FirebaseAuth.getInstance().signOut();
+                        resendEmailVerification(firebaseUser, callback);
+                        //callback.onSignInFailed("Verification email resend to " +firebaseUser.getEmail());
+                    } else {
+                        // change the status of the profile
+                        //updateUserProfileStatus(firebaseUser.getUid(), callback);
+
+                        CSessionManagerImpl.getInstance(context).
+                                edit().
+                                putString(CPreferenceConstant.KEY_USER_ID, firebaseUser.getUid()).
+                                apply();
+
+                        Log.d(TAG, "signInWithEmail:success");
+                        callback.onFirebaseSuccess("Successfully Authenticated.");
+                    }
+                } else {
+                    Log.d(TAG, "signInWithEmail:failure ", task.getException());
+                    callback.onFirebaseFailure("Authentication failed!");
+                }
+            } else {
+                Log.d(TAG, "signInWithEmail:failure ", task.getException());
+                callback.onFirebaseFailure("Authentication failed!");
+            }
+        });
+    }
 
     /**
+     * send an email to verify the firebase user
+     *
+     * @param firebaseUser firebase user
+     */
+    private void resendEmailVerification(FirebaseUser firebaseUser, CFirestoreCallBack callback) {
+        if (firebaseUser != null) {
+            firebaseUser.sendEmailVerification().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    callback.onFirebaseFailure("Verification email resend to " +
+                            firebaseUser.getEmail());
+                } else {
+                    Log.e(TAG, "sendEmailVerification", task.getException());
+                    callback.onFirebaseFailure("Failed to send verification email.");
+
+                }
+            });
+        }
+    }
+
+    /**
+     * sign out with email and password
+     *
+     * @param callback callback
+     */
+    @Override
+    public void signOutWithEmailAndPassword(CFirestoreCallBack callback) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser != null) {
+            firebaseAuth.signOut();
+            CSessionManagerImpl.getInstance(context).edit().clear().apply();
+            callback.onFirebaseSuccess("Logged Out");
+        } else {
+            callback.onFirebaseFailure("Already Logged Out !!!");
+        }
+    }
+
+    @Override
+    public void sendPasswordResetEmail(CUserProfileModel userProfileModel,
+                                       iResetPasswordRepositoryCallback callback) {
+
+        //Log.d(TAG,"User Email ===== "+userProfileModel.getEmail());
+        firebaseAuth.sendPasswordResetEmail(userProfileModel.getEmail())
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        callback.onResetPasswordSucceeded(
+                                "Instructions send to your email to reset your password!");
+                    }else{
+                        callback.onResetPasswordFailed("Failed to send reset email!");
+                    }
+                });
+    }
+
+    @Override
+    public void changePassword(CUserProfileModel userProfileModel,
+                               iChangePasswordRepositoryCallback callback) {
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        // Get auth credentials from the user for re-authentication. The example below shows
+        // email and password credentials but there are multiple possible providers,
+        // such as GoogleAuthProvider or FacebookAuthProvider.
+        AuthCredential credential = EmailAuthProvider
+                .getCredential(userProfileModel.getEmail(), userProfileModel.getPassword());
+
+        // Prompt the user to re-provide their sign-in credentials
+        assert firebaseUser != null;
+        firebaseUser.reauthenticate(credential).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                firebaseUser.updatePassword(userProfileModel.getPassword()).addOnCompleteListener(
+                        task1 -> {
+                            if (task1.isSuccessful()) {
+                                Log.d(TAG, "Password updated");
+                            } else {
+                                Log.d(TAG, "Error password not updated");
+                            }
+                        });
+            } else {
+                Log.d(TAG, "Error auth failed");
+            }
+        });
+    }
+
+
+    /************************************** Create Operations **************************************
+     *
      * create user with email and password
      *
      * @param userProfileModel user profile model
@@ -82,7 +211,7 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
      */
     @Override
     public void createUserWithEmailAndPassword(CUserProfileModel userProfileModel,
-                                               iSignUpRepositoryCallback callback) {
+                                               CFirestoreCallBack callback) {
         firebaseAuth.createUserWithEmailAndPassword(userProfileModel.getEmail().trim(),
                 userProfileModel.getPassword().trim())
                 .addOnCompleteListener(task -> {
@@ -98,12 +227,12 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                             // create user profile in the db
                             createUserProfile(firebaseUser, userProfileModel, callback);
                         } else {
-                            callback.onSignUpFailed("Failed to create a new user profile.");
+                            callback.onFirebaseFailure("Failed to create a new user profile.");
                         }
                     } else {
                         Log.d(TAG, "createUserWithEmailAndPassword:failure",
                                 task.getException());
-                        callback.onSignUpFailed("Failed to create a new user profile. " +
+                        callback.onFirebaseFailure("Failed to create a new user profile. " +
                                 "Try a different email.");
                     }
                 });
@@ -153,15 +282,15 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
     }
 
     /**
-     * create user profile
+     * create user profile FIXME: separate user profile photo, maybe use "batch function"?
      *
      * @param firebaseUser     firebase user
      * @param userProfileModel user profile model
      * @param callback         callback
      */
     private void createUserProfile(@NonNull FirebaseUser firebaseUser,
-                                   CUserProfileModel userProfileModel,
-                                   iSignUpRepositoryCallback callback) {
+                                   @NonNull CUserProfileModel userProfileModel,
+                                   CFirestoreCallBack callback) {
 
         HashMap<String, Object> userProfile = new HashMap<>();
         userProfile.put("name", userProfileModel.getName());
@@ -171,10 +300,10 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
 
         // create user profile image in the storage
         StorageReference profilePhotoRef = storage.getReference()
-                .child(cRealtimeHelper.KEY_PROFILEPHOTOS)
+                .child(CFirestoreConstant.KEY_PROFILEPHOTOS)
                 .child(firebaseUser.getUid());
         fireStoreImageData(profilePhotoRef, userProfileModel.getImageData(),
-                new cFirebaseCallBack() {
+                new CFirestoreCallBack() {
                     @Override
                     public void onFirebaseSuccess(Object object) {
                         String downloadedUrl = object.toString();
@@ -188,14 +317,13 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                         userProfile.put("modifiedDate", currentDate);
 
                         // create user profile model to the db
-                        CollectionReference coUsersRef;
-                        coUsersRef = db.collection(cRealtimeHelper.KEY_USERPROFILES);
-                        DocumentReference doUsersRef = coUsersRef.document(uid);
-                        fireStoreCreate(doUsersRef, userProfile, new cFirebaseCallBack() {
+                        DocumentReference documentReference;
+                        documentReference = userProfileCollectionReference.document(uid);
+                        fireStoreCreate(documentReference, userProfile, new CFirestoreCallBack() {
                             @Override
                             public void onFirebaseSuccess(Object object) {
-                                //Log.d(TAG, "createUserWithEmailAndPassword:success");
-                                callback.onSignUpSucceeded("User profile successfully created.");
+                                //callback.onFirebaseSuccess("User profile successfully created.");
+                                callback.onFirebaseSuccess(SUCCESS);
                             }
 
                             @Override
@@ -209,7 +337,7 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                                     }
                                 });
 
-                                callback.onSignUpFailed("Failed to create user profile.");
+                                callback.onFirebaseFailure(object);
                             }
                         });
                     }
@@ -217,190 +345,46 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                     @Override
                     public void onFirebaseFailure(Object object) {
                         //Log.d(TAG, Objects.requireNonNull(e.getLocalizedMessage()));
-                        callback.onSignUpFailed("Failed to store a profile photo.");
+                        callback.onFirebaseFailure(object);
                     }
                 });
     }
 
-    /* ################################## AUTHORIZATION ACTIONS ################################# */
+    /**************************************** Read Operations **************************************
 
-    /**
-     * sign in with email and password
+     **
+     * read user profile identification
      *
-     * @param email    email
-     * @param password password
-     * @param callback callback
+     * @param userServerID user identification
+     * @param callback call back
      */
     @Override
-    public void signInWithEmailAndPassword(String email, String password,
-                                           iSignInRepositoryCallback callback) {
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                if (firebaseUser != null) {
-                    if (!firebaseUser.isEmailVerified()) {
-                        FirebaseAuth.getInstance().signOut();
-                        resendEmailVerification(firebaseUser, callback);
-                        //callback.onSignInFailed("Verification email resend to " +firebaseUser.getEmail());
-                    } else {
-                        // change the status of the profile
-                        //updateUserProfileStatus(firebaseUser.getUid(),callback);
-
-                        Log.d(TAG, "signInWithEmail:success");
-                        callback.onSignInSucceeded("Successfully Authenticated.");
-                    }
-                } else {
-                    Log.d(TAG, "signInWithEmail:failure ", task.getException());
-                    callback.onSignInFailed("Authentication failed!");
-                }
-            } else {
-                Log.d(TAG, "signInWithEmail:failure ", task.getException());
-                callback.onSignInFailed("Authentication failed!");
-            }
-        });
-    }
-
-    /**
-     * send an email to verify the firebase user
-     *
-     * @param firebaseUser firebase user
-     */
-    private void resendEmailVerification(FirebaseUser firebaseUser,
-                                         iSignInRepositoryCallback callback) {
-        if (firebaseUser != null) {
-            firebaseUser.sendEmailVerification().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    callback.onSignInFailed("Verification email resend to " +
-                            firebaseUser.getEmail());
-                } else {
-                    Log.e(TAG, "sendEmailVerification", task.getException());
-                    callback.onSignInFailed("Failed to send verification email.");
-
-                }
-            });
-        }
-    }
-
-    /**
-     * sign out with email and password
-     *
-     * @param callback callback
-     */
-    @Override
-    public void signOutWithEmailAndPassword(iSignOutRepositoryCallback callback) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            firebaseAuth.signOut();
-            callback.onSignOutSucceeded("Logged Out");
-        } else {
-            callback.onSignOutFailed("Already Logged Out !!!");
-        }
-    }
-
-    @Override
-    public void sendPasswordResetEmail(CUserProfileModel userProfileModel,
-                                       iResetPasswordRepositoryCallback callback) {
-
-        //Log.d(TAG,"User Email ===== "+userProfileModel.getEmail());
-        firebaseAuth.sendPasswordResetEmail(userProfileModel.getEmail())
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        callback.onResetPasswordSucceeded(
-                                "Instructions send to your email to reset your password!");
-                    }else{
-                        callback.onResetPasswordFailed("Failed to send reset email!");
-                    }
-                });
-    }
-
-    @Override
-    public void changePassword(CUserProfileModel userProfileModel,
-                               iChangePasswordRepositoryCallback callback) {
-        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        // Get auth credentials from the user for re-authentication. The example below shows
-        // email and password credentials but there are multiple possible providers,
-        // such as GoogleAuthProvider or FacebookAuthProvider.
-        AuthCredential credential = EmailAuthProvider
-                .getCredential(userProfileModel.getEmail(), userProfileModel.getPassword());
-
-        // Prompt the user to re-provide their sign-in credentials
-        assert firebaseUser != null;
-        firebaseUser.reauthenticate(credential).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                firebaseUser.updatePassword(userProfileModel.getPassword()).addOnCompleteListener(
-                        task1 -> {
-                            if (task1.isSuccessful()) {
-                                Log.d(TAG, "Password updated");
-                            } else {
-                                Log.d(TAG, "Error password not updated");
-                            }
-                        });
-            } else {
-                Log.d(TAG, "Error auth failed");
-            }
-        });
-    }
-
-
-    /* ###################################### READ ACTIONS ###################################### */
-
-    @Override
-    public void readMyUserProfile(iReadMyUserProfileRepositoryCallback callback) {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null) {
-            CollectionReference coUserProfileRef;
-            coUserProfileRef = db.collection(cRealtimeHelper.KEY_USERPROFILES);
-            coUserProfileRef.document(user.getUid()).get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot doc = task.getResult();
-                            if (doc != null) {
-                                CUserProfileModel userProfile;
-                                userProfile = doc.toObject(CUserProfileModel.class);
-                                callback.onReadMyUserProfileSucceeded(userProfile);
-                            }
+    public void readUserProfileByID(String userServerID, CFirestoreCallBack callback) {
+        if (userServerID != null) {
+            DocumentReference documentReference =
+                    userProfileCollectionReference.document(userServerID);
+            readDocument(documentReference, new CFirestoreCallBack() {
+                @Override
+                public void onFirebaseSuccess(Object object) {
+                    if (object != null) {
+                        DocumentSnapshot documentSnapshot = (DocumentSnapshot) object;
+                        if (documentSnapshot.exists()) {
+                            CUserProfileModel userProfile;
+                            userProfile = documentSnapshot.toObject(CUserProfileModel.class);
+                            callback.onFirebaseSuccess(userProfile);
                         } else {
-                            callback.onReadMyUserProfileFailed(
-                                    "Undefined error! Please report to the developer.");
+                            callback.onFirebaseSuccess(null);
                         }
-                    })
-                    .addOnFailureListener(e ->
-                            callback.onReadMyUserProfileFailed("Failure to read user profile!"));
-        } else {
-            callback.onReadMyUserProfileFailed("Failure to read user profile!");
-        }
-    }
-
-    @Override
-    public void readUserProfiles(iReadUserProfilesRepositoryCallback callback) {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-
-        if (user != null) {
-            CollectionReference coUserProfileRef;
-            coUserProfileRef = db.collection(cRealtimeHelper.KEY_USERPROFILES);
-
-            Query userProfileQuery = coUserProfileRef
-                    .whereEqualTo("userOwnerID", user.getUid());
-
-            userProfileQuery.get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    List<CUserProfileModel> userProfileModels = new ArrayList<>();
-                    for (DocumentSnapshot userprofile_doc : Objects.requireNonNull(
-                            task.getResult())) {
-                        CUserProfileModel userProfileModel;
-                        userProfileModel = userprofile_doc.toObject(CUserProfileModel.class);
-
-                        if (userProfileModel != null) {
-                            userProfileModels.add(userProfileModel);
-                        }
-                    }
-                    callback.onReadUserProfilesSucceeded(userProfileModels);
-                } else {
-                    callback.onReadUserProfilesFailed("Failed to upload user profiles.");
+                    } else
+                        callback.onFirebaseSuccess(null);
+                }
+                @Override
+                public void onFirebaseFailure(Object object) {
+                    callback.onFirebaseFailure(object);
                 }
             });
         } else {
-            callback.onReadUserProfilesFailed("Failure to read user profile!");
+            callback.onFirebaseFailure(null);
         }
     }
 
@@ -412,13 +396,11 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
      */
     @Override
     public ListenerRegistration readAllUserProfilesByChildEvent(
-            cFirebaseChildCallBack firebaseChildCallBack) {
-        CollectionReference coUserProfileRef;
-        coUserProfileRef = db.collection(cRealtimeHelper.KEY_USERPROFILES);
+            CFirestoreChildCallBack firebaseChildCallBack) {
 
-        Query query = coUserProfileRef.orderBy("createdDate");
+        Query query = userProfileCollectionReference.orderBy("createdDate");
 
-        return readQueryDocumentsByChildEventListener(query, new cFirebaseChildCallBack() {
+        return readQueryDocumentsByChildEventListener(query, new CFirestoreChildCallBack() {
             @Override
             public void onChildAdded(Object object) {
                 if (object != null) {
@@ -474,7 +456,35 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
         });
     }
 
-    /* ##################################### UPDATE ACTIONS ##################################### */
+    /************************************** Update Operations **************************************
+     *
+     * update user profile
+     *
+     * @param userServerID user profile identification
+     * @param map           map
+     * @param callBack      call back
+     */
+    @Override
+    public void updateUserProfile(String userServerID, HashMap<String, Object> map,
+                                  CFirestoreCallBack callBack) {
+        if (CFirestoreUtility.isEmptyOrNull(userServerID)) {
+            DocumentReference documentReference;
+            documentReference = userProfileCollectionReference.document(userServerID);
+
+            fireStoreUpdate(documentReference, map, new CFirestoreCallBack() {
+                @Override
+                public void onFirebaseSuccess(Object object) {
+                    callBack.onFirebaseSuccess(SUCCESS);
+                }
+
+                @Override
+                public void onFirebaseFailure(Object object) {
+                    callBack.onFirebaseFailure(object);
+                }
+            });
+        }else
+            callBack.onFirebaseFailure(FAILURE);
+    }
 
 //    public void updateUserAccountStatus(String userServerID, iSignInRepositoryCallback callback) {
 //
@@ -497,8 +507,8 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
 //    }
 
     @Override
-    public void updateUserProfileImage(long userID, int primaryRole, int secondaryRoles, int statusBITS,
-                                       CUserProfileModel userProfileModel,
+    public void updateUserProfileImage(long userID, int primaryRole, int secondaryRoles,
+                                       int statusBITS, CUserProfileModel userProfileModel,
                                        iUpdateUserProfileRepositoryCallback callback) {
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -506,7 +516,7 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
         if (user != null) {
             userProfileModel.setEmail(user.getEmail());
             CollectionReference coUserProfileRef;
-            coUserProfileRef = db.collection(cRealtimeHelper.KEY_USERPROFILES);
+            coUserProfileRef = db.collection(CFirestoreConstant.KEY_USERPROFILES);//FIXME
             coUserProfileRef.document(user.getUid()).set(userProfileModel)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -537,12 +547,12 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
         if (firebaseUser != null) {
             // read the user's document
             CollectionReference coUserProfilesRef;
-            coUserProfilesRef = db.collection(cRealtimeHelper.KEY_USERPROFILES);
+            coUserProfilesRef = db.collection(CFirestoreConstant.KEY_USERPROFILES);//FIXME
             Query userProfileQuery = coUserProfilesRef
                     .whereEqualTo("userServerID", userServerID)
                     .whereEqualTo("userOwnerID", firebaseUser.getUid());
 
-            readQueryDocuments(userProfileQuery, new cFirebaseCallBack() {
+            readQueryDocuments(userProfileQuery, new CFirestoreCallBack() {
                 @Override
                 public void onFirebaseSuccess(Object querySnapshot) {
                     QuerySnapshot documentSnapshots = (QuerySnapshot) querySnapshot;
@@ -556,10 +566,10 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                         userProfileModel.setImageData(userProfileImageData);
 
                         StorageReference profilePhotoRef = storage.getReference()
-                                .child(cRealtimeHelper.KEY_PROFILEPHOTOS)
+                                .child(CFirestoreConstant.KEY_PROFILEPHOTOS)
                                 .child(userServerID);
                         fireStoreImageData(profilePhotoRef, userProfileModel.getImageData(),
-                                new cFirebaseCallBack() {
+                                new CFirestoreCallBack() {
                                     @Override
                                     public void onFirebaseSuccess(Object uri) {
                                         // update user's image URL
@@ -569,7 +579,7 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
 
                                         DocumentReference doUserRef;
                                         doUserRef = coUserProfilesRef.document(userServerID);
-                                        fireStoreUpdate(doUserRef, map, new cFirebaseCallBack() {
+                                        fireStoreUpdate(doUserRef, map, new CFirestoreCallBack() {
                                             @Override
                                             public void onFirebaseSuccess(Object object) {
                                                 callback.onUpdateUserProfileImageSucceeded(
@@ -606,26 +616,50 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
         }
     }
 
+    /************************************** Delete Operations **************************************
+     *
+     * delete user profile
+     *
+     * @param userServerID user profile identification
+     * @param callback     call back
+     */
+    @Override
+    public void deleteUserProfile(String userServerID, CFirestoreCallBack callback) {
+        if(CFirestoreUtility.isEmptyOrNull(userServerID)){
+            DocumentReference documentReference;
+            documentReference = userProfileCollectionReference.document(userServerID);
 
+            fireStoreDelete(documentReference, new CFirestoreCallBack() {
+                @Override
+                public void onFirebaseSuccess(Object object) {
+                    callback.onFirebaseSuccess(SUCCESS);
+                }
 
-    /* ##################################### DELETE ACTIONS ##################################### */
+                @Override
+                public void onFirebaseFailure(Object object) {
+                    callback.onFirebaseFailure(object);
+                }
+            });
 
+        }else
+            callback.onFirebaseFailure(FAILURE);
+    }
 
     /* ################################### PERMISSION ACTIONS ################################### */
 
     @Override
     public void saveUserPermissions(@NonNull CWorkspaceModel workspaceModel,
-                                    iSaveUserPermissionsCallback callback) {
+                                    ISaveUserPermissionsCallback callback) {
 
         String userServerID = FirebaseAuth.getInstance().getUid();
 
         CollectionReference coPrivilegeRef;
-        coPrivilegeRef = db.collection(cRealtimeHelper.KEY_WORKSPACE_PRIVILEGES);
+        coPrivilegeRef = db.collection(CFirestoreConstant.KEY_WORKSPACE_PRIVILEGES);
 
         coPrivilegeRef.document(workspaceModel.getCompositeServerID()).get()
                 .addOnCompleteListener(task -> {
                     DocumentSnapshot doc = Objects.requireNonNull(task.getResult());
-                    cPrivilegeModel privilegeModel = doc.toObject(cPrivilegeModel.class);
+                    CPrivilegeModel privilegeModel = doc.toObject(CPrivilegeModel.class);
 
                     /* call back on saving organization settings */
                     callback.onSaveOrganizationServerID(workspaceModel.getOrganizationServerID());
@@ -638,14 +672,14 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
 
                     /* call back on saving logged in user settings */
                     callback.onSaveUserServerID(userServerID);
-                    callback.onSaveOwnerID(workspaceModel.getUserOwnerID());
+                    callback.onSaveOwnerServerID(workspaceModel.getUserOwnerID());
 
                     // call back on saving privilege permissions
 
-                    List<cMenuModel> menu_items;
+                    List<CMenuModel> menu_items;
                     if (privilegeModel != null) {
                         /* save menu models to the shared preferences */
-                        menu_items = cDatabaseUtils.getMenuModels(context,
+                        menu_items = CFirestoreUtility.getMenuModels(context,
                                 privilegeModel.getMenuitems());
                         /* save modules to the shared preferences */
                         //create tree from JSON
@@ -665,25 +699,24 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                         saveModulePrivileges(privilegeModel, callback);
                         //saveModulePrivileges(privilegeJSONObject, callback);
                     } else {
-                        menu_items = cDatabaseUtils.getDefaultMenuModels(context);
+                        menu_items = CFirestoreUtility.getDefaultMenuModels(context);
                         //callback.onSaveUserPrivilegePermissionsFailed("Failed to retrieve permissions!");
                     }
                     //FIXME: don't save preference but load the default menu
                     callback.onSaveMenuItems(menu_items);
-                    callback.onSaveUserPermissionsSucceeded(
-                            "Workspace successfully loaded.");
+                    callback.onSaveUserPermissionsSucceeded("Workspace successfully loaded.");
 
                 })
-                .addOnFailureListener((OnFailureListener) e ->
+                .addOnFailureListener(e ->
                         callback.onSaveUserPermissionsFailed(
                                 "Failed due to workspace entity!"));
 
     }
 
     private void saveMyOrganizations(String userServerID,
-                                     iSaveUserPermissionsCallback callback) {
+                                     ISaveUserPermissionsCallback callback) {
         CollectionReference coOrganizationRef;
-        coOrganizationRef = db.collection(cRealtimeHelper.KEY_ORGANIZATIONS);
+        coOrganizationRef = db.collection(CFirestoreConstant.KEY_ORGANIZATIONS);
 
         Query coOrganizationQuery;
         coOrganizationQuery = coOrganizationRef.whereEqualTo("userOwnerID", userServerID);
@@ -697,18 +730,15 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                     }
                     callback.onSaveMyOrganizations(organizations);
                 })
-                .addOnFailureListener(e -> {
-                    callback.onSaveUserPermissionsFailed(
-                            "Failed to save my organization permissions!");
-                });
+                .addOnFailureListener(e -> callback.onSaveUserPermissionsFailed(
+                        "Failed to save my organization permissions!"));
 
     }
 
     private void saveMembershipWorkspaces(String organizationServerID, String userServerID,
-                                          iSaveUserPermissionsCallback callback) {
+                                          ISaveUserPermissionsCallback callback) {
         CollectionReference coMembershipRef;
-        coMembershipRef = db.collection(cRealtimeHelper.KEY_WORKSPACE_MEMBERS);
-
+        coMembershipRef = db.collection(CFirestoreConstant.KEY_WORKSPACE_MEMBERS);
 
         Query coMembershipQuery = coMembershipRef
                 .whereEqualTo("userAccountServerID", organizationServerID + "_" + userServerID);
@@ -728,8 +758,8 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                                 "Failed to save membership permissions!"));
     }
 
-    private void saveModulePrivileges(@NonNull cPrivilegeModel privilegeModel,
-                                      iSaveUserPermissionsCallback callback) {
+    private void saveModulePrivileges(@NonNull CPrivilegeModel privilegeModel,
+                                      ISaveUserPermissionsCallback callback) {
 
         Map<String, List<cEntityModel>> moduleMap = privilegeModel.getModules();
 
@@ -762,6 +792,7 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                     callback.onSaveStatusBITS(String.valueOf(moduleID),
                             String.valueOf(entityID), String.valueOf(actionID), statusBITS);
                 }
+
                 Log.d(TAG, "KEY >>> " + "ME-" + moduleID + "-" + entityID + " : " + actionBITS);
                 entityBITS = entityBITS | entityID;
                 callback.onSaveActionBITS(moduleID, entityID, actionBITS);
@@ -769,20 +800,132 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
                 for (Integer perm : permissions) {
                     permBITS = permBITS | perm;
                 }
+
                 Log.d(TAG, "KEY >>> " + "ME-" + moduleID + "-" + entityID + " : " + actionBITS);
                 entityBITS = entityBITS | entityID;
                 callback.onSavePermissionBITS(String.valueOf(moduleID), String.valueOf(entityID),
                         permBITS);
             }
+
             Log.d(TAG, "EntityID >>>>>>>>>>>>>>>> " + "ME-" + moduleID + " : " + entityBITS);
             moduleBITS = moduleBITS | moduleID;
             callback.onSaveEntityBITS(String.valueOf(moduleID), entityBITS);
         }
+
         callback.onSaveModuleBITS(moduleBITS);
         Log.d(TAG, "ModuleID >>>>>>>>>>>>>>>> " + moduleBITS);
     }
 
+    /* ##################################### UPLOAD ACTIONS ##################################### */
 
+    /**
+     * upload user profiles from excel file to a list.
+     *
+     * @param filename file name
+     * @param callback callback
+     */
+    @Override
+    public void uploadUserProfilesFromExcel(String filename,
+                                            iUploadUserProfilesRepositoryCallback callback) {
+        /* user who created user profiles */
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null) {
+
+            File file = new File(filename);
+            FileInputStream fileInputStream = null;
+            try {
+                fileInputStream = new FileInputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            assert fileInputStream != null;
+
+            Workbook workbook = null;
+            try {
+                workbook = new XSSFWorkbook(fileInputStream);
+            } catch (IOException e) {
+                Log.d(TAG, " ERROR : "+e.getLocalizedMessage());
+            }
+
+            assert workbook != null;
+            Sheet userProfileSheet = workbook.getSheet(cExcelHelper.SHEET_tblUSERPROFILE);
+
+            // user profile
+            List<CUserProfileModel> userProfileModels = new ArrayList<>();
+
+            for (Row userProfileRow : userProfileSheet) {
+                //just skip the row if row number is 0
+                if (userProfileRow.getRowNum() == 0) {
+                    continue;
+                }
+
+                CUserProfileModel userProfileModel = new CUserProfileModel();
+
+                userProfileModel.setUserServerID(String.valueOf(
+                        CFirestoreUtility.getCellAsNumeric(userProfileRow, 0)));
+                userProfileModel.setName(CFirestoreUtility.getCellAsString(userProfileRow, 1));
+                userProfileModel.setSurname(CFirestoreUtility.getCellAsString(userProfileRow, 2));
+                userProfileModel.setDesignation(CFirestoreUtility.getCellAsString(userProfileRow, 3));
+                userProfileModel.setLocation(CFirestoreUtility.getCellAsString(userProfileRow, 4));
+                userProfileModel.setEmail(CFirestoreUtility.getCellAsString(userProfileRow, 5));
+                userProfileModel.setWebsite(CFirestoreUtility.getCellAsString(userProfileRow, 6));
+                userProfileModel.setPhone(CFirestoreUtility.getCellAsString(userProfileRow, 7));
+                userProfileModel.setPassword(CFirestoreUtility.getCellAsString(userProfileRow, 8));
+
+                userProfileModel.setUserOwnerID(firebaseUser.getUid());
+                userProfileModel.setPhotoUrl("");
+                Date now = new Date();
+                userProfileModel.setCreatedDate(now);
+                userProfileModel.setModifiedDate(now);
+
+                userProfileModels.add(userProfileModel);
+            }
+
+            // add logframes
+            createUserProfileFromExcel(userProfileModels, callback);
+        } else {
+            callback.onUploadUserProfilesFailed("Failed to create user profiles.");
+        }
+
+    }
+
+    /**
+     * create user profiles from a list.
+     * FIXME: how to create firebaseUsers from database
+     *
+     * @param userProfileModels user profile models
+     * @param callback          callback
+     */
+    private void createUserProfileFromExcel(List<CUserProfileModel> userProfileModels,
+                                            iUploadUserProfilesRepositoryCallback callback) {
+
+        CollectionReference coUserProfileRef;
+        coUserProfileRef = db.collection(CFirestoreConstant.KEY_USERPROFILES);
+
+        // create a batch of user profiles from the list of users
+        WriteBatch batch = db.batch();
+        for (CUserProfileModel userProfileModel : userProfileModels) {
+            DocumentReference documentReference = coUserProfileRef.document();
+            userProfileModel.setUserServerID(documentReference.getId());
+            batch.set(documentReference, userProfileModel);
+        }
+
+        // commit the batch file
+        batchWrite(batch, new CFirestoreCallBack() {
+            @Override
+            public void onFirebaseSuccess(Object object) {
+                callback.onUploadUserProfilesSucceeded(
+                        "User profiles successfully uploaded.");
+            }
+
+            @Override
+            public void onFirebaseFailure(Object object) {
+                callback.onUploadUserProfilesFailed(
+                        "Failed to upload a user profiles.");
+            }
+        });
+    }
+}
 //    private void saveModulePrivileges(@NonNull cPrivilegeModel privilegeModel,
 //                                      iSaveUserPermissionsCallback callback) {
 //
@@ -861,121 +1004,29 @@ public class cUserProfileFirestoreRepositoryImpl extends cFirebaseRepository
 //        Log.d(TAG, "ModuleID >>>>>>>>>>>>>>>> " + moduleBITS);
 //    }
 
-    @Override
-    public void clearUserPermissions(CWorkspaceModel workspaceModel, iClearUserPermissionsCallback callback) {
+//
+//            userProfileCollectionReference.document(userServerID).get()
+//                    .addOnCompleteListener(task -> {
+//                        if (task.isSuccessful()) {
+//                            DocumentSnapshot doc = task.getResult();
+//                            if (doc != null) {
+//                                CUserProfileModel userProfile;
+//                                userProfile = doc.toObject(CUserProfileModel.class);
+//                                callback.onFirebaseSuccess(userProfile);
+//                            }
+//                        } else {
+//                            callback.onFirebaseFailure(
+//                                    "Undefined error! Please report to the developer.");
+//                        }
+//                    })
+//                    .addOnFailureListener(e ->
+//                            callback.onFirebaseFailure("Failure to read user profile!"));
+//        } else {
+//            callback.onFirebaseFailure("Failure to read user profile!");
+//        }
+//    }
 
-    }
 
-    /* ##################################### UPLOAD ACTIONS ##################################### */
-
-    /**
-     * upload user profiles from excel file to a list.
-     *
-     * @param filename file name
-     * @param callback callback
-     */
-    @Override
-    public void uploadUserProfilesFromExcel(String filename,
-                                            iUploadUserProfilesRepositoryCallback callback) {
-        /* user who created user profiles */
-        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        if (firebaseUser != null) {
-
-            File file = new File(filename);
-            FileInputStream fileInputStream = null;
-            try {
-                fileInputStream = new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            assert fileInputStream != null;
-
-            Workbook workbook = null;
-            try {
-                workbook = new XSSFWorkbook(fileInputStream);
-            } catch (IOException e) {
-                Log.d(TAG, " ERROR : "+e.getLocalizedMessage());
-            }
-
-            assert workbook != null;
-            Sheet userProfileSheet = workbook.getSheet(cExcelHelper.SHEET_tblUSERPROFILE);
-
-            // user profile
-            List<CUserProfileModel> userProfileModels = new ArrayList<>();
-
-            for (Row userProfileRow : userProfileSheet) {
-                //just skip the row if row number is 0
-                if (userProfileRow.getRowNum() == 0) {
-                    continue;
-                }
-
-                CUserProfileModel userProfileModel = new CUserProfileModel();
-
-                userProfileModel.setUserServerID(String.valueOf(
-                        cDatabaseUtils.getCellAsNumeric(userProfileRow, 0)));
-                userProfileModel.setName(cDatabaseUtils.getCellAsString(userProfileRow, 1));
-                userProfileModel.setSurname(cDatabaseUtils.getCellAsString(userProfileRow, 2));
-                userProfileModel.setDesignation(cDatabaseUtils.getCellAsString(userProfileRow, 3));
-                userProfileModel.setLocation(cDatabaseUtils.getCellAsString(userProfileRow, 4));
-                userProfileModel.setEmail(cDatabaseUtils.getCellAsString(userProfileRow, 5));
-                userProfileModel.setWebsite(cDatabaseUtils.getCellAsString(userProfileRow, 6));
-                userProfileModel.setPhone(cDatabaseUtils.getCellAsString(userProfileRow, 7));
-                userProfileModel.setPassword(cDatabaseUtils.getCellAsString(userProfileRow, 8));
-
-                userProfileModel.setUserOwnerID(firebaseUser.getUid());
-                userProfileModel.setPhotoUrl("");
-                Date now = new Date();
-                userProfileModel.setCreatedDate(now);
-                userProfileModel.setModifiedDate(now);
-
-                userProfileModels.add(userProfileModel);
-            }
-
-            // add logframes
-            createUserProfileFromExcel(userProfileModels, callback);
-        } else {
-            callback.onUploadUserProfilesFailed("Failed to create user profiles.");
-        }
-
-    }
-
-    /**
-     * create user profiles from a list.
-     * FIXME: how to create firebaseUsers from database
-     *
-     * @param userProfileModels user profile models
-     * @param callback          callback
-     */
-    private void createUserProfileFromExcel(List<CUserProfileModel> userProfileModels,
-                                            iUploadUserProfilesRepositoryCallback callback) {
-
-        CollectionReference coUserProfileRef;
-        coUserProfileRef = db.collection(cRealtimeHelper.KEY_USERPROFILES);
-
-        // create a batch of user profiles from the list of users
-        WriteBatch batch = db.batch();
-        for (CUserProfileModel userProfileModel : userProfileModels) {
-            DocumentReference documentReference = coUserProfileRef.document();
-            userProfileModel.setUserServerID(documentReference.getId());
-            batch.set(documentReference, userProfileModel);
-        }
-
-        // commit the batch file
-        batchWrite(batch, new cFirebaseCallBack() {
-            @Override
-            public void onFirebaseSuccess(Object object) {
-                callback.onUploadUserProfilesSucceeded(
-                        "User profiles successfully uploaded.");
-            }
-
-            @Override
-            public void onFirebaseFailure(Object object) {
-                callback.onUploadUserProfilesFailed(
-                        "Failed to upload a user profiles.");
-            }
-        });
-    }
-}
 
 //                        assert user != null;
 //                        if (!user.isEmailVerified()) {

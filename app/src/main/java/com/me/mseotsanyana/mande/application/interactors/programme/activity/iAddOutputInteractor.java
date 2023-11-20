@@ -1,8 +1,8 @@
 package com.me.mseotsanyana.mande.application.interactors.programme.activity;
 
-import com.me.mseotsanyana.mande.application.interactors.base.iInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
 
-public interface iAddOutputInteractor extends iInteractor {
+public interface iAddOutputInteractor extends IInteractor {
     interface Callback{
         void onLogFrameAdded();
     }

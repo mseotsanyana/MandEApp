@@ -1,2 +1,4 @@
-package com.me.mseotsanyana.mande.framework.ports.base;public class IBaseRouter {
+package com.me.mseotsanyana.mande.framework.ports.base;
+
+public interface IBaseRouter {
 }

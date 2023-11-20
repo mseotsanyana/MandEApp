@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.framework.storage.mapper;
+package com.me.mseotsanyana.mande.OLD.storage.mapper;
 
 /**
  * Created by mseotsanyana on 2016/07/13.

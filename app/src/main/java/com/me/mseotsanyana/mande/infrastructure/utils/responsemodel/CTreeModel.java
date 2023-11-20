@@ -3,31 +3,33 @@ package com.me.mseotsanyana.mande.infrastructure.utils.responsemodel;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 /**
  * Created by mseotsanyana on 2017/02/24.
  */
 
-public class Object implements Parcelable {
+public class CTreeModel implements Parcelable {
     @INodeChildID
     private String childID;
     @INodeParentID
     private String parentID;
 
     private int type;
-    private java.lang.Object modelObject;
+    private Object modelObject;
 
-    public Object(String childID, String parentID, int type, java.lang.Object object) {
+    public CTreeModel(String childID, String parentID, int type, Object object) {
         this.childID  = childID;
         this.parentID = parentID;
         this.type     = type;
         this.modelObject = object;
     }
 
-    public Object(java.lang.Object object) {
+    public CTreeModel(Object object) {
         this.modelObject = object;
     }
 
-    protected Object(Parcel in) {
+    protected CTreeModel(Parcel in) {
         childID = in.readString();
         parentID = in.readString();
         type = in.readInt();
@@ -45,15 +47,15 @@ public class Object implements Parcelable {
         return 0;
     }
 
-    public static final Creator<Object> CREATOR = new Creator<Object>() {
+    public static final Creator<CTreeModel> CREATOR = new Creator<CTreeModel>() {
         @Override
-        public Object createFromParcel(Parcel in) {
-            return new Object(in);
+        public CTreeModel createFromParcel(Parcel in) {
+            return new CTreeModel(in);
         }
 
         @Override
-        public Object[] newArray(int size) {
-            return new Object[size];
+        public CTreeModel[] newArray(int size) {
+            return new CTreeModel[size];
         }
     };
 
@@ -81,14 +83,15 @@ public class Object implements Parcelable {
         this.type = type;
     }
 
-    public java.lang.Object getModelObject() {
+    public Object getModelObject() {
         return modelObject;
     }
 
-    public void setModelObject(java.lang.Object modelObject) {
+    public void setModelObject(Object modelObject) {
         this.modelObject = modelObject;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "CTreeModel{" +

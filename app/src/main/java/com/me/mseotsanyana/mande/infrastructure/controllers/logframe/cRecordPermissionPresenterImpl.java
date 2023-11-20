@@ -1,20 +1,20 @@
-package com.me.mseotsanyana.mande.infrastructure.controllers.logframe.Impl;
+package com.me.mseotsanyana.mande.infrastructure.controllers.logframe;
 
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.shared.iRecordPermissionInteractor;
 import com.me.mseotsanyana.mande.application.interactors.shared.Impl.cReadRecordPermissionInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.programme.project.Impl.cUpdateRecordPermissionInteractorImpl;
 import com.me.mseotsanyana.mande.domain.entities.models.common.cRecordPermissionModel;
-import com.me.mseotsanyana.mande.application.repository.common.iRecordPermissionRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.iRecordPermissionRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
 import com.me.mseotsanyana.mande.application.repository.programme.iProjectRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cEntityType;
-import com.me.mseotsanyana.mande.OLD.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.iRecordPermissionPresenter;
+import com.me.mseotsanyana.mande.OLD.storage.preference.cEntityType;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iRecordPermissionPresenter;
 
 import java.util.Map;
 
@@ -24,16 +24,16 @@ public class cRecordPermissionPresenterImpl extends cAbstractPresenter implement
     //private static final String TAG = cProjectPresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iSharedPreferenceRepository sharedPreferenceRepository;
+    private final ISessionManager sharedPreferenceRepository;
     private final iRecordPermissionRepository recordPermissionRepository;
     private final iProjectRepository projectRepository;
 
-    public cRecordPermissionPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cRecordPermissionPresenterImpl(IExecutor executor, IMainThread mainThread,
                                           View view,
-                                          iSharedPreferenceRepository sharedPreferenceRepository,
+                                          ISessionManager sharedPreferenceRepository,
                                           iRecordPermissionRepository recordPermissionRepository,
                                           iProjectRepository projectRepository) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sharedPreferenceRepository = sharedPreferenceRepository;

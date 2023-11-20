@@ -2,23 +2,24 @@ package com.me.mseotsanyana.mande.application.interactors.session.privilege.Impl
 
 import android.util.Log;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.session.privilege.iUpdateWorkspacePrivilegeInteractor;
-import com.me.mseotsanyana.mande.application.repository.session.iPrivilegeRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference;
+import com.me.mseotsanyana.mande.application.repository.session.IPermissionRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
 
 import java.util.List;
 
-public class cUpdateWorkspacePrivilegeInteractorImpl extends cAbstractInteractor implements
+public class cUpdateWorkspacePrivilegeInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>> implements
         iUpdateWorkspacePrivilegeInteractor {
     private static final String TAG = cUpdateWorkspacePrivilegeInteractorImpl.class.getSimpleName();
 
     private final Callback callback;
-    private final iPrivilegeRepository privilegeRepository;
+    private final IPermissionRepository privilegeRepository;
 
     // permission data
     private final String userServerID;
@@ -32,11 +33,11 @@ public class cUpdateWorkspacePrivilegeInteractorImpl extends cAbstractInteractor
 
     private final cNode node;
 
-    public cUpdateWorkspacePrivilegeInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                                   iSharedPreferenceRepository sharedPreferenceRepository,
-                                                   iPrivilegeRepository privilegeRepository,
+    public cUpdateWorkspacePrivilegeInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                                   ISessionManager sharedPreferenceRepository,
+                                                   IPermissionRepository privilegeRepository,
                                                    Callback callback, cNode node) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sharedPreferenceRepository == null || privilegeRepository == null ||
                 callback == null) {
@@ -48,19 +49,19 @@ public class cUpdateWorkspacePrivilegeInteractorImpl extends cAbstractInteractor
         this.node = node;
 
         // load user shared preferences
-        this.userServerID = sharedPreferenceRepository.loadUserID();
+        this.userServerID = sharedPreferenceRepository.loadLoggedInUserServerID();
         this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
         this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
         this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
-                cSharedPreference.SESSION_MODULE);
+                CPreferenceConstant.SESSION);
         this.entitypermBITS = sharedPreferenceRepository.loadEntityPermissionBITS(
-                cSharedPreference.SESSION_MODULE, cSharedPreference.PRIVILEGE);
+                CPreferenceConstant.SESSION, CPreferenceConstant.PRIVILEGE);
         this.statusBITS = sharedPreferenceRepository.loadOperationStatuses(
-                cSharedPreference.SESSION_MODULE, cSharedPreference.PRIVILEGE,
-                cSharedPreference.UPDATE);
+                CPreferenceConstant.SESSION, CPreferenceConstant.PRIVILEGE,
+                CPreferenceConstant.UPDATE);
 
         Log.d(TAG, " \n USER ID = " + this.userServerID +
                 " \n ORGANIZATION ID = " + this.organizationServerID +
@@ -86,7 +87,7 @@ public class cUpdateWorkspacePrivilegeInteractorImpl extends cAbstractInteractor
         //    if ((this.entitypermBITS & cSharedPreference.UPDATE) != 0) {
                 this.privilegeRepository.updateWorkspacePrivilege(organizationServerID,
                         userServerID, primaryTeamBIT, secondaryTeamBITS, statusBITS, node,
-                        new iPrivilegeRepository.iUpdateWorkspacePrivilegeCallback() {
+                        new IPermissionRepository.iUpdateWorkspacePrivilegeCallback() {
                             @Override
                             public void onUpdateWorkspacePrivilegeSucceeded(String msg) {
                                 postMessage(msg);
@@ -103,5 +104,15 @@ public class cUpdateWorkspacePrivilegeInteractorImpl extends cAbstractInteractor
         //} else {
         //    notifyError("No access to the entity! Please contact your administrator");
         //}
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

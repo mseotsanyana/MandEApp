@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.programme;
+package com.me.mseotsanyana.mande.framework.ui.fragments.programme;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -23,19 +23,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.Impl.cOutputPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iActivityPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iOutputPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.cOutputPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iActivityPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iOutputPresenter;
 import com.me.mseotsanyana.mande.framework.ui.adapters.logframe.cOutputAdapter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cActivityModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cOutputModel;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -140,8 +141,8 @@ public class cOutputFragment extends Fragment implements iOutputPresenter.View,
         List<cTreeModel> outputTreeModels = new ArrayList<>();
 
         outputPresenter = new cOutputPresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
                 this,null
                 /*new cSessionManagerImpl(getContext())*/,
                 null,//new cOutputRepositoryImpl(getContext()),
@@ -333,8 +334,14 @@ public class cOutputFragment extends Fragment implements iOutputPresenter.View,
         outputProgressBar.setVisibility(View.GONE);
     }
 
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 }

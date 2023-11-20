@@ -19,11 +19,11 @@ import com.me.mseotsanyana.bmblibrary.CBoomMenuButton;
 import com.me.mseotsanyana.bmblibrary.cUtil;
 import com.me.mseotsanyana.expandablelayoutlibrary.CExpandableLayout;
 import com.me.mseotsanyana.mande.domain.entities.models.evaluation.cEvaluationModel;
-import com.me.mseotsanyana.mande.PL.presenters.evaluator.iEvaluationPresenter;
-import com.me.mseotsanyana.mande.PL.ui.listeners.evaluator.iViewEvaluationListener;
+import com.me.mseotsanyana.mande.infrastructure.controllers.evaluator.iEvaluationPresenter;
+import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.evaluator.iViewEvaluationListener;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.placeholderviewlibrary.cExpandablePlaceHolderView;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeAdapter;
@@ -157,13 +157,13 @@ public class cEvaluationAdapter extends cTreeAdapter  implements iViewEvaluation
                         if (node.isExpand()) {
                             EPH.textViewExpandIcon.setTypeface(null, Typeface.NORMAL);
                             EPH.textViewExpandIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             EPH.textViewExpandIcon.setText(
                                     context.getResources().getString(R.string.fa_minus));
                         } else {
                             EPH.textViewExpandIcon.setTypeface(null, Typeface.NORMAL);
                             EPH.textViewExpandIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             EPH.textViewExpandIcon.setText(
                                     context.getResources().getString(R.string.fa_plus));
                         }
@@ -178,8 +178,8 @@ public class cEvaluationAdapter extends cTreeAdapter  implements iViewEvaluation
 
                     /* collapse and expansion of the details */
                     EPH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-                    EPH.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                            cFontManager.FONTAWESOME));
+                    EPH.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                            CFontManager.FONTAWESOME));
                     EPH.textViewDetailIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     EPH.textViewDetailIcon.setText(context.getResources().getString(R.string.fa_angle_down));
                     EPH.textViewDetailIcon.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +198,7 @@ public class cEvaluationAdapter extends cTreeAdapter  implements iViewEvaluation
                     /* icon for saving updated record */
                     EPH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
                     EPH.textViewUpdateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     EPH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     EPH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
                     EPH.textViewUpdateIcon.setOnClickListener(new View.OnClickListener() {
@@ -212,7 +212,7 @@ public class cEvaluationAdapter extends cTreeAdapter  implements iViewEvaluation
                     /* icon for deleting a record */
                     EPH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     EPH.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     EPH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     EPH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
                     EPH.textViewDeleteIcon.setOnClickListener(new View.OnClickListener() {
@@ -226,7 +226,7 @@ public class cEvaluationAdapter extends cTreeAdapter  implements iViewEvaluation
                     /* icon for syncing a record */
                     EPH.textViewSyncIcon.setTypeface(null, Typeface.NORMAL);
                     EPH.textViewSyncIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     EPH.textViewSyncIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     EPH.textViewSyncIcon.setText(context.getResources().getString(R.string.fa_sync));
                     EPH.textViewSyncIcon.setOnClickListener(new View.OnClickListener() {
@@ -240,7 +240,7 @@ public class cEvaluationAdapter extends cTreeAdapter  implements iViewEvaluation
                     /* icon for creating a record */
                     EPH.textViewCreateIcon.setTypeface(null, Typeface.NORMAL);
                     EPH.textViewCreateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     EPH.textViewCreateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     EPH.textViewCreateIcon.setText(context.getResources().getString(R.string.fa_create));
                     EPH.textViewCreateIcon.setOnClickListener(new View.OnClickListener() {

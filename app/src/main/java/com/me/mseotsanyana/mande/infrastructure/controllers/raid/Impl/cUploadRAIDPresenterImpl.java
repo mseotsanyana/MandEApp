@@ -1,12 +1,12 @@
-package com.me.mseotsanyana.mande.PL.presenters.raid.Impl;
+package com.me.mseotsanyana.mande.infrastructure.controllers.raid.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.raid.Impl.cUploadRAIDInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.raid.iUploadRAIDInteractor;
 import com.me.mseotsanyana.mande.application.repository.raid.iUploadRAIDRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.raid.iUploadRAIDPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.raid.iUploadRAIDPresenter;
 
 public class cUploadRAIDPresenterImpl extends cAbstractPresenter implements iUploadRAIDPresenter,
         iUploadRAIDInteractor.Callback {
@@ -15,9 +15,9 @@ public class cUploadRAIDPresenterImpl extends cAbstractPresenter implements iUpl
     private View view;
     private iUploadRAIDRepository uploadRAIDRepository;
 
-    public cUploadRAIDPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cUploadRAIDPresenterImpl(IExecutor executor, IMainThread mainThread,
                                     View view, iUploadRAIDRepository uploadRAIDRepository) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.uploadRAIDRepository = uploadRAIDRepository;

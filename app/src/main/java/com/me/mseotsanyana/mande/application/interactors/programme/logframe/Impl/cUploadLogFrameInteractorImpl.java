@@ -2,15 +2,16 @@ package com.me.mseotsanyana.mande.application.interactors.programme.logframe.Imp
 
 import android.util.Log;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.programme.logframe.iLogFrameInteractor;
 import com.me.mseotsanyana.mande.application.repository.programme.iLogFrameRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 
-public class cUploadLogFrameInteractorImpl extends cAbstractInteractor
+public class cUploadLogFrameInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iLogFrameInteractor {
 
     private static final String TAG = cUploadLogFrameInteractorImpl.class.getSimpleName();
@@ -30,11 +31,11 @@ public class cUploadLogFrameInteractorImpl extends cAbstractInteractor
 
     private final String filePath;
 
-    public cUploadLogFrameInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                         iSharedPreferenceRepository sharedPreferenceRepository,
+    public cUploadLogFrameInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                         ISessionManager sharedPreferenceRepository,
                                          iLogFrameRepository logFrameRepository,
                                          Callback callback, String filePath) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sharedPreferenceRepository == null || logFrameRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -46,17 +47,17 @@ public class cUploadLogFrameInteractorImpl extends cAbstractInteractor
         this.filePath = filePath;
 
         // load user shared preferences
-        this.userServerID = sharedPreferenceRepository.loadUserID();
+        this.userServerID = sharedPreferenceRepository.loadLoggedInUserServerID();
         this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
         this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
         //this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryTeams();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
-                cSharedPreference.PROGRAMME_MODULE);
+                CPreferenceConstant.PROGRAMME_MODULE);
         this.entitypermBITS = sharedPreferenceRepository.loadEntityPermissionBITS(
-                cSharedPreference.PROGRAMME_MODULE, cSharedPreference.LOGFRAME);
-        this.statusBIT = cSharedPreference.ACTIVE;
+                CPreferenceConstant.PROGRAMME_MODULE, CPreferenceConstant.LOGFRAME);
+        this.statusBIT = CPreferenceConstant.ACTIVE;
 
         Log.d(TAG, " \n USER ID = " + this.userServerID +
                 " \n ORGANIZATION ID = " + this.organizationServerID +
@@ -78,8 +79,8 @@ public class cUploadLogFrameInteractorImpl extends cAbstractInteractor
 
     @Override
     public void run() {
-        if ((this.entityBITS & cSharedPreference.LOGFRAME) != 0) {
-            if ((this.entitypermBITS & cSharedPreference.CREATE) != 0) {
+        if ((this.entityBITS & CPreferenceConstant.LOGFRAME) != 0) {
+            if ((this.entitypermBITS & CPreferenceConstant.CREATE) != 0) {
                 this.logFrameRepository.upLoadProgrammeFromExcel(organizationServerID, userServerID,
                         primaryTeamBIT, statusBIT, filePath,
                         new iLogFrameRepository.iUploadLogFrameCallback() {
@@ -99,6 +100,16 @@ public class cUploadLogFrameInteractorImpl extends cAbstractInteractor
         } else {
             notifyError("No access to the entity! Please contact your administrator");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }
         /* delete all logframe module records

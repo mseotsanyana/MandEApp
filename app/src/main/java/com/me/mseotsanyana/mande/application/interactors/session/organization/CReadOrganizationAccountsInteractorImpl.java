@@ -1,25 +1,26 @@
-package com.me.mseotsanyana.mande.application.interactors.session.organization.Impl;
+package com.me.mseotsanyana.mande.application.interactors.session.organization;
 
 import android.util.Log;
 
-import com.me.mseotsanyana.mande.application.ports.base.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.ports.base.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.ports.base.cAbstractInteractor;
-import com.me.mseotsanyana.mande.application.interactors.session.organization.iOrganizationInteractor;
-import com.me.mseotsanyana.mande.application.repository.session.iOrganizationRepository;
-import com.me.mseotsanyana.mande.application.preference.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.db.firebase.cFirebaseChildCallBack;
-import com.me.mseotsanyana.mande.infrastructure.preference.CSharedPreference;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.session.IOrganizationInteractor;
+import com.me.mseotsanyana.mande.application.repository.session.IOrganizationRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreChildCallBack;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 
 import java.util.List;
 import java.util.Map;
 
-public class cReadOrganizationAccountsInteractorImpl extends cAbstractInteractor implements
-        iOrganizationInteractor {
-    private static final String TAG = cReadOrganizationAccountsInteractorImpl.class.getSimpleName();
+public class CReadOrganizationAccountsInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>> implements
+        IOrganizationInteractor {
+    private static final String TAG = CReadOrganizationAccountsInteractorImpl.class.getSimpleName();
 
     private final AccountsCallback callback;
-    private final iOrganizationRepository organizationRepository;
+    private final IOrganizationRepository organizationRepository;
 
     private final String userServerID;
     private final String organizationServerID;
@@ -30,11 +31,11 @@ public class cReadOrganizationAccountsInteractorImpl extends cAbstractInteractor
     private final int entityBITS;
     private final int entitypermBITS;
 
-    public cReadOrganizationAccountsInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
+    public CReadOrganizationAccountsInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
                                                    AccountsCallback callback,
-                                                   iSharedPreferenceRepository sharedPreferenceRepository,
-                                                   iOrganizationRepository organizationRepository) {
-        super(threadExecutor, mainThread);
+                                                   ISessionManager sharedPreferenceRepository,
+                                                   IOrganizationRepository organizationRepository) {
+        super(threadExecutor, mainThread, null);
 
         if (sharedPreferenceRepository == null || organizationRepository == null ||
                 callback == null) {
@@ -46,19 +47,19 @@ public class cReadOrganizationAccountsInteractorImpl extends cAbstractInteractor
         this.callback = callback;
 
         // load user shared preferences
-        this.userServerID = sharedPreferenceRepository.loadUserID();
+        this.userServerID = sharedPreferenceRepository.loadLoggedInUserServerID();
         this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
         this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
         this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
-                CSharedPreference.SESSION_MODULE);
+                CPreferenceConstant.SESSION);
         this.entitypermBITS = sharedPreferenceRepository.loadEntityPermissionBITS(
-                CSharedPreference.SESSION_MODULE, CSharedPreference.USERACCOUNT);
+                CPreferenceConstant.SESSION, CPreferenceConstant.USERACCOUNT);
         this.statusBITS = sharedPreferenceRepository.loadOperationStatuses(
-                CSharedPreference.SESSION_MODULE, CSharedPreference.USERACCOUNT,
-                CSharedPreference.READ);
+                CPreferenceConstant.SESSION, CPreferenceConstant.USERACCOUNT,
+                CPreferenceConstant.READ);
 
         Log.d(TAG, " \n USER ID = " + this.userServerID +
                 " \n ORGANIZATION ID = " + this.organizationServerID +
@@ -84,7 +85,7 @@ public class cReadOrganizationAccountsInteractorImpl extends cAbstractInteractor
         //    if ((this.entitypermBITS & cSharedPreference.READ) != 0) {
         organizationRepository.readOrganizationAccounts(organizationServerID,
                 userServerID, primaryTeamBIT, secondaryTeamBITS, statusBITS,
-                new cFirebaseChildCallBack() {
+                new CFirestoreChildCallBack() {
                     @Override
                     public void onChildAdded(Object object) {
                         if (object != null) {
@@ -127,5 +128,15 @@ public class cReadOrganizationAccountsInteractorImpl extends cAbstractInteractor
         //} else {
         //    notifyError("No access to the entity! Please contact your administrator");
         //}
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

@@ -1,20 +1,21 @@
 package com.me.mseotsanyana.mande.application.interactors.raid.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.raid.iUploadRAIDInteractor;
 import com.me.mseotsanyana.mande.application.repository.raid.iUploadRAIDRepository;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 
-public class cUploadRAIDInteractorImpl extends cAbstractInteractor
+public class cUploadRAIDInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iUploadRAIDInteractor {
     private Callback callback;
     private iUploadRAIDRepository uploadRAIDRepository;
 
-    public cUploadRAIDInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
+    public cUploadRAIDInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
                                      iUploadRAIDRepository uploadRAIDRepository,
                                      Callback callback) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (uploadRAIDRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -172,5 +173,15 @@ public class cUploadRAIDInteractorImpl extends cAbstractInteractor
         }else {
             notifyError("Failed to Add Action Entity");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

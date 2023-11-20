@@ -22,13 +22,13 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.me.mseotsanyana.expandablelayoutlibrary.CExpandableLayout;
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CPrivilegeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cStatusModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUserModel;
-import com.me.mseotsanyana.mande.UTIL.INTERFACE.iPermissionInterface;
+import com.me.mseotsanyana.mande.OLD.INTERFACE.iPermissionInterface;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.TextDrawable;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.framework.utils.CTextDrawable;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cKeyPairBoolData;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cMultiSpinnerSearch;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cSingleSpinnerSearch_old;
@@ -48,8 +48,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.me.mseotsanyana.mande.UTIL.cConstant.FORMAT_DATE;
-import static com.me.mseotsanyana.mande.UTIL.cConstant.NUM_PERMS;
+import static com.me.mseotsanyana.mande.OLD.cConstant.FORMAT_DATE;
+import static com.me.mseotsanyana.mande.OLD.cConstant.NUM_PERMS;
 
 /**
  * Created by mseotsanyana on 2017/02/27.
@@ -64,8 +64,8 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
     public static final int ROLE = 0;
     public static final int USER = 1;
 
-    private ArrayList<cPrivilegeModel> listRoles;
-    private ArrayList<cPrivilegeModel> filteredRoles;
+    private ArrayList<CPrivilegeModel> listRoles;
+    private ArrayList<CPrivilegeModel> filteredRoles;
 
     //private cUserHandler userHandler;
 //    private cOrganizationHandler organizationHandler;
@@ -140,7 +140,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
         if (obj != null) {
             switch (obj.getType()) {
                 case ROLE:
-                    final cPrivilegeModel roleDomain = (cPrivilegeModel) obj.getModelObject();
+                    final CPrivilegeModel roleDomain = (CPrivilegeModel) obj.getModelObject();
                     final cRoleTreeViewHolder RVH = ((cRoleTreeViewHolder) viewHolder);
 
                     Log.d(TAG, gson.toJson(roleDomain));
@@ -158,12 +158,12 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
                         RVH.textViewExpandRoleIcon.setVisibility(View.VISIBLE);
                         if (node.isExpand()) {
                             RVH.textViewExpandRoleIcon.setTypeface(null, Typeface.NORMAL);
-                            RVH.textViewExpandRoleIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            RVH.textViewExpandRoleIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             RVH.textViewExpandRoleIcon.setText(context.getResources().getString(R.string.fa_minus));
 
                         } else {
                             RVH.textViewExpandRoleIcon.setTypeface(null, Typeface.NORMAL);
-                            RVH.textViewExpandRoleIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            RVH.textViewExpandRoleIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             RVH.textViewExpandRoleIcon.setText(context.getResources().getString(R.string.fa_plus));
                         }
                     }
@@ -176,7 +176,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
 
                     // collapse and expansion of the details of the role
                     RVH.textViewRoleDetailIcon.setTypeface(null, Typeface.NORMAL);
-                    RVH.textViewRoleDetailIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                    RVH.textViewRoleDetailIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     RVH.textViewRoleDetailIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));                    RVH.textViewRoleDetailIcon.setText(context.getResources().getString(R.string.fa_angle_down));
                     RVH.textViewRoleDetailIcon.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -196,7 +196,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
 
                     // synchronise with the remote database
                     RVH.textViewSyncRoleIcon.setTypeface(null, Typeface.NORMAL);
-                    RVH.textViewSyncRoleIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                    RVH.textViewSyncRoleIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     RVH.textViewSyncRoleIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     RVH.textViewSyncRoleIcon.setText(context.getResources().getString(R.string.fa_sync));
                     RVH.textViewSyncRoleIcon.setOnClickListener(new View.OnClickListener() {
@@ -208,7 +208,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
 
                     // quick actions on roles
                     RVH.textViewQuickActionIcon.setTypeface(null, Typeface.NORMAL);
-                    RVH.textViewQuickActionIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                    RVH.textViewQuickActionIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     RVH.textViewQuickActionIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     RVH.textViewQuickActionIcon.setText(context.getResources().getString(R.string.fa_actions));
                     RVH.textViewQuickActionIcon.setOnClickListener(new View.OnClickListener() {
@@ -251,7 +251,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
                     /** icon for saving changed entity common attributes **/
                     RVH.textViewEditRoleIcon.setTypeface(null, Typeface.NORMAL);
                     RVH.textViewEditRoleIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     RVH.textViewEditRoleIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     RVH.textViewEditRoleIcon.setText(context.getResources().getString(R.string.fa_update));
                     RVH.textViewEditRoleIcon.setOnClickListener(new View.OnClickListener() {
@@ -260,10 +260,10 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
                             // setting icon to dialog
-                            TextDrawable faIcon = new TextDrawable(context);
+                            CTextDrawable faIcon = new CTextDrawable(context);
                             faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
                             faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-                            faIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            faIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             faIcon.setText(context.getResources().getText(R.string.fa_save));
                             faIcon.setTextColor(context.getColor(R.color.colorAccent));
                             alertDialogBuilder.setIcon(faIcon);
@@ -302,7 +302,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
                     /** icon for deleting an entity related permissions **/
                     RVH.textViewDeleteRoleIcon.setTypeface(null, Typeface.NORMAL);
                     RVH.textViewDeleteRoleIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     RVH.textViewDeleteRoleIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     RVH.textViewDeleteRoleIcon.setText(context.getResources().getString(R.string.fa_delete));
                     RVH.textViewDeleteRoleIcon.setOnClickListener(new View.OnClickListener() {
@@ -311,10 +311,10 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
                             // setting icon to dialog
-                            TextDrawable faIcon = new TextDrawable(context);
+                            CTextDrawable faIcon = new CTextDrawable(context);
                             faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
                             faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-                            faIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            faIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             faIcon.setText(context.getResources().getText(R.string.fa_delete));
                             faIcon.setTextColor(context.getColor(R.color.colorAccent));
                             alertDialogBuilder.setIcon(faIcon);
@@ -353,7 +353,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
                     /** icon for syncing an entity related permissions **/
                     RVH.textViewSyncRoleIcon.setTypeface(null, Typeface.NORMAL);
                     RVH.textViewSyncRoleIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     RVH.textViewSyncRoleIcon.setText(context.getResources().getString(R.string.fa_sync));
                     RVH.textViewSyncRoleIcon.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -361,10 +361,10 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
                             // setting icon to dialog
-                            TextDrawable faIcon = new TextDrawable(context);
+                            CTextDrawable faIcon = new CTextDrawable(context);
                             faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
                             faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-                            faIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            faIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             faIcon.setText(context.getResources().getText(R.string.fa_sync));
                             faIcon.setTextColor(context.getColor(R.color.colorAccent));
                             alertDialogBuilder.setIcon(faIcon);
@@ -602,7 +602,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
 
                     /** change perms **/
                     RVH.textViewChangeUserIcon.setTypeface(null, Typeface.NORMAL);
-                    RVH.textViewChangeUserIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                    RVH.textViewChangeUserIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     RVH.textViewChangeUserIcon.setText(context.getResources().getString(R.string.fa_perms));
                     RVH.textViewChangeUserIcon.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -610,10 +610,10 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
                             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
                             // setting icon to dialog
-                            TextDrawable faIcon = new TextDrawable(context);
+                            CTextDrawable faIcon = new CTextDrawable(context);
                             faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
                             faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-                            faIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            faIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             faIcon.setText(context.getResources().getText(R.string.fa_perms));
                             faIcon.setTextColor(context.getColor(R.color.colorAccent));
                             alertDialogBuilder.setIcon(faIcon);
@@ -668,7 +668,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
                     UVH.textViewDescription.setText(userDomain.getDescription());
 
                     UVH.textViewRemoveUserIcon.setTypeface(null, Typeface.NORMAL);
-                    UVH.textViewRemoveUserIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                    UVH.textViewRemoveUserIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     UVH.textViewRemoveUserIcon.setText(context.getResources().getString(R.string.fa_delete));
 
                     break;
@@ -681,7 +681,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
         return filteredRoles.size();
     }
 */
-    public cPrivilegeModel getItem(int position) {
+    public CPrivilegeModel getItem(int position) {
         return filteredRoles.get(position);
     }
 
@@ -701,9 +701,9 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
                     filteredRoles = listRoles;
                 } else {
 
-                    ArrayList<cPrivilegeModel> filteredList = new ArrayList<>();
+                    ArrayList<CPrivilegeModel> filteredList = new ArrayList<>();
 
-                    for (cPrivilegeModel roleDomain : listRoles) {
+                    for (CPrivilegeModel roleDomain : listRoles) {
 
                         if (roleDomain.getName().toLowerCase().contains(charString.toLowerCase()) ||
                                 roleDomain.getDescription().toLowerCase().contains(charString)) {
@@ -725,7 +725,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                filteredRoles = (ArrayList<cPrivilegeModel>) filterResults.values;
+                filteredRoles = (ArrayList<CPrivilegeModel>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
@@ -882,7 +882,7 @@ public class cRoleAdapter extends cTreeAdapter implements Filterable {
             text.setText(item.getTitle());
 
             image.setTypeface(null, Typeface.NORMAL);
-            image.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+            image.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
             image.setText(context.getResources().getString(item.getImage()));
 
             return view;

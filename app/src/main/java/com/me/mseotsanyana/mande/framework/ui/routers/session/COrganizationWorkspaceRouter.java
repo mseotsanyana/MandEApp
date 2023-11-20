@@ -1,17 +1,21 @@
-package com.me.mseotsanyana.mande.framework.routers;
-
+package com.me.mseotsanyana.mande.framework.ui.routers.session;
 
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
+import com.me.mseotsanyana.mande.framework.ports.base.IBaseRouter;
 import com.me.mseotsanyana.mande.framework.ui.fragments.session.COrganizationWorkspaceFragment;
 import com.me.mseotsanyana.mande.framework.ui.fragments.session.COrganizationWorkspaceFragmentDirections;
 
-public class COrganizationWorkspaceRouter {
-    private final COrganizationWorkspaceFragment fragment;
+public class COrganizationWorkspaceRouter implements IBaseRouter {
+    private COrganizationWorkspaceFragment fragment;
     private NavDirections action;
 
     public COrganizationWorkspaceRouter(COrganizationWorkspaceFragment fragment){
+        this.fragment = fragment;
+    }
+
+    public void setFragment(COrganizationWorkspaceFragment fragment) {
         this.fragment = fragment;
     }
 

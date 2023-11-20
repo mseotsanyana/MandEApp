@@ -12,6 +12,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
 import com.me.mseotsanyana.mande.R;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 
 public class cExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
@@ -92,13 +93,13 @@ public class cExpandableListAdapter extends BaseExpandableListAdapter {
         TextView listTitleTextArrowView = (TextView) convertView
                 .findViewById(R.id.listTitleArrow);
         listTitleTextArrowView.setTypeface(null, Typeface.NORMAL);
-        listTitleTextArrowView.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+        listTitleTextArrowView.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
 
         // set icons for menu items
         TextView listTitleTextIconView = (TextView) convertView
                 .findViewById(R.id.listTitleIcon);
         listTitleTextIconView.setTypeface(null, Typeface.NORMAL);
-        listTitleTextIconView.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+        listTitleTextIconView.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
 
         if (listPosition == 0)
             listTitleTextIconView.setText(context.getResources().getString(R.string.fa_admin));

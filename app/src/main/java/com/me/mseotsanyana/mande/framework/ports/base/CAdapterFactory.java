@@ -1,25 +1,34 @@
 package com.me.mseotsanyana.mande.framework.ports.base;
 
-import com.me.mseotsanyana.mande.framework.ui.fragments.session.COrganizationWorkspaceFragment;
-import com.me.mseotsanyana.mande.framework.ui.routers.session.COrganizationWorkspaceRouter;
+import android.content.Context;
 
-public class CRouterFactory implements AGUIFactory<IBaseRouter> {
+import com.me.mseotsanyana.mande.application.structures.CIndexedLinkedHashMap;
+import com.me.mseotsanyana.mande.framework.ui.adapters.session.COrganizationWorkspaceAdapter;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.IBaseView;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.IOrganizationWorkspaceController;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 
-    private final ERouterType routerType;
-    private final IBaseFragment fragment;
+public class CAdapterFactory implements AGUIFactory<IBaseAdapter> {
 
-    public CRouterFactory(IBaseFragment fragment, ERouterType routerType) {
-        this.fragment = fragment;
-        this.routerType = routerType;
+    private final Context context;
+    private final IBaseView iBaseView;
+    private final EAdapterType adapterType;
+
+    public CAdapterFactory(Context context, IBaseView iBaseView,
+                           EAdapterType adapterType) {
+        this.context = context;
+        this.iBaseView = iBaseView;
+        this.adapterType = adapterType;
     }
 
-    public IBaseFragment getFragment() {
-        return fragment;
+    public IBaseView getIBaseView() {
+        return iBaseView;
     }
 
     @Override
-    public IBaseRouter create() {
-        return new COrganizationWorkspaceRouter((COrganizationWorkspaceFragment) getFragment());
+    public IBaseAdapter create() {
+        return new COrganizationWorkspaceAdapter(context,
+                (IOrganizationWorkspaceController.IViewModel) getIBaseView());
     }
 
 }

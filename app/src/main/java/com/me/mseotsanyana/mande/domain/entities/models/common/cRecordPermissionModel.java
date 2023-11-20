@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import com.me.mseotsanyana.mande.framework.storage.preference.cEntityType;
+import com.me.mseotsanyana.mande.OLD.storage.preference.cEntityType;
 
 import java.util.Date;
 

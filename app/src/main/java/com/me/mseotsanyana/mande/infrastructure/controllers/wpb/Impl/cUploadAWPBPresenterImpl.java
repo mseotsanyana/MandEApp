@@ -1,12 +1,12 @@
-package com.me.mseotsanyana.mande.PL.presenters.wpb.Impl;
+package com.me.mseotsanyana.mande.infrastructure.controllers.wpb.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.wpb.Impl.cUploadAWPBInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.wpb.iUploadAWPBInteractor;
 import com.me.mseotsanyana.mande.application.repository.awpb.iUploadAWPBRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.wpb.iUploadAWPBPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.wpb.iUploadAWPBPresenter;
 
 public class cUploadAWPBPresenterImpl extends cAbstractPresenter implements iUploadAWPBPresenter,
         iUploadAWPBInteractor.Callback {
@@ -15,9 +15,9 @@ public class cUploadAWPBPresenterImpl extends cAbstractPresenter implements iUpl
     private View view;
     private iUploadAWPBRepository uploadAWPBRepository;
 
-    public cUploadAWPBPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cUploadAWPBPresenterImpl(IExecutor executor, IMainThread mainThread,
                                     View view, iUploadAWPBRepository uploadAWPBRepository) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.uploadAWPBRepository = uploadAWPBRepository;

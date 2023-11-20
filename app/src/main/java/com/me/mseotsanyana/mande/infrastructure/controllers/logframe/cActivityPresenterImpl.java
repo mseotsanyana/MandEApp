@@ -1,14 +1,14 @@
-package com.me.mseotsanyana.mande.infrastructure.controllers.logframe.Impl;
+package com.me.mseotsanyana.mande.infrastructure.controllers.logframe;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.programme.activity.Impl.cReadActivityInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.programme.activity.iReadActivityInteractor;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.application.repository.programme.iActivityRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.OLD.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.iActivityPresenter;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iActivityPresenter;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
@@ -21,15 +21,15 @@ public class cActivityPresenterImpl extends cAbstractPresenter implements iActiv
     private static String TAG = cActivityPresenterImpl.class.getSimpleName();
 
     private View view;
-    private iSharedPreferenceRepository sessionManagerRepository;
+    private ISessionManager sessionManagerRepository;
     private iActivityRepository activityRepository;
     private cLogFrameModel logFrameModel;
 
-    public cActivityPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cActivityPresenterImpl(IExecutor executor, IMainThread mainThread,
                                   View view,
-                                  iSharedPreferenceRepository sessionManagerRepository,
+                                  ISessionManager sessionManagerRepository,
                                   iActivityRepository activityRepository, cLogFrameModel logFrameModel) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sessionManagerRepository = sessionManagerRepository;

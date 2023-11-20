@@ -5,12 +5,12 @@ import android.view.View;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.me.mseotsanyana.mande.databinding.SessionLoginFragmentBinding;
-import com.me.mseotsanyana.mande.framework.routers.CUserLoginRouter;
+import com.me.mseotsanyana.mande.framework.ui.routers.session.CUserLoginRouter;
 import com.me.mseotsanyana.mande.framework.ui.fragments.session.CUserLoginFragment;
 import com.me.mseotsanyana.mande.infrastructure.ports.session.IUserProfileController;
 
-public class CUserLoginIViewModel implements IUserProfileController.IViewModel<String> {
-    private static final String TAG = CUserLoginIViewModel.class.getSimpleName();
+public class CUserLoginViewModel implements IUserProfileController.IViewModel<String> {
+    private static final String TAG = CUserLoginViewModel.class.getSimpleName();
 
     /* organization workspace binding */
     private final SessionLoginFragmentBinding binding;
@@ -21,8 +21,8 @@ public class CUserLoginIViewModel implements IUserProfileController.IViewModel<S
 
     //private final String[] ORG_TYPE = {"National Partner", "Funder (or Donor)", "Beneficiary", "Implementing Agency"};
 
-    public CUserLoginIViewModel(CUserLoginFragment fragment,
-                                SessionLoginFragmentBinding binding) {
+    public CUserLoginViewModel(CUserLoginFragment fragment,
+                               SessionLoginFragmentBinding binding) {
         this.router = new CUserLoginRouter(fragment);
         this.fragment = fragment;
         this.binding = binding;
@@ -95,12 +95,17 @@ public class CUserLoginIViewModel implements IUserProfileController.IViewModel<S
 
     @Override
     public void showResponse(String response) {
-        router.actionCUserLoginFragmentToCOrganizationWorkspaceFragment();
-        Log.i(TAG, " "+response);
+
     }
 
     @Override
-    public void showError(String msg) {
+    public void showMessage(String msg) {
         Log.d(TAG, msg);
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
+        router.actionCUserLoginFragmentToCOrganizationWorkspaceFragment();
+        Log.i(TAG, " "+message);
     }
 }

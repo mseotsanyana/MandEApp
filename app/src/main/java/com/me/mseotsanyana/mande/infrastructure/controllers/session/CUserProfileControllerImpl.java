@@ -1,38 +1,80 @@
 package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
+import com.me.mseotsanyana.mande.application.interactors.session.userprofile.CUserSignOutInteractorImpl;
+import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
 import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
 import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
-import com.me.mseotsanyana.mande.application.interactors.session.user.Impl.cUserProfileInteractorImpl;
-import com.me.mseotsanyana.mande.application.interactors.session.user.IUserProfileInteractor;
-import com.me.mseotsanyana.mande.application.repository.session.iPrivilegeRepository;
-import com.me.mseotsanyana.mande.application.repository.preference.ISharedPreferenceRepository;
-import com.me.mseotsanyana.mande.application.repository.session.iUserProfileRepository;
-import com.me.mseotsanyana.mande.OLD.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.infrastructure.ports.session.IUserLoginController;
-import com.me.mseotsanyana.mande.OLD.cInputValidation;
+import com.me.mseotsanyana.mande.application.interactors.session.userprofile.CUserLoginInteractorImpl;
+import com.me.mseotsanyana.mande.application.repository.session.IUserProfileRepository;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.IUserProfileController;
 
-public class CUserLoginControllerImpl extends cAbstractPresenter implements IUserLoginController,
-        IUserProfileInteractor.IUserLoginPresenter {
+import java.util.Map;
 
-    private IViewModel viewModel;
-    private final ISharedPreferenceRepository sharedPreferenceRepository;
-    private final iPrivilegeRepository privilegeRepository;
-    private final iUserProfileRepository userProfileRepository;
+public class CUserProfileControllerImpl extends cAbstractPresenter implements IUserProfileController {
 
-    private final cInputValidation inputValidation;
+    private IViewModel iViewModel;
+    private final IInteractor.IPresenter<IResponseDTO<Object>> iPresenter;
+    //private final IPermissionRepository privilegeRepository;
+    private final IUserProfileRepository userProfileRepository;
 
-    public CUserLoginControllerImpl(IExecutor executor, IMainThread mainThread, IViewModel viewModel,
-                                    ISharedPreferenceRepository sharedPreferenceRepository,
-                                    iPrivilegeRepository privilegeRepository,
-                                    iUserProfileRepository userProfileRepository) {
-        super(executor, mainThread);
+    //private final cInputValidation inputValidation;
 
-        this.viewModel = viewModel;
-        this.sharedPreferenceRepository = sharedPreferenceRepository;
-        this.privilegeRepository = privilegeRepository;
+    public CUserProfileControllerImpl(IExecutor executor, IMainThread mainThread,
+                                      IViewModel iViewModel,
+                                      IInteractor.IPresenter<IResponseDTO<Object>> iPresenter,
+                                      IUserProfileRepository userProfileRepository) {
+        super(executor, mainThread, null);
+
+        this.iViewModel = iViewModel;
+        this.iPresenter = iPresenter;
         this.userProfileRepository = userProfileRepository;
 
-        this.inputValidation = new cInputValidation();
+        //this.inputValidation = new cInputValidation();
+    }
+
+    @Override
+    public void createUserWithEmailAndPassword(CUserProfileModel userProfileModel) {
+
+    }
+
+    @Override
+    public void signOutWithEmailAndPassword() {
+        IInteractor iInteractor = new CUserSignOutInteractorImpl(
+                executor, mainThread, sessionManager,
+                iPresenter,
+                userProfileRepository);
+
+        iViewModel.showProgress();
+
+        iInteractor.execute();
+    }
+
+    @Override
+    public void readUserProfile() {
+
+    }
+
+    @Override
+    public void readUserProfiles() {
+
+    }
+
+    @Override
+    public void updateUserProfile(CUserProfileModel userProfileModel) {
+
+    }
+
+    @Override
+    public void updateUserProfileImage(String userServerID, byte[] userProfileImageData) {
+
+    }
+
+    @Override
+    public void uploadUserProfilesFromExcel(String filename) {
+
     }
 
     @Override
@@ -52,32 +94,15 @@ public class CUserLoginControllerImpl extends cAbstractPresenter implements IUse
 //            return;
 //        }
 
-        IUserProfileInteractor userLoginInteractor = new cUserProfileInteractorImpl(
-                executor, mainThread,this,
-                sharedPreferenceRepository,
-                privilegeRepository,
+        IInteractor iInteractor = new CUserLoginInteractorImpl(
+                executor, mainThread,
+                iPresenter,
                 userProfileRepository,
                 email, password);
 
-        viewModel.showProgress();
+        iViewModel.showProgress();
 
-        userLoginInteractor.execute();
-    }
-
-    @Override
-    public void OnUserLoginSucceeded(String msg) {
-        if(this.viewModel != null) {
-            this.viewModel.OnUserLoginSucceeded(msg);
-            this.viewModel.hideProgress();
-        }
-    }
-
-    @Override
-    public void OnUserLoginFailed(String msg) {
-        if(this.viewModel != null) {
-            this.viewModel.OnUserLoginFailed(msg);
-            this.viewModel.hideProgress();
-        }
+        iInteractor.execute();
     }
 
     /********************************** view life cycle methods ***********************************/
@@ -94,14 +119,14 @@ public class CUserLoginControllerImpl extends cAbstractPresenter implements IUse
 
     @Override
     public void stop() {
-        if(this.viewModel != null){
-            this.viewModel.hideProgress();
+        if(this.iViewModel != null){
+            this.iViewModel.hideProgress();
         }
     }
 
     @Override
     public void destroy() {
-        this.viewModel = null;
+        this.iViewModel = null;
     }
 
     @Override

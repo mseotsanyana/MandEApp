@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.OLD.PL.presenters.base;
+package com.me.mseotsanyana.mande.infrastructure.ports.base;
 
 import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
 import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;

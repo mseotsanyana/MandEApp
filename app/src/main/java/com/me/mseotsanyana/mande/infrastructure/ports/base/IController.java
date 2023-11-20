@@ -26,7 +26,8 @@ public interface IController {
     void destroy();
 
     /**
-     * Method that should signal the appropriate view to show the appropriate error with the provided message.
+     * Method that should signal the appropriate view to show the appropriate error with
+     * the provided message.
      */
     void onError(String message);
 }

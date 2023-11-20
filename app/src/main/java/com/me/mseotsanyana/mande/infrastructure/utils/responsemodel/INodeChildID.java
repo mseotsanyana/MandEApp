@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.treeadapterlibrary;
+package com.me.mseotsanyana.mande.infrastructure.utils.responsemodel;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@interface cNodeChildID {
+@interface INodeChildID {
     //Class type();
     // TODO class type
 }

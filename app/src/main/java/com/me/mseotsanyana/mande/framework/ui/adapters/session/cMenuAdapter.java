@@ -14,10 +14,10 @@ import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.domain.entities.models.session.cMenuModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CMenuModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cPermissionModel;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeAdapter;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
@@ -104,13 +104,13 @@ public class cMenuAdapter extends cTreeAdapter implements Filterable {
                         if (node.isExpand()) {
                             PH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                             PH.textViewDetailIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             PH.textViewDetailIcon.setText(
                                     context.getResources().getString(R.string.fa_angle_down));
                         } else {
                             PH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                             PH.textViewDetailIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             PH.textViewDetailIcon.setText(
                                     context.getResources().getString(R.string.fa_angle_up));
                         }
@@ -120,7 +120,7 @@ public class cMenuAdapter extends cTreeAdapter implements Filterable {
                     /* icon for saving updated record */
                     PH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
                     PH.textViewUpdateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     PH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     PH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
                     PH.textViewUpdateIcon.setOnClickListener(view -> {
@@ -130,7 +130,7 @@ public class cMenuAdapter extends cTreeAdapter implements Filterable {
                     /* icon for deleting a record */
                     PH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     PH.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     PH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     PH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
                     PH.textViewDeleteIcon.setOnClickListener(view -> {
@@ -140,7 +140,7 @@ public class cMenuAdapter extends cTreeAdapter implements Filterable {
                     break;
 
                 case MAIN_MENU:
-                    cMenuModel menuModel = (cMenuModel) obj.getModelObject();
+                    CMenuModel menuModel = (CMenuModel) obj.getModelObject();
                     cMainMenuViewHolder MH = ((cMainMenuViewHolder) viewHolder);
 
                     //Gson gson = new Gson();
@@ -175,13 +175,13 @@ public class cMenuAdapter extends cTreeAdapter implements Filterable {
                         if (node.isExpand()) {
                             MH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                             MH.textViewDetailIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             MH.textViewDetailIcon.setText(
                                     context.getResources().getString(R.string.fa_minus));
                         } else {
                             MH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                             MH.textViewDetailIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             MH.textViewDetailIcon.setText(
                                     context.getResources().getString(R.string.fa_plus));
                         }
@@ -191,7 +191,7 @@ public class cMenuAdapter extends cTreeAdapter implements Filterable {
                     break;
 
                 case SUB_MENU:
-                    cMenuModel subMenuModel = (cMenuModel) obj.getModelObject();
+                    CMenuModel subMenuModel = (CMenuModel) obj.getModelObject();
                     cSubMenuViewHolder SH = ((cSubMenuViewHolder) viewHolder);
 
                     SH.setPaddingLeft(20 * node.getLevel());

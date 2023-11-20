@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.programme;
+package com.me.mseotsanyana.mande.infrastructure.repository.firestore.programme;
 
 import android.content.Context;
 import android.util.Log;
@@ -18,13 +18,13 @@ import com.google.gson.Gson;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cProjectModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cResourceTypeModel;
-import com.me.mseotsanyana.mande.domain.entities.models.utils.cCommonPropertiesModel;
-import com.me.mseotsanyana.mande.usecases.repository.programme.iLogFrameRepository;
-import com.me.mseotsanyana.mande.framework.storage.base.cFirebaseRepository;
-import com.me.mseotsanyana.mande.framework.storage.database.cRealtimeHelper;
-import com.me.mseotsanyana.mande.framework.storage.excel.cExcelHelper;
-import com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.cDatabaseUtils;
+import com.me.mseotsanyana.mande.domain.entities.models.utils.CCommonAttributeModel;
+import com.me.mseotsanyana.mande.application.repository.programme.iLogFrameRepository;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreRepository;
+import com.me.mseotsanyana.mande.application.structures.CFirestoreConstant;
+import com.me.mseotsanyana.mande.OLD.storage.excel.cExcelHelper;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
+import com.me.mseotsanyana.mande.application.utils.CFirestoreUtility;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -40,7 +40,7 @@ import java.util.Objects;
 /**
  * Created by mseotsanyana on 2016/10/23.
  */
-public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
+public class cLogFrameFirestoreRepositoryImpl extends CFirestoreRepository
         implements iLogFrameRepository {
     private static final String TAG = cLogFrameFirestoreRepositoryImpl.class.getSimpleName();
 
@@ -87,7 +87,7 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                               int primaryTeamBIT, List<Integer> secondaryTeamBITS,
                               List<Integer> statusBITS, iReadLogFramesCallback callback) {
 
-        CollectionReference coLogFrameRef = database.collection(cRealtimeHelper.KEY_LOGFRAMES);
+        CollectionReference coLogFrameRef = database.collection(CFirestoreConstant.KEY_LOGFRAMES);
 
         Query logframeQuery = coLogFrameRef
                 .whereEqualTo("organizationOwnerID", organizationServerID)
@@ -100,7 +100,7 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                         cLogFrameModel logFrameModel = logframe_doc.toObject(cLogFrameModel.class);
 
                         if (logFrameModel != null) {
-                            cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
+                            CFirestoreUtility.cUnixPerm perm = new CFirestoreUtility.cUnixPerm();
                             perm.setUserOwnerID(logFrameModel.getUserOwnerID());
                             perm.setTeamOwnerBIT(logFrameModel.getTeamOwnerBIT());
                             perm.setUnixpermBITS(logFrameModel.getUnixpermBITS());
@@ -124,7 +124,7 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
     public void readLogFrame(String organizationServerID, String userServerID, int primaryTeamBIT,
                              List<Integer> secondaryTeamBITS, List<Integer> statusBITS,
                              String projectServerID, iReadLogFramesCallback callback) {
-        CollectionReference coLogFrameRef = database.collection(cRealtimeHelper.KEY_LOGFRAMES);
+        CollectionReference coLogFrameRef = database.collection(CFirestoreConstant.KEY_LOGFRAMES);
 
         Query logframeQuery = coLogFrameRef
                 .whereEqualTo("projectServerID", projectServerID)
@@ -138,7 +138,7 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                         cLogFrameModel logFrameModel = logframe_doc.toObject(cLogFrameModel.class);
 
                         if (logFrameModel != null) {
-                            cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
+                            CFirestoreUtility.cUnixPerm perm = new CFirestoreUtility.cUnixPerm();
                             perm.setUserOwnerID(logFrameModel.getUserOwnerID());
                             perm.setTeamOwnerBIT(logFrameModel.getTeamOwnerBIT());
                             perm.setUnixpermBITS(logFrameModel.getUnixpermBITS());
@@ -185,33 +185,33 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
         CollectionReference coResourceTypeRef, coProjectRef, coLogFrameRef, coComponentRef;
 
         // resource types, projects, logframes with corresponding components
-        coProjectRef = database.collection(cRealtimeHelper.KEY_PROJECTS);
-        coLogFrameRef = database.collection(cRealtimeHelper.KEY_LOGFRAMES);
-        coComponentRef = database.collection(cRealtimeHelper.KEY_LOGFRAME_COMPONENTS);
-        coResourceTypeRef = database.collection(cRealtimeHelper.KEY_RESOURCETYPES);
+        coProjectRef = database.collection(CFirestoreConstant.KEY_PROJECTS);
+        coLogFrameRef = database.collection(CFirestoreConstant.KEY_LOGFRAMES);
+        coComponentRef = database.collection(CFirestoreConstant.KEY_LOGFRAME_COMPONENTS);
+        coResourceTypeRef = database.collection(CFirestoreConstant.KEY_RESOURCETYPES);
 
         Task<QuerySnapshot> resources = coResourceTypeRef
                 .whereEqualTo("userOwnerID", userServerID)
                 .whereEqualTo("organizationOwnerID", organizationServerID)
-                .whereArrayContains("unixpermBITS", cSharedPreference.OWNER_DELETE)
+                .whereArrayContains("unixpermBITS", CPreferenceConstant.OWNER_DELETE)
                 .get();
 
         Task<QuerySnapshot> projects = coProjectRef
                 .whereEqualTo("userOwnerID", userServerID)
                 .whereEqualTo("organizationOwnerID", organizationServerID)
-                .whereArrayContains("unixpermBITS", cSharedPreference.OWNER_DELETE)
+                .whereArrayContains("unixpermBITS", CPreferenceConstant.OWNER_DELETE)
                 .get();
 
         Task<QuerySnapshot> logframes = coLogFrameRef
                 .whereEqualTo("userOwnerID", userServerID)
                 .whereEqualTo("organizationOwnerID", organizationServerID)
-                .whereArrayContains("unixpermBITS", cSharedPreference.OWNER_DELETE)
+                .whereArrayContains("unixpermBITS", CPreferenceConstant.OWNER_DELETE)
                 .get();
 
         Task<QuerySnapshot> components = coComponentRef
                 .whereEqualTo("userOwnerID", userServerID)
                 .whereEqualTo("organizationOwnerID", organizationServerID)
-                .whereArrayContains("unixpermBITS", cSharedPreference.OWNER_DELETE)
+                .whereArrayContains("unixpermBITS", CPreferenceConstant.OWNER_DELETE)
                 .get();
 
         Task<List<QuerySnapshot>> logframe_module;
@@ -284,13 +284,13 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
             cResourceTypeModel resourceTypeModel = new cResourceTypeModel();
 
             resourceTypeModel.setResourceTypeServerID(String.valueOf(
-                    cDatabaseUtils.getCellAsNumeric(resourceTypeRow, 0)));
-            resourceTypeModel.setName(cDatabaseUtils.getCellAsString(resourceTypeRow, 1));
-            resourceTypeModel.setDescription(cDatabaseUtils.getCellAsString(resourceTypeRow, 2));
+                    CFirestoreUtility.getCellAsNumeric(resourceTypeRow, 0)));
+            resourceTypeModel.setName(CFirestoreUtility.getCellAsString(resourceTypeRow, 1));
+            resourceTypeModel.setDescription(CFirestoreUtility.getCellAsString(resourceTypeRow, 2));
 
             // update common attributes
-            cCommonPropertiesModel commonPropertiesModel;
-            commonPropertiesModel = cDatabaseUtils.getCommonModel(context);
+            CCommonAttributeModel commonPropertiesModel;
+            commonPropertiesModel = CFirestoreUtility.getCommonModel(context);
 
             resourceTypeModel.setOrganizationOwnerID(organizationServerID);
             resourceTypeModel.setUserOwnerID(userServerID);
@@ -320,16 +320,16 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
             cProjectModel projectModel = new cProjectModel();
 
             projectModel.setProjectServerID(String.valueOf(
-                    cDatabaseUtils.getCellAsNumeric(projectRow, 0)));
+                    CFirestoreUtility.getCellAsNumeric(projectRow, 0)));
             projectModel.setParentServerID(String.valueOf(
-                    cDatabaseUtils.getCellAsNumeric(projectRow, 1)));
-            projectModel.setCode(cDatabaseUtils.getCellAsString(projectRow, 2));
-            projectModel.setName(cDatabaseUtils.getCellAsString(projectRow, 3));
-            projectModel.setDescription(cDatabaseUtils.getCellAsString(projectRow, 4));
-            projectModel.setStatus(cDatabaseUtils.getCellAsString(projectRow, 5));
-            projectModel.setLocation(cDatabaseUtils.getCellAsString(projectRow, 6));
-            projectModel.setStartDate(cDatabaseUtils.getCellAsDate(projectRow, 7));
-            projectModel.setEndDate(cDatabaseUtils.getCellAsDate(projectRow, 8));
+                    CFirestoreUtility.getCellAsNumeric(projectRow, 1)));
+            projectModel.setCode(CFirestoreUtility.getCellAsString(projectRow, 2));
+            projectModel.setName(CFirestoreUtility.getCellAsString(projectRow, 3));
+            projectModel.setDescription(CFirestoreUtility.getCellAsString(projectRow, 4));
+            projectModel.setStatus(CFirestoreUtility.getCellAsString(projectRow, 5));
+            projectModel.setLocation(CFirestoreUtility.getCellAsString(projectRow, 6));
+            projectModel.setStartDate(CFirestoreUtility.getCellAsDate(projectRow, 7));
+            projectModel.setEndDate(CFirestoreUtility.getCellAsDate(projectRow, 8));
 
 //            projectModel.setCreatedDate(now);
 //            projectModel.setModifiedDate(now);
@@ -356,17 +356,17 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                 }
 
                 String parentID = String.valueOf(
-                        cDatabaseUtils.getCellAsNumeric(parentRow, 1));
+                        CFirestoreUtility.getCellAsNumeric(parentRow, 1));
                 if (parentID.equals(projectModel.getProjectServerID())) {
                     String childID = String.valueOf(
-                            cDatabaseUtils.getCellAsNumeric(parentRow, 0));
+                            CFirestoreUtility.getCellAsNumeric(parentRow, 0));
                     projectModel.getChildren().add(childID);
                 }
             }
 
             // update common attributes
-            cCommonPropertiesModel commonPropertiesModel;
-            commonPropertiesModel = cDatabaseUtils.getCommonModel(context);
+            CCommonAttributeModel commonPropertiesModel;
+            commonPropertiesModel = CFirestoreUtility.getCommonModel(context);
 
             projectModel.setOrganizationOwnerID(organizationServerID);
             projectModel.setUserOwnerID(userServerID);
@@ -455,16 +455,16 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
         cLogFrameModel logFrameModel = new cLogFrameModel();
 
         String projectServerID = String.valueOf(
-                cDatabaseUtils.getCellAsNumeric(logframeRow, 0));
+                CFirestoreUtility.getCellAsNumeric(logframeRow, 0));
 
         if (projectServerID.equals(projectModel.getProjectServerID())) {
             logFrameModel.setProjectServerID(projectServerID);
             logFrameModel.setParentServerID(String.valueOf(
-                    cDatabaseUtils.getCellAsNumeric(logframeRow, 1)));
-            logFrameModel.setName(cDatabaseUtils.getCellAsString(logframeRow, 2));
-            logFrameModel.setDescription(cDatabaseUtils.getCellAsString(logframeRow, 3));
-            logFrameModel.setStartDate(cDatabaseUtils.getCellAsDate(logframeRow, 4));
-            logFrameModel.setEndDate(cDatabaseUtils.getCellAsDate(logframeRow, 5));
+                    CFirestoreUtility.getCellAsNumeric(logframeRow, 1)));
+            logFrameModel.setName(CFirestoreUtility.getCellAsString(logframeRow, 2));
+            logFrameModel.setDescription(CFirestoreUtility.getCellAsString(logframeRow, 3));
+            logFrameModel.setStartDate(CFirestoreUtility.getCellAsDate(logframeRow, 4));
+            logFrameModel.setEndDate(CFirestoreUtility.getCellAsDate(logframeRow, 5));
 
             // update parent logframes
             if (logFrameModel.getParentServerID().equals("0")) {
@@ -480,18 +480,18 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                     }
 
                     String parentID = String.valueOf(
-                            cDatabaseUtils.getCellAsNumeric(cRowTree, 0));
+                            CFirestoreUtility.getCellAsNumeric(cRowTree, 0));
                     if (parentID.equals(logFrameModel.getProjectServerID())) {
                         String childID = String.valueOf(
-                                cDatabaseUtils.getCellAsNumeric(cRowTree, 1));
+                                CFirestoreUtility.getCellAsNumeric(cRowTree, 1));
                         logFrameModel.getChildren().add(childID);
                     }
                 }
             }
 
             // update common attributes
-            cCommonPropertiesModel commonPropertiesModel;
-            commonPropertiesModel = cDatabaseUtils.getCommonModel(context);
+            CCommonAttributeModel commonPropertiesModel;
+            commonPropertiesModel = CFirestoreUtility.getCommonModel(context);
 
             logFrameModel.setOrganizationOwnerID(organizationServerID);
             logFrameModel.setUserOwnerID(userServerID);
@@ -512,24 +512,24 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                 }
 
                 String logFrameID = String.valueOf(
-                        cDatabaseUtils.getCellAsNumeric(componentRow, 1));
+                        CFirestoreUtility.getCellAsNumeric(componentRow, 1));
                 if (logFrameID.equals(logFrameModel.getProjectServerID())) {
 
                     Map<String, Object> componentModel = new HashMap<>();
 
                     componentModel.put("componentServerID", String.valueOf(
-                            cDatabaseUtils.getCellAsNumeric(componentRow, 0)));
+                            CFirestoreUtility.getCellAsNumeric(componentRow, 0)));
                     componentModel.put("projectServerID", projectServerID);
                     componentModel.put("name",
-                            cDatabaseUtils.getCellAsString(componentRow, 2));
+                            CFirestoreUtility.getCellAsString(componentRow, 2));
                     componentModel.put("description",
-                            cDatabaseUtils.getCellAsString(componentRow, 3));
+                            CFirestoreUtility.getCellAsString(componentRow, 3));
                     componentModel.put("component_type",
-                            cDatabaseUtils.getCellAsString(componentRow, 4));
+                            CFirestoreUtility.getCellAsString(componentRow, 4));
                     componentModel.put("startDate",
-                            cDatabaseUtils.getCellAsDate(componentRow, 5));
+                            CFirestoreUtility.getCellAsDate(componentRow, 5));
                     componentModel.put("endDate",
-                            cDatabaseUtils.getCellAsDate(componentRow, 6));
+                            CFirestoreUtility.getCellAsDate(componentRow, 6));
 
                     // update common attributes
                     componentModel.put("organizationOwnerID", organizationServerID);
@@ -555,10 +555,10 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                         }
 
                         String componentID = String.valueOf(
-                                cDatabaseUtils.getCellAsNumeric(impactRow, 0));
+                                CFirestoreUtility.getCellAsNumeric(impactRow, 0));
                         if (componentID.equals(componentModel.get("componentServerID"))) {
                             String parentID = String.valueOf(
-                                    cDatabaseUtils.getCellAsNumeric(impactRow, 1));
+                                    CFirestoreUtility.getCellAsNumeric(impactRow, 1));
 
                             String pID = !parentID.equals("0") ? parentID : null;
 
@@ -569,10 +569,10 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                     if (subimpactRow.getRowNum() == 0) {
                                         continue;
                                     }
-                                    String p_ID = String.valueOf(cDatabaseUtils.
+                                    String p_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(subimpactRow, 1));
                                     if (componentID.equals(p_ID)) {
-                                        String c_ID = String.valueOf(cDatabaseUtils.
+                                        String c_ID = String.valueOf(CFirestoreUtility.
                                                 getCellAsNumeric(subimpactRow, 0));
                                         subimpacts.add(c_ID);
                                     }
@@ -585,10 +585,10 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                 if (outcomeRow.getRowNum() == 0) {
                                     continue;
                                 }
-                                String impactID = String.valueOf(cDatabaseUtils.
+                                String impactID = String.valueOf(CFirestoreUtility.
                                         getCellAsNumeric(outcomeRow, 2));
                                 if (componentID.equals(impactID)) {
-                                    String outcomeID = String.valueOf(cDatabaseUtils.
+                                    String outcomeID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(outcomeRow, 0));
                                     outcomes.add(outcomeID);
                                 }
@@ -610,12 +610,12 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                         }
 
                         String componentID = String.valueOf(
-                                cDatabaseUtils.getCellAsNumeric(outcomeRow, 0));
+                                CFirestoreUtility.getCellAsNumeric(outcomeRow, 0));
                         if (componentID.equals(componentModel.get("componentServerID"))) {
                             String parentID = String.valueOf(
-                                    cDatabaseUtils.getCellAsNumeric(outcomeRow, 1));
+                                    CFirestoreUtility.getCellAsNumeric(outcomeRow, 1));
                             String impactServerID = String.valueOf(
-                                    cDatabaseUtils.getCellAsNumeric(outcomeRow, 2));
+                                    CFirestoreUtility.getCellAsNumeric(outcomeRow, 2));
 
                             // populate sub outcomes
                             String pID = !parentID.equals("0") ? parentID : null;
@@ -625,10 +625,10 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                     if (suboutcomeRow.getRowNum() == 0) {
                                         continue;
                                     }
-                                    String p_ID = String.valueOf(cDatabaseUtils.
+                                    String p_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(suboutcomeRow, 1));
                                     if (componentID.equals(p_ID)) {
-                                        String c_ID = String.valueOf(cDatabaseUtils.
+                                        String c_ID = String.valueOf(CFirestoreUtility.
                                                 getCellAsNumeric(suboutcomeRow, 0));
                                         suboutcomes.add(c_ID);
                                     }
@@ -641,10 +641,10 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                 if (outputRow.getRowNum() == 0) {
                                     continue;
                                 }
-                                String outcomeID = String.valueOf(cDatabaseUtils.
+                                String outcomeID = String.valueOf(CFirestoreUtility.
                                         getCellAsNumeric(outputRow, 2));
                                 if (componentID.equals(outcomeID)) {
-                                    String outputID = String.valueOf(cDatabaseUtils.
+                                    String outputID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(outputRow, 0));
                                     outputs.add(outputID);
                                 }
@@ -657,14 +657,14 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                 if (outcomeImpactRow.getRowNum() == 0) {
                                     continue;
                                 }
-                                String outcomeID = String.valueOf(cDatabaseUtils.
+                                String outcomeID = String.valueOf(CFirestoreUtility.
                                         getCellAsNumeric(outcomeImpactRow, 2));
                                 if (componentID.equals(outcomeID)) {
-                                    String p_ID = String.valueOf(cDatabaseUtils.
+                                    String p_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(outcomeImpactRow, 0));
-                                    String c_ID = String.valueOf(cDatabaseUtils.
+                                    String c_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(outcomeImpactRow, 1));
-                                    String impact_ID = String.valueOf(cDatabaseUtils.
+                                    String impact_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(outcomeImpactRow, 3));
 
                                     sublogframe_impacts.add(impact_ID);
@@ -691,12 +691,12 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                         }
 
                         String componentID = String.valueOf(
-                                cDatabaseUtils.getCellAsNumeric(outputRow, 0));
+                                CFirestoreUtility.getCellAsNumeric(outputRow, 0));
                         if (componentID.equals(componentModel.get("componentServerID"))) {
                             String parentID = String.valueOf(
-                                    cDatabaseUtils.getCellAsNumeric(outputRow, 1));
+                                    CFirestoreUtility.getCellAsNumeric(outputRow, 1));
                             String outcomeServerID = String.valueOf(
-                                    cDatabaseUtils.getCellAsNumeric(outputRow, 2));
+                                    CFirestoreUtility.getCellAsNumeric(outputRow, 2));
 
                             // populate sub outputs
                             String pID = !parentID.equals("0") ? parentID : null;
@@ -706,10 +706,10 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                     if (suboutputRow.getRowNum() == 0) {
                                         continue;
                                     }
-                                    String p_ID = String.valueOf(cDatabaseUtils.
+                                    String p_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(suboutputRow, 1));
                                     if (componentID.equals(p_ID)) {
-                                        String c_ID = String.valueOf(cDatabaseUtils.
+                                        String c_ID = String.valueOf(CFirestoreUtility.
                                                 getCellAsNumeric(suboutputRow, 0));
                                         suboutputs.add(c_ID);
                                     }
@@ -722,10 +722,10 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                 if (activityRow.getRowNum() == 0) {
                                     continue;
                                 }
-                                String outputID = String.valueOf(cDatabaseUtils.
+                                String outputID = String.valueOf(CFirestoreUtility.
                                         getCellAsNumeric(activityRow, 2));
                                 if (componentID.equals(outputID)) {
-                                    String activityID = String.valueOf(cDatabaseUtils.
+                                    String activityID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(activityRow, 0));
                                     activities.add(activityID);
                                 }
@@ -738,14 +738,14 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                 if (outputOutcomeRow.getRowNum() == 0) {
                                     continue;
                                 }
-                                String outputID = String.valueOf(cDatabaseUtils.
+                                String outputID = String.valueOf(CFirestoreUtility.
                                         getCellAsNumeric(outputOutcomeRow, 2));
                                 if (componentID.equals(outputID)) {
-                                    String p_ID = String.valueOf(cDatabaseUtils.
+                                    String p_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(outputOutcomeRow, 0));
-                                    String c_ID = String.valueOf(cDatabaseUtils.
+                                    String c_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(outputOutcomeRow, 1));
-                                    String outcome_ID = String.valueOf(cDatabaseUtils.
+                                    String outcome_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(outputOutcomeRow, 3));
 
                                     sublogframe_outcomes.add(outcome_ID);
@@ -773,13 +773,13 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                         }
 
                         String componentID = String.valueOf(
-                                cDatabaseUtils.getCellAsNumeric(activityRow, 0));
+                                CFirestoreUtility.getCellAsNumeric(activityRow, 0));
                         if (componentID.equals(componentModel.get("componentServerID"))) {
                             String parentID = String.valueOf(
-                                    cDatabaseUtils.getCellAsNumeric(activityRow, 1));
+                                    CFirestoreUtility.getCellAsNumeric(activityRow, 1));
 
                             String outputServerID = String.valueOf(
-                                    cDatabaseUtils.getCellAsNumeric(activityRow, 2));
+                                    CFirestoreUtility.getCellAsNumeric(activityRow, 2));
 
                             // populate sub activities
                             String pID = !parentID.equals("0") ? parentID : null;
@@ -789,10 +789,10 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                     if (subactivityRow.getRowNum() == 0) {
                                         continue;
                                     }
-                                    String p_ID = String.valueOf(cDatabaseUtils.
+                                    String p_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(subactivityRow, 1));
                                     if (componentID.equals(p_ID)) {
-                                        String c_ID = String.valueOf(cDatabaseUtils.
+                                        String c_ID = String.valueOf(CFirestoreUtility.
                                                 getCellAsNumeric(subactivityRow, 0));
                                         subactivities.add(c_ID);
                                     }
@@ -805,10 +805,10 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                 if (procedingRow.getRowNum() == 0) {
                                     continue;
                                 }
-                                String activityID = String.valueOf(cDatabaseUtils.
+                                String activityID = String.valueOf(CFirestoreUtility.
                                         getCellAsNumeric(procedingRow, 0));
                                 if (componentID.equals(activityID)) {
-                                    String procedingID = String.valueOf(cDatabaseUtils.
+                                    String procedingID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(procedingRow, 1));
                                     procedings.add(procedingID);
                                 }
@@ -820,10 +820,10 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                 if (inputRow.getRowNum() == 0) {
                                     continue;
                                 }
-                                String activityID = String.valueOf(cDatabaseUtils.
+                                String activityID = String.valueOf(CFirestoreUtility.
                                         getCellAsNumeric(inputRow, 1));
                                 if (componentID.equals(activityID)) {
-                                    String inputID = String.valueOf(cDatabaseUtils.
+                                    String inputID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(inputRow, 0));
                                     inputs.add(inputID);
                                 }
@@ -836,14 +836,14 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                 if (activityOutputRow.getRowNum() == 0) {
                                     continue;
                                 }
-                                String activityID = String.valueOf(cDatabaseUtils.
+                                String activityID = String.valueOf(CFirestoreUtility.
                                         getCellAsNumeric(activityOutputRow, 2));
                                 if (componentID.equals(activityID)) {
-                                    String p_ID = String.valueOf(cDatabaseUtils.
+                                    String p_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(activityOutputRow, 0));
-                                    String c_ID = String.valueOf(cDatabaseUtils.
+                                    String c_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(activityOutputRow, 1));
-                                    String output_ID = String.valueOf(cDatabaseUtils.
+                                    String output_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(activityOutputRow, 3));
 
                                     sublogframe_outputs.add(output_ID);
@@ -869,12 +869,12 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                         }
 
                         String componentID = String.valueOf(
-                                cDatabaseUtils.getCellAsNumeric(inputRow, 0));
+                                CFirestoreUtility.getCellAsNumeric(inputRow, 0));
                         if (componentID.equals(componentModel.get("componentServerID"))) {
                             String activityServerID = String.valueOf(
-                                    cDatabaseUtils.getCellAsNumeric(inputRow, 1));
+                                    CFirestoreUtility.getCellAsNumeric(inputRow, 1));
                             String resourceTypeID = String.valueOf(
-                                    cDatabaseUtils.getCellAsNumeric(inputRow, 2));
+                                    CFirestoreUtility.getCellAsNumeric(inputRow, 2));
 
                             // populate input activities
                             List<String> sublogframe_activities = new ArrayList<>();
@@ -883,14 +883,14 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                 if (inputActivityRow.getRowNum() == 0) {
                                     continue;
                                 }
-                                String inputID = String.valueOf(cDatabaseUtils.
+                                String inputID = String.valueOf(CFirestoreUtility.
                                         getCellAsNumeric(inputActivityRow, 2));
                                 if (componentID.equals(inputID)) {
-                                    String p_ID = String.valueOf(cDatabaseUtils.
+                                    String p_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(inputActivityRow, 0));
-                                    String c_ID = String.valueOf(cDatabaseUtils.
+                                    String c_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(inputActivityRow, 1));
-                                    String activity_ID = String.valueOf(cDatabaseUtils.
+                                    String activity_ID = String.valueOf(CFirestoreUtility.
                                             getCellAsNumeric(inputActivityRow, 3));
 
                                     sublogframe_activities.add(activity_ID);
@@ -907,9 +907,9 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                 }
 
                                 String inputID = String.valueOf(
-                                        cDatabaseUtils.getCellAsNumeric(humanRow, 0));
+                                        CFirestoreUtility.getCellAsNumeric(humanRow, 0));
                                 if (inputID.equals(componentModel.get("componentServerID"))) {
-                                    int humanQuantity = cDatabaseUtils.getCellAsNumeric(
+                                    int humanQuantity = CFirestoreUtility.getCellAsNumeric(
                                             humanRow, 1);
 
                                     componentModel.put("input_type", "HUMAN");
@@ -926,9 +926,9 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                 }
 
                                 String inputID = String.valueOf(
-                                        cDatabaseUtils.getCellAsNumeric(materialRow, 0));
+                                        CFirestoreUtility.getCellAsNumeric(materialRow, 0));
                                 if (inputID.equals(componentModel.get("componentServerID"))) {
-                                    int materialQuantity = cDatabaseUtils.getCellAsNumeric(
+                                    int materialQuantity = CFirestoreUtility.getCellAsNumeric(
                                             materialRow, 1);
 
                                     componentModel.put("input_type", "MATERIAL");
@@ -945,11 +945,11 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                 }
 
                                 String inputID = String.valueOf(
-                                        cDatabaseUtils.getCellAsNumeric(expenseRow, 0));
+                                        CFirestoreUtility.getCellAsNumeric(expenseRow, 0));
                                 if (inputID.equals(componentModel.get("componentServerID"))) {
-                                    double expenditure = cDatabaseUtils.getCellAsNumeric(
+                                    double expenditure = CFirestoreUtility.getCellAsNumeric(
                                             expenseRow, 1);
-                                    String expense_type = cDatabaseUtils.getCellAsString(
+                                    String expense_type = CFirestoreUtility.getCellAsString(
                                             expenseRow, 2);
 
                                     componentModel.put("input_type", expense_type);
@@ -966,11 +966,11 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
                                 }
 
                                 String inputID = String.valueOf(
-                                        cDatabaseUtils.getCellAsNumeric(incomeRow, 0));
+                                        CFirestoreUtility.getCellAsNumeric(incomeRow, 0));
                                 if (inputID.equals(componentModel.get("componentServerID"))) {
                                     String fundServerID = String.valueOf(
-                                            cDatabaseUtils.getCellAsNumeric(incomeRow, 1));
-                                    double revenue = cDatabaseUtils.getCellAsNumeric(
+                                            CFirestoreUtility.getCellAsNumeric(incomeRow, 1));
+                                    double revenue = CFirestoreUtility.getCellAsNumeric(
                                             incomeRow, 2);
 
                                     componentModel.put("input_type", "REVENUE");
@@ -1007,10 +1007,10 @@ public class cLogFrameFirestoreRepositoryImpl extends cFirebaseRepository
 
         CollectionReference coProjectRef, coLogFrameRef, coResourceTypeRef, coComponentRef;
 
-        coResourceTypeRef = database.collection(cRealtimeHelper.KEY_RESOURCETYPES);
-        coProjectRef = database.collection(cRealtimeHelper.KEY_PROJECTS);
-        coLogFrameRef = database.collection(cRealtimeHelper.KEY_LOGFRAMES);
-        coComponentRef = database.collection(cRealtimeHelper.KEY_LOGFRAME_COMPONENTS);
+        coResourceTypeRef = database.collection(CFirestoreConstant.KEY_RESOURCETYPES);
+        coProjectRef = database.collection(CFirestoreConstant.KEY_PROJECTS);
+        coLogFrameRef = database.collection(CFirestoreConstant.KEY_LOGFRAMES);
+        coComponentRef = database.collection(CFirestoreConstant.KEY_LOGFRAME_COMPONENTS);
 
         /* create a batch object */
         WriteBatch batch = database.batch();

@@ -1,8 +1,8 @@
 {
-  "team":
+  "workspace":
     {
       "id": 1,
-      "name": "Default team",
-      "description": "Team of with all admin privileges of an organization"
+      "name": "Default workspace",
+      "description": "Workspace of with all admin privileges of an organization"
     }
 }

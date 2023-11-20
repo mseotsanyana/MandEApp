@@ -18,7 +18,7 @@ public class cSessionModel {
     private Date modifiedDate;
 
     private cUserModel userModel;
-    private Set<cPrivilegeModel> roleModelSet;
+    private Set<CPrivilegeModel> roleModelSet;
 
     public cSessionModel(){}
 
@@ -107,11 +107,11 @@ public class cSessionModel {
         this.userModel = userModel;
     }
 
-    public Set<cPrivilegeModel> getRoleModelSet() {
+    public Set<CPrivilegeModel> getRoleModelSet() {
         return roleModelSet;
     }
 
-    public void setRoleModelSet(Set<cPrivilegeModel> roleModelSet) {
+    public void setRoleModelSet(Set<CPrivilegeModel> roleModelSet) {
         this.roleModelSet = roleModelSet;
     }
 }

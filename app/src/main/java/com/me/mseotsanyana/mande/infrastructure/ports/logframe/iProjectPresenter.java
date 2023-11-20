@@ -1,18 +1,18 @@
-package com.me.mseotsanyana.mande.infrastructure.controllers.logframe;
+package com.me.mseotsanyana.mande.infrastructure.ports.logframe;
 
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cProjectModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.OLD.PL.presenters.base.iPresenter;
-import com.me.mseotsanyana.mande.OLD.PL.ui.iBaseView;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.IBaseView;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.io.File;
 import java.util.List;
 
 public interface iProjectPresenter extends iPresenter {
-    interface View extends iBaseView {
+    interface View extends IBaseView {
         /* pass data from presenter to the view */
         void onClickLogframe(String projectID);
         void onClickProject(cProjectModel projectModel);

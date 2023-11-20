@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.awpb;
+package com.me.mseotsanyana.mande.framework.ui.fragments.awpb;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -3,21 +3,22 @@ package com.me.mseotsanyana.mande.application.interactors.programme.activity.Imp
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.programme.activity.iReadActivityInteractor;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.application.repository.programme.iActivityRepository;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cActivityModel;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cBitwise;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.OLD.storage.preference.cBitwise;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 import java.util.Set;
 
-public class cReadActivityInteractorImpl extends cAbstractInteractor
+public class cReadActivityInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iReadActivityInteractor {
     private static String TAG = cReadActivityInteractorImpl.class.getSimpleName();
 
@@ -28,11 +29,11 @@ public class cReadActivityInteractorImpl extends cAbstractInteractor
 
     private String logFrameName;
 
-    public cReadActivityInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                       iSharedPreferenceRepository sessionManagerRepository,
+    public cReadActivityInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                       ISessionManager sessionManagerRepository,
                                        iActivityRepository activityRepository,
                                        Callback callback, cLogFrameModel logFrameModel) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sessionManagerRepository == null || activityRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -157,5 +158,15 @@ public class cReadActivityInteractorImpl extends cAbstractInteractor
         } else {
             notifyError("Failed due to reading access rights !!");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

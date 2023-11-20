@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.UTIL.cOrganizationRecord;
+import com.me.mseotsanyana.mande.OLD.cOrganizationRecord;
 import com.me.mseotsanyana.mande.R;
 
 import java.text.SimpleDateFormat;

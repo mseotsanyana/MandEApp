@@ -15,10 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.PL.utils.cIndexedLinkedHashMap;
+import com.me.mseotsanyana.mande.application.structures.CIndexedLinkedHashMap;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.mande.databinding.SessionOrgAccountCardviewBinding;
 
 import java.text.SimpleDateFormat;
@@ -36,19 +36,19 @@ public class cOrganizationAccountAdapter extends
     private static SimpleDateFormat sdf = cConstant.SHORT_FORMAT_DATE;
 
     private final Context context;
-    private cIndexedLinkedHashMap<String, Map<String, Object>> orgAccountModels;
-    private cIndexedLinkedHashMap<String, Map<String, Object>> filterOrgAccountModels;
+    private CIndexedLinkedHashMap<String, Map<String, Object>> orgAccountModels;
+    private CIndexedLinkedHashMap<String, Map<String, Object>> filterOrgAccountModels;
 
     private LayoutInflater layoutInflater;
 
     public cOrganizationAccountAdapter(Context context,
-                                       cIndexedLinkedHashMap<String, Map<String, Object>> orgAccountsMap) {
+                                       CIndexedLinkedHashMap<String, Map<String, Object>> orgAccountsMap) {
         this.context = context;
         this.orgAccountModels = orgAccountsMap;
         this.filterOrgAccountModels = orgAccountsMap;
     }
 
-    public void setOrganizationAccountModels(cIndexedLinkedHashMap<String, Map<String, Object>> orgAccountsMap) {
+    public void setOrganizationAccountModels(CIndexedLinkedHashMap<String, Map<String, Object>> orgAccountsMap) {
         this.orgAccountModels = orgAccountsMap;
         this.filterOrgAccountModels = orgAccountsMap;
     }
@@ -60,7 +60,7 @@ public class cOrganizationAccountAdapter extends
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    public void reloadList(cIndexedLinkedHashMap<String, Map<String, Object>> list) {
+    public void reloadList(CIndexedLinkedHashMap<String, Map<String, Object>> list) {
         orgAccountModels = list;
         filterOrgAccountModels = list;
         notifyDataSetChanged();
@@ -85,7 +85,7 @@ public class cOrganizationAccountAdapter extends
         }
     }
 
-    public cIndexedLinkedHashMap<String, Map<String, Object>> getOrgAccountList() {
+    public CIndexedLinkedHashMap<String, Map<String, Object>> getOrgAccountList() {
         return filterOrgAccountModels;
     }
     @Override
@@ -127,7 +127,7 @@ public class cOrganizationAccountAdapter extends
 //        OH.circleImageViewUser.setImageResource(gray);
         OH.parentBinding.textViewOrganizationIcon.setTypeface(null, Typeface.NORMAL);
         OH.parentBinding.textViewOrganizationIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         Long typeID = (Long)orgAccount.get("typeID");
         if (typeID != null && typeID == 0) {
             OH.parentBinding.textViewOrganizationIcon.setTextColor(Color.RED);
@@ -144,7 +144,7 @@ public class cOrganizationAccountAdapter extends
 
         OH.parentBinding.textViewEmailIcon.setTypeface(null, Typeface.NORMAL);
         OH.parentBinding.textViewEmailIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         //OH.parentBinding.textViewEmailIcon.setTextSize(context.getResources().));
         OH.parentBinding.textViewEmailIcon.setTextColor(context.getColor(R.color.black));
         OH.parentBinding.textViewEmailIcon.setText(context.getResources().getString(R.string.fa_email));
@@ -168,7 +168,7 @@ public class cOrganizationAccountAdapter extends
         /* icon for saving updated record */
         OH.parentBinding.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
         OH.parentBinding.textViewUpdateIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.parentBinding.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimary));
         OH.parentBinding.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
         OH.parentBinding.textViewUpdateIcon.setOnClickListener(view -> {
@@ -178,7 +178,7 @@ public class cOrganizationAccountAdapter extends
         /* icon for deleting a record */
         OH.parentBinding.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
         OH.parentBinding.textViewDeleteIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.parentBinding.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimary));
         OH.parentBinding.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
         OH.parentBinding.textViewDeleteIcon.setOnClickListener(view -> {
@@ -218,7 +218,7 @@ public class cOrganizationAccountAdapter extends
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                filterOrgAccountModels = (cIndexedLinkedHashMap<String, Map<String, Object>>) filterResults.values;
+                filterOrgAccountModels = (CIndexedLinkedHashMap<String, Map<String, Object>>) filterResults.values;
                 notifyDataSetChanged();
             }
         };

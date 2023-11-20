@@ -15,10 +15,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cIncomeModel;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iInputPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iInputPresenter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,8 +76,8 @@ public class cIncomeAdapter extends RecyclerView.Adapter<cIncomeAdapter.cIncomeP
 
         /* collapse and expansion of the details */
         IH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-        IH.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                cFontManager.FONTAWESOME));
+        IH.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                CFontManager.FONTAWESOME));
         IH.textViewDetailIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         IH.textViewDetailIcon.setText(context.getResources().getString(R.string.fa_details));
         IH.textViewDetailIcon.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +90,7 @@ public class cIncomeAdapter extends RecyclerView.Adapter<cIncomeAdapter.cIncomeP
         /* icon for syncing a record */
         IH.textViewSyncIcon.setTypeface(null, Typeface.NORMAL);
         IH.textViewSyncIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         IH.textViewSyncIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         IH.textViewSyncIcon.setText(context.getResources().getString(R.string.fa_sync));
         IH.textViewSyncIcon.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +103,7 @@ public class cIncomeAdapter extends RecyclerView.Adapter<cIncomeAdapter.cIncomeP
         /* icon for deleting a record */
         IH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
         IH.textViewDeleteIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         IH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         IH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
         IH.textViewDeleteIcon.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +116,7 @@ public class cIncomeAdapter extends RecyclerView.Adapter<cIncomeAdapter.cIncomeP
         /* icon for saving updated record */
         IH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
         IH.textViewUpdateIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         IH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         IH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
         IH.textViewUpdateIcon.setOnClickListener(new View.OnClickListener() {

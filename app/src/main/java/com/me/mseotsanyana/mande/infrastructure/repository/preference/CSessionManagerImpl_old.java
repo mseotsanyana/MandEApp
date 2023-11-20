@@ -7,13 +7,14 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cMenuModel;
-import com.me.mseotsanyana.mande.application.repository.preference.ISessionManagerRepository;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CMenuModel;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
 import com.me.mseotsanyana.mande.infrastructure.ports.preference.OnPullCompleteListener;
+import com.me.mseotsanyana.mande.infrastructure.services.CEditorWrapper;
+import com.me.mseotsanyana.mande.infrastructure.services.CSessionManagerImpl;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,17 +23,18 @@ import org.json.JSONTokener;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-public class CSessionManagerRepositoryImpl_old
-        implements ISessionManagerRepository, FirebaseAuth.AuthStateListener,
+public class CSessionManagerImpl_old
+        implements ISessionManager, FirebaseAuth.AuthStateListener,
         SharedPreferences.OnSharedPreferenceChangeListener {
-    private static final String TAG = CSessionManagerRepositoryImpl_old.class.getSimpleName();
+    private static final String TAG = CSessionManagerImpl_old.class.getSimpleName();
 
     private final Context context;
-    private CSharedFirebasePreferences preferences;
+    private CSessionManagerImpl preferences;
     private CEditorWrapper editor;
 
-    public CSessionManagerRepositoryImpl_old(@NonNull Context context) {
+    public CSessionManagerImpl_old(@NonNull Context context) {
 //        (context.getSharedPreferences(CPreferenceConstant.KEY_USER_PREFS, Context.MODE_PRIVATE));FIXME
 //        setEditor(preferences.getSharedPreferences());
 
@@ -73,14 +75,14 @@ public class CSessionManagerRepositoryImpl_old
         Log.i(TAG, "onAuthStateChanged of "+firebaseAuth.getCurrentUser() +" called");
 
         if(firebaseAuth.getCurrentUser() != null){
-            preferences = CSharedFirebasePreferences.getInstance(this.context,
+            preferences = CSessionManagerImpl.getInstance(this.context,
                     CPreferenceConstant.KEY_USER_PREFS, Context.MODE_PRIVATE);
-            preferences.keepSynced(true);
+            //preferences.keepSynced(true);
             preferences.registerOnSharedPreferenceChangeListener(this);
 
             preferences.pull().addOnPullCompleteListener(new OnPullCompleteListener() {
                 @Override
-                public void OnPullSucceeded(CSharedFirebasePreferences preferences) {
+                public void OnPullSucceeded(CSessionManagerImpl preferences) {
                     // go to the view model: FIXME
                     Log.i(TAG, "OnPullSucceeded of "+preferences.getAll() +" called");
                 }
@@ -105,6 +107,11 @@ public class CSessionManagerRepositoryImpl_old
 
     /* ###################### FUNCTIONS FOR CRUD AND LOG IN/OUT OPERATIONS ###################### */
 
+    @Override
+    public boolean isCommitted() {
+        return false;
+    }
+
     /**
      * This saves the preference of the loggedIn user. Should be called
      * after every preference setting function.
@@ -127,9 +134,19 @@ public class CSessionManagerRepositoryImpl_old
      * This clears and commits all settings of the loggedIn user
      */
     @Override
-    public void clearAllSettings() {
+    public void clearApplied() {
         editor.clear();
         editor.commit();
+    }
+
+    @Override
+    public boolean isClearCommitted() {
+        return false;
+    }
+
+    @Override
+    public boolean updateDocumentReference(String documentID) {
+        return false;
     }
 
     /**
@@ -150,8 +167,23 @@ public class CSessionManagerRepositoryImpl_old
      * @param value value
      */
     @Override
-    public void saveIntSetting(String key, int value) {
+    public void saveWorkspaceMembershipBITS(String key, int value) {
         editor.putInt(key, value);
+    }
+
+    @Override
+    public void saveUserServerID(String key, String value) {
+
+    }
+
+    @Override
+    public void saveCompositeServerID(String key, String value) {
+
+    }
+
+    @Override
+    public void saveOwnerServerID(String key, String value) {
+
     }
 
     /**
@@ -162,8 +194,23 @@ public class CSessionManagerRepositoryImpl_old
      * @param value value
      */
     @Override
-    public void saveStringSetting(String key, String value) {
+    public void saveLoggedInUserServerID(String key, String value) {
         editor.putString(key, value);
+    }
+
+    @Override
+    public void saveOrganizationSeverID(String key, String value) {
+
+    }
+
+    @Override
+    public void saveOrganizationOwnerSeverID(String key, String value) {
+
+    }
+
+    @Override
+    public void saveWorkspaceOwnerBIT(String key, int value) {
+
     }
 
     /**
@@ -199,13 +246,38 @@ public class CSessionManagerRepositoryImpl_old
     }
 
     @Override
-    public void saveListOfStringSetting(String key, List<String> value) {
+    public void saveMyOrganizations(String key, List<String> value) {
         String JSONString = new Gson().toJson(value);
         editor.putString(key, JSONString);
     }
 
     @Override
-    public void saveMenuItems(String key, List<cMenuModel> value) {
+    public void saveStatusBITS(String key, int value) {
+
+    }
+
+    @Override
+    public void saveActionBITS(String key, int value) {
+
+    }
+
+    @Override
+    public void savePermissionBITS(String key, int value) {
+
+    }
+
+    @Override
+    public void saveEntityBITS(String key, int value) {
+
+    }
+
+    @Override
+    public void saveModuleBITS(String key, int value) {
+
+    }
+
+    @Override
+    public void saveMenuItems(String key, List<CMenuModel> value) {
         String menuJSONString = new Gson().toJson(value);
         editor.putString(CPreferenceConstant.KEY_MENU_ITEM_BITS, menuJSONString);
     }
@@ -278,7 +350,7 @@ public class CSessionManagerRepositoryImpl_old
      * @return identification.
      */
     @Override
-    public String loadUserID() {
+    public String loadLoggedInUserServerID() {
         return preferences.getString(CPreferenceConstant.KEY_USER_ID, null);
     }
 
@@ -344,9 +416,9 @@ public class CSessionManagerRepositoryImpl_old
     }
 
     @Override
-    public List<cMenuModel> loadMenuItems() {
-        String jsonString = preferences.getString(CPreferenceConstant.KEY_MENU_ITEM_BITS,null);
-        Type type = new TypeToken<List<cMenuModel>>() {}.getType();
+    public List<CMenuModel> loadMenuItems(String key) {
+        String jsonString = preferences.getString(key,null);
+        Type type = new TypeToken<List<CMenuModel>>() {}.getType();
         return new Gson().fromJson(jsonString, type);
     }
 
@@ -358,8 +430,23 @@ public class CSessionManagerRepositoryImpl_old
 
     @Override
     public void saveCurrentWorkspace(String compositeServerID) {
-        saveStringSetting(
+        saveLoggedInUserServerID(
                 CPreferenceConstant.KEY_WORKSPACE_ID, compositeServerID);
         commitSettings();
+    }
+
+    @Override
+    public void saveHashMap(String key, Object obj) {
+
+    }
+
+    @Override
+    public Map<String, Object> loadHashMap(String key) {
+        return null;
+    }
+
+    @Override
+    public String loadCompositeServerID() {
+        return null;
     }
 }

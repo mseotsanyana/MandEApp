@@ -1,11 +1,11 @@
 package com.me.mseotsanyana.mande.application.interactors.session.userprofile;
 
-import com.me.mseotsanyana.mande.application.interactors.base.iInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
 
 import java.util.List;
 
-public interface iUserProfilesInteractor extends iInteractor {
+public interface iUserProfilesInteractor extends IInteractor {
     interface Callback {
         /* read user profiles use case */
         void onReadUserProfilesFailed(String msg);

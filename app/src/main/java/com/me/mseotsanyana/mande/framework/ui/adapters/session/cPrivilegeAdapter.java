@@ -1,25 +1,25 @@
 package com.me.mseotsanyana.mande.framework.ui.adapters.session;
 
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.CLOUD_CREATE;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.CLOUD_DELETE;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.CLOUD_READ;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.CLOUD_UPDATE;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.HOUSE_CREATE;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.HOUSE_DELETE;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.HOUSE_READ;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.HOUSE_UPDATE;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.OWNER_CREATE;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.OWNER_DELETE;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.OWNER_READ;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.OWNER_UPDATE;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.ROOM_CREATE;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.ROOM_DELETE;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.ROOM_READ;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.ROOM_UPDATE;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.VILLAGE_CREATE;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.VILLAGE_DELETE;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.VILLAGE_READ;
-import static com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference.VILLAGE_UPDATE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.CLOUD_CREATE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.CLOUD_DELETE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.CLOUD_READ;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.CLOUD_UPDATE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.HOUSE_CREATE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.HOUSE_DELETE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.HOUSE_READ;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.HOUSE_UPDATE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.OWNER_CREATE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.OWNER_DELETE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.OWNER_READ;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.OWNER_UPDATE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.ROOM_CREATE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.ROOM_DELETE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.ROOM_READ;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.ROOM_UPDATE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.VILLAGE_CREATE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.VILLAGE_DELETE;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.VILLAGE_READ;
+import static com.me.mseotsanyana.mande.application.structures.CPreferenceConstant.VILLAGE_UPDATE;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -39,16 +39,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.Gson;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cEntityModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cMenuModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CMenuModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CPrivilegeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cSectionModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cPermissionModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUnixOperationCollection;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUnixOperationModel;
-import com.me.mseotsanyana.mande.PL.presenters.session.iPrivilegePresenter;
-import com.me.mseotsanyana.mande.PL.ui.listeners.session.iViewPrivilegeListener;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iPrivilegePresenter;
+import com.me.mseotsanyana.mande.framework.ports.adapters.session.iViewPrivilegeListener;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.mande.databinding.SessionMenuEntityCardviewBinding;
 import com.me.mseotsanyana.mande.databinding.SessionPrivilegeCardviewBinding;
 import com.me.mseotsanyana.mande.databinding.SessionUnixPermissionBinding;
@@ -208,7 +208,7 @@ public class cPrivilegeAdapter extends cTreeAdapter implements iViewPrivilegeLis
         if (treeModel != null) {
             switch (treeModel.getType()) {
                 case PRIVILEGES:
-                    cPrivilegeModel privilegeModel = (cPrivilegeModel) treeModel.getModelObject();
+                    CPrivilegeModel privilegeModel = (CPrivilegeModel) treeModel.getModelObject();
                     cPrivilegeViewHolder PH = ((cPrivilegeViewHolder) viewHolder);
 
                     PH.setPaddingLeft(20 * node.getLevel());
@@ -225,13 +225,13 @@ public class cPrivilegeAdapter extends cTreeAdapter implements iViewPrivilegeLis
                         if (node.isExpand()) {
                             PH.parentBinding.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                             PH.parentBinding.textViewDetailIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             PH.parentBinding.textViewDetailIcon.setText(
                                     context.getResources().getString(R.string.fa_angle_down));
                         } else {
                             PH.parentBinding.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                             PH.parentBinding.textViewDetailIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             PH.parentBinding.textViewDetailIcon.setText(
                                     context.getResources().getString(R.string.fa_angle_up));
                         }
@@ -241,7 +241,7 @@ public class cPrivilegeAdapter extends cTreeAdapter implements iViewPrivilegeLis
                     /* icon for saving updated record */
                     PH.parentBinding.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
                     PH.parentBinding.textViewUpdateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     PH.parentBinding.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     PH.parentBinding.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
                     PH.parentBinding.textViewUpdateIcon.setOnClickListener(view -> {
@@ -253,7 +253,7 @@ public class cPrivilegeAdapter extends cTreeAdapter implements iViewPrivilegeLis
                     /* icon for deleting a record */
                     PH.parentBinding.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     PH.parentBinding.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     PH.parentBinding.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     PH.parentBinding.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
                     PH.parentBinding.textViewDeleteIcon.setOnClickListener(view -> {
@@ -279,13 +279,13 @@ public class cPrivilegeAdapter extends cTreeAdapter implements iViewPrivilegeLis
                         if (node.isExpand()) {
                             MIH.toggleIcon.setTypeface(null, Typeface.NORMAL);
                             MIH.toggleIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             MIH.toggleIcon.setText(
                                     context.getResources().getString(R.string.fa_angle_down));
                         } else {
                             MIH.toggleIcon.setTypeface(null, Typeface.NORMAL);
                             MIH.toggleIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             MIH.toggleIcon.setText(
                                     context.getResources().getString(R.string.fa_angle_up));
                         }
@@ -295,7 +295,7 @@ public class cPrivilegeAdapter extends cTreeAdapter implements iViewPrivilegeLis
                     break;
 
                 case MENUITEMS:
-                    cMenuModel menuModel = (cMenuModel) treeModel.getModelObject();
+                    CMenuModel menuModel = (CMenuModel) treeModel.getModelObject();
                     cMenuItemViewHolder MH = ((cMenuItemViewHolder) viewHolder);
 
                     MH.setPaddingLeft(20 * node.getLevel());
@@ -320,13 +320,13 @@ public class cPrivilegeAdapter extends cTreeAdapter implements iViewPrivilegeLis
                         if (node.isExpand()) {
                             MH.menuitemsBinding.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                             MH.menuitemsBinding.textViewDetailIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             MH.menuitemsBinding.textViewDetailIcon.setText(
                                     context.getResources().getString(R.string.fa_minus));
                         } else {
                             MH.menuitemsBinding.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                             MH.menuitemsBinding.textViewDetailIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             MH.menuitemsBinding.textViewDetailIcon.setText(
                                     context.getResources().getString(R.string.fa_plus));
                         }
@@ -336,7 +336,7 @@ public class cPrivilegeAdapter extends cTreeAdapter implements iViewPrivilegeLis
                     break;
 
                 case SUB_MENUITEMS:
-                    cMenuModel subMenuModel = (cMenuModel) treeModel.getModelObject();
+                    CMenuModel subMenuModel = (CMenuModel) treeModel.getModelObject();
                     cSubMenuItemViewHolder SH = ((cSubMenuItemViewHolder) viewHolder);
 
                     SH.setPaddingLeft(20 * node.getLevel());
@@ -373,13 +373,13 @@ public class cPrivilegeAdapter extends cTreeAdapter implements iViewPrivilegeLis
                         if (node.isExpand()) {
                             EMH.toggleIcon.setTypeface(null, Typeface.NORMAL);
                             EMH.toggleIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             EMH.toggleIcon.setText(
                                     context.getResources().getString(R.string.fa_angle_down));
                         } else {
                             EMH.toggleIcon.setTypeface(null, Typeface.NORMAL);
                             EMH.toggleIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             EMH.toggleIcon.setText(
                                     context.getResources().getString(R.string.fa_angle_up));
                         }
@@ -414,13 +414,13 @@ public class cPrivilegeAdapter extends cTreeAdapter implements iViewPrivilegeLis
                         if (node.isExpand()) {
                             EH.entityBinding.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                             EH.entityBinding.textViewDetailIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             EH.entityBinding.textViewDetailIcon.setText(
                                     context.getResources().getString(R.string.fa_minus));
                         } else {
                             EH.entityBinding.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                             EH.entityBinding.textViewDetailIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             EH.entityBinding.textViewDetailIcon.setText(
                                     context.getResources().getString(R.string.fa_plus));
                         }

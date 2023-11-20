@@ -3,22 +3,23 @@ package com.me.mseotsanyana.mande.application.interactors.programme.impact.Impl;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
-import com.me.mseotsanyana.mande.application.interactors.cInteractorUtils;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
+import com.me.mseotsanyana.mande.application.utils.cInteractorUtils;
 import com.me.mseotsanyana.mande.application.interactors.programme.impact.iReadImpactInteractor;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.application.repository.programme.iImpactRepository;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cImpactModel;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class cReadImpactInteractorImpl extends cAbstractInteractor
+public class cReadImpactInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iReadImpactInteractor {
     private static final String TAG = cReadImpactInteractorImpl.class.getSimpleName();
 
@@ -36,11 +37,11 @@ public class cReadImpactInteractorImpl extends cAbstractInteractor
 
     Gson gson = new Gson();
 
-    public cReadImpactInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                     iSharedPreferenceRepository sharedPreferenceRepository,
+    public cReadImpactInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                     ISessionManager sharedPreferenceRepository,
                                      iImpactRepository impactRepository,
                                      Callback callback, cLogFrameModel logFrameModel) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sharedPreferenceRepository == null || impactRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -51,19 +52,19 @@ public class cReadImpactInteractorImpl extends cAbstractInteractor
         this.logFrameModel = logFrameModel;
 
         // load user shared preferences
-        this.userServerID = sharedPreferenceRepository.loadUserID();
+        this.userServerID = sharedPreferenceRepository.loadLoggedInUserServerID();
         this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
         this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
         this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
-                cSharedPreference.PROGRAMME_MODULE);
+                CPreferenceConstant.PROGRAMME_MODULE);
         this.entitypermBITS = sharedPreferenceRepository.loadEntityPermissionBITS(
-                cSharedPreference.PROGRAMME_MODULE, cSharedPreference.IMPACT);
+                CPreferenceConstant.PROGRAMME_MODULE, CPreferenceConstant.IMPACT);
         this.statusBITS = sharedPreferenceRepository.loadOperationStatuses(
-                cSharedPreference.PROGRAMME_MODULE, cSharedPreference.IMPACT,
-                cSharedPreference.READ);
+                CPreferenceConstant.PROGRAMME_MODULE, CPreferenceConstant.IMPACT,
+                CPreferenceConstant.READ);
 
         Log.d(TAG, " \n ORGANIZATION ID = " + this.organizationServerID +
                 " \n USER ID = " + this.userServerID +
@@ -93,11 +94,11 @@ public class cReadImpactInteractorImpl extends cAbstractInteractor
 
             /* impact parent */
             cImpactModel impactModel = impactModels.get(i);
-            impactTreeModels.add(new cTreeModel(parentIndex, -1, 0, impactModel));
+            //impactTreeModels.add(new cTreeModel(parentIndex, -1, 0, impactModel));
 
             /* impact details as child */
             childIndex = parentIndex + 1;
-            impactTreeModels.add(new cTreeModel(childIndex, parentIndex, 1, impactModel));
+            //impactTreeModels.add(new cTreeModel(childIndex, parentIndex, 1, impactModel));
 
             /* next parent index */
             parentIndex = childIndex + 1;
@@ -127,8 +128,8 @@ public class cReadImpactInteractorImpl extends cAbstractInteractor
 
         if (cInteractorUtils.isSettingsNonNull(organizationServerID, userServerID, entityBITS,
                 entitypermBITS, primaryTeamBIT, secondaryTeamBITS, statusBITS)) {
-            if ((this.entityBITS & cSharedPreference.IMPACT) != 0) {
-                if ((this.entitypermBITS & cSharedPreference.READ) != 0) {
+            if ((this.entityBITS & CPreferenceConstant.IMPACT) != 0) {
+                if ((this.entitypermBITS & CPreferenceConstant.READ) != 0) {
 
                     Log.d(TAG, "I AM HERE ................................... ");
                     impactRepository.readImpacts(logFrameModel.getProjectServerID(),
@@ -157,6 +158,16 @@ public class cReadImpactInteractorImpl extends cAbstractInteractor
         } else {
             notifyError("Error in default settings");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }
 

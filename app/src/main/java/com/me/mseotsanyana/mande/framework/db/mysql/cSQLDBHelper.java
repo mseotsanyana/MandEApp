@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.framework.databases.mysql;
+package com.me.mseotsanyana.mande.framework.db.mysql;
 
 import android.content.Context;
 import android.database.SQLException;

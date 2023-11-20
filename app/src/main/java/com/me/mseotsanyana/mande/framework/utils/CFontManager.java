@@ -8,7 +8,7 @@ import android.graphics.Typeface;
 /**
  * Created by amit on 26/3/16.
  */
-public class cFontManager {
+public class CFontManager {
 
     public static final String ROOT = "fonts/",
             FONTAWESOME = ROOT + "fontawesome-webfont.ttf";

@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.common;
+package com.me.mseotsanyana.mande.framework.ui.fragments.common;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,12 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.me.mseotsanyana.mande.PL.presenters.common.Impl.cOrganizationOwnerView;
-import com.me.mseotsanyana.mande.PL.presenters.common.cHeadingView;
-import com.me.mseotsanyana.mande.PL.presenters.common.cIndividualOwnerView;
+import com.me.mseotsanyana.mande.OLD.PL.presenters.common.Impl.cOrganizationOwnerView;
+import com.me.mseotsanyana.mande.OLD.PL.presenters.common.cHeadingView;
+import com.me.mseotsanyana.mande.OLD.PL.presenters.common.cIndividualOwnerView;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CPrivilegeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUserModel;
 import com.me.mseotsanyana.placeholderviewlibrary.cExpandablePlaceHolderView;
 
@@ -31,7 +31,7 @@ public class cOwnershipFragment extends Fragment {
     private int groupBITS;
     private int primaryRoles;
     private int secondaryRoles;
-    ArrayList<cPrivilegeModel> roleModels;
+    ArrayList<CPrivilegeModel> roleModels;
     ArrayList<cUserModel> userModels;
     ArrayList<COrganizationModel> organizationModels;
 
@@ -39,7 +39,7 @@ public class cOwnershipFragment extends Fragment {
                                                  ArrayList<cUserModel> userModels,
                                                  ArrayList<COrganizationModel> organizationModels,
                                                  int primaryRoles, int secondaryRoles,
-                                                 ArrayList<cPrivilegeModel> roleModels) {
+                                                 ArrayList<CPrivilegeModel> roleModels) {
         Bundle bundle = new Bundle();
 
         bundle.putLong("OWNER_ID", ownerID);

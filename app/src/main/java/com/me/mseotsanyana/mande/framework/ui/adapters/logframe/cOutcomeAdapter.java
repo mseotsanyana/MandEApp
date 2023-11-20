@@ -17,14 +17,14 @@ import com.me.mseotsanyana.mande.domain.entities.models.logframe.cImpactModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cOutcomeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cOutputModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cQuestionModel;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iOutcomePresenter;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iOutputPresenter;
-import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewImpactListener;
-import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewOutcomeListener;
-import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewOutputListener;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iOutcomePresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iOutputPresenter;
+import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.logframe.iViewImpactListener;
+import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.logframe.iViewOutcomeListener;
+import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.logframe.iViewOutputListener;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeAdapter;
@@ -126,13 +126,13 @@ public class cOutcomeAdapter extends cTreeAdapter implements iViewImpactListener
                         if (node.isExpand()) {
                             OPH.textViewExpandIcon.setTypeface(null, Typeface.NORMAL);
                             OPH.textViewExpandIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             OPH.textViewExpandIcon.setText(
                                     context.getResources().getString(R.string.fa_minus));
                         } else {
                             OPH.textViewExpandIcon.setTypeface(null, Typeface.NORMAL);
                             OPH.textViewExpandIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             OPH.textViewExpandIcon.setText(
                                     context.getResources().getString(R.string.fa_plus));
                         }
@@ -147,8 +147,8 @@ public class cOutcomeAdapter extends cTreeAdapter implements iViewImpactListener
 
                     /* collapse and expansion of the details */
                     OPH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-                    OPH.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                            cFontManager.FONTAWESOME));
+                    OPH.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                            CFontManager.FONTAWESOME));
                     OPH.textViewDetailIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     OPH.textViewDetailIcon.setText(context.getResources().getString(R.string.fa_details));
                     OPH.textViewDetailIcon.setOnClickListener(new View.OnClickListener() {
@@ -161,7 +161,7 @@ public class cOutcomeAdapter extends cTreeAdapter implements iViewImpactListener
                     /* icon for saving updated record */
                     OPH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
                     OPH.textViewUpdateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     OPH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     OPH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
                     OPH.textViewUpdateIcon.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +175,7 @@ public class cOutcomeAdapter extends cTreeAdapter implements iViewImpactListener
                     /* icon for deleting a record */
                     OPH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     OPH.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     OPH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     OPH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
                     OPH.textViewDeleteIcon.setOnClickListener(new View.OnClickListener() {
@@ -189,7 +189,7 @@ public class cOutcomeAdapter extends cTreeAdapter implements iViewImpactListener
                     /* icon for syncing a record */
                     OPH.textViewSyncIcon.setTypeface(null, Typeface.NORMAL);
                     OPH.textViewSyncIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     OPH.textViewSyncIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     OPH.textViewSyncIcon.setText(context.getResources().getString(R.string.fa_sync));
                     OPH.textViewSyncIcon.setOnClickListener(new View.OnClickListener() {
@@ -203,7 +203,7 @@ public class cOutcomeAdapter extends cTreeAdapter implements iViewImpactListener
                     /* icon for creating a record */
                     OPH.textViewCreateIcon.setTypeface(null, Typeface.NORMAL);
                     OPH.textViewCreateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     OPH.textViewCreateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     OPH.textViewCreateIcon.setText(context.getResources().getString(R.string.fa_create));
                     OPH.textViewCreateIcon.setOnClickListener(new View.OnClickListener() {
@@ -246,8 +246,8 @@ public class cOutcomeAdapter extends cTreeAdapter implements iViewImpactListener
 
                     /* collapse and expansion of the details */
                     OCH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-                    OCH.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                            cFontManager.FONTAWESOME));
+                    OCH.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                            CFontManager.FONTAWESOME));
                     OCH.textViewDetailIcon.setTextColor(context.getColor(R.color.colorAccent));
                     OCH.textViewDetailIcon.setText(context.getResources().getString(R.string.fa_details));
                     OCH.textViewDetailIcon.setOnClickListener(new View.OnClickListener() {
@@ -277,7 +277,7 @@ public class cOutcomeAdapter extends cTreeAdapter implements iViewImpactListener
                     /* icon for syncing a record */
                     OCH.textViewSyncIcon.setTypeface(null, Typeface.NORMAL);
                     OCH.textViewSyncIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     OCH.textViewSyncIcon.setTextColor(context.getColor(R.color.colorAccent));
                     OCH.textViewSyncIcon.setText(context.getResources().getString(R.string.fa_sync));
                     OCH.textViewSyncIcon.setOnClickListener(new View.OnClickListener() {
@@ -291,7 +291,7 @@ public class cOutcomeAdapter extends cTreeAdapter implements iViewImpactListener
                     /* icon for deleting a record */
                     OCH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     OCH.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     OCH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorAccent));
                     OCH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
                     OCH.textViewDeleteIcon.setOnClickListener(new View.OnClickListener() {
@@ -305,7 +305,7 @@ public class cOutcomeAdapter extends cTreeAdapter implements iViewImpactListener
                     /* icon for saving updated record */
                     OCH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
                     OCH.textViewUpdateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     OCH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorAccent));
                     OCH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
                     OCH.textViewUpdateIcon.setOnClickListener(new View.OnClickListener() {

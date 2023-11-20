@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.programme;
+package com.me.mseotsanyana.mande.framework.ui.fragments.programme;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -28,24 +28,26 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.Impl.cInputPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iInputPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.cInputPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iInputPresenter;
 import com.me.mseotsanyana.mande.framework.ui.adapters.logframe.cInputViewPagerAdapter;
-import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewInputListener;
+import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.logframe.iViewInputListener;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cInputModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cExpenseModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cHumanModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cIncomeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cMaterialModel;
-import com.me.mseotsanyana.mande.PL.ui.fragments.awpb.cExpenseFragment;
-import com.me.mseotsanyana.mande.PL.ui.fragments.awpb.cHumanFragment;
-import com.me.mseotsanyana.mande.PL.ui.fragments.awpb.cIncomeFragment;
-import com.me.mseotsanyana.mande.PL.ui.fragments.awpb.cMaterialFragment;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.framework.ui.fragments.awpb.cExpenseFragment;
+import com.me.mseotsanyana.mande.framework.ui.fragments.awpb.cHumanFragment;
+import com.me.mseotsanyana.mande.framework.ui.fragments.awpb.cIncomeFragment;
+import com.me.mseotsanyana.mande.framework.ui.fragments.awpb.cMaterialFragment;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -165,8 +167,8 @@ public class cInputFragment extends Fragment implements iViewInputListener, iInp
         expenseModels = new ArrayList<>();
 
         inputPresenter = new cInputPresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
                 this, null
                 /*new cSessionManagerImpl(getContext())*/,
                 null, null, null, null,
@@ -452,8 +454,18 @@ public class cInputFragment extends Fragment implements iViewInputListener, iInp
         inputProgressBar.setVisibility(View.GONE);
     }
 
+
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 }

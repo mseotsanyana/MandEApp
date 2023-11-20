@@ -15,10 +15,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cMaterialModel;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iInputPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iInputPresenter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,8 +76,8 @@ public class cMaterialAdapter extends RecyclerView.Adapter<cMaterialAdapter.cMat
 
         /* collapse and expansion of the details */
         MH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-        MH.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                cFontManager.FONTAWESOME));
+        MH.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                CFontManager.FONTAWESOME));
         MH.textViewDetailIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         MH.textViewDetailIcon.setText(context.getResources().getString(R.string.fa_details));
         MH.textViewDetailIcon.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +90,7 @@ public class cMaterialAdapter extends RecyclerView.Adapter<cMaterialAdapter.cMat
         /* icon for syncing a record */
         MH.textViewSyncIcon.setTypeface(null, Typeface.NORMAL);
         MH.textViewSyncIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         MH.textViewSyncIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         MH.textViewSyncIcon.setText(context.getResources().getString(R.string.fa_sync));
         MH.textViewSyncIcon.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +103,7 @@ public class cMaterialAdapter extends RecyclerView.Adapter<cMaterialAdapter.cMat
         /* icon for deleting a record */
         MH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
         MH.textViewDeleteIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         MH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         MH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
         MH.textViewDeleteIcon.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +116,7 @@ public class cMaterialAdapter extends RecyclerView.Adapter<cMaterialAdapter.cMat
         /* icon for saving updated record */
         MH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
         MH.textViewUpdateIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         MH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         MH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
         MH.textViewUpdateIcon.setOnClickListener(new View.OnClickListener() {

@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.me.mseotsanyana.mande.PL.ui.fragments.common.cCommonDatesFragment;
-import com.me.mseotsanyana.mande.PL.ui.fragments.common.cCustomViewPager;
-import com.me.mseotsanyana.mande.PL.ui.fragments.common.cOwnershipFragment;
-import com.me.mseotsanyana.mande.PL.ui.fragments.common.cPermissionFragment_OLD;
-import com.me.mseotsanyana.mande.PL.ui.fragments.common.cStatusFragment;
+import com.me.mseotsanyana.mande.framework.ui.fragments.common.cCommonDatesFragment;
+import com.me.mseotsanyana.mande.framework.ui.fragments.common.cCustomViewPager;
+import com.me.mseotsanyana.mande.framework.ui.fragments.common.cOwnershipFragment;
+import com.me.mseotsanyana.mande.framework.ui.fragments.common.cPermissionFragment_OLD;
+import com.me.mseotsanyana.mande.framework.ui.fragments.common.cStatusFragment;
 
 public class cCommonFragmentAdapter extends FragmentStatePagerAdapter {
 

@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.session;
+package com.me.mseotsanyana.mande.framework.ui.fragments.session;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -25,16 +25,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.me.mseotsanyana.mande.PL.presenters.session.Impl.cOrganizationAccountsPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.session.iOrganizationAccountPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.session.cOrganizationAccountsPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iOrganizationAccountPresenter;
 import com.me.mseotsanyana.mande.framework.ui.adapters.session.cOrganizationAccountAdapter;
-import com.me.mseotsanyana.mande.PL.utils.cIndexedLinkedHashMap;
+import com.me.mseotsanyana.mande.application.structures.CIndexedLinkedHashMap;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.databinding.SessionOrgAccountsFragmentBinding;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.session.cOrganizationFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.COrganizationFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 
 import java.util.Map;
 import java.util.Objects;
@@ -111,11 +111,11 @@ public class COrganizationAccountFragment extends Fragment implements iOrganizat
 
     private void initDataStructures() {
         organizationAccountPresenter = new cOrganizationAccountsPresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
                 this,
-                new cSharedPreferenceFirestoreRepositoryImpl(requireContext()),
-                new cOrganizationFirestoreRepositoryImpl(getContext()));
+                null,
+                new COrganizationFirestoreRepositoryImpl(getContext()));
     }
 
     private void initAppBarLayout(Toolbar toolbar, TextView textView,
@@ -202,10 +202,10 @@ public class COrganizationAccountFragment extends Fragment implements iOrganizat
     }
 
     @Override
-    public void onReadOrganizationAccountsSucceeded(Map<String, Object> orgAccountsMap,
+    public void onReadOrganizationAccountsSucceeded(Map<String, java.lang.Object> orgAccountsMap,
                                                     String operation) {
         if (organizationAccountAdapter == null)
-            setAdapter(new cIndexedLinkedHashMap<>());
+            setAdapter(new CIndexedLinkedHashMap<>());
 
         if (operation.equals("ADD")) {
             organizationAccountAdapter.getOrgAccountList().add(
@@ -231,7 +231,7 @@ public class COrganizationAccountFragment extends Fragment implements iOrganizat
         }
     }
 
-    private void setAdapter(cIndexedLinkedHashMap<String, Map<String, Object>>
+    private void setAdapter(CIndexedLinkedHashMap<String, Map<String, java.lang.Object>>
                                     orgAccountModels) {
         if (organizationAccountAdapter == null) {
             organizationAccountAdapter = new cOrganizationAccountAdapter(getActivity(),
@@ -257,8 +257,17 @@ public class COrganizationAccountFragment extends Fragment implements iOrganizat
         binding.includeProgressBar.setVisibility(View.GONE);
     }
 
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 }

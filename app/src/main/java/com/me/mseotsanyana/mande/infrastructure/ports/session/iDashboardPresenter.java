@@ -1,13 +1,13 @@
-package com.me.mseotsanyana.mande.PL.presenters.session;
+package com.me.mseotsanyana.mande.infrastructure.ports.session;
 
-import com.me.mseotsanyana.mande.PL.presenters.base.iPresenter;
-import com.me.mseotsanyana.mande.PL.ui.iBaseView;
+import com.me.mseotsanyana.mande.OLD.PL.presenters.base.iPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.IBaseView;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.List;
 
 public interface iDashboardPresenter extends iPresenter {
-    interface View extends iBaseView {
+    interface View extends IBaseView {
         /* pass data from interactor to the view */
         void onReadLogFramesSucceeded(List<cTreeModel> treeModels);
         void onReadLogFramesFailed(String msg);

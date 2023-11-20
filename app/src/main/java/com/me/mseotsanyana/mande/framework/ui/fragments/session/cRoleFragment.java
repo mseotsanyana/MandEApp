@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.session;
+package com.me.mseotsanyana.mande.framework.ui.fragments.session;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,13 +12,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.PL.presenters.session.iRolePresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iRolePresenter;
 import com.me.mseotsanyana.mande.framework.ui.adapters.session.cRoleAdapter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CPrivilegeModel;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by mseotsanyana on 2017/02/24.
@@ -31,7 +33,7 @@ public class cRoleFragment extends Fragment implements iRolePresenter.View {
 
     private LinearLayout includeProgressBar;
 
-    private ArrayList<cPrivilegeModel> roleModels;
+    private ArrayList<CPrivilegeModel> roleModels;
     private cRoleAdapter roleAdapter;
 
     public cRoleFragment() {
@@ -137,7 +139,7 @@ public class cRoleFragment extends Fragment implements iRolePresenter.View {
 
     // READ ROLES
     @Override
-    public void onReadRolesSucceeded(List<cPrivilegeModel> roleModels) {
+    public void onReadRolesSucceeded(List<CPrivilegeModel> roleModels) {
 
     }
 
@@ -158,8 +160,17 @@ public class cRoleFragment extends Fragment implements iRolePresenter.View {
 
     }
 
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 }

@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.infrastructure.repository.preference;
+package com.me.mseotsanyana.mande.infrastructure.services;
 
 import android.content.SharedPreferences;
 
@@ -10,11 +10,11 @@ import java.util.Set;
 public class CEditorWrapper implements SharedPreferences.Editor {
 
     private final SharedPreferences.Editor wrappedEditor;
-    private final CSessionManagerImpl preferences;
+    private final CSessionManagerImpl sessionManager;
 
-    protected CEditorWrapper(@NonNull CSessionManagerImpl preferences){
-        this.wrappedEditor = preferences.getSharedPreferences().edit();
-        this.preferences = preferences;
+    protected CEditorWrapper(@NonNull CSessionManagerImpl sessionManager){
+        this.wrappedEditor = sessionManager.getSharedPreferences().edit();
+        this.sessionManager = sessionManager;
     }
 
     /************************** overridden methods from SharedPreferences *************************/
@@ -70,7 +70,7 @@ public class CEditorWrapper implements SharedPreferences.Editor {
     @Override
     public boolean commit() {
         if(wrappedEditor.commit()){
-            preferences.push();
+            sessionManager.push();
             return true;
         }else{
             return false;
@@ -80,6 +80,6 @@ public class CEditorWrapper implements SharedPreferences.Editor {
     @Override
     public void apply() {
         wrappedEditor.apply();
-        preferences.push();
+        //sessionManager.push();
     }
 }

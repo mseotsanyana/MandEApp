@@ -1,4 +1,6 @@
-package com.me.mseotsanyana.treeadapterlibrary;
+package com.me.mseotsanyana.mande.infrastructure.utils.responsemodel;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 
@@ -6,21 +8,31 @@ import java.util.ArrayList;
  * Created by mseotsanyana on 2017/02/24.
  */
 
-public class cNode {
+public class CNode {
     private String childID;
     private String parentID;
     private boolean isVisited;
     private boolean isExpand;
-    private cNode parent = null;
-    private ArrayList<cNode> children = new ArrayList<>();
-    private Object object; /* for keeping data for this node */
+    private CNode parent;
+    private ArrayList<CNode> children;
+    private CTreeModel CTreeModel; /* for keeping data for this node */
 
-    //private int i = 0;
-    public cNode(String childID, String parentID) {
+    public CNode(String childID, String parentID) {
         this.childID  = childID;
         this.parentID = parentID;
         this.isExpand = false;
         this.isVisited = false;
+        this.parent = null;
+        this.children = new ArrayList<>();
+    }
+
+    public CNode(String childID, String parentID, CNode parent) {
+        this.childID  = childID;
+        this.parentID = parentID;
+        this.isExpand = false;
+        this.isVisited = false;
+        this.parent = parent;
+        this.children = new ArrayList<>();
     }
 
     public String getChildID() {
@@ -51,7 +63,6 @@ public class cNode {
      * get hierarchy level
      */
     public int getLevel() {
-        //Log.d("Root Level",""+i++);
         return isRoot() ? 0 : parent.getLevel() + 1;
     }
 
@@ -62,40 +73,39 @@ public class cNode {
     public void setExpand(boolean isExpand) {
         this.isExpand = isExpand;
         if (!isExpand) {
-            for (cNode node : children) {
+            for (CNode node : children) {
                 node.setExpand(false);
             }
         }
     }
 
-    public cNode getParent() {
+    public CNode getParent() {
         return this.parent;
     }
 
-    public void setParent(cNode parent) {
+    public void setParent(CNode parent) {
         this.parent = parent;
-        //Log.d("Parent -> Chile",""+this.parent.getId()+" -> "+this.parent.getId());
     }
 
-    public ArrayList<cNode> getChildren() {
+    public ArrayList<CNode> getChildren() {
         return children;
     }
 
     public int numberOfChildren(){
-        ArrayList<cNode> result = getChildren();
+        ArrayList<CNode> result = getChildren();
         return result.size();
     }
 
-    public void setChildren(ArrayList<cNode> children) {
+    public void setChildren(ArrayList<CNode> children) {
         this.children = children;
     }
 
-    public Object getObj(){
-        return this.object;
+    public CTreeModel getTreeModelObject(){
+        return this.CTreeModel;
     }
 
-    public void setObj(Object object){
-        this.object = object ;
+    public void setTreeModelObject(CTreeModel CTreeModel){
+        this.CTreeModel = CTreeModel;
     }
 
     public boolean isRoot() {
@@ -111,5 +121,15 @@ public class cNode {
 
     public boolean isLeaf() {
         return children.size() == 0;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "\n\n ChildID: " + this.childID +
+                "\n ParentID: " + this.parentID +
+                "\n isVisited: " + this.isVisited +
+                "\n isExpand: " + this.isExpand +
+                "\n Number of Children: " + this.children.size();
     }
 }

@@ -2,18 +2,19 @@ package com.me.mseotsanyana.mande.application.interactors.session.menu.Impl;
 
 import android.util.Log;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.session.menu.iReadMenuInteractor;
 import com.me.mseotsanyana.mande.application.repository.session.iMenuRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.List;
 
-public class cReadMenuInteractorImpl extends cAbstractInteractor implements iReadMenuInteractor {
+public class cReadMenuInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>> implements iReadMenuInteractor {
     private static final String TAG = cReadMenuInteractorImpl.class.getSimpleName();
 
     private final Callback callback;
@@ -29,11 +30,11 @@ public class cReadMenuInteractorImpl extends cAbstractInteractor implements iRea
     private final int entityBITS;
     private final int entitypermBITS;
 
-    public cReadMenuInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                   iSharedPreferenceRepository sharedPreferenceRepository,
+    public cReadMenuInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                   ISessionManager sharedPreferenceRepository,
                                    iMenuRepository menuRepository,
                                    Callback callback) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sharedPreferenceRepository == null || menuRepository == null ||
                 callback == null) {
@@ -44,19 +45,19 @@ public class cReadMenuInteractorImpl extends cAbstractInteractor implements iRea
         this.menuRepository = menuRepository;
 
         // load user shared preferences
-        this.userServerID = sharedPreferenceRepository.loadUserID();
+        this.userServerID = sharedPreferenceRepository.loadLoggedInUserServerID();
         this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
         this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
         this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
-                cSharedPreference.SESSION_MODULE);
+                CPreferenceConstant.SESSION);
         this.entitypermBITS = sharedPreferenceRepository.loadEntityPermissionBITS(
-                cSharedPreference.SESSION_MODULE, cSharedPreference.PRIVILEGE);
+                CPreferenceConstant.SESSION, CPreferenceConstant.PRIVILEGE);
         this.statusBITS = sharedPreferenceRepository.loadOperationStatuses(
-                cSharedPreference.SESSION_MODULE, cSharedPreference.PRIVILEGE,
-                cSharedPreference.READ);
+                CPreferenceConstant.SESSION, CPreferenceConstant.PRIVILEGE,
+                CPreferenceConstant.READ);
 
         Log.d(TAG, " \n USER ID = " + this.userServerID +
                 " \n ORGANIZATION ID = " + this.organizationServerID +
@@ -79,7 +80,7 @@ public class cReadMenuInteractorImpl extends cAbstractInteractor implements iRea
 
     @Override
     public void run() {
-        if ((this.entityBITS & cSharedPreference.PRIVILEGE) != 0) {
+        if ((this.entityBITS & CPreferenceConstant.PRIVILEGE) != 0) {
 
 //            if ((this.entitypermBITS & cSharedPreference.READ) != 0) {
 //                this.menuRepository.readMenuPermissions(organizationServerID,
@@ -101,5 +102,15 @@ public class cReadMenuInteractorImpl extends cAbstractInteractor implements iRea
         } else {
             notifyError("No access to the entity! Please contact your administrator");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

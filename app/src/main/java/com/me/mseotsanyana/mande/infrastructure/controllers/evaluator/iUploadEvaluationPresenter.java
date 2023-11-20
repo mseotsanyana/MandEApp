@@ -1,10 +1,10 @@
-package com.me.mseotsanyana.mande.PL.presenters.evaluator;
+package com.me.mseotsanyana.mande.infrastructure.controllers.evaluator;
 
-import com.me.mseotsanyana.mande.PL.presenters.base.iPresenter;
-import com.me.mseotsanyana.mande.PL.ui.iBaseView;
+import com.me.mseotsanyana.mande.OLD.PL.presenters.base.iPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.IBaseView;
 
 public interface iUploadEvaluationPresenter extends iPresenter {
-    interface View extends iBaseView {
+    interface View extends IBaseView {
 
         void onUploadCompleted(String title, String msg);
     }

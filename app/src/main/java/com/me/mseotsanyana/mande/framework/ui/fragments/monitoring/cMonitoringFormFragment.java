@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.monitoring;
+package com.me.mseotsanyana.mande.framework.ui.fragments.monitoring;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -20,10 +20,10 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-import com.me.mseotsanyana.mande.PL.ui.fragments.evaluation.cEvaluationFormFragmentArgs;
+import com.me.mseotsanyana.mande.framework.ui.fragments.evaluation.cEvaluationFormFragmentArgs;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.TextDrawable;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.framework.utils.CTextDrawable;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.questionnairelibrary.forms.cPageIndicator;
 import com.me.mseotsanyana.questionnairelibrary.forms.cViewPageAdapter;
 import com.me.mseotsanyana.questionnairelibrary.forms.db.cDBQuestionnaire;
@@ -189,11 +189,11 @@ public class cMonitoringFormFragment extends Fragment {
         Menu toolBarMenu = toolbar.getMenu();
 
         MenuItem homeIcon = toolBarMenu.findItem(R.id.homeItem);
-        TextDrawable faIcon = new TextDrawable(requireContext());
+        CTextDrawable faIcon = new CTextDrawable(requireContext());
         faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 24);
         faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
 
-        faIcon.setTypeface(cFontManager.getTypeface(requireContext(), cFontManager.FONTAWESOME));
+        faIcon.setTypeface(CFontManager.getTypeface(requireContext(), CFontManager.FONTAWESOME));
         faIcon.setText(requireContext().getResources().getText(R.string.fa_home));
         faIcon.setTextColor(Color.WHITE);
 

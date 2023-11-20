@@ -1,70 +1,138 @@
-package com.me.mseotsanyana.mande.interfaceadapters.presenters.session;
+package com.me.mseotsanyana.mande.infrastructure.presenters.session;
 
-import com.me.mseotsanyana.mande.framework.controllers.session.IOrganizationController;
-import com.me.mseotsanyana.mande.usecases.interactors.session.organization.iOrganizationInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
+import com.me.mseotsanyana.mande.application.structures.CResponseDTO;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
+import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.IOrganizationController;
+import com.me.mseotsanyana.mande.application.ports.session.IOrganizationInteractor;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
-public class COrganizationPresenterImpl implements /*iOrganizationPresenter,*/
-        iOrganizationInteractor.Callback/*, iUserSignOutInteractor.Callback*/ {
+public class COrganizationPresenterImpl implements IInteractor.IPresenter<IResponseDTO<Object>> {
     //private static final String TAG = cOrganizationPresenterImpl.class.getSimpleName();
 
-    private final IOrganizationController.IModelView modelView;
+    private final IOrganizationController.IViewModel modelView;
+    //private List<cTreeModel> treeModels;
+    private int index;
 
-    public COrganizationPresenterImpl(IOrganizationController.IModelView modelView) {
+    public COrganizationPresenterImpl(IOrganizationController.IViewModel modelView) {
         this.modelView = modelView;
+        this.index = 0;
+        //this.treeModels = new ArrayList<>();
     }
 
     @Override
-    public void onCreateOrganizationSucceeded(String msg) {
+    public void onError(Throwable throwable) {
         if (this.modelView != null) {
-            this.modelView.onCreateOrganizationSucceeded(msg);
+            //this.modelView.onReadOrganizationsFailed(msg);
             this.modelView.hideProgress();
         }
     }
 
     @Override
-    public void onCreateOrganizationFailed(String msg) {
-        if (this.modelView != null) {
-            this.modelView.onCreateOrganizationFailed(msg);
-            this.modelView.hideProgress();
-        }
-    }
+    public void onSuccess(IResponseDTO<Object> response) {
 
-    @Override
-    public void onReadOrganizationsSucceeded(List<cTreeModel> organizationModels) {
-        if (this.modelView != null) {
-            this.modelView.onReadOrganizationsSucceeded(organizationModels);
-            this.modelView.hideProgress();
-        }
-    }
-
-    @Override
-    public void onReadOrganizationsFailed(String msg) {
-        if (this.modelView != null) {
-            this.modelView.onReadOrganizationsFailed(msg);
-            this.modelView.hideProgress();
-        }
-    }
-
-    @Override
-    public void onSwitchOrganizationWorkspaceFailed(String msg) {
-        if (this.modelView != null) {
-            this.modelView.onSwitchOrganizationWorkspaceFailed(msg);
-            this.modelView.hideProgress();
-        }
-    }
-
-    @Override
-    public void onSwitchOrganizationWorkspaceSucceeded(String msg) {
-        if (this.modelView != null) {
-            this.modelView.onSwitchOrganizationWorkspaceSucceeded(msg);
-            this.modelView.hideProgress();
-        }
     }
 }
+
+//    @Override
+//    public void OnCreateOrganizationSucceeded(String msg) {
+//        if (this.modelView != null) {
+//            //this.modelView.onCreateOrganizationSucceeded(msg);
+//            this.modelView.hideProgress();
+//        }
+//    }
+//
+//    @Override
+//    public void OnReadOrganizationSucceeded(COrganizationModel organizationModel,
+//                                            String operation) {
+//        if (this.modelView != null) {
+//            if (operation.equals("ADD")) {
+//                this.treeModels.add(new cTreeModel(index, -1, 0, organizationModel));
+//                index = index + 1;
+//                this.modelView.onReadOrganizationsSucceeded(organizationModels);
+//            }
+//            this.modelView.hideProgress();
+//        }
+
+//            Map<COrganizationModel, List<CWorkspaceModel>> organizationModelMap;
+//            organizationModelMap = (Map<COrganizationModel, List<CWorkspaceModel>>) object;
+//
+//            int parentIndex = 0, childIndex;
+//            for (Map.Entry<COrganizationModel, List<CWorkspaceModel>> entry :
+//                    organizationModelMap.entrySet()) {
+//
+//                /* an organization */
+//                COrganizationModel organizationModel = entry.getKey();
+//
+//
+//                /* a list of workspaces under the organization */
+//                childIndex = parentIndex;
+//                for (CWorkspaceModel teamModel : entry.getValue()) {
+//                    childIndex = childIndex + 1;
+//                    orgWorkspacesTree.add(new cTreeModel(childIndex,
+//                            parentIndex, 1, teamModel));
+//                }
+//
+//                /* next parent index */
+//                parentIndex = childIndex + 1;
+//            }
+//
+//            postOrganization(orgWorkspacesTree);
+//
+//        }
+//    }
+//
+//    @Override
+//    public void OnUpdateOrganizationSucceeded(String msg) {
+//
+//    }
+//
+//    @Override
+//    public void OnDeleteOrganizationSucceeded(String msg) {
+//
+//    }
+//
+//    @Override
+//    public void OnInviteToOrganizationSucceeded(String msg) {
+//    }
+
+
+//    @Override
+//    public void OnPreferenceClearedSucceeded(String msg) {
+//
+//    }
+//
+//    @Override
+//    public void OnPreferenceClearedFailed(String msg) {
+//
+//    }
+
+
+
+
+    //    @Override
+//    public void onSwitchOrganizationWorkspaceFailed(String msg) {
+//        if (this.modelView != null) {
+//            //this.modelView.onSwitchOrganizationWorkspaceFailed(msg);
+//            this.modelView.hideProgress();
+//        }
+//    }
+//
+//    @Override
+//    public void onSwitchOrganizationWorkspaceSucceeded(String msg) {
+//        if (this.modelView != null) {
+//            //this.modelView.onSwitchOrganizationWorkspaceSucceeded(msg);
+//            this.modelView.hideProgress();
+//        }
+//    }
+//}
 //    // CREATE ORGANIZATION
 //    @Override
 //    public void createOrganization(COrganizationModel organizationModel) {

@@ -1,7 +1,7 @@
 package com.me.mseotsanyana.mande.application.exceptions;
 
-public class COrganizationWorkspaceException extends Exception{
-    public COrganizationWorkspaceException(String msg){
+public class CGeneralException extends Exception{
+    public CGeneralException(String msg){
         super(msg);
     }
 }

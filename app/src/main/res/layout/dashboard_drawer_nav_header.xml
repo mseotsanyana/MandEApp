@@ -19,7 +19,7 @@
             android:layout_width="@dimen/header_img_size"
             android:layout_height="@dimen/header_img_size"
             android:layout_marginTop="15dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:src="@drawable/ic_user" />
         <TextView
             android:id="@+id/currentDate"
@@ -39,7 +39,7 @@
         android:id="@+id/displayName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/layout_padding_default"
+        android:paddingStart="@dimen/layout_padding_default"
         android:gravity="start"
         android:text="@string/displayName"
         android:textColor="@color/white"

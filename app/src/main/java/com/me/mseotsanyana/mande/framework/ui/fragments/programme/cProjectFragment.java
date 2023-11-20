@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.programme;
+package com.me.mseotsanyana.mande.framework.ui.fragments.programme;
 
 import android.annotation.SuppressLint;
 import android.app.SearchManager;
@@ -38,27 +38,26 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayoutMediator;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.Impl.cProjectPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iProjectPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.cProjectPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iProjectPresenter;
+import com.me.mseotsanyana.mande.databinding.ProjectListFragmentBinding;
+import com.me.mseotsanyana.mande.databinding.ProjectParentCardviewBinding;
 import com.me.mseotsanyana.mande.framework.ui.adapters.logframe.cProjectAdapter;
 import com.me.mseotsanyana.mande.framework.ui.adapters.session.cMELViewPagerAdapter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.TextDrawable;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
-import com.me.mseotsanyana.mande.databinding.ProjectListFragmentBinding;
-import com.me.mseotsanyana.mande.databinding.ProjectParentCardviewBinding;
+import com.me.mseotsanyana.mande.framework.utils.CTextDrawable;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cProjectModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
-import com.me.mseotsanyana.mande.framework.storage.preference.cEntityType;
-import com.me.mseotsanyana.mande.PL.ui.fragments.common.cRecordPermissionFragment;
-import com.me.mseotsanyana.mande.PL.ui.fragments.session.cEntityFragment;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.programme.cProjectFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.OLD.storage.preference.cEntityType;
+import com.me.mseotsanyana.mande.framework.ui.fragments.common.cRecordPermissionFragment;
+import com.me.mseotsanyana.mande.framework.ui.fragments.session.cEntityFragment;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.programme.cProjectFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
 import com.me.mseotsanyana.multiselectspinnerlibrary.CSingleSpinnerSearch;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cKeyPairBoolData;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
@@ -69,6 +68,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -171,10 +171,10 @@ public class cProjectFragment extends Fragment implements iProjectPresenter.View
     private void initDataStructures() {
         /* instantiate presenters */
         projectPresenter = new cProjectPresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
                 this,
-                new cSharedPreferenceFirestoreRepositoryImpl(requireContext()),
+                null,
                 new cProjectFirestoreRepositoryImpl(getContext()));
     }
 
@@ -402,14 +402,10 @@ public class cProjectFragment extends Fragment implements iProjectPresenter.View
 
     @Override
     public void onCreateProjectCompleted(cProjectModel projectModel, String msg) {
-        try {
-            int parentIndex = projectAdapter.getMaxParentIndex();
-            cTreeModel treeModel = new cTreeModel(parentIndex, -1, 0, projectModel);
-            projectAdapter.addData(treeModel);
-            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        int parentIndex = 0;//--projectAdapter.getMaxParentIndex();
+        cTreeModel treeModel = null;//--new cTreeModel(parentIndex, -1, 0, projectModel);
+        //--projectAdapter.addData(treeModel);
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -496,9 +492,20 @@ public class cProjectFragment extends Fragment implements iProjectPresenter.View
         includeProgressBar.setVisibility(View.GONE);
     }
 
+//    @Override
+//    public void showResponse(Object response) {
+//
+//    }
+
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
+
     }
 
     //======================= these function show the forms to capture data ========================
@@ -555,8 +562,8 @@ public class cProjectFragment extends Fragment implements iProjectPresenter.View
 
         /* 4. set start and end date */
         datePickerIcon.setTypeface(null, Typeface.NORMAL);
-        datePickerIcon.setTypeface(cFontManager.getTypeface(requireActivity(),
-                cFontManager.FONTAWESOME));
+        datePickerIcon.setTypeface(CFontManager.getTypeface(requireActivity(),
+                CFontManager.FONTAWESOME));
         datePickerIcon.setTextColor(requireActivity().getColor(R.color.colorPrimaryDark));
         datePickerIcon.setText(requireActivity().getResources().getString(R.string.fa_calendar));
         datePickerIcon.setOnClickListener(view -> {
@@ -684,8 +691,8 @@ public class cProjectFragment extends Fragment implements iProjectPresenter.View
 
         /* 3. set start and end dates */
         datePickerIcon.setTypeface(null, Typeface.NORMAL);
-        datePickerIcon.setTypeface(cFontManager.getTypeface(requireActivity(),
-                cFontManager.FONTAWESOME));
+        datePickerIcon.setTypeface(CFontManager.getTypeface(requireActivity(),
+                CFontManager.FONTAWESOME));
         datePickerIcon.setTextColor(requireActivity().getColor(R.color.colorPrimaryDark));
         datePickerIcon.setText(requireActivity().getResources().getString(R.string.fa_calendar));
         datePickerIcon.setOnClickListener(view -> {
@@ -761,10 +768,10 @@ public class cProjectFragment extends Fragment implements iProjectPresenter.View
                 requireContext());
 
         // setting icon to dialog
-        TextDrawable faIcon = new TextDrawable(requireContext());
+        CTextDrawable faIcon = new CTextDrawable(requireContext());
         faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
         faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-        faIcon.setTypeface(cFontManager.getTypeface(requireContext(), cFontManager.FONTAWESOME));
+        faIcon.setTypeface(CFontManager.getTypeface(requireContext(), CFontManager.FONTAWESOME));
         faIcon.setText(requireContext().getResources().getText(resID));
         faIcon.setTextColor(requireContext().getColor(R.color.colorAccent));
         alertDialogBuilder.setIcon(faIcon);

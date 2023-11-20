@@ -1,30 +1,25 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
-import com.me.mseotsanyana.mande.usecases.executor.iExecutor;
-import com.me.mseotsanyana.mande.usecases.executor.iMainThread;
-import com.me.mseotsanyana.mande.usecases.interactors.session.team.Impl.cReadTeamsWithRolesInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.team.iReadTeamsWithRolesInteractor;
-import com.me.mseotsanyana.mande.usecases.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.usecases.repository.session.iWorkspaceRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.session.iTeamsWithRolesPresenter;
-import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
-
-import java.util.List;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.repository.session.IWorkspaceRepository;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iTeamsWithRolesPresenter;
 
 public class cTeamsWithRolesPresenterImpl extends cAbstractPresenter implements
-        iTeamsWithRolesPresenter, iReadTeamsWithRolesInteractor.Callback {
+        iTeamsWithRolesPresenter/*, iReadTeamsWithRolesInteractor.Callback*/ {
     //private static String TAG = cTeamsWithRolesPresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iSharedPreferenceRepository preferenceRepository;
-    private final iWorkspaceRepository teamRepository;
+    private final ISessionManager preferenceRepository;
+    private final IWorkspaceRepository teamRepository;
 
-    public cTeamsWithRolesPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cTeamsWithRolesPresenterImpl(IExecutor executor, IMainThread mainThread,
                                         View view,
-                                        iSharedPreferenceRepository preferenceRepository,
-                                        iWorkspaceRepository teamRepository) {
-        super(executor, mainThread);
+                                        ISessionManager preferenceRepository,
+                                        IWorkspaceRepository teamRepository) {
+        super(executor, mainThread, null);
 
         this.view = view;
         this.preferenceRepository = preferenceRepository;
@@ -33,32 +28,32 @@ public class cTeamsWithRolesPresenterImpl extends cAbstractPresenter implements
 
     @Override
     public void readTeamsWithRoles() {
-        iReadTeamsWithRolesInteractor readTeamInteractor = new cReadTeamsWithRolesInteractorImpl(
-                executor,
-                mainThread,
-                preferenceRepository,
-                teamRepository,
-                this);
-
-        view.showProgress();
-        readTeamInteractor.execute();
+//        iReadTeamsWithRolesInteractor readTeamInteractor = new CReadWorkspacesWithRolesInteractorImpl(
+//                executor,
+//                mainThread,
+//                preferenceRepository,
+//                teamRepository,
+//                this);
+//
+//        view.showProgress();
+//        readTeamInteractor.execute();
     }
 
-    @Override
-    public void onReadTeamsWithRolesFailed(String msg) {
-        if (this.view != null) {
-            this.view.onReadTeamsWithRolesFailed(msg);
-            this.view.hideProgress();
-        }
-    }
-
-    @Override
-    public void onReadTeamsWithRolesSucceeded(List<cTreeModel> teamsRolesTree) {
-        if (this.view != null) {
-            this.view.onReadTeamsWithRolesSucceeded(teamsRolesTree);
-            this.view.hideProgress();
-        }
-    }
+//    @Override
+//    public void onReadTeamsWithRolesFailed(String msg) {
+//        if (this.view != null) {
+//            this.view.onReadTeamsWithRolesFailed(msg);
+//            this.view.hideProgress();
+//        }
+//    }
+//
+//    @Override
+//    public void onReadTeamsWithRolesSucceeded(List<cTreeModel> teamsRolesTree) {
+//        if (this.view != null) {
+//            this.view.onReadTeamsWithRolesSucceeded(teamsRolesTree);
+//            this.view.hideProgress();
+//        }
+//    }
 
     /* ===================================== END PREFERENCE ===================================== */
 

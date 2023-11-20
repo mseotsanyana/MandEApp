@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cOutcomeModel;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -59,7 +59,7 @@ public class cImpactOutcomeAdapter extends RecyclerView.Adapter<cImpactOutcomeAd
         /* icon for deleting a record */
         OH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
         OH.textViewDeleteIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         OH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
         OH.textViewDeleteIcon.setOnClickListener(view -> {
@@ -70,7 +70,7 @@ public class cImpactOutcomeAdapter extends RecyclerView.Adapter<cImpactOutcomeAd
         /* icon for saving updated record */
         OH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
         OH.textViewUpdateIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         OH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
         OH.textViewUpdateIcon.setOnClickListener(view -> {

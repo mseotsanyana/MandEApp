@@ -2,47 +2,53 @@
   "menu": [
     {
       "id": 0,
-      "item": "Profile Settings",
+      "item": "User Management",
       "description": "Manage user profile settings.",
       "sub_menu": [
         {
           "sub_id": 1,
           "sub_item": "My Profile",
-          "sub_image":"myprofile",
-          "sub_description": "User personal details."
+          "sub_image": "myprofile",
+          "sub_description": "Loggedin user personal details."
         },
         {
           "sub_id": 2,
-          "sub_item": "User Profiles",
-          "sub_image":"userprofiles",
-          "sub_description":"Password, deactivation, etc. Mgt."
+          "sub_item": "My Accounts",
+          "sub_image": "organization",
+          "sub_description": "Member profiles of active organization."
         },
         {
           "sub_id": 4,
-          "sub_item": "Switch Organization",
-          "sub_image":"switch",
-          "sub_description":"Switching to another organizations."
+          "sub_item": "My Collaborators",
+          "sub_image": "workspace",
+          "sub_description": "Member profiles of active workspace."
+        },
+        {
+          "sub_id": 8,
+          "sub_item": "Switch Workspaces",
+          "sub_image": "switching",
+          "sub_description": "Switching to another workspace."
         }
       ]
     },
     {
-      "id": 256,
+      "id": 512,
       "item": "Notifications",
-      "image":"notification",
+      "image": "notification",
       "description": "Settings of publication, subscription of messages.",
       "sub_menu": []
     },
     {
-      "id": 512,
+      "id": 1024,
       "item": "Settings",
-      "image":"setting",
+      "image": "setting",
       "description": "The settings related to the user.",
       "sub_menu": []
     },
     {
-      "id": 1024,
+      "id": 2048,
       "item": "Logout",
-      "image":"logout",
+      "image": "logout",
       "description": "Allowing the logout option.",
       "sub_menu": []
     }

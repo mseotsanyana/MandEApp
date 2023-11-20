@@ -2,21 +2,22 @@ package com.me.mseotsanyana.mande.application.interactors.programme.logframe.Imp
 
 import android.util.Log;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
-import com.me.mseotsanyana.mande.application.interactors.cInteractorUtils;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
+import com.me.mseotsanyana.mande.application.utils.cInteractorUtils;
 import com.me.mseotsanyana.mande.application.interactors.programme.logframe.iLogFrameInteractor;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.application.repository.programme.iLogFrameRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class cReadLogFramesInteractorImpl extends cAbstractInteractor
+public class cReadLogFramesInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iLogFrameInteractor {
     private static final String TAG = cReadLogFramesInteractorImpl.class.getSimpleName();
 
@@ -32,11 +33,11 @@ public class cReadLogFramesInteractorImpl extends cAbstractInteractor
     private final int entityBITS;
     private final int entitypermBITS;
 
-    public cReadLogFramesInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                        iSharedPreferenceRepository sharedPreferenceRepository,
+    public cReadLogFramesInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                        ISessionManager sharedPreferenceRepository,
                                         iLogFrameRepository logFrameRepository,
                                         Callback callback) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sharedPreferenceRepository == null || logFrameRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -46,19 +47,19 @@ public class cReadLogFramesInteractorImpl extends cAbstractInteractor
         this.callback = callback;
 
         // load user shared preferences
-        this.userServerID = sharedPreferenceRepository.loadUserID();
+        this.userServerID = sharedPreferenceRepository.loadLoggedInUserServerID();
         this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
         this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
         this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
-                cSharedPreference.PROGRAMME_MODULE);
+                CPreferenceConstant.PROGRAMME_MODULE);
         this.entitypermBITS = sharedPreferenceRepository.loadEntityPermissionBITS(
-                cSharedPreference.PROGRAMME_MODULE, cSharedPreference.LOGFRAME);
+                CPreferenceConstant.PROGRAMME_MODULE, CPreferenceConstant.LOGFRAME);
         this.statusBITS = sharedPreferenceRepository.loadOperationStatuses(
-                cSharedPreference.PROGRAMME_MODULE, cSharedPreference.LOGFRAME,
-                cSharedPreference.READ);
+                CPreferenceConstant.PROGRAMME_MODULE, CPreferenceConstant.LOGFRAME,
+                CPreferenceConstant.READ);
 
         Log.d(TAG, " \n ORGANIZATION ID = " + this.organizationServerID +
                 " \n USER ID = " + this.userServerID +
@@ -89,8 +90,8 @@ public class cReadLogFramesInteractorImpl extends cAbstractInteractor
         for (int i = 0; i < logFrameModels.size(); i++) {
             // create logframe without parent logframe
             if (logFrameModels.get(i).getParentServerID() == null) {
-                logFrameTreeModels.add(
-                        new cTreeModel(parentIndex, -1, 0, logFrameModels.get(i)));
+                //logFrameTreeModels.add(
+                //        new cTreeModel(parentIndex, -1, 0, logFrameModels.get(i)));
             }
 
             // create parent logframe with child logframes
@@ -99,8 +100,8 @@ public class cReadLogFramesInteractorImpl extends cAbstractInteractor
                 if (logFrameModels.get(i).getProjectServerID().equals(
                         logFrameModels.get(j).getParentServerID())) {
                     childIndex = childIndex + 1;
-                    logFrameTreeModels.add(new cTreeModel(
-                            childIndex, parentIndex, 1, logFrameModels.get(j)));
+                    //logFrameTreeModels.add(new cTreeModel(
+                    //        childIndex, parentIndex, 1, logFrameModels.get(j)));
                 }
             }
             parentIndex = childIndex + 1;
@@ -116,8 +117,8 @@ public class cReadLogFramesInteractorImpl extends cAbstractInteractor
     public void run() {
         if (cInteractorUtils.isSettingsNonNull(organizationServerID, userServerID, entityBITS,
                 entitypermBITS, primaryTeamBIT, secondaryTeamBITS, statusBITS)) {
-            if ((this.entityBITS & cSharedPreference.LOGFRAME) != 0) {
-                if ((this.entitypermBITS & cSharedPreference.READ) != 0) {
+            if ((this.entityBITS & CPreferenceConstant.LOGFRAME) != 0) {
+                if ((this.entitypermBITS & CPreferenceConstant.READ) != 0) {
 
                     logFrameRepository.readLogFrames(organizationServerID, userServerID,
                             primaryTeamBIT, secondaryTeamBITS, statusBITS,
@@ -145,6 +146,16 @@ public class cReadLogFramesInteractorImpl extends cAbstractInteractor
         } else {
             notifyError("Error in default settings");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }
 

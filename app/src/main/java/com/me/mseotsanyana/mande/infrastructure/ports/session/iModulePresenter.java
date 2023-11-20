@@ -1,11 +1,6 @@
-package com.me.mseotsanyana.mande.PL.presenters.session;
+package com.me.mseotsanyana.mande.infrastructure.ports.session;
 
-import com.me.mseotsanyana.mande.PL.presenters.base.iPresenter;
-import com.me.mseotsanyana.mande.PL.ui.iBaseView;
-import com.me.mseotsanyana.treeadapterlibrary.cNode;
-import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
-
-import java.util.List;
+import com.me.mseotsanyana.mande.OLD.PL.presenters.base.iPresenter;
 
 public interface iModulePresenter extends iPresenter {
 //    interface View extends iBaseView {

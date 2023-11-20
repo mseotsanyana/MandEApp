@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.session;
+package com.me.mseotsanyana.mande.framework.ui.fragments.session;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,8 +27,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.INTERFACE.iMEEntityInterface;
-import com.me.mseotsanyana.mande.UTIL.cUtil;
+import com.me.mseotsanyana.mande.OLD.INTERFACE.iMEEntityInterface;
+import com.me.mseotsanyana.mande.OLD.cUtil;
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cAddressModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUserModel;
@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-//import com.me.mseotsanyana.mande.PL.ui.fragments.logframe.cLogFrameFragment;
+//import com.me.mseotsanyana.mande.framework.ui.fragments.logframe.cLogFrameFragment;
 
 public class cUserAddFragment extends Fragment {
     private static final String TAG = "cUserEditFragment";

@@ -15,10 +15,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cHumanModel;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iInputPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iInputPresenter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,8 +76,8 @@ public class cHumanAdapter extends RecyclerView.Adapter<cHumanAdapter.cHumanPare
 
         /* collapse and expansion of the details */
         HH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-        HH.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                cFontManager.FONTAWESOME));
+        HH.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                CFontManager.FONTAWESOME));
         HH.textViewDetailIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         HH.textViewDetailIcon.setText(context.getResources().getString(R.string.fa_details));
         HH.textViewDetailIcon.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +90,7 @@ public class cHumanAdapter extends RecyclerView.Adapter<cHumanAdapter.cHumanPare
         /* icon for syncing a record */
         HH.textViewSyncIcon.setTypeface(null, Typeface.NORMAL);
         HH.textViewSyncIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         HH.textViewSyncIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         HH.textViewSyncIcon.setText(context.getResources().getString(R.string.fa_sync));
         HH.textViewSyncIcon.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +103,7 @@ public class cHumanAdapter extends RecyclerView.Adapter<cHumanAdapter.cHumanPare
         /* icon for deleting a record */
         HH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
         HH.textViewDeleteIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         HH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         HH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
         HH.textViewDeleteIcon.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +116,7 @@ public class cHumanAdapter extends RecyclerView.Adapter<cHumanAdapter.cHumanPare
         /* icon for saving updated record */
         HH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
         HH.textViewUpdateIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         HH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         HH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
         HH.textViewUpdateIcon.setOnClickListener(new View.OnClickListener() {

@@ -21,14 +21,14 @@ import com.google.android.material.tabs.TabLayoutMediator;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cImpactModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cOutcomeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cQuestionModel;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iImpactPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iOutcomePresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iImpactPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iOutcomePresenter;
 import com.me.mseotsanyana.mande.framework.ui.adapters.session.cMELViewPagerAdapter;
-import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewImpactListener;
-import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewOutcomeListener;
+import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.logframe.iViewImpactListener;
+import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.logframe.iViewOutcomeListener;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.mande.databinding.ComponentParentCardviewBinding;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
@@ -152,8 +152,8 @@ public class cImpactAdapter extends cTreeAdapter implements iViewImpactListener,
 
                     /* the collapse and expansion of the impact */
                     IPH.binding.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-                    IPH.binding.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                            cFontManager.FONTAWESOME));
+                    IPH.binding.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                            CFontManager.FONTAWESOME));
                     IPH.binding.textViewDetailIcon.setTextColor(context.getColor(R.color.black));
                     IPH.binding.textViewDetailIcon.setText(
                             context.getResources().getString(R.string.fa_angle_down));
@@ -167,13 +167,13 @@ public class cImpactAdapter extends cTreeAdapter implements iViewImpactListener,
                         if (node.isExpand()) {
                             IPH.binding.textViewExpandIcon.setTypeface(null, Typeface.NORMAL);
                             IPH.binding.textViewExpandIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             IPH.binding.textViewExpandIcon.setText(
                                     context.getResources().getString(R.string.fa_minus));
                         } else {
                             IPH.binding.textViewExpandIcon.setTypeface(null, Typeface.NORMAL);
                             IPH.binding.textViewExpandIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             IPH.binding.textViewExpandIcon.setText(
                                     context.getResources().getString(R.string.fa_plus));
                         }
@@ -182,14 +182,14 @@ public class cImpactAdapter extends cTreeAdapter implements iViewImpactListener,
                     /* icon for deleting a record */
                     IPH.binding.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     IPH.binding.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     IPH.binding.textViewDeleteIcon.setTextColor(context.getColor(R.color.black));
                     IPH.binding.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
 
                     /* icon for saving updated record */
                     IPH.binding.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
                     IPH.binding.textViewUpdateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     IPH.binding.textViewUpdateIcon.setTextColor(context.getColor(R.color.black));
                     IPH.binding.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
 

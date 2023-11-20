@@ -1,0 +1,244 @@
+<html>
+<head>
+<title>CTreeAdapter.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #0033b3;}
+.s1 { color: #080808;}
+.s2 { color: #8c8c8c; font-style: italic;}
+.s3 { color: #067d17;}
+.s4 { color: #1750eb;}
+.s5 { color: #8c8c8c; font-style: italic;}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+CTreeAdapter.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.utils.responsemodel;</span>
+
+<span class="s0">import </span><span class="s1">android.annotation.SuppressLint;</span>
+<span class="s0">import </span><span class="s1">android.content.Context;</span>
+<span class="s0">import </span><span class="s1">android.util.Log;</span>
+<span class="s0">import </span><span class="s1">android.view.ViewGroup;</span>
+
+<span class="s0">import </span><span class="s1">androidx.annotation.NonNull;</span>
+<span class="s0">import </span><span class="s1">androidx.recyclerview.widget.RecyclerView;</span>
+
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.application.structures.CIndexedLinkedHashMap;</span>
+
+<span class="s0">import </span><span class="s1">java.util.List;</span>
+
+<span class="s2">/**</span>
+ <span class="s2">* Created by mseotsanyana on 2017/02/20.</span>
+ <span class="s2">*/</span>
+
+<span class="s0">abstract public class </span><span class="s1">CTreeAdapter </span><span class="s0">extends </span><span class="s1">RecyclerView.Adapter&lt;RecyclerView.ViewHolder&gt;{</span>
+    <span class="s0">private static final </span><span class="s1">String TAG = CTreeAdapter.</span><span class="s0">class</span><span class="s1">.getSimpleName();</span>
+    <span class="s0">protected </span><span class="s1">Context context;</span>
+    <span class="s0">protected </span><span class="s1">CIndexedLinkedHashMap&lt;String, CTreeModel&gt; treeModels;</span>
+    <span class="s0">protected </span><span class="s1">List&lt;CNode&gt; visibleNodes;</span>
+    <span class="s0">protected </span><span class="s1">List&lt;CNode&gt; allNodes;</span>
+
+    <span class="s0">public </span><span class="s1">CTreeAdapter(Context context, CIndexedLinkedHashMap&lt;String, CTreeModel&gt; treeModels,</span>
+                        <span class="s0">int </span><span class="s1">expLevel){</span>
+        <span class="s2">//super(context, data);</span>
+        <span class="s0">this</span><span class="s1">.context = context;</span>
+        <span class="s0">this</span><span class="s1">.treeModels = treeModels;</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s0">this</span><span class="s1">.sort(expLevel);</span>
+        <span class="s1">}</span><span class="s0">catch</span><span class="s1">(IllegalAccessException e){</span>
+            <span class="s1">Log.e(TAG, </span><span class="s3">&quot;Error &quot;</span><span class="s1">+e.getMessage());</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">CTreeAdapter(Context context, CIndexedLinkedHashMap&lt;String, CTreeModel&gt; treeModels){</span>
+        <span class="s2">//super(context, data);</span>
+        <span class="s0">this</span><span class="s1">.context = context;</span>
+        <span class="s0">this</span><span class="s1">.treeModels = treeModels;</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s0">this</span><span class="s1">.sort();</span>
+        <span class="s1">}</span><span class="s0">catch</span><span class="s1">(IllegalAccessException e){</span>
+            <span class="s1">Log.e(TAG, </span><span class="s3">&quot;Error &quot;</span><span class="s1">+e.getMessage());</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@NonNull</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, </span><span class="s0">int </span><span class="s1">viewType) {</span>
+        <span class="s0">return </span><span class="s1">OnCreateTreeViewHolder(parent,viewType);</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, </span><span class="s0">final int </span><span class="s1">position) {</span>
+        <span class="s1">OnBindTreeViewHolder(viewHolder, position);</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public int </span><span class="s1">getItemViewType(</span><span class="s0">int </span><span class="s1">position){</span>
+        <span class="s1">CTreeModel model = visibleNodes.get(position).getTreeModelObject();</span>
+        <span class="s0">return </span><span class="s1">model.getType();</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public int </span><span class="s1">getItemCount() {</span>
+        <span class="s0">return </span><span class="s1">visibleNodes.size();</span>
+    <span class="s1">}</span>
+
+    <span class="s2">/**</span>
+     <span class="s2">* These are abstract methods</span>
+     <span class="s2">*/</span>
+    <span class="s0">public abstract </span><span class="s1">RecyclerView.ViewHolder OnCreateTreeViewHolder(ViewGroup parent, </span><span class="s0">int </span><span class="s1">viewType);</span>
+    <span class="s0">public abstract void </span><span class="s1">OnBindTreeViewHolder(RecyclerView.ViewHolder viewHolder, </span><span class="s0">int </span><span class="s1">position);</span>
+    <span class="s2">//cTreeModel obj, boolean isLeaf, boolean isExpand, int level);</span>
+    <span class="s2">//public abstract int getItemTreeViewType(int position);</span>
+    <span class="s2">//public abstract int getTreeItemCount();</span>
+
+    <span class="s0">public void </span><span class="s1">sort() </span><span class="s0">throws </span><span class="s1">IllegalAccessException {</span>
+        <span class="s1">sort(-</span><span class="s4">1</span><span class="s1">);</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@SuppressLint(</span><span class="s3">&quot;NotifyDataSetChanged&quot;</span><span class="s1">)</span>
+    <span class="s0">public void </span><span class="s1">sort(</span><span class="s0">int </span><span class="s1">defaultExpandLevel) </span><span class="s0">throws </span><span class="s1">IllegalAccessException, IllegalArgumentException{</span>
+        <span class="s1">List&lt;CNode&gt; unsortedNodes = CNodeHelper.convertTreeModels2Nodes(treeModels);</span>
+
+        <span class="s1">allNodes = CNodeHelper.getSortedNodes(unsortedNodes);</span>
+        <span class="s1">CNodeHelper.setExpandLevel(allNodes, defaultExpandLevel);</span>
+        <span class="s1">visibleNodes = CNodeHelper.filterVisibleNodes(allNodes);</span>
+        <span class="s1">notifyDataSetChanged();</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setTreeModel(CIndexedLinkedHashMap&lt;String, CTreeModel&gt; treeModels) </span><span class="s0">throws </span><span class="s1">IllegalAccessException {</span>
+        <span class="s0">this</span><span class="s1">.treeModels = treeModels;</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s0">this</span><span class="s1">.sort();</span>
+        <span class="s1">}</span><span class="s0">catch</span><span class="s1">(IllegalAccessException e){</span>
+            <span class="s1">Log.e(TAG, </span><span class="s3">&quot;Error &quot;</span><span class="s1">+e.getMessage());</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setTreeModel(CIndexedLinkedHashMap&lt;String, CTreeModel&gt; treeModels, </span><span class="s0">int </span><span class="s1">defaultExpandLevel) </span><span class="s0">throws</span>
+            <span class="s1">IllegalAccessException {</span>
+        <span class="s0">this</span><span class="s1">.treeModels = treeModels;</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s0">this</span><span class="s1">.sort(defaultExpandLevel);</span>
+        <span class="s1">}</span><span class="s0">catch</span><span class="s1">(IllegalAccessException e){</span>
+            <span class="s1">Log.e(TAG, </span><span class="s3">&quot;Error &quot;</span><span class="s1">+e.getMessage());</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s2">/**</span>
+     <span class="s2">* add a tree model to an existing allNodes list without overriding the list</span>
+     <span class="s2">*</span>
+     <span class="s2">* </span><span class="s5">@param </span><span class="s2">treeModel tree model</span>
+     <span class="s2">* </span><span class="s5">@throws </span><span class="s2">IllegalAccessException exception</span>
+     <span class="s2">*/</span>
+    <span class="s0">public void </span><span class="s1">addTreeModelToAllNodes(CTreeModel treeModel) </span><span class="s0">throws </span><span class="s1">IllegalAccessException{</span>
+
+        <span class="s1">CNode node = CNodeHelper.convertTreeModel2NodeModel(treeModel);</span>
+
+<span class="s2">//        Object childNode = node.getTreeModelObject().getModelObject();</span>
+<span class="s2">//        if (childNode instanceof CWorkspaceModel){</span>
+<span class="s2">//            int wBITS = Integer.parseInt(((CWorkspaceModel) childNode).getWorkspaceServerID());</span>
+<span class="s2">//            int oBITS = ((COrganizationModel) node.getParent().getTreeModelObject().getModelObject()).</span>
+<span class="s2">//                    getWorkspaceBITS();</span>
+<span class="s2">//            ((COrganizationModel) node.getParent().getTreeModelObject().getModelObject()).</span>
+<span class="s2">//                    setWorkspaceBITS(oBITS|wBITS);</span>
+<span class="s2">//        }</span>
+
+        <span class="s1">addNodeToAllNodes(node);</span>
+        <span class="s1">allNodes = CNodeHelper.getSortedNodes(allNodes);</span>
+        <span class="s1">CNodeHelper.setExpandLevel(allNodes, -</span><span class="s4">1</span><span class="s1">);</span>
+
+        <span class="s1">visibleNodes = CNodeHelper.filterVisibleNodes(allNodes);</span>
+
+        <span class="s1">notifyDataSetChanged();</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">updateTreeModelInAllNodes(CTreeModel treeModel) </span><span class="s0">throws </span><span class="s1">IllegalAccessException {</span>
+        <span class="s1">CNode node = CNodeHelper.convertTreeModel2NodeModel(treeModel);</span>
+        <span class="s1">updateNodeInAllNodes(node);</span>
+    <span class="s1">}</span>
+
+
+    <span class="s0">public </span><span class="s1">CIndexedLinkedHashMap&lt;String, CTreeModel&gt; getTreeModel() {</span>
+        <span class="s0">return this</span><span class="s1">.treeModels;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">protected void </span><span class="s1">expandOrCollapse(</span><span class="s0">int </span><span class="s1">position) {</span>
+        <span class="s1">CNode node = visibleNodes.get(position);</span>
+        <span class="s0">if </span><span class="s1">(node == </span><span class="s0">null</span><span class="s1">) {</span>
+            <span class="s0">return</span><span class="s1">;</span>
+        <span class="s1">}</span>
+        <span class="s0">if </span><span class="s1">(node.isLeaf()) {</span>
+            <span class="s0">return</span><span class="s1">;</span>
+        <span class="s1">}</span>
+        <span class="s1">node.setExpand(!node.isExpand());</span>
+        <span class="s1">visibleNodes = CNodeHelper.filterVisibleNodes(allNodes);</span>
+        <span class="s1">notifyDataSetChanged();</span>
+    <span class="s1">}</span>
+
+    <span class="s2">/************************************* additional methods *************************************/</span>
+
+    <span class="s0">private void </span><span class="s1">addNodeToAllNodes(CNode node){</span>
+        <span class="s0">boolean </span><span class="s1">isDuplicate = </span><span class="s0">false</span><span class="s1">;</span>
+        <span class="s0">for</span><span class="s1">(CNode curr_node: allNodes){</span>
+            <span class="s0">if </span><span class="s1">(curr_node.getChildID().equals(node.getChildID())) {</span>
+                <span class="s1">isDuplicate = </span><span class="s0">true</span><span class="s1">;</span>
+                <span class="s0">break</span><span class="s1">;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s0">if</span><span class="s1">(!isDuplicate){</span>
+            <span class="s1">allNodes.add(node);</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">updateNodeInAllNodes(CNode node){</span>
+        <span class="s0">for</span><span class="s1">(</span><span class="s0">int </span><span class="s1">i = </span><span class="s4">0</span><span class="s1">; i &lt;= allNodes.size(); i++){</span>
+            <span class="s0">if </span><span class="s1">(allNodes.get(i).getChildID().equals(node.getChildID())) {</span>
+                <span class="s1">node.setExpand(allNodes.get(i).isExpand());</span>
+                <span class="s1">allNodes.set(i, node);</span>
+                <span class="s1">visibleNodes = CNodeHelper.filterVisibleNodes(allNodes);</span>
+                <span class="s1">notifyDataSetChanged();</span>
+                <span class="s0">break</span><span class="s1">;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">reloadTreeModels(String treeModelID){</span>
+        <span class="s0">for </span><span class="s1">(CNode node: allNodes) {</span>
+            <span class="s0">if </span><span class="s1">(node.getChildID().equals(treeModelID)) {</span>
+                <span class="s1">CNodeHelper.removeNode(allNodes, node);</span>
+                <span class="s0">break</span><span class="s1">;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+        <span class="s1">visibleNodes = CNodeHelper.filterVisibleNodes(allNodes);</span>
+
+        <span class="s1">Log.d(TAG, </span><span class="s3">&quot;ALL NODES ===== &quot;</span><span class="s1">+allNodes.size());</span>
+        <span class="s1">Log.d(TAG, </span><span class="s3">&quot;VISIBLE NODES ===== &quot;</span><span class="s1">+visibleNodes.size());</span>
+        <span class="s1">Log.d(TAG, </span><span class="s3">&quot;TREE MODELS ===== &quot;</span><span class="s1">+treeModels.size());</span>
+
+        <span class="s1">notifyDataSetChanged();</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">printAllNodes(){</span>
+        <span class="s1">StringBuilder nodes = </span><span class="s0">new </span><span class="s1">StringBuilder(</span><span class="s3">&quot;All Nodes: &quot;</span><span class="s1">);</span>
+        <span class="s0">for </span><span class="s1">(CNode node: allNodes){</span>
+            <span class="s1">nodes.append(node);</span>
+        <span class="s1">}</span>
+        <span class="s1">Log.d(TAG,</span><span class="s3">&quot; &quot;</span><span class="s1">+nodes);</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">printVisibleNodes(){</span>
+        <span class="s1">StringBuilder nodes = </span><span class="s0">new </span><span class="s1">StringBuilder(</span><span class="s3">&quot;Visible Nodes: &quot;</span><span class="s1">);</span>
+        <span class="s0">for </span><span class="s1">(CNode node: visibleNodes){</span>
+            <span class="s1">nodes.append(node);</span>
+        <span class="s1">}</span>
+        <span class="s1">Log.d(TAG,</span><span class="s3">&quot; &quot;</span><span class="s1">+nodes);</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

@@ -38,7 +38,7 @@ public class cUserModel implements Parcelable {
 
     Set<cAddressModel> addressModelSet;
     Set<cSessionModel> sessionModelSet;
-    Set<cPrivilegeModel> roleModelSet;
+    Set<CPrivilegeModel> roleModelSet;
     //Set<cNotificationModel> publisherModelSet;
     //Set<cNotificationModel> subscriberModelSet;
 
@@ -315,11 +315,11 @@ public class cUserModel implements Parcelable {
         this.sessionModelSet = sessionModelSet;
     }
 
-    public Set<cPrivilegeModel> getRoleModelSet() {
+    public Set<CPrivilegeModel> getRoleModelSet() {
         return roleModelSet;
     }
 
-    public void setRoleModelSet(Set<cPrivilegeModel> roleModelSet) {
+    public void setRoleModelSet(Set<CPrivilegeModel> roleModelSet) {
         this.roleModelSet = roleModelSet;
     }
 

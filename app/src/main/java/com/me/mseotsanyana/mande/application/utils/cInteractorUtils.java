@@ -1,8 +1,8 @@
-package com.me.mseotsanyana.mande.application.interactors;
+package com.me.mseotsanyana.mande.application.utils;
 
 import androidx.annotation.NonNull;
 
-import com.me.mseotsanyana.mande.application.preference.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
 
 import java.util.List;
 
@@ -24,7 +24,7 @@ public final class cInteractorUtils {
      * @param moduleBIT module bit
      * @return boolean
      */
-    public static boolean isModulePermitted(@NonNull iSharedPreferenceRepository preference,
+    public static boolean isModulePermitted(@NonNull ISessionManager preference,
                                             int moduleBIT) {
         return ((preference.loadModuleBITS() & moduleBIT) != 0);
     }
@@ -37,7 +37,7 @@ public final class cInteractorUtils {
      * @param entityBIT entity bit
      * @return boolean
      */
-    public static boolean isEntityPermitted(@NonNull iSharedPreferenceRepository preference,
+    public static boolean isEntityPermitted(@NonNull ISessionManager preference,
                                             int moduleBIT, int entityBIT) {
         return ((preference.loadEntityBITS(moduleBIT) & entityBIT) != 0);
     }

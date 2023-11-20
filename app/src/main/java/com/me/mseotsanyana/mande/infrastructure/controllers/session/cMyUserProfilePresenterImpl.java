@@ -1,33 +1,33 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
-import com.me.mseotsanyana.mande.usecases.executor.iExecutor;
-import com.me.mseotsanyana.mande.usecases.executor.iMainThread;
-import com.me.mseotsanyana.mande.usecases.interactors.session.user.Impl.cReadUserProfileInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.user.Impl.cUpdateUserProfileInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.user.iReadUserProfileInteractor;
-import com.me.mseotsanyana.mande.usecases.interactors.session.user.iUpdateUserProfileInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.interactors.session.user.Impl.cReadUserProfileInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.session.user.Impl.cUpdateUserProfileInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.session.user.iReadUserProfileInteractor;
+import com.me.mseotsanyana.mande.application.interactors.session.user.iUpdateUserProfileInteractor;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
-import com.me.mseotsanyana.mande.usecases.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.usecases.repository.session.iUserProfileRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.session.iMyUserProfilePresenter;
-import com.me.mseotsanyana.mande.UTIL.cInputValidation;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.repository.session.IUserProfileRepository;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iMyUserProfilePresenter;
+import com.me.mseotsanyana.mande.OLD.cInputValidation;
 
 public class cMyUserProfilePresenterImpl extends cAbstractPresenter implements iMyUserProfilePresenter,
         iReadUserProfileInteractor.Callback, iUpdateUserProfileInteractor.Callback {
     private static String TAG = cMyUserProfilePresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iSharedPreferenceRepository sessionManagerRepository;
-    private final iUserProfileRepository userProfileRepository;
+    private final ISessionManager sessionManagerRepository;
+    private final IUserProfileRepository userProfileRepository;
 
     private final cInputValidation inputValidation;
 
-    public cMyUserProfilePresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cMyUserProfilePresenterImpl(IExecutor executor, IMainThread mainThread,
                                        View view,
-                                       iSharedPreferenceRepository sessionManagerRepository,
-                                       iUserProfileRepository userProfileRepository) {
-        super(executor, mainThread);
+                                       ISessionManager sessionManagerRepository,
+                                       IUserProfileRepository userProfileRepository) {
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sessionManagerRepository = sessionManagerRepository;

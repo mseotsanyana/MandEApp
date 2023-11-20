@@ -27,7 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <!-- project expandable icon
+                    <!-- project expandable icon-->
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/textViewExpandIcon"
                         android:layout_width="25dp"
@@ -40,7 +40,7 @@
                         app:layout_constraintEnd_toStartOf="@+id/linearLayoutName"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />-->
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <!-- project name and code -->
                     <LinearLayout
@@ -48,7 +48,7 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:orientation="horizontal"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/textViewExpandIcon"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -83,7 +83,7 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:orientation="horizontal"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/textViewExpandIcon"
                         app:layout_constraintTop_toBottomOf="@+id/linearLayoutName">
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -118,7 +118,7 @@
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:orientation="horizontal"
-                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/textViewExpandIcon"
                         app:layout_constraintTop_toBottomOf="@+id/linearLayoutEmail">
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -228,11 +228,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <include
+                    <!--include
                         android:id="@+id/projectViewPager2"
-                        layout="@layout/me_tablayout_viewpager2" />
+                        layout="@layout/me_tablayout_viewpager2" /-->
 
-                    <!--include layout="@layout/me_common_attributes" /-->
+                    <include
+                        android:id="@+id/commonAttributes"
+                        layout="@layout/me_common_attributes" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

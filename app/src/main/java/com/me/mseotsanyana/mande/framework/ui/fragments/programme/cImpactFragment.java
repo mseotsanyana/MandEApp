@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.programme;
+package com.me.mseotsanyana.mande.framework.ui.fragments.programme;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -23,24 +23,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.Impl.cImpactPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iImpactPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iOutcomePresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.cImpactPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iImpactPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iOutcomePresenter;
 import com.me.mseotsanyana.mande.framework.ui.adapters.logframe.cImpactAdapter;
 import com.me.mseotsanyana.mande.framework.ui.adapters.session.cMELViewPagerAdapter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cImpactModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cOutcomeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cQuestionModel;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.programme.cImpactFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.programme.cImpactFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -150,10 +151,10 @@ public class cImpactFragment extends Fragment implements iImpactPresenter.View,
 
 
         impactPresenter = new cImpactPresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
                 this,
-                new cSharedPreferenceFirestoreRepositoryImpl(requireContext()),
+                null,
                 new cImpactFirestoreRepositoryImpl(getContext()), logFrameModel);
 
         // setup recycler view adapter
@@ -271,8 +272,18 @@ public class cImpactFragment extends Fragment implements iImpactPresenter.View,
         includeProgressBar.setVisibility(View.GONE);
     }
 
+
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 

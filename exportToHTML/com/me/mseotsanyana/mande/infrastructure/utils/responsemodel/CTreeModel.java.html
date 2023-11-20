@@ -1,0 +1,112 @@
+<html>
+<head>
+<title>CTreeModel.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #629755; font-style: italic;}
+.s3 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+CTreeModel.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.utils.responsemodel</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">android.os.Parcel</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">android.os.Parcelable</span><span class="s0">;</span>
+
+<span class="s2">/**</span>
+ <span class="s2">* Created by mseotsanyana on 2017/02/24.</span>
+ <span class="s2">*/</span>
+
+<span class="s0">public class </span><span class="s1">CTreeModel </span><span class="s0">implements </span><span class="s1">Parcelable {</span>
+    <span class="s1">@INodeChildID</span>
+    <span class="s0">private </span><span class="s1">String childID</span><span class="s0">;</span>
+    <span class="s1">@INodeParentID</span>
+    <span class="s0">private </span><span class="s1">String parentID</span><span class="s0">;</span>
+
+    <span class="s0">private int </span><span class="s1">type</span><span class="s0">;</span>
+    <span class="s0">private </span><span class="s1">Object modelObject</span><span class="s0">;</span>
+
+    <span class="s0">public </span><span class="s1">CTreeModel(String childID</span><span class="s0">, </span><span class="s1">String parentID</span><span class="s0">, int </span><span class="s1">type</span><span class="s0">, </span><span class="s1">Object CTreeModel) {</span>
+        <span class="s0">this</span><span class="s1">.childID  = childID</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.parentID = parentID</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.type     = type</span><span class="s0">;</span>
+        <span class="s0">this</span><span class="s1">.modelObject = CTreeModel</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">CTreeModel(Object CTreeModel) {</span>
+        <span class="s0">this</span><span class="s1">.modelObject = CTreeModel</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">protected </span><span class="s1">CTreeModel(Parcel in) {</span>
+        <span class="s1">childID = in.readString()</span><span class="s0">;</span>
+        <span class="s1">parentID = in.readString()</span><span class="s0">;</span>
+        <span class="s1">type = in.readInt()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">writeToParcel(Parcel dest</span><span class="s0">, int </span><span class="s1">flags) {</span>
+        <span class="s1">dest.writeString(childID)</span><span class="s0">;</span>
+        <span class="s1">dest.writeString(parentID)</span><span class="s0">;</span>
+        <span class="s1">dest.writeInt(type)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public int </span><span class="s1">describeContents() {</span>
+        <span class="s0">return </span><span class="s3">0</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public static final </span><span class="s1">Creator&lt;CTreeModel&gt; CREATOR = </span><span class="s0">new </span><span class="s1">Creator&lt;CTreeModel&gt;() {</span>
+        <span class="s1">@Override</span>
+        <span class="s0">public </span><span class="s1">CTreeModel createFromParcel(Parcel in) {</span>
+            <span class="s0">return new </span><span class="s1">CTreeModel(in)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+        <span class="s1">@Override</span>
+        <span class="s0">public </span><span class="s1">CTreeModel[] newArray(</span><span class="s0">int </span><span class="s1">size) {</span>
+            <span class="s0">return new </span><span class="s1">CTreeModel[size]</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span><span class="s0">;</span>
+
+    <span class="s0">public </span><span class="s1">String getChildID() {</span>
+        <span class="s0">return </span><span class="s1">childID</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setChildID(String childID) {</span>
+        <span class="s0">this</span><span class="s1">.childID = childID</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">String getParentID() {</span>
+        <span class="s0">return </span><span class="s1">parentID</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setParentID(String parentID) {</span>
+        <span class="s0">this</span><span class="s1">.parentID = parentID</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public int </span><span class="s1">getType() {</span>
+        <span class="s0">return </span><span class="s1">type</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setType(</span><span class="s0">int </span><span class="s1">type) {</span>
+        <span class="s0">this</span><span class="s1">.type = type</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public </span><span class="s1">Object getModelObject() {</span>
+        <span class="s0">return </span><span class="s1">modelObject</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setModelObject(Object modelObject) {</span>
+        <span class="s0">this</span><span class="s1">.modelObject = modelObject</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

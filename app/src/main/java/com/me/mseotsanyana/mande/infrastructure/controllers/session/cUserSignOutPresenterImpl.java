@@ -1,27 +1,26 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
-import com.me.mseotsanyana.mande.usecases.executor.iExecutor;
-import com.me.mseotsanyana.mande.usecases.executor.iMainThread;
-import com.me.mseotsanyana.mande.usecases.interactors.session.user.Impl.cUserSignOutInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.user.iUserSignOutInteractor;
-import com.me.mseotsanyana.mande.usecases.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.usecases.repository.session.iUserProfileRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.session.iUserSignOutPresenter;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.interactors.session.user.IUserSignOutInteractor;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.repository.session.IUserProfileRepository;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iUserSignOutPresenter;
 
 public class cUserSignOutPresenterImpl extends cAbstractPresenter implements iUserSignOutPresenter,
-        iUserSignOutInteractor.Callback {
+        IUserSignOutInteractor.Callback {
     //private static String TAG = cUserSignOutPresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iSharedPreferenceRepository sharedPreferenceRepository;
-    private final iUserProfileRepository userProfileRepository;
+    private final ISessionManager sharedPreferenceRepository;
+    private final IUserProfileRepository userProfileRepository;
 
-    public cUserSignOutPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cUserSignOutPresenterImpl(IExecutor executor, IMainThread mainThread,
                                      View view,
-                                     iSharedPreferenceRepository sharedPreferenceRepository,
-                                     iUserProfileRepository userProfileRepository) {
-        super(executor, mainThread);
+                                     ISessionManager sharedPreferenceRepository,
+                                     IUserProfileRepository userProfileRepository) {
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sharedPreferenceRepository = sharedPreferenceRepository;
@@ -30,15 +29,15 @@ public class cUserSignOutPresenterImpl extends cAbstractPresenter implements iUs
 
     @Override
     public void signOutWithEmailAndPassword() {
-        iUserSignOutInteractor userSignOutInteractor = new cUserSignOutInteractorImpl(
-                executor,
-                mainThread,this,
-                sharedPreferenceRepository,
-                userProfileRepository);
-
-        view.showProgress();
-
-        userSignOutInteractor.execute();
+//        IUserSignOutInteractor userSignOutInteractor = new CUserSignOutInteractorImpl(
+//                executor,
+//                mainThread,this,
+//                sharedPreferenceRepository,
+//                userProfileRepository);
+//
+//        view.showProgress();
+//
+//        userSignOutInteractor.execute();
     }
 
     @Override

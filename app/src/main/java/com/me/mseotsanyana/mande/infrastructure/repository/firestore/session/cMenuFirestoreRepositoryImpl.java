@@ -1,9 +1,9 @@
-package com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.session;
+package com.me.mseotsanyana.mande.infrastructure.repository.firestore.session;
 
 import android.content.Context;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.me.mseotsanyana.mande.usecases.repository.session.iMenuRepository;
+import com.me.mseotsanyana.mande.application.repository.session.iMenuRepository;
 
 public class cMenuFirestoreRepositoryImpl implements iMenuRepository {
     //private static final String TAG = cMenuFirestoreRepositoryImpl.class.getSimpleName();

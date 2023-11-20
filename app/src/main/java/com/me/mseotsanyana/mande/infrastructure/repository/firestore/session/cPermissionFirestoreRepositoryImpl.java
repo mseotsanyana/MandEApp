@@ -10,14 +10,14 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.gson.Gson;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cEntityModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cMenuModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CMenuModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CPrivilegeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cSectionModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUnixOperationCollection;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUnixOperationModel;
-import com.me.mseotsanyana.mande.application.repository.session.iPrivilegeRepository;
-import com.me.mseotsanyana.mande.application.structures.CFirebaseConstant;
-import com.me.mseotsanyana.mande.application.utils.cDatabaseUtils;
+import com.me.mseotsanyana.mande.application.repository.session.IPermissionRepository;
+import com.me.mseotsanyana.mande.application.structures.CFirestoreConstant;
+import com.me.mseotsanyana.mande.application.utils.CFirestoreUtility;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
@@ -28,8 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class cPrivilegeFirestoreRepositoryImpl implements iPrivilegeRepository {
-    private static final String TAG = cPrivilegeFirestoreRepositoryImpl.class.getSimpleName();
+public class cPermissionFirestoreRepositoryImpl implements IPermissionRepository {
+    private static final String TAG = cPermissionFirestoreRepositoryImpl.class.getSimpleName();
 
     private static final int MENUITEM_SECTION = 1;
     private static final int ENTITYMODULE_SECTION = 4;
@@ -41,7 +41,7 @@ public class cPrivilegeFirestoreRepositoryImpl implements iPrivilegeRepository {
 
     Gson gson = new Gson();
 
-    public cPrivilegeFirestoreRepositoryImpl(Context context) {
+    public cPermissionFirestoreRepositoryImpl(Context context) {
         this.context = context;
         this.db = FirebaseFirestore.getInstance();
     }
@@ -64,26 +64,26 @@ public class cPrivilegeFirestoreRepositoryImpl implements iPrivilegeRepository {
                                         iReadWorkspacePrivilegesCallback callback) {
 
         CollectionReference coWorkspacePrivilegesRef;
-        coWorkspacePrivilegesRef = db.collection(CFirebaseConstant.KEY_WORKSPACE_PRIVILEGES);
+        coWorkspacePrivilegesRef = db.collection(CFirestoreConstant.KEY_WORKSPACE_PRIVILEGES);
 
         Query workspaceQuery;
-        workspaceQuery = cDatabaseUtils.filterResourcesByStatus(coWorkspacePrivilegesRef,
+        workspaceQuery = CFirestoreUtility.filterResourcesByStatus(coWorkspacePrivilegesRef,
                 organizationServerID, myOrganizations, statusBITS);
 
         workspaceQuery.get()
                 .addOnCompleteListener(task -> {
-                    Map<String, cPrivilegeModel> workspaceModelMap = new HashMap<>();
+                    Map<String, CPrivilegeModel> workspaceModelMap = new HashMap<>();
                     List<cTreeModel> treeModels;
-                    cPrivilegeModel privilegeModel;
+                    CPrivilegeModel privilegeModel;
 
                     for (QueryDocumentSnapshot doc : Objects.requireNonNull(task.getResult())) {
-                        privilegeModel = doc.toObject(cPrivilegeModel.class);
+                        privilegeModel = doc.toObject(CPrivilegeModel.class);
                         workspaceModelMap.put(doc.getId(), privilegeModel);
                     }
 
                     // add maps of menu items and entities not in the db
                     // return all menus
-                    treeModels = cDatabaseUtils.buildWorkspacePrivileges(context, workspaceModelMap);
+                    treeModels = CFirestoreUtility.buildWorkspacePrivileges(context, workspaceModelMap);
                     /* call back on list of user permissions by roles */
                     callback.onReadWorkspacePrivilegesSucceeded(treeModels);
                 })
@@ -112,7 +112,7 @@ public class cPrivilegeFirestoreRepositoryImpl implements iPrivilegeRepository {
 //        }
 
         /* use the root to build the tree of the selected permissions */
-        cPrivilegeModel privilegeModel = null;
+        CPrivilegeModel privilegeModel = null;
 
         if (node != null) {
             privilegeModel = updateWorkspacePrivilegePermissions(node);
@@ -121,7 +121,7 @@ public class cPrivilegeFirestoreRepositoryImpl implements iPrivilegeRepository {
         /* update permissions in the cloud */
         if (privilegeModel != null) {
             CollectionReference coWorkspacePrivilegeRef = db.collection(
-                    CFirebaseConstant.KEY_WORKSPACE_PRIVILEGES);
+                    CFirestoreConstant.KEY_WORKSPACE_PRIVILEGES);
             coWorkspacePrivilegeRef.document(privilegeModel.getPrivilegeServerID()).set(privilegeModel)
                     .addOnSuccessListener(unused -> callback.onUpdateWorkspacePrivilegeSucceeded(
                             "Permissions successfully updated"))
@@ -138,7 +138,7 @@ public class cPrivilegeFirestoreRepositoryImpl implements iPrivilegeRepository {
      * @return root node
      */
     @NonNull
-    private cPrivilegeModel updateWorkspacePrivilegePermissions(@NonNull cNode node) {
+    private CPrivilegeModel updateWorkspacePrivilegePermissions(@NonNull cNode node) {
 
 
         //privilegeModel.setPrivilegeServerID(privilege.getPrivilegeServerID());
@@ -149,8 +149,8 @@ public class cPrivilegeFirestoreRepositoryImpl implements iPrivilegeRepository {
 
         /* update the privilege model */
         cTreeModel treeModel = (cTreeModel) node.getObj();
-        cPrivilegeModel privilege = (cPrivilegeModel) treeModel.getModelObject();
-        cPrivilegeModel privilegeModel = new cPrivilegeModel(privilege);
+        CPrivilegeModel privilege = (CPrivilegeModel) treeModel.getModelObject();
+        CPrivilegeModel privilegeModel = new CPrivilegeModel(privilege);
         privilegeModel.setModifiedDate(new Date());
 
 
@@ -167,13 +167,13 @@ public class cPrivilegeFirestoreRepositoryImpl implements iPrivilegeRepository {
                 for (cNode mainmenu : module.getChildren()) {
 
                     cTreeModel mainmenuTreeModel = (cTreeModel) mainmenu.getObj();
-                    cMenuModel menuModel = (cMenuModel) mainmenuTreeModel.getModelObject();
+                    CMenuModel menuModel = (CMenuModel) mainmenuTreeModel.getModelObject();
 
                     List<Integer> submenu_ids = new ArrayList<>();
                     if (menuModel.isChecked()) {
                         for (cNode submenu : mainmenu.getChildren()) {
                             cTreeModel submenuTreeModel = (cTreeModel) submenu.getObj();
-                            cMenuModel submenuModel = (cMenuModel) submenuTreeModel.getModelObject();
+                            CMenuModel submenuModel = (CMenuModel) submenuTreeModel.getModelObject();
                             if (submenuModel.isChecked()) {
                                 submenu_ids.add(submenuModel.getMenuServerID());
                             }

@@ -1,0 +1,517 @@
+<html>
+<head>
+<title>COrganizationWorkspacePresenterImpl.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #0033b3;}
+.s1 { color: #080808;}
+.s2 { color: #8c8c8c; font-style: italic;}
+.s3 { color: #1750eb;}
+.s4 { color: #067d17;}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+COrganizationWorkspacePresenterImpl.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.presenters.session;</span>
+
+<span class="s0">import </span><span class="s1">android.util.Log;</span>
+
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.application.ports.base.IInteractor;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.application.structures.CResponseDTO;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.application.structures.IResponseDTO;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.application.structures.enums.EAction;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.application.structures.CIndexedLinkedHashMap;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.ports.session.IOrganizationWorkspaceController;</span>
+<span class="s0">import </span><span class="s1">com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;</span>
+
+<span class="s0">import </span><span class="s1">java.util.Objects;</span>
+
+<span class="s0">public class </span><span class="s1">COrganizationWorkspacePresenterImpl </span><span class="s0">implements</span>
+        <span class="s1">IInteractor.IPresenter&lt;IResponseDTO&lt;Object&gt;&gt; {</span>
+    <span class="s0">private static final </span><span class="s1">String TAG = COrganizationWorkspacePresenterImpl.</span><span class="s0">class</span><span class="s1">.getSimpleName();</span>
+
+    <span class="s0">private final </span><span class="s1">IOrganizationWorkspaceController.IViewModel iViewModel;</span>
+
+    <span class="s0">private final </span><span class="s1">CIndexedLinkedHashMap&lt;String, CTreeModel&gt; treeModels;</span>
+
+    <span class="s0">public </span><span class="s1">COrganizationWorkspacePresenterImpl(</span>
+            <span class="s1">IOrganizationWorkspaceController.IViewModel iViewModel) {</span>
+        <span class="s0">this</span><span class="s1">.iViewModel = iViewModel;</span>
+        <span class="s0">this</span><span class="s1">.treeModels = </span><span class="s0">new </span><span class="s1">CIndexedLinkedHashMap&lt;&gt;();</span>
+    <span class="s1">}</span>
+
+    <span class="s2">/*************************** organization workspace feedback methods **************************/</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onSuccess(IResponseDTO&lt;Object&gt; response) {</span>
+        <span class="s1">EAction operation = response.getAction();</span>
+        <span class="s1">COrganizationModel organizationModel;</span>
+        <span class="s1">CWorkspaceModel workspaceModel;</span>
+
+        <span class="s0">switch </span><span class="s1">(operation) {</span>
+            <span class="s0">case </span><span class="s1">Added_ORGANIZATION:</span>
+                <span class="s1">organizationModel = (COrganizationModel) response.getData();</span>
+                <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.iViewModel != </span><span class="s0">null</span><span class="s1">) {</span>
+                    <span class="s2">// update the response model</span>
+                    <span class="s0">if </span><span class="s1">(!treeModels.containsKey(organizationModel.getOrganizationServerID())) {</span>
+                        <span class="s1">CTreeModel treeModel;</span>
+                        <span class="s1">treeModel = </span><span class="s0">new </span><span class="s1">CTreeModel(organizationModel.getOrganizationServerID(),</span>
+                                <span class="s0">null</span><span class="s1">, </span><span class="s3">0</span><span class="s1">, organizationModel);</span>
+                        <span class="s1">treeModels.add(organizationModel.getOrganizationServerID(), treeModel);</span>
+                        <span class="s0">this</span><span class="s1">.iViewModel.onAddTreeModel(</span><span class="s0">new </span><span class="s1">CResponseDTO&lt;&gt;(EAction.Added_ORGANIZATION,</span>
+                                <span class="s1">treeModel));</span>
+                    <span class="s1">}</span>
+
+                    <span class="s0">this</span><span class="s1">.iViewModel.hideProgress();</span>
+                <span class="s1">}</span>
+                <span class="s0">break</span><span class="s1">;</span>
+
+            <span class="s0">case </span><span class="s1">Created_WORKSPACE:</span>
+                <span class="s1">Log.i(TAG, </span><span class="s4">&quot;Created Workspace under an organization.&quot;</span><span class="s1">);</span>
+<span class="s2">//</span>
+<span class="s2">//                workspaceModel = (CWorkspaceModel) response.getData();</span>
+<span class="s2">//</span>
+<span class="s2">//                if (this.iViewModel != null) {</span>
+<span class="s2">//                    if (response.getData() instanceof CWorkspaceModel) {</span>
+<span class="s2">//                        // update the response model</span>
+<span class="s2">//                        CTreeModel treeModel = new CTreeModel(workspaceModel.getCompositeServerID(),</span>
+<span class="s2">//                                workspaceModel.getOrganizationServerID(), 1, workspaceModel);</span>
+<span class="s2">//                        treeModels.add(workspaceModel.getCompositeServerID(), treeModel);</span>
+<span class="s2">//                        this.iViewModel.showTreeModel(new CResponseDTO&lt;&gt;(EAction.Added_WORKSPACE,</span>
+<span class="s2">//                                treeModels));</span>
+<span class="s2">//                    } else if (response.getData() instanceof String) {</span>
+<span class="s2">//                        this.iViewModel.hideProgress();</span>
+<span class="s2">//                    }</span>
+<span class="s2">//                }</span>
+                <span class="s0">break</span><span class="s1">;</span>
+
+            <span class="s0">case </span><span class="s1">Added_WORKSPACE:</span>
+
+                <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.iViewModel != </span><span class="s0">null</span><span class="s1">) {</span>
+                    <span class="s0">if </span><span class="s1">(response.getData() </span><span class="s0">instanceof </span><span class="s1">CWorkspaceModel) {</span>
+                        <span class="s1">workspaceModel = (CWorkspaceModel) response.getData();</span>
+                        <span class="s1">CTreeModel treeModel = </span><span class="s0">new </span><span class="s1">CTreeModel(workspaceModel.getCompositeServerID(),</span>
+                                <span class="s1">workspaceModel.getOrganizationServerID(), </span><span class="s3">1</span><span class="s1">, workspaceModel);</span>
+                        <span class="s1">treeModels.add(workspaceModel.getCompositeServerID(), treeModel);</span>
+
+                        <span class="s1">COrganizationModel modelObject = (COrganizationModel)</span>
+                                <span class="s1">Objects.requireNonNull(treeModels.get(treeModel.getParentID())).</span>
+                                        <span class="s1">getModelObject();</span>
+
+                        <span class="s0">this</span><span class="s1">.iViewModel.onAddTreeModel(</span><span class="s0">new </span><span class="s1">CResponseDTO&lt;&gt;(EAction.Added_WORKSPACE,</span>
+                                <span class="s1">treeModel));</span>
+                        <span class="s0">this</span><span class="s1">.iViewModel.hideProgress();</span>
+                        <span class="s1">Log.i(TAG, </span><span class="s4">&quot;Added Workspace under an organization.&quot;</span><span class="s1">+modelObject.getWorkspaceBITS());</span>
+                    <span class="s1">}</span>
+                <span class="s1">}</span>
+                <span class="s0">break</span><span class="s1">;</span>
+
+            <span class="s0">case </span><span class="s1">Modified_ORGANIZATION:</span>
+                <span class="s1">organizationModel = (COrganizationModel) response.getData();</span>
+                <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.iViewModel != </span><span class="s0">null</span><span class="s1">) {</span>
+                    <span class="s2">// update the response model</span>
+                    <span class="s0">if </span><span class="s1">(treeModels.containsKey(organizationModel.getOrganizationServerID())) {</span>
+                        <span class="s1">CTreeModel treeModel;</span>
+                        <span class="s1">treeModel = </span><span class="s0">new </span><span class="s1">CTreeModel(organizationModel.getOrganizationServerID(),</span>
+                                <span class="s0">null</span><span class="s1">, </span><span class="s3">0</span><span class="s1">, organizationModel);</span>
+                        <span class="s1">treeModels.replace(organizationModel.getOrganizationServerID(), treeModel);</span>
+                        <span class="s0">this</span><span class="s1">.iViewModel.onAddTreeModel(</span><span class="s0">new </span><span class="s1">CResponseDTO&lt;&gt;(EAction.Modified_ORGANIZATION,</span>
+                                <span class="s1">treeModel));</span>
+                        <span class="s0">this</span><span class="s1">.iViewModel.hideProgress();</span>
+                    <span class="s1">}</span>
+                    <span class="s1">Log.d(TAG, </span><span class="s4">&quot;Modified Organization&quot;</span><span class="s1">);</span>
+
+                <span class="s1">}</span>
+                <span class="s0">break</span><span class="s1">;</span>
+
+            <span class="s0">case </span><span class="s1">Modified_WORKSPACE:</span>
+                <span class="s1">Log.d(TAG, </span><span class="s4">&quot;Modified Workspace&quot;</span><span class="s1">);</span>
+                <span class="s0">break</span><span class="s1">;</span>
+
+            <span class="s0">case </span><span class="s1">Deleted_ORGANIZATION:</span>
+                <span class="s1">Log.d(TAG, </span><span class="s4">&quot;Deleted Organization&quot;</span><span class="s1">);</span>
+                <span class="s0">break</span><span class="s1">;</span>
+
+            <span class="s0">case </span><span class="s1">Deleted_WORKSPACE:</span>
+                <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.iViewModel != </span><span class="s0">null</span><span class="s1">) {</span>
+                    <span class="s0">if </span><span class="s1">(response.getData() </span><span class="s0">instanceof </span><span class="s1">CWorkspaceModel) {</span>
+                        <span class="s1">workspaceModel = (CWorkspaceModel) response.getData();</span>
+                        <span class="s1">Log.d(TAG, </span><span class="s4">&quot; 1 ------------- &quot; </span><span class="s1">+ treeModels.keySet());</span>
+                        <span class="s0">this</span><span class="s1">.treeModels.removeItemByKey(workspaceModel.getCompositeServerID());</span>
+                        <span class="s1">Log.d(TAG, </span><span class="s4">&quot; 2 ------------- &quot; </span><span class="s1">+ treeModels.keySet());</span>
+                        <span class="s0">this</span><span class="s1">.iViewModel.onUpdateTreeModels(</span><span class="s0">new </span><span class="s1">CResponseDTO&lt;&gt;(EAction.Deleted_WORKSPACE,</span>
+                                <span class="s1">workspaceModel.getCompositeServerID()));</span>
+                    <span class="s1">} </span><span class="s0">else if </span><span class="s1">(response.getData() </span><span class="s0">instanceof </span><span class="s1">String) {</span>
+                        <span class="s0">this</span><span class="s1">.iViewModel.showMessage((String) response.getData());</span>
+
+                    <span class="s1">}</span>
+                    <span class="s0">this</span><span class="s1">.iViewModel.hideProgress();</span>
+                <span class="s1">}</span>
+
+                <span class="s1">Log.d(TAG, </span><span class="s4">&quot;Deleted Workspace&quot;</span><span class="s1">);</span>
+                <span class="s0">break</span><span class="s1">;</span>
+
+            <span class="s0">case </span><span class="s1">Switched_WORKSPACE:</span>
+                <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.iViewModel != </span><span class="s0">null</span><span class="s1">) {</span>
+                    <span class="s0">this</span><span class="s1">.iViewModel.switchResponse((String) response.getData());</span>
+                    <span class="s0">this</span><span class="s1">.iViewModel.hideProgress();</span>
+                <span class="s1">}</span>
+                <span class="s0">break</span><span class="s1">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onError(Throwable throwable) {</span>
+        <span class="s0">if </span><span class="s1">(</span><span class="s0">this</span><span class="s1">.iViewModel != </span><span class="s0">null</span><span class="s1">) {</span>
+            <span class="s0">this</span><span class="s1">.iViewModel.showMessage(throwable.getMessage());</span>
+            <span class="s0">this</span><span class="s1">.iViewModel.hideProgress();</span>
+        <span class="s1">}</span>
+        <span class="s2">//Log.i(TAG, throwable.getMessage());</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+
+<span class="s2">//    } else if(EModified.ORGANIZATION.equals(operation))</span>
+<span class="s2">//</span>
+<span class="s2">//    {</span>
+<span class="s2">//        if (response.getData() instanceof COrganizationModel) {</span>
+<span class="s2">//            Log.d(TAG, &quot;Modified Organization&quot;);</span>
+<span class="s2">//        }</span>
+<span class="s2">//        if (response.getData() instanceof CWorkspaceModel) {</span>
+<span class="s2">//            Log.d(TAG, &quot;Modified Organization&quot;);</span>
+<span class="s2">//        }</span>
+<span class="s2">//    } else if(EDeleted.ORGANIZATION.equals(operation))</span>
+<span class="s2">//</span>
+<span class="s2">//    {</span>
+<span class="s2">//        if (response.getData() instanceof COrganizationModel) {</span>
+<span class="s2">//            Log.d(TAG, &quot;Delete Organization&quot;);</span>
+<span class="s2">//        }</span>
+<span class="s2">//</span>
+<span class="s2">//        if (response.getData() instanceof CWorkspaceModel) {</span>
+<span class="s2">//            Log.d(TAG, &quot;Delete Workspace&quot;);</span>
+<span class="s2">//        }</span>
+<span class="s2">//</span>
+<span class="s2">//    } else if(CConstantModel.NONEENTITY.equals(operation))</span>
+<span class="s2">//</span>
+<span class="s2">//    {</span>
+<span class="s2">//</span>
+<span class="s2">//</span>
+<span class="s2">//    } else if(CConstantModel.SIGNOUT.equals(operation))</span>
+<span class="s2">//</span>
+<span class="s2">//    {</span>
+<span class="s2">//        if (this.iViewModel != null) {</span>
+<span class="s2">//            this.iViewModel.showResponseMessage((String) response.getData());</span>
+<span class="s2">//            this.iViewModel.hideProgress();</span>
+<span class="s2">//        }</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//}</span>
+<span class="s2">//</span>
+<span class="s2">//</span>
+<span class="s2">//}</span>
+
+<span class="s2">//        response.getOperation()</span>
+<span class="s2">//</span>
+<span class="s2">//        CResponseDTO responseModel;</span>
+<span class="s2">//</span>
+<span class="s2">//        for (Map.Entry&lt;String, Object&gt; entry : response.entrySet()) {</span>
+<span class="s2">//</span>
+<span class="s2">//            switch (entry.getKey()) {</span>
+<span class="s2">//</span>
+<span class="s2">//                case CConstantModel.ORGANIZATION:</span>
+<span class="s2">//                    responseModel = (CResponseDTO) entry.getValue();</span>
+<span class="s2">//</span>
+<span class="s2">//                    COrganizationModel organizationModel;</span>
+<span class="s2">//                    organizationModel = (COrganizationModel) responseModel.getData();</span>
+<span class="s2">//                    if (this.iViewModel != null) {</span>
+<span class="s2">//                        // update the response model</span>
+<span class="s2">//                        if (!treeModels.containsKey(organizationModel.getOrganizationServerID())) {</span>
+<span class="s2">//                            CTreeModel treeModel;</span>
+<span class="s2">//                            treeModel = new CTreeModel(organizationModel.getOrganizationServerID(),</span>
+<span class="s2">//                                    null, 0, organizationModel);</span>
+<span class="s2">//                            treeModels.put(organizationModel.getOrganizationServerID(), treeModel);</span>
+<span class="s2">//                        }</span>
+<span class="s2">//                        this.iViewModel.showResponse(treeModels);</span>
+<span class="s2">//                        this.iViewModel.hideProgress();</span>
+<span class="s2">//                    }</span>
+<span class="s2">//                    break;</span>
+<span class="s2">//</span>
+<span class="s2">//                case CConstantModel.WORKSPACE:</span>
+<span class="s2">//</span>
+<span class="s2">//                    responseModel = (CResponseDTO) entry.getValue();</span>
+<span class="s2">//</span>
+<span class="s2">//                    switch (responseModel.getOperation()) {</span>
+<span class="s2">//                        case CConstantModel.CREATED:</span>
+<span class="s2">//</span>
+<span class="s2">//                            break;</span>
+<span class="s2">//                        case CConstantModel.ADDED:</span>
+<span class="s2">//</span>
+<span class="s2">//                            CWorkspaceModel workspaceModel = (CWorkspaceModel) responseModel.getData();</span>
+<span class="s2">//</span>
+<span class="s2">//                            if (this.iViewModel != null) {</span>
+<span class="s2">//                                // update the response model</span>
+<span class="s2">//                                CTreeModel treeModel = new CTreeModel(workspaceModel.getCompositeServerID(),</span>
+<span class="s2">//                                        workspaceModel.getOrganizationServerID(), 1, workspaceModel);</span>
+<span class="s2">//                                treeModels.put(workspaceModel.getCompositeServerID(), treeModel);</span>
+<span class="s2">//                                this.iViewModel.showResponse(treeModels);</span>
+<span class="s2">//                                this.iViewModel.hideProgress();</span>
+<span class="s2">//                            }</span>
+<span class="s2">//                        case CConstantModel.DELETED:</span>
+<span class="s2">//                            if (this.iViewModel != null) {</span>
+<span class="s2">//                                this.iViewModel.hideProgress();</span>
+<span class="s2">//                            }</span>
+<span class="s2">//                            break;</span>
+<span class="s2">//                    }</span>
+<span class="s2">//</span>
+<span class="s2">//                    break;</span>
+<span class="s2">//</span>
+<span class="s2">//                case CConstantModel.NONEENTITY:</span>
+<span class="s2">//                    if (this.iViewModel != null) {</span>
+<span class="s2">//                        this.iViewModel.switchResponse((String) entry.getValue());</span>
+<span class="s2">//                        this.iViewModel.hideProgress();</span>
+<span class="s2">//                    }</span>
+<span class="s2">//                    break;</span>
+<span class="s2">//</span>
+<span class="s2">//                case CConstantModel.SIGNOUT:</span>
+<span class="s2">//                    if (this.iViewModel != null) {</span>
+<span class="s2">//                        this.iViewModel.showResponseMessage((String) entry.getValue());</span>
+<span class="s2">//                        this.iViewModel.hideProgress();</span>
+<span class="s2">//                    }</span>
+<span class="s2">//                    break;</span>
+<span class="s2">//            }</span>
+<span class="s2">//        }</span>
+
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnCreateOrganizationSucceeded(String msg) {</span>
+<span class="s2">//</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnReadOrganizationSucceeded(COrganizationModel organizationModel, String operation) {</span>
+<span class="s2">//        if (this.iViewModel != null) {</span>
+<span class="s2">//            // update the response model</span>
+<span class="s2">//            if (!treeModels.containsKey(organizationModel.getOrganizationServerID())) {</span>
+<span class="s2">//                CTreeModel treeModel;</span>
+<span class="s2">//                treeModel = new CTreeModel(organizationModel.getOrganizationServerID(),</span>
+<span class="s2">//                        null, 0, organizationModel);</span>
+<span class="s2">//                treeModels.add(organizationModel.getOrganizationServerID(), treeModel);</span>
+<span class="s2">//            }</span>
+<span class="s2">//            this.iViewModel.OnReadOrganizationSucceeded(treeModels);</span>
+<span class="s2">//            this.iViewModel.hideProgress();</span>
+<span class="s2">//        }</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnUpdateOrganizationSucceeded(String msg) {</span>
+<span class="s2">//</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnDeleteOrganizationSucceeded(String msg) {</span>
+<span class="s2">//</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnInviteToOrganizationSucceeded(String msg) {</span>
+<span class="s2">//</span>
+<span class="s2">//    }</span>
+
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnCreateWorkspaceSucceeded(String msg) {</span>
+<span class="s2">//</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnReadWorkspaceSucceeded(CWorkspaceModel workspaceModel, String operation,</span>
+<span class="s2">//                                         int position) {</span>
+<span class="s2">//        if (this.iViewModel != null) {</span>
+<span class="s2">//            // update the response model</span>
+<span class="s2">//            CTreeModel treeModel = new CTreeModel(workspaceModel.getCompositeServerID(),</span>
+<span class="s2">//                    workspaceModel.getOrganizationServerID(), 1, workspaceModel);</span>
+<span class="s2">//</span>
+<span class="s2">//            this.iViewModel.OnReadWorkspaceSucceeded(treeModel, position);</span>
+<span class="s2">//            this.iViewModel.hideProgress();</span>
+<span class="s2">//        }</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnUpdateWorkspaceSucceeded(String msg) {</span>
+<span class="s2">//</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnDeleteWorkspaceSucceeded(String msg) {</span>
+<span class="s2">//</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnInviteToWorkspaceSucceeded(String msg) {</span>
+<span class="s2">//</span>
+<span class="s2">//    }</span>
+
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnPreferenceClearedSucceeded(String msg) {</span>
+<span class="s2">//        if (this.iViewModel != null) {</span>
+<span class="s2">//            this.iViewModel.OnPreferenceClearedSucceeded(msg);</span>
+<span class="s2">//            this.iViewModel.hideProgress();</span>
+<span class="s2">//        }</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void OnPreferenceClearedFailed(String msg) {</span>
+<span class="s2">//        if (this.iViewModel != null) {</span>
+<span class="s2">//            this.iViewModel.OnPreferenceClearedFailed(msg);</span>
+<span class="s2">//            this.iViewModel.hideProgress();</span>
+<span class="s2">//        }</span>
+<span class="s2">//    }</span>
+
+
+<span class="s2">//    // CREATE ORGANIZATION</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void createOrganization(COrganizationModel organizationModel) {</span>
+<span class="s2">//        /*if (!inputValidation.isEditTextFilled(view.getNameEditText(),</span>
+<span class="s2">//                view.getResourceString(R.string.error_message_email))) {</span>
+<span class="s2">//            return;</span>
+<span class="s2">//        }</span>
+<span class="s2">//</span>
+<span class="s2">//        if (!inputValidation.isEditTextFilled(view.getEmailEditText(),</span>
+<span class="s2">//                view.getResourceString(R.string.error_message_email))) {</span>
+<span class="s2">//            return;</span>
+<span class="s2">//        }</span>
+<span class="s2">//</span>
+<span class="s2">//        if (!inputValidation.isEditTextFilled(view.getWebsiteEditText(),</span>
+<span class="s2">//                view.getResourceString(R.string.error_message_email))) {</span>
+<span class="s2">//            return;</span>
+<span class="s2">//        }</span>
+<span class="s2">//</span>
+<span class="s2">//        if (!inputValidation.isEditTextEmail(view.getEmailEditText(),</span>
+<span class="s2">//                view.getResourceString(R.string.error_message_email))) {</span>
+<span class="s2">//            return;</span>
+<span class="s2">//        }*/</span>
+<span class="s2">//</span>
+<span class="s2">//        iOrganizationInteractor organizationInteractor;</span>
+<span class="s2">//        organizationInteractor = new cCreateOrganizationInteractorImpl(</span>
+<span class="s2">//                executor,</span>
+<span class="s2">//                mainThread,</span>
+<span class="s2">//                sharedPreferenceRepository,</span>
+<span class="s2">//                permissionRepository,</span>
+<span class="s2">//                organizationRepository,</span>
+<span class="s2">//                this,</span>
+<span class="s2">//                organizationModel);</span>
+<span class="s2">//</span>
+<span class="s2">//        view.showProgress();</span>
+<span class="s2">//</span>
+<span class="s2">//        organizationInteractor.execute();</span>
+<span class="s2">//    }</span>
+
+<span class="s2">//    // READ ORGANIZATIONS</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void readOrganizationWorkspaces() {</span>
+<span class="s2">//        iOrganizationInteractor readOrganizationsInteractor;</span>
+<span class="s2">//        readOrganizationsInteractor = new cReadOrganizationsInteractorImpl(</span>
+<span class="s2">//                executor,</span>
+<span class="s2">//                mainThread,</span>
+<span class="s2">//                sharedPreferenceRepository,</span>
+<span class="s2">//                organizationRepository,</span>
+<span class="s2">//                this);</span>
+<span class="s2">//</span>
+<span class="s2">//        view.showProgress();</span>
+<span class="s2">//        readOrganizationsInteractor.execute();</span>
+<span class="s2">//    }</span>
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void switchOrganizationWorkspace(CWorkspaceModel workspaceModel) {</span>
+<span class="s2">//        iOrganizationInteractor switchOrganizationWorkspaceInteractor;</span>
+<span class="s2">//        switchOrganizationWorkspaceInteractor = new cSwitchOrganizationWorkspaceInteractorImpl(</span>
+<span class="s2">//                executor,</span>
+<span class="s2">//                mainThread,</span>
+<span class="s2">//                sharedPreferenceRepository,</span>
+<span class="s2">//                userProfileRepository,</span>
+<span class="s2">//                this, workspaceModel);</span>
+<span class="s2">//</span>
+<span class="s2">//        //view.showProgress();</span>
+<span class="s2">//        switchOrganizationWorkspaceInteractor.execute();</span>
+<span class="s2">//    }</span>
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void removeListener() {</span>
+<span class="s2">//        iOrganizationInteractor organizationInteractor;</span>
+<span class="s2">//        organizationInteractor = new cRemoveListenerInteractorImpl(</span>
+<span class="s2">//                executor,</span>
+<span class="s2">//                mainThread,</span>
+<span class="s2">//                organizationRepository,</span>
+<span class="s2">//                this);</span>
+<span class="s2">//</span>
+<span class="s2">//        view.showProgress();</span>
+<span class="s2">//        organizationInteractor.execute();</span>
+<span class="s2">//    }</span>
+
+<span class="s2">//    // LOGOUT USER</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void signOutWithEmailAndPassword() {</span>
+<span class="s2">//        iUserSignOutInteractor userSignOutInteractor = new cUserSignOutInteractorImpl(</span>
+<span class="s2">//                executor,</span>
+<span class="s2">//                mainThread,this,</span>
+<span class="s2">//                sharedPreferenceRepository,</span>
+<span class="s2">//                userProfileRepository);</span>
+<span class="s2">//</span>
+<span class="s2">//        view.showProgress();</span>
+<span class="s2">//</span>
+<span class="s2">//        userSignOutInteractor.execute();</span>
+<span class="s2">//    }</span>
+
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void onUserSignOutFailed(String msg) {</span>
+<span class="s2">//        if (this.view != null) {</span>
+<span class="s2">//            this.view.onUserSignOutFailed(msg);</span>
+<span class="s2">//            this.view.hideProgress();</span>
+<span class="s2">//        }</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void onUserSignOutSucceeded(String msg) {</span>
+<span class="s2">//        if (this.view != null) {</span>
+<span class="s2">//            this.view.onUserSignOutSucceeded(msg);</span>
+<span class="s2">//            this.view.hideProgress();</span>
+<span class="s2">//        }</span>
+<span class="s2">//    }</span>
+
+<span class="s2">//    // PRESENTER FUNCTIONS</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void resume() {</span>
+<span class="s2">//        readOrganizationWorkspaces();</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void pause() {</span>
+<span class="s2">//</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void stop() {</span>
+<span class="s2">//        if (this.view != null) {</span>
+<span class="s2">//            this.view.hideProgress();</span>
+<span class="s2">//        }</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void destroy() {</span>
+<span class="s2">//        this.view = null;</span>
+<span class="s2">//    }</span>
+<span class="s2">//</span>
+<span class="s2">//    @Override</span>
+<span class="s2">//    public void onError(String message) {</span>
+<span class="s2">//</span>
+<span class="s2">//    }</span>
+
+</pre>
+</body>
+</html>

@@ -1,80 +1,78 @@
-package com.me.mseotsanyana.mande.application.interactors.session.organization.Impl;
+package com.me.mseotsanyana.mande.application.interactors.session.organization;
 
-import com.me.mseotsanyana.mande.application.ports.base.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.ports.base.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.ports.base.cAbstractInteractor;
-import com.me.mseotsanyana.mande.application.interactors.session.organization.iOrganizationInteractor;
+import com.me.mseotsanyana.mande.application.exceptions.CGeneralException;
+import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreCallBack;
+import com.me.mseotsanyana.mande.application.structures.CConstantModel;
+import com.me.mseotsanyana.mande.application.structures.CResponseDTO;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
+import com.me.mseotsanyana.mande.application.structures.enums.EAction;
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
-import com.me.mseotsanyana.mande.application.repository.session.iOrganizationRepository;
-import com.me.mseotsanyana.mande.application.repository.session.iPrivilegeRepository;
-import com.me.mseotsanyana.mande.application.preference.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.application.repository.session.IOrganizationRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
 
-public class cCreateOrganizationInteractorImpl extends cAbstractInteractor
-        implements iOrganizationInteractor {
-    //private static String TAG = cCreateOrganizationInteractorImpl.class.getSimpleName();
+import java.util.HashMap;
+import java.util.Map;
 
-    private final iSharedPreferenceRepository sharedPreferenceRepository;
-    private final iPrivilegeRepository permissionRepository;
-    private final iOrganizationRepository stakeholderRepository;
-    private final Callback callback;
+public class CCreateOrganizationInteractorImpl extends
+        CAbstractInteractor<IResponseDTO<Object>> implements IInteractor {
+
+    //private static String TAG = CCreateOrganizationInteractorImpl.class.getSimpleName();
+
+    private final IPresenter<IResponseDTO<Object>> iPresenter;
+    private final IOrganizationRepository organizationRepository;
     private final COrganizationModel organizationModel;
 
-    public cCreateOrganizationInteractorImpl(Callback callback, iExecutor threadExecutor,
-                                             iMainThread mainThread,
-                                             iSharedPreferenceRepository sharedPreferenceRepository,
-                                             iPrivilegeRepository permissionRepository,
-                                             iOrganizationRepository stakeholderRepository,
+    public CCreateOrganizationInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                             ISessionManager sessionManager,
+                                             IPresenter<IResponseDTO<Object>> iPresenter,
+                                             IOrganizationRepository organizationRepository,
                                              COrganizationModel organizationModel) {
-        super(threadExecutor, mainThread);
 
-        if (sharedPreferenceRepository == null || permissionRepository == null ||
-                stakeholderRepository == null || callback == null) {
+        super(threadExecutor, mainThread, sessionManager);
+
+        if (organizationRepository == null || iPresenter == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
         }
 
-        this.sharedPreferenceRepository = sharedPreferenceRepository;
-        this.permissionRepository = permissionRepository;
-        this.stakeholderRepository = stakeholderRepository;
-        this.callback = callback;
+        this.iPresenter = iPresenter;
+        this.organizationRepository = organizationRepository;
         this.organizationModel = organizationModel;
     }
 
-
-    /* */
-    private void createOrganizationFailed(String msg) {
-        mainThread.post(() -> callback.onCreateOrganizationFailed(msg));
+    @Override
+    public void postResult(IResponseDTO<Object> resultMap) {
+        mainThread.post(() -> iPresenter.onSuccess(resultMap));
     }
 
-    /* */
-    private void createOrganizationSucceeded(String msg) {
-        mainThread.post(() -> callback.onCreateOrganizationSucceeded(msg));
+    @Override
+    public void postError(String errorMessage) {
+        mainThread.post(() -> iPresenter.onError(new CGeneralException(errorMessage)));
     }
 
     @Override
     public void run() {
-
         /* create a new organization object and insert it */
-        stakeholderRepository.createOrganization(organizationModel,
-                new iOrganizationRepository.iCreateOrganizationCallback() {
-                    @Override
-                    public void onCreateOrganizationSucceeded(String msg) {
-                        // clear preferences
-                        // upload new preferences
-                        //saveUserPermissions();
-                        createOrganizationSucceeded(msg);
-                    }
+        organizationRepository.createOrganization(organizationModel, new CFirestoreCallBack() {
+            @Override
+            public void onFirebaseSuccess(Object object) {
+                IResponseDTO<Object> responseModel;
+                responseModel = new CResponseDTO<>(EAction.Created_ORGANIZATION, object);
 
-                    @Override
-                    public void onCreateOrganizationFailed(String msg) {
-                        createOrganizationFailed(msg);
-                    }
-                });
+                postResult(responseModel);
+            }
+
+            @Override
+            public void onFirebaseFailure(Object object) {
+                postError((String) object);
+            }
+        });
     }
 }
 
-/**
- * delete old and save new user privileges of the loggedIn user
- */
 //    private void saveUserPermissions() {
 //        // delete old permissions
 //        this.sharedPreferenceRepository.deleteSettings();

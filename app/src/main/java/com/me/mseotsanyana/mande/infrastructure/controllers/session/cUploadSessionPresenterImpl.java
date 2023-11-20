@@ -1,12 +1,12 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
-import com.me.mseotsanyana.mande.usecases.executor.iExecutor;
-import com.me.mseotsanyana.mande.usecases.executor.iMainThread;
-import com.me.mseotsanyana.mande.usecases.interactors.session.Impl.cUploadSessionInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.iUploadSessionInteractor;
-import com.me.mseotsanyana.mande.usecases.repository.session.iUploadSessionRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.session.iUploadSessionPresenter;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.interactors.session.Impl.cUploadSessionInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.session.iUploadSessionInteractor;
+import com.me.mseotsanyana.mande.application.repository.session.iUploadSessionRepository;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iUploadSessionPresenter;
 
 public class cUploadSessionPresenterImpl extends cAbstractPresenter implements iUploadSessionPresenter,
         iUploadSessionInteractor.Callback {
@@ -15,9 +15,9 @@ public class cUploadSessionPresenterImpl extends cAbstractPresenter implements i
     private View view;
     private iUploadSessionRepository uploadSessionRepository;
 
-    public cUploadSessionPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cUploadSessionPresenterImpl(IExecutor executor, IMainThread mainThread,
                                        View view, iUploadSessionRepository uploadSessionRepository) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.uploadSessionRepository = uploadSessionRepository;

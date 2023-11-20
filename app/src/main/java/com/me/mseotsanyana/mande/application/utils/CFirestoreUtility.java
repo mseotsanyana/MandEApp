@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.Query;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cEntityModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cMenuModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CMenuModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CPrivilegeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cPlanModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cTransitionModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
@@ -40,11 +40,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public final class cDatabaseUtils {
+public final class CFirestoreUtility {
     private static final SimpleDateFormat sdf = cConstant.FORMAT_DATE;
 
     // Private constructor to prevent instantiation
-    private cDatabaseUtils() {
+    private CFirestoreUtility() {
         throw new UnsupportedOperationException();
     }
 
@@ -71,6 +71,11 @@ public final class cDatabaseUtils {
         return json;
     }
 
+    public static boolean isEmptyOrNull(String value) {
+        return (value == null || value.isEmpty());
+    }
+
+
     /**
      * read administrator's default privilege from json file - during the creation of an organization
      *
@@ -79,14 +84,14 @@ public final class cDatabaseUtils {
      * @return role model
      */
     @NonNull
-    public static cPrivilegeModel createDefaultPrivilegeModel(
+    public static CPrivilegeModel createDefaultPrivilegeModel(
             @NonNull Context context, @NonNull CCommonAttributeModel properties) {
 
-        cPrivilegeModel privilegeModel = new cPrivilegeModel();
+        CPrivilegeModel privilegeModel = new CPrivilegeModel();
 
         // 1. create admin privilege
         String privilege = "jsons/sys_admin_privilege.json";
-        String privilegeJSONString = cDatabaseUtils.loadJSONFromAsset(privilege, context.getAssets());
+        String privilegeJSONString = CFirestoreUtility.loadJSONFromAsset(privilege, context.getAssets());
 
         try {
             JSONObject jsonObjectPrivilege = new JSONObject(privilegeJSONString);
@@ -113,7 +118,7 @@ public final class cDatabaseUtils {
 
         // 1.1 create and add menu items to the privileges
         String json_menuitems = "jsons/sys_admin_privilege_menuitems.json";
-        String menuitemsJSONString = cDatabaseUtils.loadJSONFromAsset(json_menuitems,
+        String menuitemsJSONString = CFirestoreUtility.loadJSONFromAsset(json_menuitems,
                 context.getAssets());
         try {
             /* processing menu items */
@@ -143,7 +148,7 @@ public final class cDatabaseUtils {
         // 1.2 create and add modules of the admin privilege
         String json_modules = "jsons/sys_admin_privilege_modules.json";
         String modulesJSONString;
-        modulesJSONString = cDatabaseUtils.loadJSONFromAsset(json_modules, context.getAssets());
+        modulesJSONString = CFirestoreUtility.loadJSONFromAsset(json_modules, context.getAssets());
 
         try {
             JSONObject privilegeModules = new JSONObject(modulesJSONString);
@@ -234,7 +239,7 @@ public final class cDatabaseUtils {
      */
     @NonNull
     public static List<cTreeModel> buildWorkspacePrivileges(
-            @NonNull Context context, @NonNull Map<String, cPrivilegeModel> workspaceModelMap) {
+            @NonNull Context context, @NonNull Map<String, CPrivilegeModel> workspaceModelMap) {
         List<cTreeModel> moduleTreeModels = new ArrayList<>();
 
 //        /* menu item options */
@@ -437,7 +442,7 @@ public final class cDatabaseUtils {
     }
 
     @NonNull
-    private static List<String> getMainMenuIDs(@NonNull cPrivilegeModel privilegeModel) {
+    private static List<String> getMainMenuIDs(@NonNull CPrivilegeModel privilegeModel) {
         List<String> menu_ids = new ArrayList<>();
         for (Map.Entry<String, List<Integer>> entry : privilegeModel.getMenuitems().
                 entrySet()) {
@@ -447,7 +452,7 @@ public final class cDatabaseUtils {
     }
 
     @NonNull
-    private static List<String> getSubMenuIDs(@NonNull cPrivilegeModel privilegeModel,
+    private static List<String> getSubMenuIDs(@NonNull CPrivilegeModel privilegeModel,
                                               String menuID) {
         List<String> sub_menu_ids = new ArrayList<>();
         for (Map.Entry<String, List<Integer>> entry : privilegeModel.getMenuitems().
@@ -463,13 +468,13 @@ public final class cDatabaseUtils {
     }
 
     @NonNull
-    private static List<String> getModuleIDs(@NonNull cPrivilegeModel privilegeModel) {
+    private static List<String> getModuleIDs(@NonNull CPrivilegeModel privilegeModel) {
         Map<String, List<cEntityModel>> perm_modules = privilegeModel.getModules();
         return new ArrayList<>(perm_modules.keySet());
     }
 
     @NonNull
-    private static List<String> getEntityIDs(@NonNull cPrivilegeModel privilegeModel,
+    private static List<String> getEntityIDs(@NonNull CPrivilegeModel privilegeModel,
                                              String moduleID) {
         List<String> entity_ids = new ArrayList<>();
         Map<String,List<cEntityModel>> modules = privilegeModel.getModules();
@@ -486,7 +491,7 @@ public final class cDatabaseUtils {
     }
 
     @NonNull
-    private static List<String> getUnixOperationIDs(@NonNull cPrivilegeModel privilegeModel,
+    private static List<String> getUnixOperationIDs(@NonNull CPrivilegeModel privilegeModel,
                                                     String moduleID, String entityID) {
         List<String> unix_ops_ids = new ArrayList<>();
 
@@ -519,7 +524,7 @@ public final class cDatabaseUtils {
         cPlanModel planModel = new cPlanModel();
         // read json file
         String plans = "jsons/sys_plans.json";
-        String planJSONString = cDatabaseUtils.loadJSONFromAsset(plans, context.getAssets());
+        String planJSONString = CFirestoreUtility.loadJSONFromAsset(plans, context.getAssets());
 
         try {
             JSONObject jsonObjectPlan = new JSONObject(planJSONString);
@@ -562,7 +567,7 @@ public final class cDatabaseUtils {
 
         // read json file
         String team = "jsons/sys_admin_workspace.json";
-        String teamJSONString = cDatabaseUtils.loadJSONFromAsset(team, context.getAssets());
+        String teamJSONString = CFirestoreUtility.loadJSONFromAsset(team, context.getAssets());
 
         try {
             workspaceModel.setOrganizationServerID(organizationID);
@@ -754,28 +759,28 @@ public final class cDatabaseUtils {
      * @return list of default menu
      */
     @NonNull
-    public static List<cMenuModel> getDefaultMenuModels(@NonNull Context context) {
-        List<cMenuModel> menuModels = new ArrayList<>();
+    public static List<CMenuModel> getDefaultMenuModels(@NonNull Context context) {
+        List<CMenuModel> menuModels = new ArrayList<>();
         String menu = "jsons/sys_default_menu_items.json";
-        String menuJSONString = cDatabaseUtils.loadJSONFromAsset(menu, context.getAssets());
+        String menuJSONString = CFirestoreUtility.loadJSONFromAsset(menu, context.getAssets());
 
         try {
             JSONObject jsonObjectMenu = new JSONObject(menuJSONString);
             JSONArray jsonArrayMenu = jsonObjectMenu.getJSONArray("menu");
             for (int i = 0; i < jsonArrayMenu.length(); i++) {
-                ArrayList<cMenuModel> subMenuModels = new ArrayList<>();
+                ArrayList<CMenuModel> subMenuModels = new ArrayList<>();
                 JSONObject jsonObject = jsonArrayMenu.getJSONObject(i);
                 JSONArray jsonArraySubMenu = jsonObject.getJSONArray("sub_menu");
 
                 for (int j = 0; j < jsonArraySubMenu.length(); j++) {
-                    cMenuModel subMenuModel = new cMenuModel();
+                    CMenuModel subMenuModel = new CMenuModel();
                     JSONObject jsonObjectSubItem = jsonArraySubMenu.getJSONObject(j);
                     subMenuModel.setMenuServerID(jsonObjectSubItem.getInt("sub_id"));
                     subMenuModel.setName(jsonObjectSubItem.getString("sub_item"));
                     subMenuModels.add(subMenuModel);
                 }
 
-                cMenuModel menuModel = new cMenuModel();
+                CMenuModel menuModel = new CMenuModel();
                 // set the main menu item
                 menuModel.setMenuServerID(jsonObject.getInt("id"));
                 menuModel.setName(jsonObject.getString("item"));
@@ -801,12 +806,12 @@ public final class cDatabaseUtils {
      * @return list of menu models
      */
     @NonNull
-    public static List<cMenuModel> getMenuModels(@NonNull Context context,
+    public static List<CMenuModel> getMenuModels(@NonNull Context context,
                                                  @NonNull Map<String, List<Integer>> menu_map) {
-        List<cMenuModel> menuModels = new ArrayList<>();
+        List<CMenuModel> menuModels = new ArrayList<>();
 
         String menu = "jsons/sys_admin_privilege_menuitems.json";
-        String menuJSONString = cDatabaseUtils.loadJSONFromAsset(menu, context.getAssets());
+        String menuJSONString = CFirestoreUtility.loadJSONFromAsset(menu, context.getAssets());
 
         try {
 
@@ -817,12 +822,12 @@ public final class cDatabaseUtils {
 
             for (int i = 0; i < jsonArrayMenu.length(); i++) {
 
-                ArrayList<cMenuModel> subMenuModels = new ArrayList<>();
+                ArrayList<CMenuModel> subMenuModels = new ArrayList<>();
                 JSONObject jsonObject = jsonArrayMenu.getJSONObject(i);
 
                 if (menu_set.contains(jsonObject.getString("id"))) {
 
-                    cMenuModel menuModel = new cMenuModel();
+                    CMenuModel menuModel = new CMenuModel();
                     // set the main menu item
                     menuModel.setMenuServerID(jsonObject.getInt("id"));
                     menuModel.setName(jsonObject.getString("item"));
@@ -834,7 +839,7 @@ public final class cDatabaseUtils {
                         JSONObject jsonObjectSubItem = jsonArraySubMenu.getJSONObject(j);
                         assert sub_menu_items != null;
                         if (sub_menu_items.contains(jsonObjectSubItem.getInt("sub_id"))) {
-                            cMenuModel subMenuModel = new cMenuModel();
+                            CMenuModel subMenuModel = new CMenuModel();
                             subMenuModel.setParentServerID(menuModel.getMenuServerID());
                             subMenuModel.setMenuServerID(jsonObjectSubItem.getInt("sub_id"));
                             subMenuModel.setName(jsonObjectSubItem.getString("sub_item"));
@@ -867,7 +872,7 @@ public final class cDatabaseUtils {
 
         // read json file
         String cproperties = "jsons/sys_common_properties.json";
-        String cpropertiesJSONString = cDatabaseUtils.loadJSONFromAsset(cproperties,
+        String cpropertiesJSONString = CFirestoreUtility.loadJSONFromAsset(cproperties,
                 context.getAssets());
 
         try {
@@ -945,7 +950,7 @@ public final class cDatabaseUtils {
         /* 3. Cloud Role Permissions FIXME
         member is allowed to read resources in active organization and his own organization */
         cloud = (pref.loadMyOrganizations().contains(pref.loadActiveOrganizationID()) &&
-                pref.loadUserID().equals(userOwnerID) &&
+                pref.loadLoggedInUserServerID().equals(userOwnerID) &&
                 ((actionPermBITS & CPreferenceConstant.CLOUD_READ) != 0));
 
         /* 4. Village Role Permissions
@@ -976,7 +981,7 @@ public final class cDatabaseUtils {
         (2) member of an active workspace and (3) (s)he own the resources */
         own = (pref.loadMyOrganizations().contains(pref.loadActiveOrganizationID()) &&
                 ((pref.loadWorkspaceMembershipBITS() & pref.loadActiveWorkspaceBIT()) != 0) &&
-                pref.loadUserID().equals(userOwnerID) &&
+                pref.loadLoggedInUserServerID().equals(userOwnerID) &&
                 (actionPermBITS & CPreferenceConstant.OWNER_READ) != 0);
 
         return (org_admin || wks_admin || cloud || village || house || room || own);

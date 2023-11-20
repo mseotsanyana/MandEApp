@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.application.preference;
+package com.me.mseotsanyana.mande.application.repository.preference;
 
 import java.util.List;
 import java.util.Map;

@@ -1,8 +1,7 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.session;
+package com.me.mseotsanyana.mande.framework.ui.fragments.session;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,42 +10,49 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager2.widget.ViewPager2;
 
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
-import com.me.mseotsanyana.mande.PL.presenters.session.iOrganizationPresenter;
-import com.me.mseotsanyana.mande.framework.ui.adapters.session.cOrganizationViewPagerAdapter;
+import com.me.mseotsanyana.mande.infrastructure.presenters.session.COrganizationPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
+import com.me.mseotsanyana.mande.databinding.SessionOrganizationFragmentBinding;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
-import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.IOrganizationController;
+import com.me.mseotsanyana.mande.framework.modelviews.session.COrganizationViewModel;
+import com.me.mseotsanyana.mande.infrastructure.controllers.session.COrganizationControllerImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CSessionManagerImpl;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.COrganizationFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
  * Created by mseotsanyana on 2016/12/04.
  */
 
-public class COrganizationFragment extends Fragment implements iOrganizationPresenter.View {
+public class COrganizationFragment extends Fragment {
     private static final String TAG = COrganizationFragment.class.getSimpleName();
+    /* binding data to view controls */
+    private SessionOrganizationFragmentBinding binding;
+    /* model view to provide view details */
+    private COrganizationViewModel cViewModel;
+    /* organization controller to accept requests */
+    private IOrganizationController controller;
 
     /* organization views */
-    private LinearLayout includeProgressBar;
+    //private LinearLayout includeProgressBar;
+
+    public IOrganizationController getController() {
+        return controller;
+    }
+
+    public void setController(IOrganizationController controller) {
+        this.controller = controller;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,13 +64,13 @@ public class COrganizationFragment extends Fragment implements iOrganizationPres
     public void onResume() {
         super.onResume();
         /* read all projects from the database */
-        organizationPresenter.resume();
+        getController().resume();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        organizationPresenter.removeListener();
+        getController().removeListener();
     }
 
     @Nullable
@@ -76,6 +82,16 @@ public class COrganizationFragment extends Fragment implements iOrganizationPres
         binding = DataBindingUtil.inflate(inflater, R.layout.session_organization_fragment,
                 container, false);
 
+        cViewModel = new COrganizationViewModel(this, binding);
+
+        setController(new COrganizationControllerImpl(
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
+                CSessionManagerImpl.getInstance(requireContext()),
+                cViewModel,
+                new COrganizationPresenterImpl(cViewModel),
+                new COrganizationFirestoreRepositoryImpl(getContext())));
+
         return binding.getRoot();
     }
 
@@ -83,10 +99,9 @@ public class COrganizationFragment extends Fragment implements iOrganizationPres
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         /* initialize data structures */
-        initDataStructures();
-
+        cViewModel.initDataStructures();
         /* initialize views */
-        initViews(view);
+        cViewModel.initViews(view);
     }
 
     @Override
@@ -109,14 +124,14 @@ public class COrganizationFragment extends Fragment implements iOrganizationPres
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.uploadItem) {
             Log.d(TAG, "Stub for information button");
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void search(SearchView searchView) {
+    private void search(@NonNull SearchView searchView) {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -130,114 +145,6 @@ public class COrganizationFragment extends Fragment implements iOrganizationPres
             }
         });
     }
-
-    @Override
-    public void onClickCreateOrganization() {
-
-    }
-
-    @Override
-    public void onLongClickWorkspace(CWorkspaceModel workspaceModel) {
-
-    }
-
-    @Override
-    public void onCreateOrganizationFailed(String msg) {
-
-    }
-
-    @Override
-    public void onCreateOrganizationSucceeded(String msg) {
-
-    }
-
-    @Override
-    public void onReadOrganizationFailed(String msg) {
-
-    }
-
-    @Override
-    public void onReadOrganizationSucceeded(COrganizationModel organizationModel, String operation) {
-
-    }
-
-    @Override
-    public void onReadOrganizationsFailed(String msg) {
-
-    }
-
-    @Override
-    public void onReadOrganizationsSucceeded(List<cTreeModel> treeModels) {
-
-    }
-
-    @Override
-    public void onSwitchOrganizationWorkspaceFailed(String msg) {
-
-    }
-
-    @Override
-    public void onSwitchOrganizationWorkspaceSucceeded(String msg) {
-
-    }
-
-    @Override
-    public void onUserSignOutFailed(String msg) {
-
-    }
-
-    @Override
-    public void onUserSignOutSucceeded(String msg) {
-
-    }
-
-    @Override
-    public void onReadOrganizationMembersFailed(String msg) {
-
-    }
-
-    @Override
-    public void onReadOrganizationMembersSucceeded(List<CUserProfileModel> userProfileModels) {
-
-    }
-
-
-
-
-    private void initAppBarLayout(Toolbar toolbar, TextView textView,
-                                  CollapsingToolbarLayout collapsingToolbarLayout) {
-        textView.setText(R.string.app_name);
-        collapsingToolbarLayout.setContentScrimColor(Color.WHITE);
-        collapsingToolbarLayout.setTitle("Organizations????");
-
-        /* show the back arrow button */
-        AppCompatActivity activity = ((AppCompatActivity) getActivity());
-        if (activity != null) {
-            activity.setSupportActionBar(toolbar);
-            ActionBar actionBar = activity.getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setDisplayShowHomeEnabled(true);
-            }
-        }
-    }
-
-    private void initViewPager2(final ViewPager2 viewPager2, final TabLayout tabLayout) {
-        /* setup the pager views */
-        cOrganizationViewPagerAdapter organizationViewPagerAdapter;
-        organizationViewPagerAdapter = new cOrganizationViewPagerAdapter(requireActivity());
-
-        organizationViewPagerAdapter.addFrag(COrganizationWorkspaceFragment.newInstance(),"organizations");
-        organizationViewPagerAdapter.addFrag(cAgreementFragment.newInstance(), "agreements");
-
-        viewPager2.setAdapter(organizationViewPagerAdapter);
-
-        /* setup the tab layout and add tabs to the view pager2 */
-        new TabLayoutMediator(tabLayout,
-                viewPager2, (tab, position) ->
-                tab.setText(organizationViewPagerAdapter.getPageTitle(position))).attach();
-    }
-
 
     private Menu setToolBar() {
         binding.includeToolbar.toolbar.inflateMenu(R.menu.me_toolbar_menu);

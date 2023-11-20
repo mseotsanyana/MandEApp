@@ -1,6 +1,5 @@
-package com.me.mseotsanyana.treeadapterlibrary;
+package com.me.mseotsanyana.mande.infrastructure.utils.responsemodel;
 
-//import androidx.appcompat.widget.RecyclerView;
 import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView;
  * Created by mseotsanyana on 2017/03/03.
  */
 
-public class cTreeViewHolder extends RecyclerView.ViewHolder {
+public class CTreeViewHolder extends RecyclerView.ViewHolder {
 
-    public cTreeViewHolder(View view){
+    public CTreeViewHolder(View view){
         super(view);
     }
 }

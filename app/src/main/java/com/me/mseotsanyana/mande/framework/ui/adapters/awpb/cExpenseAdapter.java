@@ -15,10 +15,10 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cExpenseModel;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iInputPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iInputPresenter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -76,8 +76,8 @@ public class cExpenseAdapter extends RecyclerView.Adapter<cExpenseAdapter.cExpen
 
         /* collapse and expansion of the details */
         EH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-        EH.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                cFontManager.FONTAWESOME));
+        EH.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                CFontManager.FONTAWESOME));
         EH.textViewDetailIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         EH.textViewDetailIcon.setText(context.getResources().getString(R.string.fa_details));
         EH.textViewDetailIcon.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +90,7 @@ public class cExpenseAdapter extends RecyclerView.Adapter<cExpenseAdapter.cExpen
         /* icon for syncing a record */
         EH.textViewSyncIcon.setTypeface(null, Typeface.NORMAL);
         EH.textViewSyncIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         EH.textViewSyncIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         EH.textViewSyncIcon.setText(context.getResources().getString(R.string.fa_sync));
         EH.textViewSyncIcon.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +103,7 @@ public class cExpenseAdapter extends RecyclerView.Adapter<cExpenseAdapter.cExpen
         /* icon for deleting a record */
         EH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
         EH.textViewDeleteIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         EH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         EH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
         EH.textViewDeleteIcon.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +116,7 @@ public class cExpenseAdapter extends RecyclerView.Adapter<cExpenseAdapter.cExpen
         /* icon for saving updated record */
         EH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
         EH.textViewUpdateIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         EH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
         EH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
         EH.textViewUpdateIcon.setOnClickListener(new View.OnClickListener() {

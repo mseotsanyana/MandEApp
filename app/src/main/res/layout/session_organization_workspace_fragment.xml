@@ -8,12 +8,6 @@
         android:background="@color/cardview_background_colour"
         android:fitsSystemWindows="false">
 
-        <!-- progress bar -->
-        <include
-            android:id="@+id/includeProgressBar"
-            layout="@layout/me_progress_bar"
-            android:visibility="invisible" />
-
         <!-- include a toolbar layout -->
         <include
             android:id="@+id/toolbarLayout"
@@ -32,6 +26,12 @@
             android:id="@+id/organizationFAB"
             style="@style/FabStyle"
             android:layout_gravity="center|end" />
+
+        <!-- progress bar -->
+        <include
+            android:id="@+id/includeProgressBar"
+            layout="@layout/me_progress_bar"
+            android:visibility="invisible" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

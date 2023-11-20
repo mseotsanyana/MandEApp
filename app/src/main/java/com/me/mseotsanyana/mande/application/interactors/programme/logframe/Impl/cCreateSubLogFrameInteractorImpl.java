@@ -1,16 +1,17 @@
 package com.me.mseotsanyana.mande.application.interactors.programme.logframe.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.programme.logframe.iLogFrameInteractor;
 import com.me.mseotsanyana.mande.application.repository.programme.iLogFrameRepository;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
 
 import java.util.Date;
 
-public class cCreateSubLogFrameInteractorImpl extends cAbstractInteractor
+public class cCreateSubLogFrameInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iLogFrameInteractor {
     private static String TAG = cCreateSubLogFrameInteractorImpl.class.getSimpleName();
 
@@ -19,12 +20,12 @@ public class cCreateSubLogFrameInteractorImpl extends cAbstractInteractor
     private String logFrameID;
     private cLogFrameModel logSubFrameModel;
 
-    public cCreateSubLogFrameInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                            iSharedPreferenceRepository sessionManagerRepository,
+    public cCreateSubLogFrameInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                            ISessionManager sessionManagerRepository,
                                             iLogFrameRepository logSubFrameRepository,
                                             Callback callback, String logFrameID,
                                             cLogFrameModel logSubFrameModel) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (logSubFrameRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -78,5 +79,15 @@ public class cCreateSubLogFrameInteractorImpl extends cAbstractInteractor
         }else {
             notifyError("Failed to add !!");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

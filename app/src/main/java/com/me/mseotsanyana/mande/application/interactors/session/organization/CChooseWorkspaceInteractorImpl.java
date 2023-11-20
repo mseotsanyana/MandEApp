@@ -6,6 +6,9 @@ import com.me.mseotsanyana.mande.application.exceptions.CGeneralException;
 import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
 import com.me.mseotsanyana.mande.application.structures.CConstantModel;
 import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
+import com.me.mseotsanyana.mande.application.structures.CResponseDTO;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
+import com.me.mseotsanyana.mande.application.structures.enums.EAction;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CMenuModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
 import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
@@ -14,25 +17,24 @@ import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
 import com.me.mseotsanyana.mande.application.repository.session.IUserProfileRepository;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CSwitchOrganizationWorkspaceInteractorImpl extends CAbstractInteractor
+public class CChooseWorkspaceInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements IInteractor {
-    private static final String TAG = CSwitchOrganizationWorkspaceInteractorImpl.class.getSimpleName();
+    private static final String TAG = CChooseWorkspaceInteractorImpl.class.getSimpleName();
 
-    private final IPresenter<Map<String, Object>> iPresenter;
+    private final IPresenter<IResponseDTO<Object>> iPresenter;
     private final ISessionManager sessionManager;
     private final IUserProfileRepository userProfileRepository;
 
     private final CWorkspaceModel workspaceModel;
 
-    public CSwitchOrganizationWorkspaceInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
-                                                      ISessionManager sessionManager,
-                                                      IPresenter<Map<String, Object>> iPresenter,
-                                                      IUserProfileRepository userProfileRepository,
-                                                      CWorkspaceModel workspaceModel) {
+    public CChooseWorkspaceInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                          ISessionManager sessionManager,
+                                          IPresenter<IResponseDTO<Object>> iPresenter,
+                                          IUserProfileRepository userProfileRepository,
+                                          CWorkspaceModel workspaceModel) {
         super(threadExecutor, mainThread, sessionManager);
 
         if (sessionManager == null || userProfileRepository == null || workspaceModel == null ||
@@ -49,7 +51,7 @@ public class CSwitchOrganizationWorkspaceInteractorImpl extends CAbstractInterac
     }
 
     @Override
-    public void postResult(Map<String, Object> resultMap) {
+    public void postResult(IResponseDTO<Object> resultMap) {
         mainThread.post(() -> iPresenter.onSuccess(resultMap));
     }
 
@@ -67,9 +69,12 @@ public class CSwitchOrganizationWorkspaceInteractorImpl extends CAbstractInterac
                         if (sessionManager.updateDocumentReference(
                                 sessionManager.loadCompositeServerID()) &&
                                 sessionManager.isCommitted()) {
-                            Map<String, Object> map = new HashMap<>();
-                            map.put(CConstantModel.NONEENTITY, msg);
-                            postResult(map);
+                            IResponseDTO<Object> result;
+                            result = new CResponseDTO<>(EAction.Saved_PERMISSION, msg);
+
+                            //Map<String, Object> map = new HashMap<>();
+                            //map.put(CConstantModel.NONEENTITY, msg);
+                            postResult(result);
                         } else {
                             postError("Failed to save permissions!");
                         }
@@ -77,7 +82,7 @@ public class CSwitchOrganizationWorkspaceInteractorImpl extends CAbstractInterac
 
                     @Override
                     public void onSaveUserPermissionsFailed(String msg) {
-                        sessionManager.clearAllSettings();
+                        sessionManager.clearApplied();
                         postError(msg);
                         Log.e(TAG, "permission failed to save", new Throwable());
                     }

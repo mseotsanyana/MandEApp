@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.programme;
+package com.me.mseotsanyana.mande.framework.ui.fragments.programme;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -22,20 +22,22 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.Impl.cQuestionPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iQuestionPresenter;
-import com.me.mseotsanyana.mande.PL.ui.views.cLogFrameHeaderView;
-import com.me.mseotsanyana.mande.PL.ui.views.cQuestionBodyView;
+import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.cQuestionPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iQuestionPresenter;
+import com.me.mseotsanyana.mande.OLD.PL.ui.views.cLogFrameHeaderView;
+import com.me.mseotsanyana.mande.OLD.PL.ui.views.cQuestionBodyView;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cArrayQuestionModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cMatrixQuestionModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cPrimitiveQuestionModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cQuestionModel;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 import com.me.mseotsanyana.placeholderviewlibrary.cExpandablePlaceHolderView;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -138,8 +140,8 @@ public class cQuestionFragment extends Fragment implements iQuestionPresenter.Vi
         questionModels = new ArrayList<>();
 
         questionPresenter = new cQuestionPresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
                 this,null
                 /*new cSessionManagerImpl(getContext())*/,
                 null,//new cQuestionRepositoryImpl(getContext()),
@@ -281,8 +283,18 @@ public class cQuestionFragment extends Fragment implements iQuestionPresenter.Vi
         questionProgressBar.setVisibility(View.GONE);
     }
 
+
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 

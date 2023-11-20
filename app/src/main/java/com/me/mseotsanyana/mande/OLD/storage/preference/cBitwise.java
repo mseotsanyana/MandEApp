@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.framework.storage.preference;
+package com.me.mseotsanyana.mande.OLD.storage.preference;
 
 /**
  * Created by mseotsanyana on 2017/09/06.

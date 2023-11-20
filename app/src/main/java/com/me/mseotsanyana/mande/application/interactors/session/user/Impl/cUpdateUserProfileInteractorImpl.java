@@ -1,27 +1,28 @@
 package com.me.mseotsanyana.mande.application.interactors.session.user.Impl;
 
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.session.user.iUpdateUserProfileInteractor;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.application.repository.session.iUserProfileRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.repository.session.IUserProfileRepository;
 
-public class cUpdateUserProfileInteractorImpl extends cAbstractInteractor
+public class cUpdateUserProfileInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iUpdateUserProfileInteractor {
     private static String TAG = cUpdateUserProfileInteractorImpl.class.getSimpleName();
 
     private Callback callback;
-    private iSharedPreferenceRepository sessionManagerRepository;
-    private iUserProfileRepository userProfileRepository;
+    private ISessionManager sessionManagerRepository;
+    private IUserProfileRepository userProfileRepository;
     private CUserProfileModel userProfileModel;
 
-    public cUpdateUserProfileInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                            iSharedPreferenceRepository sessionManagerRepository,
-                                            iUserProfileRepository userProfileRepository,
+    public cUpdateUserProfileInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                            ISessionManager sessionManagerRepository,
+                                            IUserProfileRepository userProfileRepository,
                                             Callback callback, CUserProfileModel userProfileModel) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sessionManagerRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -57,7 +58,7 @@ public class cUpdateUserProfileInteractorImpl extends cAbstractInteractor
     @Override
     public void run() {
         userProfileRepository.updateUserProfileImage(0, 0, 0, 0,
-                userProfileModel, new iUserProfileRepository.iUpdateUserProfileRepositoryCallback() {
+                userProfileModel, new IUserProfileRepository.iUpdateUserProfileRepositoryCallback() {
                     @Override
                     public void onUpdateUserProfileSucceeded(String msg) {
                         postMessage(msg);
@@ -68,5 +69,15 @@ public class cUpdateUserProfileInteractorImpl extends cAbstractInteractor
                         notifyError(msg);
                     }
                 });
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

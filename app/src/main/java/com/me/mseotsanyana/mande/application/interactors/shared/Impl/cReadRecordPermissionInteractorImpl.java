@@ -3,19 +3,20 @@ package com.me.mseotsanyana.mande.application.interactors.shared.Impl;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
-import com.me.mseotsanyana.mande.application.interactors.cInteractorUtils;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
+import com.me.mseotsanyana.mande.application.utils.cInteractorUtils;
 import com.me.mseotsanyana.mande.application.interactors.shared.iRecordPermissionInteractor;
-import com.me.mseotsanyana.mande.application.repository.common.iRecordPermissionRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference;
+import com.me.mseotsanyana.mande.application.repository.preference.iRecordPermissionRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
 
 import java.util.List;
 import java.util.Map;
 
-public class cReadRecordPermissionInteractorImpl extends cAbstractInteractor implements iRecordPermissionInteractor {
+public class cReadRecordPermissionInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>> implements iRecordPermissionInteractor {
     private static final String TAG = cReadRecordPermissionInteractorImpl.class.getSimpleName();
 
     private final iRecordPermissionRepository commonPropertyRepository;
@@ -32,11 +33,11 @@ public class cReadRecordPermissionInteractorImpl extends cAbstractInteractor imp
 
     Gson gson = new Gson();
 
-    public cReadRecordPermissionInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                               iSharedPreferenceRepository sharedPreferenceRepository,
+    public cReadRecordPermissionInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                               ISessionManager sharedPreferenceRepository,
                                                iRecordPermissionRepository commonPropertyRepository,
                                                Callback callback) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sharedPreferenceRepository == null || commonPropertyRepository == null ||
                 callback == null) {
@@ -47,19 +48,19 @@ public class cReadRecordPermissionInteractorImpl extends cAbstractInteractor imp
         this.callback = callback;
 
         // load user shared preferences
-        this.userServerID = sharedPreferenceRepository.loadUserID();
+        this.userServerID = sharedPreferenceRepository.loadLoggedInUserServerID();
         this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
         this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
         this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
-                cSharedPreference.PROGRAMME_MODULE);
+                CPreferenceConstant.PROGRAMME_MODULE);
         this.entitypermBITS = sharedPreferenceRepository.loadEntityPermissionBITS(
-                cSharedPreference.PROGRAMME_MODULE, cSharedPreference.LOGFRAME);
+                CPreferenceConstant.PROGRAMME_MODULE, CPreferenceConstant.LOGFRAME);
         this.statusBITS = sharedPreferenceRepository.loadOperationStatuses(
-                cSharedPreference.PROGRAMME_MODULE, cSharedPreference.LOGFRAME,
-                cSharedPreference.READ);
+                CPreferenceConstant.PROGRAMME_MODULE, CPreferenceConstant.LOGFRAME,
+                CPreferenceConstant.READ);
 
         Log.d(TAG, " \n ORGANIZATION ID = " + this.organizationServerID +
                 " \n USER ID = " + this.userServerID +
@@ -103,5 +104,15 @@ public class cReadRecordPermissionInteractorImpl extends cAbstractInteractor imp
         } else {
             notifyError("Error in default settings");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

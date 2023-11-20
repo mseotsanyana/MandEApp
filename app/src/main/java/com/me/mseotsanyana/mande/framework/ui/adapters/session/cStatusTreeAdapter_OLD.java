@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.me.mseotsanyana.mande.domain.entities.models.session.cStatusModel;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 
 import java.util.ArrayList;
 
@@ -77,7 +77,7 @@ public class cStatusTreeAdapter_OLD extends RecyclerView.Adapter<cStatusTreeAdap
         SH.switchStatus.setTag(filteredStatus.get(position));
 
         SH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-        SH.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+        SH.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         SH.textViewDetailIcon.setText(context.getResources().getString(R.string.fa_chevron_right));
 
         //}

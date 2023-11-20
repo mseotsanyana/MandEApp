@@ -1,2 +1,4 @@
-package com.me.mseotsanyana.mande.framework.ports.base;public class IBaseFragment {
+package com.me.mseotsanyana.mande.framework.ports.base;
+
+public interface IBaseFragment {
 }

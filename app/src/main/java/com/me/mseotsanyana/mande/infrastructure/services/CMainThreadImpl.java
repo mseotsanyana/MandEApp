@@ -1,16 +1,16 @@
-package com.me.mseotsanyana.mande.framework.base.executor.Impl;
+package com.me.mseotsanyana.mande.infrastructure.services;
 
 import android.os.Handler;
 import android.os.Looper;
 
-import com.me.mseotsanyana.mande.framework.base.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 
-public class cMainThreadImpl implements iMainThread {
-    private static iMainThread mainThread;
+public class CMainThreadImpl implements IMainThread {
+    private static IMainThread mainThread;
 
-    private Handler handler;
+    private final Handler handler;
 
-    private cMainThreadImpl() {
+    private CMainThreadImpl() {
         handler = new Handler(Looper.getMainLooper());
     }
 
@@ -19,9 +19,9 @@ public class cMainThreadImpl implements iMainThread {
         handler.post(runnable);
     }
 
-    public static iMainThread getInstance() {
+    public static IMainThread getInstance() {
         if (mainThread == null) {
-            mainThread = new cMainThreadImpl();
+            mainThread = new CMainThreadImpl();
         }
         return mainThread;
     }

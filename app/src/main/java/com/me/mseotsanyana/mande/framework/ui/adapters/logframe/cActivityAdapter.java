@@ -16,14 +16,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cActivityModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cInputModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cOutputModel;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iActivityPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iInputPresenter;
-import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewActivityListener;
-import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewInputListener;
-import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewOutputListener;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iActivityPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iInputPresenter;
+import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.logframe.iViewActivityListener;
+import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.logframe.iViewInputListener;
+import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.logframe.iViewOutputListener;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeAdapter;
@@ -125,13 +125,13 @@ public class cActivityAdapter extends cTreeAdapter implements iViewOutputListene
                         if (node.isExpand()) {
                             APH.textViewExpandIcon.setTypeface(null, Typeface.NORMAL);
                             APH.textViewExpandIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             APH.textViewExpandIcon.setText(
                                     context.getResources().getString(R.string.fa_minus));
                         } else {
                             APH.textViewExpandIcon.setTypeface(null, Typeface.NORMAL);
                             APH.textViewExpandIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             APH.textViewExpandIcon.setText(
                                     context.getResources().getString(R.string.fa_plus));
                         }
@@ -146,8 +146,8 @@ public class cActivityAdapter extends cTreeAdapter implements iViewOutputListene
 
                     /* collapse and expansion of the details */
                     APH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-                    APH.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                            cFontManager.FONTAWESOME));
+                    APH.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                            CFontManager.FONTAWESOME));
                     APH.textViewDetailIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     APH.textViewDetailIcon.setText(context.getResources().getString(R.string.fa_details));
                     APH.textViewDetailIcon.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +160,7 @@ public class cActivityAdapter extends cTreeAdapter implements iViewOutputListene
                     /* icon for saving updated record */
                     APH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
                     APH.textViewUpdateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     APH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     APH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
                     APH.textViewUpdateIcon.setOnClickListener(new View.OnClickListener() {
@@ -174,7 +174,7 @@ public class cActivityAdapter extends cTreeAdapter implements iViewOutputListene
                     /* icon for deleting a record */
                     APH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     APH.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     APH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     APH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
                     APH.textViewDeleteIcon.setOnClickListener(new View.OnClickListener() {
@@ -188,7 +188,7 @@ public class cActivityAdapter extends cTreeAdapter implements iViewOutputListene
                     /* icon for syncing a record */
                     APH.textViewSyncIcon.setTypeface(null, Typeface.NORMAL);
                     APH.textViewSyncIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     APH.textViewSyncIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     APH.textViewSyncIcon.setText(context.getResources().getString(R.string.fa_sync));
                     APH.textViewSyncIcon.setOnClickListener(new View.OnClickListener() {
@@ -202,7 +202,7 @@ public class cActivityAdapter extends cTreeAdapter implements iViewOutputListene
                     /* icon for creating a record */
                     APH.textViewCreateIcon.setTypeface(null, Typeface.NORMAL);
                     APH.textViewCreateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     APH.textViewCreateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     APH.textViewCreateIcon.setText(context.getResources().getString(R.string.fa_create));
                     APH.textViewCreateIcon.setOnClickListener(new View.OnClickListener() {
@@ -246,8 +246,8 @@ public class cActivityAdapter extends cTreeAdapter implements iViewOutputListene
 
                     /* collapse and expansion of the details */
                     ACH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-                    ACH.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                            cFontManager.FONTAWESOME));
+                    ACH.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                            CFontManager.FONTAWESOME));
                     ACH.textViewDetailIcon.setTextColor(context.getColor(R.color.colorAccent));
                     ACH.textViewDetailIcon.setText(context.getResources().getString(R.string.fa_details));
                     ACH.textViewDetailIcon.setOnClickListener(new View.OnClickListener() {
@@ -276,7 +276,7 @@ public class cActivityAdapter extends cTreeAdapter implements iViewOutputListene
                     /* icon for syncing a record */
                     ACH.textViewSyncIcon.setTypeface(null, Typeface.NORMAL);
                     ACH.textViewSyncIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     ACH.textViewSyncIcon.setTextColor(context.getColor(R.color.colorAccent));
                     ACH.textViewSyncIcon.setText(context.getResources().getString(R.string.fa_sync));
                     ACH.textViewSyncIcon.setOnClickListener(new View.OnClickListener() {
@@ -290,7 +290,7 @@ public class cActivityAdapter extends cTreeAdapter implements iViewOutputListene
                     /* icon for deleting a record */
                     ACH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     ACH.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     ACH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorAccent));
                     ACH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
                     ACH.textViewDeleteIcon.setOnClickListener(new View.OnClickListener() {
@@ -304,7 +304,7 @@ public class cActivityAdapter extends cTreeAdapter implements iViewOutputListene
                     /* icon for saving updated record */
                     ACH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
                     ACH.textViewUpdateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     ACH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorAccent));
                     ACH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
                     ACH.textViewUpdateIcon.setOnClickListener(new View.OnClickListener() {

@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
 //public class cModulePresenterImpl extends cAbstractPresenter implements iModulePresenter,
 //        iReadModuleInteractor.Callback, iUpdateRolePermissionInteractor.Callback{

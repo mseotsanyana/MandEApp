@@ -23,20 +23,22 @@ import com.google.android.material.snackbar.Snackbar;
 import com.me.mseotsanyana.mande.infrastructure.controllers.session.cUserSignUpPresenterImpl;
 import com.me.mseotsanyana.mande.infrastructure.ports.session.iUserSignUpPresenter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.infrastructure.services.cMainThreadImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
-import com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.cUserProfileFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.infrastructure.services.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.CUserProfileFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class cSignUpFragment extends Fragment implements iUserSignUpPresenter.View {
+public class CUserSignupFragment extends Fragment implements iUserSignUpPresenter.View {
 //    private static final String TAG = cSignUpFragment.class.getSimpleName();
 
     private CircleImageView profileCircleImageView;
@@ -49,11 +51,11 @@ public class cSignUpFragment extends Fragment implements iUserSignUpPresenter.Vi
     private iUserSignUpPresenter userSignUpPresenter;
     private ActivityResultLauncher<String> launchUploadActivity;
 
-    public cSignUpFragment() {
+    public CUserSignupFragment() {
     }
 
-    public static cSignUpFragment newInstance() {
-        return new cSignUpFragment();
+    public static CUserSignupFragment newInstance() {
+        return new CUserSignupFragment();
     }
 
     @Override
@@ -105,10 +107,11 @@ public class cSignUpFragment extends Fragment implements iUserSignUpPresenter.Vi
 
     private void initDataStructures() {
         userSignUpPresenter = new cUserSignUpPresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
+                null,
                 this,
-                new cUserProfileFirestoreRepositoryImpl(requireContext()));
+                new CUserProfileFirestoreRepositoryImpl(requireContext()));
     }
 
     private void initViews(View view) {
@@ -135,7 +138,7 @@ public class cSignUpFragment extends Fragment implements iUserSignUpPresenter.Vi
 
         /* login listener */
         loginTextView.setOnClickListener(v -> {
-            NavDirections action = cSignUpFragmentDirections.actionCSignUpFragmentToCLoginFragment();
+            NavDirections action = CUserSignupFragmentDirections.actionCUserSignupFragmentToCUserLoginFragment();
             Navigation.findNavController(requireView()).navigate(action);
         });
 
@@ -165,7 +168,7 @@ public class cSignUpFragment extends Fragment implements iUserSignUpPresenter.Vi
 
         /* login listener */
         loginTextView.setOnClickListener(v -> {
-            NavDirections action = cSignUpFragmentDirections.actionCSignUpFragmentToCLoginFragment();
+            NavDirections action = CUserSignupFragmentDirections.actionCUserSignupFragmentToCUserLoginFragment();
             Navigation.findNavController(requireView()).navigate(action);
         });
     }
@@ -178,7 +181,7 @@ public class cSignUpFragment extends Fragment implements iUserSignUpPresenter.Vi
 
     @Override
     public void onUserSignUpSucceeded(String msg) {
-        NavDirections action = cSignUpFragmentDirections.actionCSignUpFragmentToCLoginFragment();
+        NavDirections action = CUserSignupFragmentDirections.actionCUserSignupFragmentToCUserLoginFragment();
         Navigation.findNavController(requireView()).navigate(action);
     }
 
@@ -197,8 +200,17 @@ public class cSignUpFragment extends Fragment implements iUserSignUpPresenter.Vi
         progressBar.setVisibility(View.GONE);
     }
 
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 

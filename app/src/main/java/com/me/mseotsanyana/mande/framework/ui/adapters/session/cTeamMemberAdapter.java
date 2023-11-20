@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeAdapter;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
@@ -103,13 +103,13 @@ public class cTeamMemberAdapter extends cTreeAdapter implements Filterable {
                         if (node.isExpand()) {
                             TH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                             TH.textViewDetailIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             TH.textViewDetailIcon.setText(
                                     context.getResources().getString(R.string.fa_angle_down));
                         } else {
                             TH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                             TH.textViewDetailIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             TH.textViewDetailIcon.setText(
                                     context.getResources().getString(R.string.fa_angle_up));
                         }
@@ -124,7 +124,7 @@ public class cTeamMemberAdapter extends cTreeAdapter implements Filterable {
                     /* icon for joining a record */
                     TH.textViewJoinIcon.setTypeface(null, Typeface.NORMAL);
                     TH.textViewJoinIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     TH.textViewJoinIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     TH.textViewJoinIcon.setText(context.getResources().getString(R.string.fa_join));
                     TH.textViewJoinIcon.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +137,7 @@ public class cTeamMemberAdapter extends cTreeAdapter implements Filterable {
                     /* icon for creating a record */
                     TH.textViewAddIcon.setTypeface(null, Typeface.NORMAL);
                     TH.textViewAddIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     TH.textViewAddIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     TH.textViewAddIcon.setText(context.getResources().getString(R.string.fa_create));
                     TH.textViewAddIcon.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +150,7 @@ public class cTeamMemberAdapter extends cTreeAdapter implements Filterable {
                     /* icon for saving updated record */
                     TH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
                     TH.textViewUpdateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     TH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     TH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
                     TH.textViewUpdateIcon.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +163,7 @@ public class cTeamMemberAdapter extends cTreeAdapter implements Filterable {
                     /* icon for deleting a record */
                     TH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     TH.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     TH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     TH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
                     TH.textViewDeleteIcon.setOnClickListener(new View.OnClickListener() {
@@ -189,7 +189,7 @@ public class cTeamMemberAdapter extends cTreeAdapter implements Filterable {
                     /* icon for deleting a record */
                     UH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     UH.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     UH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorAccent));
                     UH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
 

@@ -3,27 +3,28 @@ package com.me.mseotsanyana.mande.application.interactors.programme.input.Impl;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.programme.input.iReadInputInteractor;
 import com.me.mseotsanyana.mande.application.repository.awpb.iExpenseRepository;
 import com.me.mseotsanyana.mande.application.repository.awpb.iHumanRepository;
 import com.me.mseotsanyana.mande.application.repository.awpb.iIncomeRepository;
 import com.me.mseotsanyana.mande.application.repository.awpb.iMaterialRepository;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUserModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cExpenseModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cHumanModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cIncomeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cMaterialModel;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cBitwise;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.OLD.storage.preference.cBitwise;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 import java.util.Set;
 
-public class cReadInputInteractorImpl extends cAbstractInteractor
+public class cReadInputInteractorImpl extends CAbstractInteractor<IResponseDTO>
         implements iReadInputInteractor {
     private static String TAG = cReadInputInteractorImpl.class.getSimpleName();
 
@@ -36,14 +37,14 @@ public class cReadInputInteractorImpl extends cAbstractInteractor
     private long userID, logFrameID;
     private int primaryRoleBITS, secondaryRoleBITS, operationBITS, statusBITS;
 
-    public cReadInputInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                    iSharedPreferenceRepository sessionManagerRepository,
+    public cReadInputInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                    ISessionManager sessionManagerRepository,
                                     iHumanRepository humanRepository,
                                     iMaterialRepository materialRepository,
                                     iIncomeRepository incomeRepository,
                                     iExpenseRepository expenseRepository,
                                     Callback callback, long logFrameID) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sessionManagerRepository == null || humanRepository == null ||
                 materialRepository == null || incomeRepository == null ||
@@ -118,12 +119,12 @@ public class cReadInputInteractorImpl extends cAbstractInteractor
 //                    humanModel.getJournalModelSet());
 
             /* human resources */
-            humanTreeModels.add(new cTreeModel(parentIndex, -1, 0, humanModel));
+//            humanTreeModels.add(new cTreeModel(parentIndex, -1, 0, humanModel));
             /* set of users under the input */
-            if (users.size() > 0) {
-                childIndex = parentIndex + 1;
-                humanTreeModels.add(new cTreeModel(childIndex, parentIndex, 1, users));
-            }
+//            if (users.size() > 0) {
+//                childIndex = parentIndex + 1;
+//                humanTreeModels.add(new cTreeModel(childIndex, parentIndex, 1, users));
+//            }
 //            /* set of activity children under the sub-logframe of the input logframe */
 //            if (activities.size() > 0) {
 //                childIndex = parentIndex + 2;
@@ -169,7 +170,7 @@ public class cReadInputInteractorImpl extends cAbstractInteractor
 //                    materialModel.getJournalModelSet());
 
             /* material resources */
-            materialTreeModels.add(new cTreeModel(parentIndex, -1, 0, materialModel));
+            //materialTreeModels.add(new cTreeModel(parentIndex, -1, 0, materialModel));
 
 //            /* set of activity children under the sub-logframe of the input logframe */
 //            if (activities.size() > 0) {
@@ -216,7 +217,7 @@ public class cReadInputInteractorImpl extends cAbstractInteractor
 //            ArrayList<cJournalModel> journals = new ArrayList<>(
 //                    incomeModel.getJournalModelSet());
 
-            incomeTreeModels.add(new cTreeModel(parentIndex, -1, 0, incomeModel));
+            //incomeTreeModels.add(new cTreeModel(parentIndex, -1, 0, incomeModel));
 
 //            /* set of activity children under the sub-logframe of the input logframe */
 //            if (activities.size() > 0) {
@@ -263,7 +264,7 @@ public class cReadInputInteractorImpl extends cAbstractInteractor
 //            ArrayList<cJournalModel> journals = new ArrayList<>(
 //                    expenseModel.getJournalModelSet());
 
-            expenseTreeModels.add(new cTreeModel(parentIndex, -1, 0, expenseModel));
+            //expenseTreeModels.add(new cTreeModel(parentIndex, -1, 0, expenseModel));
 
 //            /* set of activity children under the sub-logframe of the input logframe */
 //            if (activities.size() > 0) {
@@ -338,5 +339,15 @@ public class cReadInputInteractorImpl extends cAbstractInteractor
         } else {
             notifyError("Failed due to reading access rights !!");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

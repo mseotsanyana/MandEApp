@@ -2,18 +2,19 @@ package com.me.mseotsanyana.mande.application.interactors.programme.project.Impl
 
 import android.util.Log;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
-import com.me.mseotsanyana.mande.application.interactors.cInteractorUtils;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
+import com.me.mseotsanyana.mande.application.utils.cInteractorUtils;
 import com.me.mseotsanyana.mande.application.interactors.programme.logframe.iLogFrameInteractor;
 import com.me.mseotsanyana.mande.application.repository.programme.iLogFrameRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
 
 import java.util.List;
 
-public class cDeleteLogFramesInteractorImpl extends cAbstractInteractor
+public class cDeleteLogFramesInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iLogFrameInteractor {
     private static final String TAG = cDeleteLogFramesInteractorImpl.class.getSimpleName();
 
@@ -44,11 +45,11 @@ public class cDeleteLogFramesInteractorImpl extends cAbstractInteractor
 //    private final List<String> activity_outputs = new ArrayList<>();
 //    private final List<String> input_activities = new ArrayList<>();
 
-    public cDeleteLogFramesInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                          iSharedPreferenceRepository sharedPreferenceRepository,
+    public cDeleteLogFramesInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                          ISessionManager sharedPreferenceRepository,
                                           iLogFrameRepository logFrameRepository,
                                           Callback callback) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (logFrameRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -61,18 +62,18 @@ public class cDeleteLogFramesInteractorImpl extends cAbstractInteractor
 
         // load user shared preferences
         this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
-        this.userServerID = sharedPreferenceRepository.loadUserID();
+        this.userServerID = sharedPreferenceRepository.loadLoggedInUserServerID();
         this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
         this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
-                cSharedPreference.PROGRAMME_MODULE);
+                CPreferenceConstant.PROGRAMME_MODULE);
         this.entitypermBITS = sharedPreferenceRepository.loadEntityPermissionBITS(
-                cSharedPreference.PROGRAMME_MODULE, cSharedPreference.LOGFRAME);
+                CPreferenceConstant.PROGRAMME_MODULE, CPreferenceConstant.LOGFRAME);
         this.statusBITS = sharedPreferenceRepository.loadOperationStatuses(
-                cSharedPreference.PROGRAMME_MODULE, cSharedPreference.LOGFRAME,
-                cSharedPreference.DELETE);
+                CPreferenceConstant.PROGRAMME_MODULE, CPreferenceConstant.LOGFRAME,
+                CPreferenceConstant.DELETE);
 
         Log.d(TAG, " \n ORGANIZATION ID = " + this.organizationServerID +
                 " \n USER ID = " + this.userServerID +
@@ -197,8 +198,8 @@ public class cDeleteLogFramesInteractorImpl extends cAbstractInteractor
     public void run() {
         if (cInteractorUtils.isSettingsNonNull(organizationServerID, userServerID, entityBITS,
                 entitypermBITS, primaryTeamBIT, secondaryTeamBITS, statusBITS)) {
-            if ((this.entityBITS & cSharedPreference.LOGFRAME) != 0) {
-                if ((this.entitypermBITS & cSharedPreference.DELETE) != 0) {
+            if ((this.entityBITS & CPreferenceConstant.LOGFRAME) != 0) {
+                if ((this.entitypermBITS & CPreferenceConstant.DELETE) != 0) {
 
                     logFrameRepository.deleteLogFrames(organizationServerID, userServerID,
                             new iLogFrameRepository.iDeleteLogFramesCallback() {
@@ -250,5 +251,15 @@ public class cDeleteLogFramesInteractorImpl extends cAbstractInteractor
         } else {
             notifyError("Error in default settings");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

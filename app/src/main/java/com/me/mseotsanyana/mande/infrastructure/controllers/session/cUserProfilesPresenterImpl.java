@@ -1,16 +1,17 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
-import com.me.mseotsanyana.mande.usecases.executor.iExecutor;
-import com.me.mseotsanyana.mande.usecases.executor.iMainThread;
-import com.me.mseotsanyana.mande.usecases.interactors.session.userprofile.Impl.cReadUserProfilesInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.userprofile.Impl.cUpdateUserProfileImageInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.userprofile.Impl.cUploadUserProfilesInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.userprofile.iUserProfilesInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.interactors.session.userprofile.Impl.cReadUserProfilesInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.session.userprofile.Impl.cUpdateUserProfileImageInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.session.userprofile.Impl.cUploadUserProfilesInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.session.userprofile.iUserProfilesInteractor;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
-import com.me.mseotsanyana.mande.usecases.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.usecases.repository.session.iUserProfileRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.session.iUserProfilePresenter;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.repository.session.IUserProfileRepository;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iUserProfilePresenter;
+import com.me.mseotsanyana.mande.infrastructure.services.CSessionManagerImpl;
 
 import java.util.List;
 
@@ -19,17 +20,17 @@ public class cUserProfilesPresenterImpl extends cAbstractPresenter implements iU
     //private static final String TAG = cOrganizationPresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iSharedPreferenceRepository sharedPreferenceRepository;
-    private final iUserProfileRepository userProfileRepository;
+    //private final ISessionManager sharedPreferenceRepository;
+    private final IUserProfileRepository userProfileRepository;
 
-    public cUserProfilesPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cUserProfilesPresenterImpl(IExecutor executor, IMainThread mainThread,
+                                      CSessionManagerImpl sessionManager,
                                       View view,
-                                      iSharedPreferenceRepository sharedPreferenceRepository,
-                                      iUserProfileRepository userProfileRepository) {
-        super(executor, mainThread);
+                                      IUserProfileRepository userProfileRepository) {
+        super(executor, mainThread, sessionManager);
 
         this.view = view;
-        this.sharedPreferenceRepository = sharedPreferenceRepository;
+        //this.sharedPreferenceRepository = sharedPreferenceRepository;
         this.userProfileRepository = userProfileRepository;
     }
 
@@ -41,7 +42,7 @@ public class cUserProfilesPresenterImpl extends cAbstractPresenter implements iU
         readUserProfilesInteractor = new cReadUserProfilesInteractorImpl(
                 executor,
                 mainThread,
-                sharedPreferenceRepository,
+                null,
                 userProfileRepository,
                 this);
 
@@ -73,7 +74,7 @@ public class cUserProfilesPresenterImpl extends cAbstractPresenter implements iU
     public void uploadUserProfilesFromExcel(String filename) {
         iUserProfilesInteractor userProfilesInteractor =
                 new cUploadUserProfilesInteractorImpl(executor, mainThread,
-                        sharedPreferenceRepository,
+                        null,
                         userProfileRepository,
                         this, filename);
 
@@ -101,7 +102,7 @@ public class cUserProfilesPresenterImpl extends cAbstractPresenter implements iU
     public void updateUserProfileImage(String userServerID, byte[] userProfileImageData) {
         iUserProfilesInteractor userProfilesInteractor =
                 new cUpdateUserProfileImageInteractorImpl(executor, mainThread,
-                        sharedPreferenceRepository,
+                        null,
                         userProfileRepository,
                         this, userServerID, userProfileImageData);
 

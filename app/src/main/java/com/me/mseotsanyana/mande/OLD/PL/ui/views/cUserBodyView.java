@@ -8,7 +8,7 @@ import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileMode
 import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.logframe.iViewInputListener;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.OLD.cConstant;
-import com.me.mseotsanyana.mande.OLD.cFontManager;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Click;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Layout;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Resolve;
@@ -77,7 +77,7 @@ public class cUserBodyView {
         /* icon for deleting a record */
         this.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
         this.textViewDeleteIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         this.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorAccent));
         this.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
 

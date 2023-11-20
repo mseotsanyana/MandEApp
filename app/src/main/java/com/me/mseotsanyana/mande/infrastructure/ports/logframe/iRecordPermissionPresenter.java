@@ -1,13 +1,13 @@
-package com.me.mseotsanyana.mande.infrastructure.controllers.logframe;
+package com.me.mseotsanyana.mande.infrastructure.ports.logframe;
 
 import com.me.mseotsanyana.mande.domain.entities.models.common.cRecordPermissionModel;
 import com.me.mseotsanyana.mande.OLD.PL.presenters.base.iPresenter;
-import com.me.mseotsanyana.mande.OLD.PL.ui.iBaseView;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.IBaseView;
 
 import java.util.Map;
 
 public interface iRecordPermissionPresenter extends iPresenter {
-    interface View extends iBaseView {
+    interface View extends IBaseView {
         /* pass data from interactor to the view */
         void onReadRecordPermissionsSucceeded(Map<String, Object> propertyLists);
 

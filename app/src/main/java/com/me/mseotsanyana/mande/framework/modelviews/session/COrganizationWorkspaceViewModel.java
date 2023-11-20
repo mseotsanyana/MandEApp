@@ -1,9 +1,7 @@
 package com.me.mseotsanyana.mande.framework.modelviews.session;
 
 import android.graphics.Color;
-import android.text.Layout;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -11,62 +9,92 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.OLD.TextDrawable;
 import com.me.mseotsanyana.mande.R;
+import com.me.mseotsanyana.mande.application.structures.CConstantModel;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
+import com.me.mseotsanyana.mande.application.structures.enums.EAction;
+import com.me.mseotsanyana.mande.application.structures.enums.EDialogAction;
+import com.me.mseotsanyana.mande.databinding.SessionOrgCreateUpdateBinding;
 import com.me.mseotsanyana.mande.databinding.SessionOrganizationWorkspaceFragmentBinding;
+import com.me.mseotsanyana.mande.databinding.SessionWorkspaceCreateUpdateBinding;
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
-import com.me.mseotsanyana.mande.framework.routers.COrganizationWorkspaceRouter;
+import com.me.mseotsanyana.mande.framework.ports.CStandardDialog;
+import com.me.mseotsanyana.mande.framework.ports.base.AGUIFactory;
+import com.me.mseotsanyana.mande.framework.ports.base.CFactoryProvider;
+import com.me.mseotsanyana.mande.framework.ports.base.EAdapterType;
+import com.me.mseotsanyana.mande.framework.ports.base.EDialogType;
+import com.me.mseotsanyana.mande.framework.ports.base.ERouterType;
+import com.me.mseotsanyana.mande.framework.ports.base.IBaseAdapter;
+import com.me.mseotsanyana.mande.framework.ports.base.IBaseDialog;
+import com.me.mseotsanyana.mande.framework.ports.base.IBaseRouter;
+import com.me.mseotsanyana.mande.framework.ui.routers.session.COrganizationWorkspaceRouter;
 import com.me.mseotsanyana.mande.framework.ui.adapters.session.COrganizationWorkspaceAdapter;
 import com.me.mseotsanyana.mande.framework.ui.fragments.session.COrganizationWorkspaceFragment;
-import com.me.mseotsanyana.mande.framework.ui.fragments.session.COrganizationWorkspaceFragmentDirections;
-import com.me.mseotsanyana.mande.framework.utils.CFontManager;
+import com.me.mseotsanyana.mande.infrastructure.controllers.session.COrganizationWorkspaceControllerImpl;
 import com.me.mseotsanyana.mande.infrastructure.ports.session.IOrganizationWorkspaceController;
-import com.me.mseotsanyana.multiselectspinnerlibrary.CSingleSpinnerSearch;
+import com.me.mseotsanyana.mande.infrastructure.presenters.session.COrganizationWorkspacePresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.COrganizationFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.CUserProfileFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.CWorkspaceFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CSessionManagerImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cKeyPairBoolData;
-import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
-public class COrganizationWorkspaceOrganizationWorkspaceViewModel implements IOrganizationWorkspaceController.IOrganizationWorkspaceViewModel {
+public class COrganizationWorkspaceViewModel implements IOrganizationWorkspaceController.IViewModel {
+    private static final String TAG = COrganizationWorkspaceViewModel.class.getSimpleName();
     /* organization workspace binding */
     private final SessionOrganizationWorkspaceFragmentBinding binding;
     /* organization workspace view interface */
     private final COrganizationWorkspaceFragment fragment;
-    /* organization workspace adapters */
-    private COrganizationWorkspaceAdapter adapter;
+    /* organization workspace dialog */
+    private final CStandardDialog dialog;
     /* navigation to and from other views */
     private final COrganizationWorkspaceRouter router;
+    /* organization workspace adapters */
+    private final COrganizationWorkspaceAdapter adapter;
+    /* organization workspace controller */
+    private IOrganizationWorkspaceController controller;
 
     private final String[] ORG_TYPE = {"National Partner", "Funder (or Donor)",
             "Beneficiary", "Implementing Agency"};
 
-
-    public COrganizationWorkspaceOrganizationWorkspaceViewModel(COrganizationWorkspaceFragment fragment,
-                                                                SessionOrganizationWorkspaceFragmentBinding binding) {
-        this.router = new COrganizationWorkspaceRouter(fragment);
-        //this.adapter = new COrganizationWorkspaceAdapter(fragment.getContext(),this,new ArrayList<>());
+    public COrganizationWorkspaceViewModel(COrganizationWorkspaceFragment fragment,
+                                           SessionOrganizationWorkspaceFragmentBinding binding) {
         this.fragment = fragment;
         this.binding = binding;
-    }
 
-    public void initDataStructures() {
+        CFactoryProvider factoryProvider = new CFactoryProvider(fragment.getContext(),
+                fragment, this);
 
+        AGUIFactory<IBaseRouter> routerFactory;
+        routerFactory = factoryProvider.getRouterFactory(ERouterType.ORG_WKS);
+        this.router = (COrganizationWorkspaceRouter) routerFactory.create();
+
+        AGUIFactory<IBaseAdapter> adapterFactory;
+        adapterFactory = factoryProvider.getAdapterFactory(EAdapterType.ORG_WKS);
+        this.adapter = (COrganizationWorkspaceAdapter) adapterFactory.create();
+
+        AGUIFactory<IBaseDialog> dialogFactory;
+        dialogFactory = factoryProvider.getDialogFactory(EDialogType.ORG_WKS);
+        this.dialog = (CStandardDialog) dialogFactory.create();
     }
 
     public void initAppBarLayout(Toolbar toolbar, TextView textView,
@@ -91,10 +119,24 @@ public class COrganizationWorkspaceOrganizationWorkspaceViewModel implements IOr
         binding.organizationFAB.setOnClickListener(view -> onClickCreateOrganization());
     }
 
-    private void setAdapter(List<cTreeModel> organizationTreeModels) {
-        if (adapter == null) {
-            adapter = new COrganizationWorkspaceAdapter(fragment.getContext(),
-                    this, organizationTreeModels);
+    public void initController() {
+        controller = new COrganizationWorkspaceControllerImpl(
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
+                CSessionManagerImpl.getInstance(fragment.getContext()),
+                this,
+                new COrganizationWorkspacePresenterImpl(this),
+                new COrganizationFirestoreRepositoryImpl(fragment.getContext()),
+                new CWorkspaceFirestoreRepositoryImpl(fragment.getContext()),
+                new CUserProfileFirestoreRepositoryImpl(fragment.getContext())
+        );
+    }
+
+    private void setAdapter(EAction action, CTreeModel treeModel) {
+        //if (adapter == null) {
+        if (binding.organizationRecyclerView.getAdapter() == null) {
+            //adapter = new COrganizationWorkspaceAdapter(fragment.getContext(),
+            //        this, organizationTreeModels);
 
             binding.organizationRecyclerView.setHasFixedSize(true);
             RecyclerView.LayoutManager mLayoutManager;
@@ -103,35 +145,365 @@ public class COrganizationWorkspaceOrganizationWorkspaceViewModel implements IOr
             binding.organizationRecyclerView.setItemAnimator(new DefaultItemAnimator());
             binding.organizationRecyclerView.setAdapter(adapter);
         } else {
-            try {
-                adapter.notifyTreeModelChanged(organizationTreeModels);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+            adapter.reloadTreeModels(action, treeModel);
         }
     }
 
+    /**************************** event messages received from fragment ***************************/
+
     @Override
-    public void onInitViewModel() {
+    public void onViewCreated() {
         initAppBarLayout(binding.toolbarLayout.toolbar, binding.toolbarLayout.appName,
                 binding.toolbarLayout.collapsingToolbarLayout);
-        initDataStructures();
         initDraggableFAB();
-    }
-
-    // READ ORGANIZATIONS
-
-    @Override
-    public void onReadOrganizationWorkspacesFailed(String msg) {
-        //Toast.makeText(iView.getContext(), msg, Toast.LENGTH_SHORT).show();
+        initController();
     }
 
     @Override
-    public void onReadOrganizationWorkspacesSucceeded(List<cTreeModel> treeModels) {
-        Gson gson = new Gson();
-        Log.d("TAG", "ORG WITH WORKSPACES " + gson.toJson(treeModels));
-        setAdapter(treeModels);
+    public void onResumeView() {
+        controller.resume();
     }
+
+    @Override
+    public void onRemoveListener() {
+        controller.removeListener();
+    }
+
+    @Override
+    public void onSearchAdapter(String query) {
+        adapter.getFilter().filter(query);
+    }
+
+    @Override
+    public void onUserLogOut() {
+        controller.signOutWithEmailAndPassword();
+    }
+
+    @Override
+    public void onUserLoggedOut() {
+        router.actionCOrganizationWorkspaceFragmentToCLoginFragment();
+        Toast.makeText(fragment.getContext(), "No user signed in!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onEmailUnverified() {
+        router.actionCOrganizationWorkspaceFragmentToCLoginFragment();
+        Toast.makeText(fragment.getContext(), "Please check and verify your email!",
+                Toast.LENGTH_SHORT).show();
+    }
+
+    /************************** controller and presenter feedback methods *************************/
+
+    @Override
+    public void showProgress() {
+        binding.includeProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        binding.includeProgressBar.setVisibility(View.GONE);
+    }
+
+//    @Override
+//    public void showResponse(@NonNull Map<String, CTreeModel> response) {
+//
+//        if (response.containsValue(null)) {
+//            router.actionCOrganizationWorkspaceFragmentToCLoginFragment();
+//            Set<String> msg = response.keySet();
+//            Log.i(TAG, (String) msg.toArray()[0]);
+//        } else {
+//            setAdapter((CIndexedLinkedHashMap<String, CTreeModel>) response);
+//        }
+//    }
+
+//    @Override
+//    public void showResponse(String response) {
+//        setAdapter((CIndexedLinkedHashMap<String, CTreeModel>) response);
+//    }
+
+    @Override
+    public void onShowTreeModel(IResponseDTO<CTreeModel> response) {
+        EAction operation = response.getAction();
+        switch (operation) {
+            case Added_ORGANIZATION -> setAdapter(EAction.Added_ORGANIZATION, response.getData());
+            case Modified_ORGANIZATION ->
+                    adapter.reloadTreeModels(EAction.Modified_ORGANIZATION, response.getData());
+            case Deleted_ORGANIZATION ->
+                    adapter.reloadTreeModels(EAction.Deleted_ORGANIZATION, response.getData());
+            case Added_WORKSPACE -> setAdapter(EAction.Added_WORKSPACE, response.getData());
+            case Modified_WORKSPACE ->
+                    adapter.reloadTreeModels(EAction.Modified_WORKSPACE, response.getData());
+            case Deleted_WORKSPACE ->
+                    adapter.reloadTreeModels(EAction.Deleted_WORKSPACE, response.getData());
+        }
+
+//        if (response.getAction().equals(EAction.Added_ORGANIZATION)) {
+//            setAdapter(EAction.Added_ORGANIZATION, response.getData());
+//        }
+//
+//        if (response.getAction().equals(EAction.Modified_ORGANIZATION)) {
+//            adapter.updateTreeModels(response.getData());
+//        }
+//
+//        if (response.getAction().equals(EAction.Added_WORKSPACE)) {
+//            setAdapter(EAction.Added_WORKSPACE, response.getData());
+//        }
+    }
+
+//    @Override
+//    public void onUpdateTreeModels(IResponseDTO<String> response) {
+//        if (response.getAction().equals(EAction.Deleted_WORKSPACE)) {
+//            Log.d(TAG, "------->>>>>>> " + response.getData());
+//            adapter.reloadTreeModels(response.getData());
+//            //adapter.reloadList((CIndexedLinkedHashMap<String, CTreeModel>) response.getData());
+//        }
+//    }
+
+    @Override
+    public void switchResponse(String response) {
+        router.actionCOrganizationWorkspaceFragmentToCHomePageFragment();
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(fragment.getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
+        router.actionCOrganizationWorkspaceFragmentToCLoginFragment();
+        Log.i(TAG, message);
+    }
+
+    /*********************************** on click event methods ***********************************/
+
+    @Override
+    public void onClickCreateWorkspace(CWorkspaceModel workspaceModel) {
+        SessionWorkspaceCreateUpdateBinding binding = DataBindingUtil.inflate(
+                fragment.getLayoutInflater(), R.layout.session_workspace_create_update,
+                null, false);
+
+        binding.setWorkspace(workspaceModel);
+
+        dialog.showCreateOrUpdateCustomDialog("New Workspace", binding.getRoot(), (action) -> {
+            workspaceModel.setName(String.valueOf(binding.editTextName.getText()));
+            workspaceModel.setDescription(String.valueOf(binding.editTextDescription.getText()));
+            controller.createWorkspace(workspaceModel);
+        });
+    }
+
+    @Override
+    public void onClickDeleteWorkspace(int workspaceBITS, CWorkspaceModel workspaceModel) {
+        dialog.showAlertMessageDialog("Delete ?",
+                "Are you sure you want to delete the workspace.", action -> {
+                    if (action.equals(EDialogAction.YES))
+                        controller.deleteWorkspace(workspaceBITS, workspaceModel);
+                    else
+                        showMessage("Delete cancelled!!");
+                });
+    }
+
+    @Override
+    public void onClickUpdateWorkspace(CWorkspaceModel workspaceModel) {
+        SessionWorkspaceCreateUpdateBinding binding = DataBindingUtil.inflate(
+                fragment.getLayoutInflater(), R.layout.session_workspace_create_update,
+                null, false);
+
+        binding.setWorkspace(workspaceModel);
+        binding.editTextName.setText(workspaceModel.getName());
+        binding.editTextDescription.setText(workspaceModel.getDescription());
+
+        dialog.showCreateOrUpdateCustomDialog("Update Workspace",
+                binding.getRoot(), (action) -> {
+                    if (action.equals(EDialogAction.SAVE)) {
+                        workspaceModel.setName(String.valueOf(binding.editTextName.getText()));
+                        workspaceModel.setDescription(Objects.requireNonNull(
+                                binding.editTextDescription.getText()).toString().trim());
+                        controller.updateWorkspace(workspaceModel);
+                    } else {
+                        showMessage("Update cancelled!!");
+                    }
+                });
+    }
+
+    @Override
+    public void onClickReadOrganizationWorkspaces(String organizationServerID) {
+        controller.readWorkspaces(organizationServerID);
+    }
+
+    @Override
+    public void onLongClickWorkspace(@NonNull CWorkspaceModel workspaceModel) {
+        controller.chooseWorkspaceRequest(workspaceModel);
+    }
+
+    @Override
+    public void onClickUpdateOrganization(COrganizationModel organizationModel) {
+        SessionOrgCreateUpdateBinding binding = DataBindingUtil.inflate(
+                fragment.getLayoutInflater(), R.layout.session_org_create_update,
+                null, false);
+
+        binding.setOrganization(organizationModel);
+        binding.textViewOrgType.setText(organizationModel.getType());
+        binding.editTextName.setText(organizationModel.getName());
+        binding.editTextEmail.setText(organizationModel.getEmail());
+        binding.editTextWebsite.setText(organizationModel.getWebsite());
+
+        /* populate the logical model with the create views */
+        /* 1. create selection dialog box for organizations */
+        List<cKeyPairBoolData> keyPairBoolOrgs = new ArrayList<>();
+        for (int i = 0; i < ORG_TYPE.length; i++) {
+            cKeyPairBoolData idNameBool = new cKeyPairBoolData();
+            idNameBool.setId(i);
+            idNameBool.setName(ORG_TYPE[i]);
+            idNameBool.setSelected(ORG_TYPE[i].equals(organizationModel.getType()));
+            keyPairBoolOrgs.add(idNameBool);
+        }
+        // called when click spinner
+        final int[] org_index = new int[1];
+
+        binding.singleSpinner.setItem(keyPairBoolOrgs, -1, item -> {
+            /* assign selected organization name to the view */
+            binding.textViewOrgType.setText(item.getName());
+            org_index[0] = (int) item.getId();//callback needed...FIXME
+        });
+
+        dialog.showCreateOrUpdateCustomDialog("Update Workspace",
+                binding.getRoot(), (action) -> {
+                    if (action.equals(EDialogAction.SAVE)) {
+                        organizationModel.setTypeID(org_index[0]);
+                        organizationModel.setType(String.valueOf(binding.textViewOrgType.getText()));
+                        organizationModel.setName(String.valueOf(binding.editTextName.getText()));
+                        organizationModel.setEmail(String.valueOf(binding.editTextEmail.getText()));
+                        organizationModel.setWebsite(String.valueOf(binding.editTextWebsite.getText()));
+
+                        controller.updateOrganization(organizationModel);
+                    } else {
+                        showMessage("Update cancelled!!");
+                    }
+                });
+    }
+
+    @Override
+    public void onClickDeleteOrganization(String organizationServerID) {
+        dialog.showAlertMessageDialog("Delete ?",
+                "Are you sure you want to delete the organization.", action -> {
+                    if (action.equals(EDialogAction.YES))
+                        controller.deleteOrganization(organizationServerID);
+                    else
+                        showMessage("Delete cancelled!!");
+                });
+    }
+
+    @Override
+    public void onClickCreateOrganization() {
+        /* inflate the resource for create and update */
+        LayoutInflater inflater = fragment.getLayoutInflater();
+        SessionOrgCreateUpdateBinding sessionBinding = DataBindingUtil.inflate(inflater,
+                R.layout.session_org_create_update, null, false);
+
+        /* populate the logical model with the create views */
+        /* 1. create selection dialog box for organizations */
+        List<cKeyPairBoolData> keyPairBoolOrgs = new ArrayList<>();
+        for (int i = 0; i < ORG_TYPE.length; i++) {
+            cKeyPairBoolData idNameBool = new cKeyPairBoolData();
+            idNameBool.setId(i);
+            idNameBool.setName(ORG_TYPE[i]);
+            idNameBool.setSelected(false);
+            keyPairBoolOrgs.add(idNameBool);
+        }
+        // called when click spinner
+        final int[] org_index = new int[1];
+
+
+        sessionBinding.singleSpinner.setItem(keyPairBoolOrgs, -1, item -> {
+            /* assign selected organization name to the view */
+            sessionBinding.textViewOrgType.setText(item.getName());
+            org_index[0] = (int) item.getId();//callback needed...FIXME
+        });
+
+        dialog.showCreateOrUpdateCustomDialog("New Organization",
+                sessionBinding.getRoot(), (action) -> {
+
+                    COrganizationModel organizationModel = new COrganizationModel(
+                            org_index[0],
+                            String.valueOf(sessionBinding.editTextName.getText()),
+                            String.valueOf(sessionBinding.editTextEmail.getText()),
+                            String.valueOf(sessionBinding.editTextWebsite.getText()));
+
+                    controller.createOrganization(organizationModel);
+                });
+    }
+}
+
+//    //---- control handler
+//    private final IOrganizationWorkspaceListener listener = new IOrganizationWorkspaceListener() {
+//        @Override
+//        public void OnDeleteWorkspace(String dialogAction, int workspaceBITS,
+//                                      CWorkspaceModel workspaceModel) {
+//            controller.deleteWorkspace(workspaceBITS, workspaceModel);
+//        }
+//
+//        @Override
+//        public void OnCreateOrganization(Object object) {
+//
+//        }
+//
+//        @Override
+//        public void OnUpdateOrganization(Object object) {
+//
+//        }
+//
+//        @Override
+//        public void OnDeleteOrganization(String dialogAction) {
+//
+//        }
+//
+//        @Override
+//        public void OnCreateWorkspace(CWorkspaceModel workspaceModel) {
+//            controller.createWorkspace(workspaceModel);
+//        }
+//
+//        @Override
+//        public void OnUpdateWorkspace(Object object) {
+//
+//        }
+//    };
+
+//----
+
+//    void showDialog(String action){
+//        dialog.showDeleteDialog(action, new IOrganizationWorkspaceListener() {
+//            @Override
+//            public void OnDeleteWorkspace(String dialogAction) {
+//                if(dialogAction.equals("YES")){
+//                    controller.deleteWorkspace(workspaceServerID, workspaceMembers);
+//                }else {
+//                    Toast.makeText(fragment.getContext(), "Action Cancelled", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void OnCreateWorkspace(Object object) {
+//
+//            }
+//        });
+//    }
+
+
+//    @Override
+//    public void onError(String msg) {
+//        //Toast.makeText(iView.getContext(), msg, Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @Override
+//    public void onSuccess(CIndexedLinkedHashMap<String, CTreeModel> treeModels) {
+//        //setAdapter(treeModels);
+//    }
+//
+//    @Override
+//    public void OnReadWorkspaceSucceeded(CTreeModel treeModel) {
+//        //adapter.updateAllNodes(treeModel, absoluteAdapterPosition);
+//    }
 
 //    @Override
 //    public void onReadOrganizationFailed(String msg) {
@@ -166,9 +538,8 @@ public class COrganizationWorkspaceOrganizationWorkspaceViewModel implements IOr
 //        }
 //    }
 
-    /************************************* view model methods *************************************/
 
-    // SWITCH ORGANIZATION WORKSPACES
+// SWITCH ORGANIZATION WORKSPACES
 //    @Override
 //    public void onSwitchOrganizationWorkspaceFailed(String msg) {
 //        //Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
@@ -183,7 +554,7 @@ public class COrganizationWorkspaceOrganizationWorkspaceViewModel implements IOr
 //        action = COrganizationWorkspaceFragmentDirections.actionCOrganizationFragmentToCHomeFragment();
 //        Navigation.findNavController(requireView()).navigate(action);
 
-        //Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+//Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
 
 
 //        // save settings for the long clicked workspace
@@ -195,7 +566,7 @@ public class COrganizationWorkspaceOrganizationWorkspaceViewModel implements IOr
 //                Toast.LENGTH_SHORT).show();
 //    }
 
-    // READ ORGANIZATION MEMBERS
+// READ ORGANIZATION MEMBERS
 //    @Override
 //    public void onReadOrganizationMembersFailed(String msg) {
 //        //Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
@@ -206,166 +577,63 @@ public class COrganizationWorkspaceOrganizationWorkspaceViewModel implements IOr
 //
 //    }
 
-    // CREATE ORGANIZATION
-
-    // SWITCH WORKSPACE
-    @Override
-    public void onLongClickWorkspace(@NonNull CWorkspaceModel workspaceModel) {
-        //switchOrganizationWorkspace(workspaceModel);
-    }
-
-    @Override
-    public void onClickCreateOrganization() {
-
-    }
-
-    @Override
-    public void onCreateOrganizationFailed(String msg) {
-        Toast.makeText(fragment.getContext(), msg, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onCreateOrganizationSucceeded(String msg) {
-        Toast.makeText(fragment.getContext(), msg, Toast.LENGTH_SHORT).show();
-    }
-
-    // LOGOUT USER
-    @Override
-    public void onUserSignOutFailed(String msg) {
-        Toast.makeText(fragment.getContext(), msg, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onUserSignOutSucceeded(String msg) {
-        NavDirections action;
-        action = COrganizationWorkspaceFragmentDirections.actionCOrganizationFragmentToCLoginFragment();
-        Navigation.findNavController(fragment.requireView()).navigate(action);
-        Toast.makeText(fragment.getContext(), msg, Toast.LENGTH_SHORT).show();
-    }
-
-    /********************************* use case feedback methods *********************************/
-
-    @Override
-    public void showProgress() {
-        binding.includeProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideProgress() {
-        binding.includeProgressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showError(String message) {
-        Toast.makeText(fragment.getContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
-    /************************************ view events methods ************************************/
-
-    private void createAlertDialog() {
-        /* inflate the resource for create and update */
-        LayoutInflater inflater = fragment.getLayoutInflater();
-        View createView = inflater.inflate(R.layout.session_org_create_update, null);
-
-        /* instantiates create views */
-        final int[] org_index = new int[1];
-        TextView textViewTitle = createView.findViewById(R.id.textViewTitle);
-        TextView textViewOrgType = createView.findViewById(R.id.textViewOrgType);
-        CSingleSpinnerSearch singleSpinner = createView.findViewById(R.id.singleSpinner);
-        AppCompatEditText editTextName = createView.findViewById(R.id.editTextName);
-        AppCompatEditText editTextEmail = createView.findViewById(R.id.editTextEmail);
-        AppCompatEditText editTextWebsite = createView.findViewById(R.id.editTextWebsite);
-
-        /* set a title of the create view */
-        textViewTitle.setText(fragment.requireContext().getResources().getText(
-                R.string.organization_create_title));
-
-        /* populate the logical model with the create views */
-        /* 1. create selection dialog box for organizations */
-        List<cKeyPairBoolData> keyPairBoolOrgs = new ArrayList<>();
-        for (int i = 0; i < ORG_TYPE.length; i++) {
-            cKeyPairBoolData idNameBool = new cKeyPairBoolData();
-            idNameBool.setId(i);
-            idNameBool.setName(ORG_TYPE[i]);
-            idNameBool.setSelected(false);
-            keyPairBoolOrgs.add(idNameBool);
-        }
-
-        // called when click spinner
-        singleSpinner.setItem(keyPairBoolOrgs, -1, item -> {
-            /* assign selected organization name to the view */
-            textViewOrgType.setText(item.getName());
-            org_index[0] = (int) item.getId();
-        });
-
-        /* create or cancel action */
-        MaterialAlertDialogBuilder alertDialogBuilder =
-                new MaterialAlertDialogBuilder(fragment.requireActivity(), R.style.AlertDialogTheme);
-        alertDialogBuilder.setPositiveButton(fragment.requireContext().getResources().getText(
-                R.string.Save), (dialogInterface, i) ->
-                createStakeholder(org_index[0],
-                        Objects.requireNonNull(editTextName.getText()).toString(),
-                        Objects.requireNonNull(editTextEmail.getText()).toString(),
-                        Objects.requireNonNull(editTextWebsite.getText()).toString()));
-
-        alertDialogBuilder.setNegativeButton(fragment.requireContext().getResources().getText(
-                        R.string.Cancel), (dialogInterface, i) -> {
-                })
-                .setView(createView)
-                .show();
-    }
-
-    private void createStakeholder(int typeID, String name, String email, String website) {
-        COrganizationModel stakeholderModel = new COrganizationModel(typeID, name, email,
-                website);
-        //organizationPresenter.createOrganization(stakeholderModel);
-    }
+//    @Override
+//    public void OnCreateOrganizationFailed(String msg) {
+//        Toast.makeText(fragment.getContext(), msg, Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @Override
+//    public void OnCreateOrganizationSucceeded(String msg) {
+//        Toast.makeText(fragment.getContext(), msg, Toast.LENGTH_SHORT).show();
+//    }
+//
+//    // LOGOUT USER
+//    @Override
+//    public void OnUserSignOutFailed(String msg) {
+//        Toast.makeText(fragment.getContext(), msg, Toast.LENGTH_SHORT).show();
+//    }
+//
+//    @Override
+//    public void OnUserSignOutSucceeded(String msg) {
+//        router.actionCOrganizationWorkspaceFragmentToCHomeFragment();
+//    }
 
 
-    private void deleteAlertDialog(int resID, String title, String message, int position,
-                                   String organizationID) {
+//    @Override
+//    public void OnPreferenceClearedSucceeded(String msg) {
+//        Log.d(TAG, msg);
+//        router.actionCOrganizationWorkspaceFragmentToCLoginFragment();
+//    }
+//
+//    @Override
+//    public void OnPreferenceClearedFailed(String msg) {
+//        Toast.makeText(fragment.getContext(), msg, Toast.LENGTH_SHORT).show();
+//        router.actionCOrganizationWorkspaceFragmentToCLoginFragment();
+//    }
 
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(fragment.requireContext());
 
-        // setting icon to dialog
-        TextDrawable faIcon = new TextDrawable(fragment.requireContext());
-        faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
-        faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-        faIcon.setTypeface(CFontManager.getTypeface(fragment.requireContext(),
-                CFontManager.FONTAWESOME));
-        faIcon.setText(fragment.requireContext().getResources().getText(resID));
-        faIcon.setTextColor(fragment.requireContext().getColor(R.color.colorAccent));
-        alertDialogBuilder.setIcon(faIcon);
+//    private void setAdapter(List<cTreeModel> organizationTreeModels) {
+//        if (adapter == null) {
+//            adapter = new COrganizationWorkspaceAdapter(fragment.getContext(),
+//                    this, organizationTreeModels);
+//
+//            binding.organizationRecyclerView.setHasFixedSize(true);
+//            RecyclerView.LayoutManager mLayoutManager;
+//            mLayoutManager = new LinearLayoutManager(fragment.getContext());
+//            binding.organizationRecyclerView.setLayoutManager(mLayoutManager);
+//            binding.organizationRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//            binding.organizationRecyclerView.setAdapter(adapter);
+//        } else {
+//            try {
+//                adapter.notifyTreeModelChanged(organizationTreeModels);
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
-        // set title
-        alertDialogBuilder.setTitle(title);
 
-        // set dialog message
-        alertDialogBuilder
-                .setMessage(message)
-                .setCancelable(false)
-                .setPositiveButton(fragment.requireContext().getResources().getText(
-                        R.string.Yes), (dialog, id) -> {
-                    deleteOrganizationModel(organizationID, position);
-                    dialog.dismiss();
-                })
-                .setNegativeButton(fragment.requireContext().getResources().getText(
-                        R.string.No), (dialog, id) -> {
-                    // if this button is clicked, just close
-                    dialog.cancel();
-                });
-
-        // create alert dialog
-        AlertDialog alertDialog = alertDialogBuilder.create();
-
-        // show it
-        alertDialog.show();
-    }
-
-    public void deleteOrganizationModel(String logFrameID, int position) {
-        //organizationPresenter.deleteLogFrameModel(logFrameID, position);
-    }
-}
+//=========================================
 
 //    private void readAllOrganizations() {
 //        if (listenerRegistration != null)

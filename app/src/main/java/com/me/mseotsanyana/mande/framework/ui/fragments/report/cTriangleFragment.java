@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.report;
+package com.me.mseotsanyana.mande.framework.ui.fragments.report;
 
 import android.content.Context;
 import android.content.DialogInterface;

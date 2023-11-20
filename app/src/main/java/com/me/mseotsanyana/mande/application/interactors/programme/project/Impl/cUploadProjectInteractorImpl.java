@@ -2,15 +2,16 @@ package com.me.mseotsanyana.mande.application.interactors.programme.project.Impl
 
 import android.util.Log;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.programme.project.iProjectInteractor;
 import com.me.mseotsanyana.mande.application.repository.programme.iProjectRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 
-public class cUploadProjectInteractorImpl extends cAbstractInteractor
+public class cUploadProjectInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iProjectInteractor {
 
     private static final String TAG = cUploadProjectInteractorImpl.class.getSimpleName();
@@ -29,11 +30,11 @@ public class cUploadProjectInteractorImpl extends cAbstractInteractor
 
     private final String filePath;
 
-    public cUploadProjectInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                        iSharedPreferenceRepository sharedPreferenceRepository,
+    public cUploadProjectInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                        ISessionManager sharedPreferenceRepository,
                                         iProjectRepository projectRepository,
                                         Callback callback, String filePath) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sharedPreferenceRepository == null || projectRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -45,17 +46,17 @@ public class cUploadProjectInteractorImpl extends cAbstractInteractor
         this.filePath = filePath;
 
         // load user shared preferences
-        this.userServerID = sharedPreferenceRepository.loadUserID();
+        this.userServerID = sharedPreferenceRepository.loadLoggedInUserServerID();
         this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
         this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
         //this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryTeams();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
-                cSharedPreference.PROGRAMME_MODULE);
+                CPreferenceConstant.PROGRAMME_MODULE);
         this.entitypermBITS = sharedPreferenceRepository.loadEntityPermissionBITS(
-                cSharedPreference.PROGRAMME_MODULE, cSharedPreference.PROJECT);
-        this.statusBIT = cSharedPreference.ACTIVE;
+                CPreferenceConstant.PROGRAMME_MODULE, CPreferenceConstant.PROJECT);
+        this.statusBIT = CPreferenceConstant.ACTIVE;
 
         Log.d(TAG, " \n USER ID = " + this.userServerID +
                 " \n ORGANIZATION ID = " + this.organizationServerID +
@@ -77,8 +78,8 @@ public class cUploadProjectInteractorImpl extends cAbstractInteractor
 
     @Override
     public void run() {
-        if ((this.entityBITS & cSharedPreference.PROJECT) != 0) {
-            if ((this.entitypermBITS & cSharedPreference.READ) != 0) {
+        if ((this.entityBITS & CPreferenceConstant.PROJECT) != 0) {
+            if ((this.entitypermBITS & CPreferenceConstant.READ) != 0) {
                 this.projectRepository.upLoadProjectsFromExcel(organizationServerID, userServerID,
                         primaryTeamBIT, statusBIT, filePath,
                         new iProjectRepository.iUploadProjectsCallback() {
@@ -98,5 +99,15 @@ public class cUploadProjectInteractorImpl extends cAbstractInteractor
         } else {
             notifyError("No access to the entity! Please contact your administrator");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

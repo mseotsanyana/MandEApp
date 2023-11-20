@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.programme;
+package com.me.mseotsanyana.mande.framework.ui.fragments.programme;
 
 import static com.me.mseotsanyana.mande.R.string.logframe_list_title;
 
@@ -38,19 +38,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.Impl.cLogFramePresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iLogFramePresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.cLogFramePresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iLogFramePresenter;
+import com.me.mseotsanyana.mande.databinding.LogframeListFragmentBinding;
 import com.me.mseotsanyana.mande.framework.ui.adapters.logframe.cLogFrameAdapter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.TextDrawable;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
-import com.me.mseotsanyana.mande.databinding.LogframeListFragmentBinding;
+import com.me.mseotsanyana.mande.framework.utils.CTextDrawable;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.programme.cLogFrameFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.programme.cLogFrameFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 import com.me.mseotsanyana.multiselectspinnerlibrary.CSingleSpinnerSearch;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cKeyPairBoolData;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
@@ -61,6 +61,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -165,10 +166,10 @@ public class cLogFrameFragment extends Fragment implements iLogFramePresenter.Vi
     private void initDataStructures() {
         /* instantiate presenters */
         logFramePresenter = new cLogFramePresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
                 this,
-                new cSharedPreferenceFirestoreRepositoryImpl(requireContext()),
+                null,
                 new cLogFrameFirestoreRepositoryImpl(getContext()));
     }
 
@@ -425,14 +426,14 @@ public class cLogFrameFragment extends Fragment implements iLogFramePresenter.Vi
 
     @Override
     public void onLogFrameCreated(cLogFrameModel frameModel, String msg) {
-        try {
-            int parentIndex = logFrameAdapter.getMaxParentIndex();
-            cTreeModel treeModel = new cTreeModel(parentIndex, -1, 0, frameModel);
-            logFrameAdapter.addData(treeModel);
-            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            int parentIndex = logFrameAdapter.getMaxParentIndex();
+//            cTreeModel treeModel = new cTreeModel(parentIndex, -1, 0, frameModel);
+//            logFrameAdapter.addData(treeModel);
+//            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override
@@ -502,9 +503,18 @@ public class cLogFrameFragment extends Fragment implements iLogFramePresenter.Vi
         includeProgressBar.setVisibility(View.GONE);
     }
 
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
+
     }
 
     //======================= these function show the forms to capture data ========================
@@ -560,8 +570,8 @@ public class cLogFrameFragment extends Fragment implements iLogFramePresenter.Vi
 
         /* 4. set start and end date */
         datePickerIcon.setTypeface(null, Typeface.NORMAL);
-        datePickerIcon.setTypeface(cFontManager.getTypeface(requireActivity(),
-                cFontManager.FONTAWESOME));
+        datePickerIcon.setTypeface(CFontManager.getTypeface(requireActivity(),
+                CFontManager.FONTAWESOME));
         datePickerIcon.setTextColor(requireActivity().getColor(R.color.colorPrimaryDark));
         datePickerIcon.setText(requireActivity().getResources().getString(R.string.fa_calendar));
         datePickerIcon.setOnClickListener(view -> {
@@ -689,8 +699,8 @@ public class cLogFrameFragment extends Fragment implements iLogFramePresenter.Vi
 
         /* 3. set start and end dates */
         datePickerIcon.setTypeface(null, Typeface.NORMAL);
-        datePickerIcon.setTypeface(cFontManager.getTypeface(requireActivity(),
-                cFontManager.FONTAWESOME));
+        datePickerIcon.setTypeface(CFontManager.getTypeface(requireActivity(),
+                CFontManager.FONTAWESOME));
         datePickerIcon.setTextColor(requireActivity().getColor(R.color.colorPrimaryDark));
         datePickerIcon.setText(requireActivity().getResources().getString(R.string.fa_calendar));
         datePickerIcon.setOnClickListener(view -> {
@@ -767,10 +777,10 @@ public class cLogFrameFragment extends Fragment implements iLogFramePresenter.Vi
                 requireContext());
 
         // setting icon to dialog
-        TextDrawable faIcon = new TextDrawable(requireContext());
+        CTextDrawable faIcon = new CTextDrawable(requireContext());
         faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
         faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-        faIcon.setTypeface(cFontManager.getTypeface(requireContext(), cFontManager.FONTAWESOME));
+        faIcon.setTypeface(CFontManager.getTypeface(requireContext(), CFontManager.FONTAWESOME));
         faIcon.setText(requireContext().getResources().getText(resID));
         faIcon.setTextColor(requireContext().getColor(R.color.colorAccent));
         alertDialogBuilder.setIcon(faIcon);

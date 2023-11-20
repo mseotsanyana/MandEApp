@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.framework.ports.base;
+package com.me.mseotsanyana.mande.infrastructure.ports.base;
 
 /**
  * This interface represents a basic view. All views should implement these common methods.
@@ -22,5 +22,7 @@ public interface IBaseView {
      *
      * @param message The error message to be displayed.
      */
-    void showError(String message);
+    void showMessage(String message);
+
+    void showResponseMessage(String message);
 }

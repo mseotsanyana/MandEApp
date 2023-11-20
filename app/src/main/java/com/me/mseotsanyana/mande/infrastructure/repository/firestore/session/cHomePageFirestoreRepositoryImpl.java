@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.session;
+package com.me.mseotsanyana.mande.infrastructure.repository.firestore.session;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,11 +8,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cMenuModel;
-import com.me.mseotsanyana.mande.usecases.repository.session.iHomePageRepository;
-import com.me.mseotsanyana.mande.usecases.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.database.cRealtimeHelper;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CMenuModel;
+import com.me.mseotsanyana.mande.application.repository.session.iHomePageRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.structures.CFirestoreConstant;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class cHomePageFirestoreRepositoryImpl implements iHomePageRepository {
 
     @Override
     public void loadHomePage(boolean isPermissionLoaded,
-                             iSharedPreferenceRepository sharedPreferenceRepository,
+                             ISessionManager sharedPreferenceRepository,
                              iHomePageCallback callback) {
         /* read an organization of the current loggedIn user */
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -57,10 +58,10 @@ public class cHomePageFirestoreRepositoryImpl implements iHomePageRepository {
      * @param callback                   return user profile
      */
     private void readUserProfileSettings(boolean isPermissionLoaded, FirebaseUser firebaseUser,
-                                         iSharedPreferenceRepository sharedPreferenceRepository,
+                                         ISessionManager sharedPreferenceRepository,
                                          iHomePageCallback callback) {
         CollectionReference coUserProfilesRef;
-        coUserProfilesRef = db.collection(cRealtimeHelper.KEY_USERPROFILES);
+        coUserProfilesRef = db.collection(CFirestoreConstant.KEY_USERPROFILES);
 
         coUserProfilesRef.document(firebaseUser.getUid()).get()
                 .addOnCompleteListener(task -> {
@@ -71,7 +72,10 @@ public class cHomePageFirestoreRepositoryImpl implements iHomePageRepository {
                         if (userProfileModel != null) {
                             userProfileModel.setUserServerID(firebaseUser.getUid());
                             /* load menu from saved preference or default json file */
-                            List<cMenuModel> menuModels = sharedPreferenceRepository.loadMenuItems();;
+                            List<CMenuModel> menuModels;
+                            menuModels = sharedPreferenceRepository.
+                                    loadMenuItems(CPreferenceConstant.KEY_MENU_ITEM_BITS);
+
 //                            if (isPermissionLoaded) {
 //                                menuModels = sharedPreferenceRepository.loadMenuItems();
 //

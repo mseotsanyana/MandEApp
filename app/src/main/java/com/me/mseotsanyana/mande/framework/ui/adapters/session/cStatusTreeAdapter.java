@@ -30,9 +30,9 @@ import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationMod
 import com.me.mseotsanyana.mande.domain.entities.models.session.cPermissionModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cStatusModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUserModel;
-import com.me.mseotsanyana.mande.UTIL.INTERFACE.iTreeAdapterCallback;
+import com.me.mseotsanyana.mande.OLD.INTERFACE.iTreeAdapterCallback;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cKeyPairBoolData;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cMultiSpinnerSearch;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cSingleSpinnerSearch_old;
@@ -45,7 +45,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static com.me.mseotsanyana.mande.UTIL.cConstant.NUM_PERMS;
+import static com.me.mseotsanyana.mande.OLD.cConstant.NUM_PERMS;
 
 /**
  * Created by mseotsanyana on 2018/01/22.
@@ -147,7 +147,7 @@ public class cStatusTreeAdapter extends RecyclerView.Adapter<cStatusTreeAdapter.
         SH.switchStatus.setTag(listStatus.get(position));
 
         SH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-        SH.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+        SH.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         SH.textViewDetailIcon.setText(context.getResources().getString(R.string.fa_chevron_right));
 
         //Log.d(TAG, "Position: "+position);
@@ -557,8 +557,8 @@ public class cStatusTreeAdapter extends RecyclerView.Adapter<cStatusTreeAdapter.
 
         /** assign icons to title of popup window **/
         appCompatTextViewCancelIcon.setTypeface(null, Typeface.NORMAL);
-        appCompatTextViewCancelIcon.setTypeface(cFontManager.getTypeface(context,
-                cFontManager.FONTAWESOME));
+        appCompatTextViewCancelIcon.setTypeface(CFontManager.getTypeface(context,
+                CFontManager.FONTAWESOME));
         appCompatTextViewCancelIcon.setText(context.getResources().getString(R.string.fa_com_attr));
 
         for (int i = 0; i < permissionModels.size(); i++) {

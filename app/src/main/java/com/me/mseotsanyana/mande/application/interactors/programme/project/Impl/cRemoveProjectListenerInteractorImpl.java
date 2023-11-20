@@ -1,21 +1,22 @@
 package com.me.mseotsanyana.mande.application.interactors.programme.project.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.programme.project.iProjectInteractor;
 import com.me.mseotsanyana.mande.application.repository.programme.iProjectRepository;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 
-public class cRemoveProjectListenerInteractorImpl extends cAbstractInteractor
+public class cRemoveProjectListenerInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iProjectInteractor {
     private static String TAG = cRemoveProjectListenerInteractorImpl.class.getSimpleName();
     private final iProjectRepository projectRepository;
     private final Callback callback;
 
-    public cRemoveProjectListenerInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
+    public cRemoveProjectListenerInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
                                                 iProjectRepository projectRepository,
                                                 Callback callback) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (projectRepository != null && callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -28,5 +29,15 @@ public class cRemoveProjectListenerInteractorImpl extends cAbstractInteractor
     @Override
     public void run() {
         projectRepository.removeListener();
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

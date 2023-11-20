@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.common;
+package com.me.mseotsanyana.mande.framework.ui.fragments.common;
 
 import android.os.Bundle;
 import android.util.Pair;
@@ -13,11 +13,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.Impl.cRecordPermissionPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iRecordPermissionPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.cRecordPermissionPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iRecordPermissionPresenter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.databinding.MeCommonAttributesBinding;
 import com.me.mseotsanyana.mande.domain.entities.models.common.cRecordPermissionCaretakerModel;
 import com.me.mseotsanyana.mande.domain.entities.models.common.cRecordPermissionMementoModel;
@@ -25,11 +25,11 @@ import com.me.mseotsanyana.mande.domain.entities.models.common.cRecordPermission
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
-import com.me.mseotsanyana.mande.framework.storage.preference.cBitwise;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.common.cRecordPermissionFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.programme.cProjectFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.OLD.storage.preference.cBitwise;
+import com.me.mseotsanyana.mande.infrastructure.repository.preference.cRecordPermissionFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.programme.cProjectFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cKeyPairBoolData;
 
 import java.text.SimpleDateFormat;
@@ -106,10 +106,10 @@ public class cRecordPermissionFragment extends Fragment implements iRecordPermis
     private void initDataStructures() {
         /* instantiate presenters */
         recordPermissionPresenter = new cRecordPermissionPresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
                 this,
-                new cSharedPreferenceFirestoreRepositoryImpl(requireContext()),
+                null,
                 new cRecordPermissionFirestoreRepositoryImpl(),
                 new cProjectFirestoreRepositoryImpl(requireContext()));
     }
@@ -521,10 +521,10 @@ public class cRecordPermissionFragment extends Fragment implements iRecordPermis
 
     @SuppressWarnings("unchecked")
     @Override
-    public void onReadRecordPermissionsSucceeded(@NonNull Map<String, Object> propertyLists) {
-        for (Map.Entry<String, Object> entry : propertyLists.entrySet()) {
+    public void onReadRecordPermissionsSucceeded(@NonNull Map<String, java.lang.Object> propertyLists) {
+        for (Map.Entry<String, java.lang.Object> entry : propertyLists.entrySet()) {
             String key = entry.getKey();
-            Object object = entry.getValue();
+            java.lang.Object object = entry.getValue();
             switch (key) {
                 case "ORGANIZATIONS":
                     // assign organization label
@@ -709,8 +709,18 @@ public class cRecordPermissionFragment extends Fragment implements iRecordPermis
         binding.includeProgressBar.setVisibility(View.GONE);
     }
 
+
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 }

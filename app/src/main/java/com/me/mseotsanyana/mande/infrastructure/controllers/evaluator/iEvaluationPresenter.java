@@ -1,14 +1,14 @@
-package com.me.mseotsanyana.mande.PL.presenters.evaluator;
+package com.me.mseotsanyana.mande.infrastructure.controllers.evaluator;
 
 import com.me.mseotsanyana.mande.domain.entities.models.evaluation.cEvaluationModel;
-import com.me.mseotsanyana.mande.PL.presenters.base.iPresenter;
-import com.me.mseotsanyana.mande.PL.ui.iBaseView;
+import com.me.mseotsanyana.mande.OLD.PL.presenters.base.iPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.IBaseView;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 
 public interface iEvaluationPresenter extends iPresenter {
-    interface View extends iBaseView {
+    interface View extends IBaseView {
         /* pass data from presenter to the view */
         void onEvaluationSelected(cEvaluationModel evaluationModel);
 

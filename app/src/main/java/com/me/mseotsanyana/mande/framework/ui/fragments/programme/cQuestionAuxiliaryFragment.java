@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.programme;
+package com.me.mseotsanyana.mande.framework.ui.fragments.programme;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.me.mseotsanyana.mande.framework.ui.adapters.logframe.cQuestionAux1Adapter;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cQuestionModel;
-import com.me.mseotsanyana.mande.PL.ui.fragments.awpb.cHumanFragment;
+import com.me.mseotsanyana.mande.framework.ui.fragments.awpb.cHumanFragment;
 
 import java.util.ArrayList;
 

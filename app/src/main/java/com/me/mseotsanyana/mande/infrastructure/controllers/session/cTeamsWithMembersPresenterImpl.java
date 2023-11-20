@@ -1,31 +1,26 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
-import com.me.mseotsanyana.mande.usecases.executor.iExecutor;
-import com.me.mseotsanyana.mande.usecases.executor.iMainThread;
-import com.me.mseotsanyana.mande.usecases.interactors.session.team.Impl.cReadTeamsWithMembersInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.team.iReadTeamsWithMembersInteractor;
-import com.me.mseotsanyana.mande.usecases.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.usecases.repository.session.iWorkspaceRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.session.iTeamsWithMembersPresenter;
-import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
-
-import java.util.List;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.repository.session.IWorkspaceRepository;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iTeamsWithMembersPresenter;
 
 public class cTeamsWithMembersPresenterImpl extends cAbstractPresenter implements
-        iTeamsWithMembersPresenter, iReadTeamsWithMembersInteractor.Callback {
+        iTeamsWithMembersPresenter/*, iReadTeamsWithMembersInteractor.Callback*/ {
     //private static String TAG = cTeamPresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iSharedPreferenceRepository preferenceRepository;
-    private final iWorkspaceRepository teamRepository;
+    private final ISessionManager preferenceRepository;
+    private final IWorkspaceRepository teamRepository;
 
-    public cTeamsWithMembersPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cTeamsWithMembersPresenterImpl(IExecutor executor, IMainThread mainThread,
                                           View view,
-                                          iSharedPreferenceRepository preferenceRepository,
-                                          iWorkspaceRepository teamRepository) {
-        super(executor, mainThread);
+                                          ISessionManager preferenceRepository,
+                                          IWorkspaceRepository teamRepository) {
+        super(executor, mainThread, null);
 
         this.view = view;
         this.preferenceRepository = preferenceRepository;
@@ -39,32 +34,32 @@ public class cTeamsWithMembersPresenterImpl extends cAbstractPresenter implement
 
     @Override
     public void readTeamsWithMembers() {
-        iReadTeamsWithMembersInteractor readTeamInteractor = new cReadTeamsWithMembersInteractorImpl(
-                executor,
-                mainThread,
-                preferenceRepository,
-                teamRepository,
-                this);
-
-        view.showProgress();
-        readTeamInteractor.execute();
+//        iReadTeamsWithMembersInteractor readTeamInteractor = new CReadWorkspacesWithMembersInteractorImpl(
+//                executor,
+//                mainThread,
+//                preferenceRepository,
+//                teamRepository,
+//                this);
+//
+//        view.showProgress();
+//        readTeamInteractor.execute();
     }
 
-    @Override
-    public void onReadTeamsWithMembersFailed(String msg) {
-        if (this.view != null) {
-            this.view.onReadTeamsWithMembersFailed(msg);
-            this.view.hideProgress();
-        }
-    }
-
-    @Override
-    public void onReadTeamsWithMembersSucceeded(List<cTreeModel> teamsMembersTree) {
-        if (this.view != null) {
-            this.view.onReadTeamsWithMembersSucceeded(teamsMembersTree);
-            this.view.hideProgress();
-        }
-    }
+//    @Override
+//    public void onReadTeamsWithMembersFailed(String msg) {
+//        if (this.view != null) {
+//            this.view.onReadTeamsWithMembersFailed(msg);
+//            this.view.hideProgress();
+//        }
+//    }
+//
+//    @Override
+//    public void onReadTeamsWithMembersSucceeded(List<cTreeModel> teamsMembersTree) {
+//        if (this.view != null) {
+//            this.view.onReadTeamsWithMembersSucceeded(teamsMembersTree);
+//            this.view.hideProgress();
+//        }
+//    }
 
     /* ===================================== END PREFERENCE ===================================== */
 

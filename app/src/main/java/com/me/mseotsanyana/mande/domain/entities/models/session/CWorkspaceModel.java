@@ -2,7 +2,9 @@ package com.me.mseotsanyana.mande.domain.entities.models.session;
 
 import com.me.mseotsanyana.mande.domain.entities.interfaces.IWorkspaceState;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by mseotsanyana on 2021/03/18.
@@ -27,8 +29,10 @@ public class CWorkspaceModel {
     private Date createdDate;
     private Date modifiedDate;
 
-    public CWorkspaceModel(){
+    private List<String> workspaceMembers;
 
+    public CWorkspaceModel(){
+        workspaceMembers = new ArrayList<>();
     }
 
     public String getCompositeServerID() {
@@ -127,6 +131,14 @@ public class CWorkspaceModel {
         this.modifiedDate = modifiedDate;
     }
 
+    public List<String> getWorkspaceMembers() {
+        return workspaceMembers;
+    }
+
+    public void setWorkspaceMembers(List<String> workspaceMembers) {
+        this.workspaceMembers = workspaceMembers;
+    }
+
     public IWorkspaceState getActiveState() {
         return activeState;
     }
@@ -152,5 +164,25 @@ public class CWorkspaceModel {
     }
     void deleteWorkspaceEvent(){
         activeState.deleteWorkspaceEvent();
+    }
+
+    @Override
+    public String toString() {
+        return "CWorkspaceModel{" +
+                "activeState=" + activeState +
+                ", compositeServerID='" + compositeServerID + '\'' +
+                ", workspaceServerID='" + workspaceServerID + '\'' +
+                ", organizationServerID='" + organizationServerID + '\'' +
+                ", userOwnerID='" + userOwnerID + '\'' +
+                ", organizationOwnerID='" + organizationOwnerID + '\'' +
+                ", workspaceOwnerBIT=" + workspaceOwnerBIT +
+                ", unixpermBITS=" + unixpermBITS +
+                ", statusBIT=" + statusBIT +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", createdDate=" + createdDate +
+                ", modifiedDate=" + modifiedDate +
+                ", workspaceMembers=" + workspaceMembers +
+                '}';
     }
 }

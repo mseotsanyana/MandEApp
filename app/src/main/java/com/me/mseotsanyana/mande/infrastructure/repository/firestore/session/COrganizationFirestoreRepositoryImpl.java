@@ -1,4 +1,7 @@
-package com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.session;
+package com.me.mseotsanyana.mande.infrastructure.repository.firestore.session;
+
+import static com.me.mseotsanyana.mande.application.structures.CFirestoreConstant.FAILURE;
+import static com.me.mseotsanyana.mande.application.structures.CFirestoreConstant.SUCCESS;
 
 import android.content.Context;
 import android.util.Log;
@@ -20,16 +23,16 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cPlanModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CPrivilegeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cUserAccountModel;
-import com.me.mseotsanyana.mande.domain.entities.models.utils.cCommonPropertiesModel;
-import com.me.mseotsanyana.mande.usecases.repository.session.iOrganizationRepository;
-import com.me.mseotsanyana.mande.framework.storage.base.cFirebaseCallBack;
-import com.me.mseotsanyana.mande.framework.storage.base.cFirebaseChildCallBack;
-import com.me.mseotsanyana.mande.framework.storage.base.cFirebaseRepository;
-import com.me.mseotsanyana.mande.framework.storage.database.cRealtimeHelper;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.cDatabaseUtils;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CUserAccountModel;
+import com.me.mseotsanyana.mande.domain.entities.models.utils.CCommonAttributeModel;
+import com.me.mseotsanyana.mande.application.repository.session.IOrganizationRepository;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreCallBack;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreChildCallBack;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreRepository;
+import com.me.mseotsanyana.mande.application.structures.CFirestoreConstant;
+import com.me.mseotsanyana.mande.application.utils.CFirestoreUtility;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,24 +44,35 @@ import java.util.Objects;
 /**
  * Created by mseotsanyana on 2016/10/23.
  */
-public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
-        implements iOrganizationRepository {
-    private static final String TAG = cOrganizationFirestoreRepositoryImpl.class.getSimpleName();
+public class COrganizationFirestoreRepositoryImpl extends CFirestoreRepository
+        implements IOrganizationRepository {
+    private static final String TAG = COrganizationFirestoreRepositoryImpl.class.getSimpleName();
 
     // an object of the database helper
-    private final FirebaseFirestore database;
     private final Context context;
+    private final FirebaseFirestore database;
+    private final CollectionReference organizationCollectionReference, workspacesCollectionReference,
+            workspaceMembersReference, organizationMembersReference, privilegeCollectionReference;
 
     private ListenerRegistration listenerRegistration;
 
-    public cOrganizationFirestoreRepositoryImpl(Context context) {
-        this.database = FirebaseFirestore.getInstance();
+    public COrganizationFirestoreRepositoryImpl(Context context) {
         this.context = context;
+        this.database = FirebaseFirestore.getInstance();
+        this.organizationCollectionReference = database.collection(
+                CFirestoreConstant.KEY_ORGANIZATIONS);
+        this.workspacesCollectionReference = database.collection(
+                CFirestoreConstant.KEY_WORKSPACES);
+        this.workspaceMembersReference = database.collection(
+                CFirestoreConstant.KEY_WORKSPACE_MEMBERS);
+        this.organizationMembersReference = database.collection(
+                CFirestoreConstant.KEY_ORGANIZATION_MEMBERS);
+        this.privilegeCollectionReference = database.collection(
+                CFirestoreConstant.KEY_WORKSPACE_PRIVILEGES);
     }
 
-    /* ##################################### CREATE ACTIONS ##################################### */
-
-    /**
+    /*************************************** CREATE ACTIONS ****************************************
+     *
      * create organization
      *
      * @param organizationModel organization model
@@ -66,7 +80,7 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
      */
     @Override
     public void createOrganization(COrganizationModel organizationModel,
-                                   iCreateOrganizationCallback callback) {
+                                   CFirestoreCallBack callback) {
         // get current logged in user
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -76,13 +90,11 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
             WriteBatch batch = database.batch();
 
             // create new organization
-            CollectionReference collectionStakeholderRef = database.collection(
-                    cRealtimeHelper.KEY_ORGANIZATIONS);
-            DocumentReference organizationDocRef = collectionStakeholderRef.document();
+            DocumentReference organizationDocRef = organizationCollectionReference.document();
+            String organizationServerID = organizationDocRef.getId();
 
             Map<String, Object> organization = new HashMap<>();
 
-            String organizationServerID = organizationDocRef.getId();
             organization.put("organizationServerID", organizationServerID);
             organization.put("name", organizationModel.getName());
             organization.put("email", organizationModel.getEmail());
@@ -96,30 +108,23 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
             organization.put("modifiedDate", currentDate);
 
             // update organization model with default values
-            cCommonPropertiesModel properties = cDatabaseUtils.getCommonModel(context);
+            CCommonAttributeModel properties = CFirestoreUtility.getCommonModel(context);
 
             organization.put("userOwnerID", userServerID);
             organization.put("organizationOwnerID", organizationServerID);
             organization.put("workspaceOwnerBIT", properties.getWorkspaceOwnerBIT());
             organization.put("unixpermBITS", properties.getUnixpermBITS());
             organization.put("statusBIT", properties.getStatusBIT());
+            organization.put("workspaceBITS", properties.getWorkspaceOwnerBIT());
 
             switch (organizationModel.getTypeID()) {
-                case 0:
-                    organizationModel.setType("PARTNER");
-                    break;
-                case 1:
-                    organizationModel.setType("DONOR");
-                    break;
-                case 2:
-                    organizationModel.setType("BENEFICIARY");
-                    break;
-                case 3:
-                    organizationModel.setType("IMPLEMENTING AGENCY");
-                    break;
-                default:
-                    Log.d(TAG, "Error in creating an organization");
+                case 0 -> organizationModel.setType("PARTNER");
+                case 1 -> organizationModel.setType("DONOR");
+                case 2 -> organizationModel.setType("BENEFICIARY");
+                case 3 -> organizationModel.setType("IMPLEMENTING AGENCY");
+                default -> Log.d(TAG, "Error in creating an organization");
             }
+
             organization.put("type", organizationModel.getType());
 
             // 1. adding newly created parent organization to the batch
@@ -128,32 +133,34 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
             // 2. adding the workspace to the organization just created to the batch
 
             /* create a default administrator workspace during the creation of an organization */
-            CWorkspaceModel workspaceModel = cDatabaseUtils.getAdminWorkspaceModel(context,
+            CWorkspaceModel workspaceModel = CFirestoreUtility.getAdminWorkspaceModel(context,
                     organizationServerID, properties);
-            workspaceModel.setUserOwnerID(userServerID);
-            workspaceModel.setOrganizationOwnerID(organizationServerID);
+
             String compositeServerID = workspaceModel.getCompositeServerID();
             String workspaceServerID = workspaceModel.getWorkspaceServerID();
+            String userAccountServerID = organizationServerID + "_" + userServerID;
 
-            CollectionReference coWorkspacesRef;
-            coWorkspacesRef = database.collection(cRealtimeHelper.KEY_WORKSPACES);
-            DocumentReference workspaceDocRef = coWorkspacesRef.document(compositeServerID);
+            workspaceModel.setUserOwnerID(userServerID);
+            workspaceModel.setOrganizationOwnerID(organizationServerID);
+            workspaceModel.getWorkspaceMembers().add(userAccountServerID);
+
+            DocumentReference workspaceDocRef;
+            workspaceDocRef = workspacesCollectionReference.document(compositeServerID);
+
             batch.set(workspaceDocRef, workspaceModel);
 
             // 3. adding admin member to the admin workspace just created to the batch
 
             // add the current user to the team of the organization just created
-            CollectionReference coWorkspaceMembersRef;
-            coWorkspaceMembersRef = database.collection(cRealtimeHelper.KEY_WORKSPACE_MEMBERS);
             Map<String, Object> workspace_members = new HashMap<>();
-            workspace_members.put("userAccountServerID", organizationServerID + "_" + userServerID);
+            workspace_members.put("userAccountServerID", userAccountServerID);
             workspace_members.put("workspaceMemberServerID", compositeServerID);
             workspace_members.put("organizationServerID", organizationServerID);
             workspace_members.put("workspaceServerID", workspaceServerID);
             workspace_members.put("userServerID", userServerID);
             workspace_members.put("workspaceType", true);
 
-            DocumentReference workspaceMemberDocRef = coWorkspaceMembersRef.document(
+            DocumentReference workspaceMemberDocRef = workspaceMembersReference.document(
                     organizationServerID + "_" + userServerID + "_" + compositeServerID);
             batch.set(workspaceMemberDocRef, workspace_members);
 
@@ -161,39 +168,37 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
 
             /* read a default freemium plan from json associated with the administrator of
                the organization just created */
-            cPlanModel freemiumPlanModel = cDatabaseUtils.getDefaultPlanModel(context);
+            cPlanModel freemiumPlanModel = CFirestoreUtility.getDefaultPlanModel(context);
             /* create a user account of the administrator with the organization just created */
             String planSeverID = freemiumPlanModel.getPlanServerID();
-            cUserAccountModel userAccountModel = createUserAccount(organizationServerID,
+            CUserAccountModel userAccountModel = new CUserAccountModel(organizationServerID,
                     userServerID, workspaceServerID, planSeverID, properties);
-            CollectionReference coUserAccountsRef;
-            coUserAccountsRef = database.collection(cRealtimeHelper.KEY_ORGANIZATION_MEMBERS);
+
             DocumentReference userAccountDocRef;
-            userAccountDocRef = coUserAccountsRef.document(organizationServerID + "_" +
-                    userServerID);
+            userAccountDocRef = organizationMembersReference.document(
+                    organizationServerID + "_" + userServerID);
             batch.set(userAccountDocRef, userAccountModel);
 
             // 5. adding admin privileges of the admin workspace to the batch.
 
             /* create a default workspace privileges during the creation of the organization */
-            cPrivilegeModel privilegeModel = cDatabaseUtils.createDefaultPrivilegeModel(context,
+            CPrivilegeModel privilegeModel = CFirestoreUtility.createDefaultPrivilegeModel(context,
                     properties);
 
             privilegeModel.setPrivilegeServerID(compositeServerID);
             privilegeModel.setUserOwnerID(userServerID);
             privilegeModel.setOrganizationOwnerID(organizationServerID);
 
-            CollectionReference coPrivilegeRef;
-            coPrivilegeRef = database.collection(cRealtimeHelper.KEY_WORKSPACE_PRIVILEGES);
-            DocumentReference privilegeDocRef = coPrivilegeRef.document(compositeServerID);
+            DocumentReference privilegeDocRef;
+            privilegeDocRef = privilegeCollectionReference.document(compositeServerID);
             batch.set(privilegeDocRef, privilegeModel);
 
             // commit the batch file
-            batchWrite(batch, new cFirebaseCallBack() {
+            batchWrite(batch, new CFirestoreCallBack() {
                 @Override
                 public void onFirebaseSuccess(Object object) {
-                    // once organization successfully created, make sure that it is activated
-                    /*Query query = coUserAccountsRef.whereEqualTo("userServerID", userServerID);
+                    /* once organization successfully created, make sure that it is activated
+                    Query query = coUserAccountsRef.whereEqualTo("userServerID", userServerID);
                     query.get().addOnCompleteListener(task -> {
                         for (QueryDocumentSnapshot doc : Objects.requireNonNull(task.getResult())) {
                             cUserAccountModel useraccount = doc.toObject(cUserAccountModel.class);
@@ -205,73 +210,40 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
                             }
                         }
                     });*/
-                    callback.onCreateOrganizationSucceeded(
+                    callback.onFirebaseSuccess(
                             "Successfully created an organization.");
                 }
 
                 @Override
                 public void onFirebaseFailure(Object object) {
-                    callback.onCreateOrganizationFailed(
-                            "Failed to create an organization.");
+                    callback.onFirebaseFailure(
+                            "Failed to create an organization");
                 }
             });
         } else {
-            callback.onCreateOrganizationFailed("Error, Failed to create an organization.");
+            callback.onFirebaseFailure("Error, Failed to create an organization.");
         }
     }
 
-    /**
-     * create user account in an organization
+    /***************************************** READ ACTIONS ****************************************
      *
-     * @param organizationServerID  organization identification
-     * @param userServerID          user identification
-     * @param teamServerID          team identification
-     * @param planServerID          plan identification
-     * @param commonPropertiesModel common properties model
-     * @return user account
+     * @param organizationServerID   organization identification
+     * @param userServerID           user identification
+     * @param primaryWorkspaceBIT    primary workspace bit
+     * @param secondaryWorkspaceBITS secondary workspace bit
+     * @param statusBITS             status bits
+     * @param firebaseChildCallBack  firebase callback
      */
-    @NonNull
-    private cUserAccountModel createUserAccount(String organizationServerID, String userServerID,
-                                                String teamServerID, String planServerID,
-                                                @NonNull cCommonPropertiesModel commonPropertiesModel) {
-        cUserAccountModel userAccountModel = new cUserAccountModel();
-
-        userAccountModel.setUserAccountServerID(organizationServerID + "_" + userServerID);
-        userAccountModel.setOrganizationServerID(organizationServerID);
-        userAccountModel.setWorkspaceServerID(teamServerID);
-        userAccountModel.setUserServerID(userServerID);
-        userAccountModel.setPlanServerID(planServerID);
-        userAccountModel.setCurrentOrganization(true);
-
-        // current date
-        Date currentDate = new Date();
-        userAccountModel.setCreatedDate(currentDate);
-        userAccountModel.setModifiedDate(currentDate);
-
-        // update user account model with default values
-        userAccountModel.setUserOwnerID(userServerID);
-        userAccountModel.setOrganizationOwnerID(organizationServerID);
-        userAccountModel.setWorkspaceOwnerBIT(commonPropertiesModel.getWorkspaceOwnerBIT());
-        userAccountModel.setUnixpermBITS(commonPropertiesModel.getUnixpermBITS());
-        userAccountModel.setStatusBIT(commonPropertiesModel.getStatusBIT());
-
-        return userAccountModel;
-    }
-
-    /* ###################################### READ ACTIONS ###################################### */
-
     @Override
     public void readOrganizations(String organizationServerID, String userServerID,
-                                  int primaryTeamBIT, List<Integer> secondaryTeamBITS,
+                                  int primaryWorkspaceBIT, List<Integer> secondaryWorkspaceBITS,
                                   List<Integer> statusBITS,
-                                  cFirebaseChildCallBack firebaseChildCallBack) {
+                                  CFirestoreChildCallBack firebaseChildCallBack) {
 
-        CollectionReference coOrganizationRef;
-        coOrganizationRef = database.collection(cRealtimeHelper.KEY_STAKEHOLDERS);
-        Query query = coOrganizationRef.orderBy("createdDate");
+        Query query = organizationCollectionReference.orderBy("createdDate");
 
         listenerRegistration = readQueryDocumentsByChildEventListener(
-                query, new cFirebaseChildCallBack() {
+                query, new CFirestoreChildCallBack() {
                     @Override
                     public void onChildAdded(Object object) {
                         if (object != null) {
@@ -343,9 +315,9 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
     }
 
     @Override
-    public void readOrganizationWorkspaces(cFirebaseCallBack firebaseCallBack) {
+    public void readOrganizationWorkspaces(CFirestoreCallBack firebaseCallBack) {
         CollectionReference coUserOrganizationsRef;
-        coUserOrganizationsRef = database.collection(cRealtimeHelper.KEY_ORGANIZATION_MEMBERS);
+        coUserOrganizationsRef = database.collection(CFirestoreConstant.KEY_ORGANIZATION_MEMBERS);
 
         String userServerID;
         userServerID = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
@@ -353,7 +325,7 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
         Query query = coUserOrganizationsRef
                 .whereEqualTo("userServerID", userServerID).orderBy("createdDate");
 
-        listenerRegistration = readQueryDocumentsByListener(query, new cFirebaseCallBack() {
+        listenerRegistration = readQueryDocumentsByListener(query, new CFirestoreCallBack() {
             @Override
             public void onFirebaseSuccess(Object object) {
                 Log.d(TAG, "I AM HERE AGAIN");
@@ -378,14 +350,14 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
     }
 
     private void filterOrganizationDetails(@NonNull List<String> organization_ids,
-                                           cFirebaseCallBack firebaseCallBack) {
+                                           CFirestoreCallBack firebaseCallBack) {
         if (!organization_ids.isEmpty()) {
             CollectionReference coOrganizationRef;
-            coOrganizationRef = database.collection(cRealtimeHelper.KEY_ORGANIZATIONS);
+            coOrganizationRef = database.collection(CFirestoreConstant.KEY_ORGANIZATIONS);
             Query query = coOrganizationRef
                     .whereIn("organizationServerID", organization_ids);
 
-            readQueryDocuments(query, new cFirebaseCallBack() {
+            readQueryDocuments(query, new CFirestoreCallBack() {
                 @Override
                 public void onFirebaseSuccess(Object object) {
                     if (object != null) {
@@ -420,16 +392,16 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
     }
 
     private void filterWorkspaceDetails(@NonNull Map<String, COrganizationModel> organizationModelMap,
-                                        cFirebaseCallBack firebaseCallBack) {
+                                        CFirestoreCallBack firebaseCallBack) {
         if (!organizationModelMap.isEmpty()) {
             CollectionReference coWorkspacesRef;
-            coWorkspacesRef = database.collection(cRealtimeHelper.KEY_WORKSPACES);
+            coWorkspacesRef = database.collection(CFirestoreConstant.KEY_WORKSPACES);
             List<String> organization_ids = new ArrayList<>(organizationModelMap.keySet());
             Query orgWorkspacesQuery = coWorkspacesRef.
                     whereIn("organizationServerID", organization_ids);
 
             readQueryDocuments(orgWorkspacesQuery,
-                    new cFirebaseCallBack() {
+                    new CFirestoreCallBack() {
                         @Override
                         public void onFirebaseSuccess(Object object) {
                             if (object != null) {
@@ -478,28 +450,24 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
     public void readOrganizationAccounts(String organizationServerID, String userServerID,
                                          int primaryTeamBIT, List<Integer> secondaryTeamBITS,
                                          List<Integer> statusBITS,
-                                         cFirebaseChildCallBack firebaseChildCallBack) {
+                                         CFirestoreChildCallBack firebaseChildCallBack) {
 
         CollectionReference coUserAccountsRef;
-        coUserAccountsRef = database.collection(cRealtimeHelper.KEY_ORGANIZATION_MEMBERS);
-
-/*        Query userAccountQuery = coUserAccountsRef
-                .whereEqualTo("organizationOwnerID", organizationServerID)
-                .whereIn("statusBIT", statusBITS);*/
+        coUserAccountsRef = database.collection(CFirestoreConstant.KEY_ORGANIZATION_MEMBERS);
 
         Query userAccountQuery = coUserAccountsRef
                 .whereEqualTo("userServerID", userServerID);
 
         listenerRegistration = readQueryDocumentsByChildEventListener(userAccountQuery,
-                new cFirebaseChildCallBack() {
+                new CFirestoreChildCallBack() {
                     @Override
                     public void onChildAdded(Object object) {
                         if (object != null) {
                             Map<String, Object> userAccount = new HashMap<>();
                             DocumentSnapshot document = (DocumentSnapshot) object;
                             if (document.exists()) {
-                                cUserAccountModel accountModel;
-                                accountModel = document.toObject(cUserAccountModel.class);
+                                CUserAccountModel accountModel;
+                                accountModel = document.toObject(CUserAccountModel.class);
                                 if (accountModel != null) {
                                     userAccount.put("userAccountServerID",
                                             accountModel.getUserAccountServerID());
@@ -533,8 +501,8 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
                             Map<String, Object> userAccount = new HashMap<>();
                             DocumentSnapshot document = (DocumentSnapshot) object;
                             if (document.exists()) {
-                                cUserAccountModel accountModel;
-                                accountModel = document.toObject(cUserAccountModel.class);
+                                CUserAccountModel accountModel;
+                                accountModel = document.toObject(CUserAccountModel.class);
                                 if (accountModel != null) {
                                     userAccount.put("userAccountServerID",
                                             accountModel.getUserAccountServerID());
@@ -568,8 +536,8 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
                             Map<String, Object> userAccount = new HashMap<>();
                             DocumentSnapshot document = (DocumentSnapshot) object;
                             if (document.exists()) {
-                                cUserAccountModel accountModel;
-                                accountModel = document.toObject(cUserAccountModel.class);
+                                CUserAccountModel accountModel;
+                                accountModel = document.toObject(CUserAccountModel.class);
                                 if (accountModel != null) {
                                     userAccount.put("userAccountServerID",
                                             accountModel.getUserAccountServerID());
@@ -611,21 +579,11 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
      * @param firebaseChildCallBack call back
      */
     private void filterOrganizations(@NonNull Map<String, Object> userAccount,
-                                     cFirebaseChildCallBack firebaseChildCallBack) {
+                                     CFirestoreChildCallBack firebaseChildCallBack) {
 
         CollectionReference coOrganizationRef;
-        coOrganizationRef = database.collection(cRealtimeHelper.KEY_ORGANIZATIONS);
+        coOrganizationRef = database.collection(CFirestoreConstant.KEY_ORGANIZATIONS);
 
-        // extract organization ids
-//        List<String> org_ids = new ArrayList<>();
-//        for (int i = 0; i < userAccounts.size(); i++) {
-//            for (Map.Entry<String, String> entry : userAccounts.get(i).entrySet()) {
-//                if (entry.getKey().equals("organizationServerID")) {
-//                    org_ids.add(entry.getValue());
-//                }
-//            }
-//        }
-//
         Query organizationQuery = coOrganizationRef
                 .whereEqualTo(FieldPath.documentId(), userAccount.get("organizationServerID"));
 
@@ -633,45 +591,23 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
                 .addOnCompleteListener(task -> {
                     for (QueryDocumentSnapshot doc : Objects.requireNonNull(task.getResult())) {
                         Map<String, Object> account = doc.getData();
-                        userAccount.put("name", (String) account.get("name"));
-                        userAccount.put("email", (String) account.get("email"));
-                        userAccount.put("typeID", (long) account.get("typeID"));
+                        userAccount.put("name", account.get("name"));
+                        userAccount.put("email", account.get("email"));
+                        userAccount.put("typeID", account.get("typeID"));
 
                     }
                     firebaseChildCallBack.onChildAdded(userAccount);
                 })
-                .addOnFailureListener(e -> {
-                    firebaseChildCallBack.onChildAdded("Failed to read organization accounts");
-                });
-
-//        organizationQuery.get()
-//                .addOnCompleteListener(task -> {
-//                    for (QueryDocumentSnapshot doc : Objects.requireNonNull(task.getResult())) {
-//                        Map<String, Object> organization = doc.getData();
-//                        for (int i = 0; i < userAccounts.size(); i++) {
-//                            String org_id = userAccounts.get(i).get("organizationServerID");
-//                            if (Objects.requireNonNull(organization.get("organizationServerID")).
-//                                    equals(org_id)) {
-//                                userAccounts.get(i).put("name",
-//                                        (String) organization.get("name"));
-//                                userAccounts.get(i).put("email",
-//                                        (String) organization.get("email"));
-//                            }
-//                        }
-//                    }
-//
-//                    // call back on organization members
-//                    callback.onReadOrganizationAccountsSucceeded(userAccounts);
-//                })
-//                .addOnFailureListener(e -> callback.onReadOrganizationAccountsFailed(
-//                        "Failed to read organization accounts"));
+                .addOnFailureListener(e ->
+                        firebaseChildCallBack.onChildAdded(
+                                "Failed to read organization accounts"));
     }
 
     @Override
     public void readOrganizationAccounts(String organizationServerID, String userServerID,
                                          int primaryTeamBIT, List<Integer> secondaryWorkspaceBITS,
                                          List<Integer> statusBITS,
-                                         cFirebaseCallBack firebaseCallBack) {
+                                         CFirestoreCallBack firebaseCallBack) {
 
     }
 
@@ -679,15 +615,69 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
     public void readOrganizationAgreements(String organizationServerID, String userServerID,
                                            int primaryTeamBIT, List<Integer> secondaryWorkspaceBITS,
                                            List<Integer> statusBITS,
-                                           cFirebaseCallBack firebaseCallBack) {
+                                           CFirestoreCallBack firebaseCallBack) {
 
     }
 
-    /* ##################################### UPDATE ACTIONS ##################################### */
+    /*************************************** UPDATE ACTIONS ***************************************/
 
+    @Override
+    public void updateOrganization(COrganizationModel organizationModel,
+                                   CFirestoreCallBack firestoreCallBack) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("typeID", organizationModel.getTypeID());
+        map.put("type", organizationModel.getType());
+        map.put("name", organizationModel.getName());
+        map.put("email",organizationModel.getEmail());
+        map.put("website",organizationModel.getWebsite());
+        map.put("modifiedDate", new Date());
 
-    /* ##################################### DELETE ACTIONS ##################################### */
+        if (!CFirestoreUtility.isEmptyOrNull(organizationModel.getOrganizationServerID())) {
+            DocumentReference organizationDocumentReference;
+            organizationDocumentReference = organizationCollectionReference.document(
+                    organizationModel.getOrganizationServerID());
+            fireStoreUpdate(organizationDocumentReference, map, new CFirestoreCallBack() {
+                @Override
+                public void onFirebaseSuccess(Object object) {
+                    firestoreCallBack.onFirebaseSuccess(SUCCESS);
+                }
 
+                @Override
+                public void onFirebaseFailure(Object object) {
+                    firestoreCallBack.onFirebaseFailure(object);
+                }
+            });
+        } else {
+            firestoreCallBack.onFirebaseFailure(FAILURE);
+        }
+    }
+
+    /*************************************** DELETE ACTIONS ***************************************/
+
+    @Override
+    public void deleteOrganization(String organizationServerID,
+                                   CFirestoreCallBack firestoreCallBack) {
+        if (!CFirestoreUtility.isEmptyOrNull(organizationServerID)) {
+            DocumentReference organizationDocumentReference;
+            organizationDocumentReference = organizationCollectionReference.document(
+                    organizationServerID);
+            fireStoreDelete(organizationDocumentReference, new CFirestoreCallBack() {
+                @Override
+                public void onFirebaseSuccess(Object object) {
+                    firestoreCallBack.onFirebaseSuccess(SUCCESS);
+                }
+                @Override
+                public void onFirebaseFailure(Object object) {
+                    firestoreCallBack.onFirebaseFailure(object);
+                }
+            });
+        } else {
+            firestoreCallBack.onFirebaseFailure(FAILURE);
+        }
+
+    }
+
+    /************************************** AUXILIARY ACTIONS *************************************/
 
     @Override
     public void removeListener() {
@@ -696,259 +686,3 @@ public class cOrganizationFirestoreRepositoryImpl extends cFirebaseRepository
     }
 
 }
-
-//    /**
-//     * create organization
-//     *
-//     * @param stakeholderModel stakeholder model
-//     * @param callback         call back
-//     */
-//    @Override
-//    public void createStakeholder(cOrganizationModel stakeholderModel,
-//                                  iCreateOrganizationCallback callback) {
-//        // get current logged in user
-//        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-//        if (currentUser != null) {
-//            String userServerID = currentUser.getUid();
-//            /* create a batch object for creation of an organization */
-//            WriteBatch batch = database.batch();
-//
-//            // create new organization
-//            CollectionReference collectionStakeholderRef = database.collection(
-//                    cRealtimeHelper.KEY_STAKEHOLDERS);
-//            DocumentReference stakeholderDocRef = collectionStakeholderRef.document();
-//            String organizationServerID = stakeholderDocRef.getId();
-//
-//            // update organization default dates
-//            Date currentDate = new Date();
-//            stakeholderModel.setCreatedDate(currentDate);
-//            stakeholderModel.setModifiedDate(currentDate);
-//
-//            // update organization model with default values
-//            cCommonPropertiesModel commonPropertiesModel = cDatabaseUtils.getCommonModel(context);
-//            stakeholderModel.setUserOwnerID(userServerID);
-//            stakeholderModel.setOrganizationOwnerID(organizationServerID);
-//            stakeholderModel.setTeamOwnerBIT(commonPropertiesModel.getCteamOwnerBIT());
-//            stakeholderModel.setUnixpermBITS(commonPropertiesModel.getCunixpermBITS());
-//            stakeholderModel.setStatusBIT(commonPropertiesModel.getCstatusBIT());
-//
-//            switch (stakeholderModel.getTypeID()) {
-//                case 0:
-//                    stakeholderModel.setType("MY ORGANIZATION");
-//                    break;
-//                case 1:
-//                    stakeholderModel.setType("PARTNER");
-//                    break;
-//
-//                case 2:
-//                    stakeholderModel.setType("FUNDER");
-//                    break;
-//                case 3:
-//                    stakeholderModel.setType("BENEFICIARY");
-//                    break;
-//                case 4:
-//                    stakeholderModel.setType("IMPLEMENTING AGENCY");
-//                    break;
-//                default:
-//                    Log.d(TAG, "Error in creating an organization");
-//            }
-//
-//            // 1. adding newly created parent organization to the batch
-//            batch.set(stakeholderDocRef, stakeholderModel);
-//
-//            // 2. adding the team to the organization just created to the batch
-//
-//            /* create a default administrator team during the creation of an organization */
-//            cWorkspaceModel teamModel = cDatabaseUtils.getAdminWorkspaceModel(context, organizationServerID,
-//                    commonPropertiesModel);
-//            teamModel.setUserOwnerID(userServerID);
-//            teamModel.setOrganizationOwnerID(organizationServerID);
-//            String compositeServerID = teamModel.getCompositeServerID();
-//            CollectionReference coTeamsRef = database.collection(cRealtimeHelper.KEY_TEAMS);
-//            DocumentReference teamDocRef = coTeamsRef.document(compositeServerID);
-//            batch.set(teamDocRef, teamModel);
-//
-//            // 3. adding admin team member to the team just created to the batch
-//
-//            // add the current user to the team of the organization just created
-//            CollectionReference coTeamMembersRef;
-//            coTeamMembersRef = database.collection(cRealtimeHelper.KEY_TEAM_MEMBERS);
-//            Map<String, Object> team_members = new HashMap<>();
-//            team_members.put("userAccountServerID", organizationServerID + "_" + userServerID);
-//            team_members.put("teamMemberServerID", compositeServerID);
-//            DocumentReference teamMemberDocRef = coTeamMembersRef.document(
-//                    organizationServerID + "_" + userServerID + "_" + compositeServerID);
-//            batch.set(teamMemberDocRef, team_members);
-//
-//            // 4. adding new account of admin member of an organization to the batch.
-//
-//            /* read a default freemium plan from json associated with the administrator of
-//               the organization just created */
-//            cPlanModel freemiumPlanModel = cDatabaseUtils.getDefaultPlanModel(context);
-//            /* create a user account of the administrator with the organization just created */
-//            String teamServerID = teamModel.getWorkspaceServerID();
-//            String planSeverID = freemiumPlanModel.getPlanServerID();
-//            cUserAccountModel userAccountModel = createUserAccount(organizationServerID,
-//                    userServerID, teamServerID, planSeverID, commonPropertiesModel);
-//            CollectionReference coUserAccountsRef;
-//            coUserAccountsRef = database.collection(cRealtimeHelper.KEY_USERACCOUNTS);
-//            DocumentReference userAccountDocRef;
-//            userAccountDocRef = coUserAccountsRef.document(organizationServerID + "_" +
-//                    userServerID);
-//            batch.set(userAccountDocRef, userAccountModel);
-//
-//            // 5. adding role of the organization to the batch.
-//
-//            /* create a default administrator role during the creation of an organization */
-//            cPrivilegeModel roleModel = null;//cDatabaseUtils.getAdminRoleModel(context, commonPropertiesModel);
-//            roleModel.setUserOwnerID(userServerID);
-//            roleModel.setOrganizationOwnerID(organizationServerID);
-//
-//            CollectionReference coRoleRef = database.collection(cRealtimeHelper.KEY_ROLES);
-//            DocumentReference roleDocRef = coRoleRef.document();
-//            String roleServerID = roleDocRef.getId();
-//            batch.set(roleDocRef, roleModel);
-//
-//            // 6. adding team roles to the batch.
-//
-//            // add admin role to the user of the organization
-//            CollectionReference coTeamRolesRef = database.collection(cRealtimeHelper.KEY_TEAM_ROLES);
-//            Map<String, Object> team_roles = new HashMap<>();
-//            team_roles.put("teamServerID", compositeServerID);
-//            team_roles.put("roleServerID", roleServerID);
-//            DocumentReference teamRoleDocRef;
-//            teamRoleDocRef = coTeamRolesRef.document(compositeServerID + "_" +
-//                    roleServerID);
-//            batch.set(teamRoleDocRef, team_roles);
-//
-//            // 7. adding role permissions to the batch.
-//
-//            /* read a default permissions associated with the administrator role during
-//               the creation of an organization */
-//            cPermissionModel permissionModel = cDatabaseUtils.createAdminPermissions(context);
-//            permissionModel.setRoleServerID(roleServerID);
-//            permissionModel.setName(roleModel.getName());
-//
-//            // add permissions to the role
-//            permissionModel.setDescription("Administrator permissions for both entity and " +
-//                    "property level access control");
-//            CollectionReference coRolePermsRef = database.collection(cRealtimeHelper.KEY_ROLE_PERMISSIONS);
-//            DocumentReference rolePermDocRef = coRolePermsRef.document(roleServerID);
-//            batch.set(rolePermDocRef, permissionModel);
-//
-//            // commit the batch file
-//            batchWrite(batch, new cFirebaseCallBack() {
-//                @Override
-//                public void onFirebaseSuccess(Object object) {
-//                    // make sure the just created organization is activated
-//                    Query query = coUserAccountsRef.whereEqualTo("userServerID", userServerID);
-//                    query.get().addOnCompleteListener(task -> {
-//                        for (QueryDocumentSnapshot doc : Objects.requireNonNull(task.getResult())) {
-//                            cUserAccountModel useraccount = doc.toObject(cUserAccountModel.class);
-//                            if (!(useraccount.getOrganizationServerID().equals(organizationServerID))) {
-//                                useraccount.setCurrentOrganization(false);
-//                                coUserAccountsRef.document(
-//                                        useraccount.getOrganizationServerID() + "_" +
-//                                                userServerID).set(useraccount);
-//                            }
-//                        }
-//                    });
-//                    callback.onCreateStakeholderSucceeded(
-//                            "Successfully created an organization.");
-//                }
-//
-//                @Override
-//                public void onFirebaseFailure(Object object) {
-//                    callback.onCreateStakeholderFailed(
-//                            "Failed to create an organization.");
-//                }
-//            });
-//        } else {
-//            callback.onCreateStakeholderFailed("Error, Failed to create an organization.");
-//        }
-//    }
-
-
-/**
- //     * read organizations
- //     *
- //     * @param stakeholderServerID organization identifications that are aligned to the user
- //     *                            account of the loggedin user - FIXME
- //     * @param userServerID        user identification
- //     * @param primaryTeamBIT      primary team bit
- //     * @param secondaryTeamBITS   secondary team bits
- //     * @param statusBITS          status bits
- //     * @param callback            call back
- //     */
-//    @Override
-//    public void readStakeholders(String stakeholderServerID, String userServerID,
-//                                 int primaryTeamBIT, List<Integer> secondaryTeamBITS,
-//                                 List<Integer> statusBITS, iReadStakeholdersCallback callback) {
-//
-//
-//        CollectionReference coStakeholderRef = database.collection(cRealtimeHelper.KEY_STAKEHOLDERS);
-//
-//        Task<List<QuerySnapshot>> org_perm = null;//FIXME cDatabaseUtils.applyReadPermissions(coStakeholderRef, stakeholderServerID, userServerID, primaryTeamBIT, secondaryTeamBITS);
-//
-//        org_perm
-//                .addOnCompleteListener(task -> {
-//                    Set<COrganizationModel> stakeholderSet = new HashSet<>();
-//                    for (QuerySnapshot result : Objects.requireNonNull(task.getResult())) {
-//                        for (QueryDocumentSnapshot ds : result) {
-//                            COrganizationModel stakeholderModel = ds.toObject(
-//                                    COrganizationModel.class);
-//
-//                            if (statusBITS.contains(stakeholderModel.getStatusBIT())) {
-//                                stakeholderModel.setOrganizationServerID(ds.getId());
-//                                stakeholderSet.add(stakeholderModel);
-//                            }
-//                        }
-//                    }
-//
-//                    ArrayList<COrganizationModel> organizationModels;
-//                    organizationModels = new ArrayList<>(stakeholderSet);
-//                    callback.onReadStakeholdersSucceeded(organizationModels);
-//                })
-//                .addOnFailureListener(e -> {
-//                    callback.onReadStakeholdersFailed("Failed to read Organization.");
-//                    Log.w(TAG, "Failed to read value.", e);
-//                });
-//    }
-
-
-//        userAccountQuery.get()
-//                .addOnCompleteListener(task -> {
-//                    Map<String, String> userAccount = new HashMap<>();
-//                    List<Map<String, String>> userAccounts = new ArrayList<>();
-//
-//                    for (DocumentSnapshot useraccount : Objects.requireNonNull(task.getResult())) {
-//                        cUserAccountModel accountModel;
-//                        accountModel = useraccount.toObject(cUserAccountModel.class);
-//                        if (accountModel != null) {
-//                            userAccount.put("userServerID",
-//                                    accountModel.getUserServerID());
-//                            userAccount.put("organizationServerID",
-//                                    accountModel.getOrganizationServerID());
-//                            userAccount.put("statusBIT",
-//                                    String.valueOf(accountModel.getStatusBIT()));
-//                            userAccount.put("createdDate",
-//                                    String.valueOf(accountModel.getCreatedDate()));
-//                            userAccount.put("modifiedDate",
-//                                    String.valueOf(accountModel.getModifiedDate()));
-//                            userAccounts.add(userAccount);
-//                        } else {
-//                            callback.onReadOrganizationAccountsFailed(
-//                                    " due to user account entity!");
-//                        }
-//                    }
-//
-//                    /* read organization accounts */
-//                    if (!userAccounts.isEmpty()) {
-//                        filterOrganizations(userAccounts, callback);
-//                    } else {
-//                        callback.onReadOrganizationAccountsFailed(
-//                                "No organization accounts found!");
-//                    }
-//                })
-//                .addOnFailureListener(e -> callback.onReadOrganizationAccountsFailed(
-//                        "Failed to read organization accounts"));

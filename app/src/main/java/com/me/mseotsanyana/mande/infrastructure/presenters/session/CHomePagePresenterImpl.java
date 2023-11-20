@@ -1,41 +1,51 @@
 package com.me.mseotsanyana.mande.infrastructure.presenters.session;
 
 import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
-import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
-import com.me.mseotsanyana.mande.infrastructure.ports.session.IOrganizationController;
-import com.me.mseotsanyana.mande.application.ports.session.IOrganizationInteractor;
-import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.IHomePageController;
 
 
-public class COrganizationPresenterImpl implements IInteractor.IPresenter<Map<String, Object>> {
-    //private static final String TAG = cOrganizationPresenterImpl.class.getSimpleName();
+public class CHomePagePresenterImpl implements IInteractor.IPresenter<IResponseDTO<Object>> {
+    //private static final String TAG = CHomePagePresenterImpl.class.getSimpleName();
 
-    private final IOrganizationController.IViewModel modelView;
-    //private List<cTreeModel> treeModels;
-    private int index;
+    private final IHomePageController.IViewModel iViewModel;
 
-    public COrganizationPresenterImpl(IOrganizationController.IViewModel modelView) {
-        this.modelView = modelView;
-        this.index = 0;
-        //this.treeModels = new ArrayList<>();
+    public CHomePagePresenterImpl(IHomePageController.IViewModel iViewModel) {
+        this.iViewModel = iViewModel;
+    }
+
+    @Override
+    public void onSuccess(IResponseDTO<Object> response) {
+//        for (Map.Entry<String, Object> entry : response.entrySet()) {
+//            switch (entry.getKey()) {
+//                case CConstantModel.MENUITEM:
+//                    if (this.iViewModel != null) {
+//                        List<CMenuModel> menuModels = (List<CMenuModel>) entry.getValue();
+//                        iViewModel.showMenuItemsResponse(menuModels);
+//                        this.iViewModel.hideProgress();
+//                    }
+//                    break;
+//                case CConstantModel.SWITCH:
+//                    if (this.iViewModel != null) {
+//                        iViewModel.showWorkspacesResponse((String) entry.getValue());
+//                        this.iViewModel.hideProgress();
+//                    }
+//                case CConstantModel.SIGNOUT:
+//                    if (this.iViewModel != null) {
+//                        iViewModel.showResponseMessage((String) entry.getValue());
+//                        this.iViewModel.hideProgress();
+//                    }
+//                    break;
+//            }
+//        }
     }
 
     @Override
     public void onError(Throwable throwable) {
-        if (this.modelView != null) {
-            //this.modelView.onReadOrganizationsFailed(msg);
-            this.modelView.hideProgress();
+        if (this.iViewModel != null) {
+            this.iViewModel.showMessage(throwable.getMessage());
+            this.iViewModel.hideProgress();
         }
-    }
-
-    @Override
-    public void onSuccess(Map<String, Object> response) {
-
     }
 }
 

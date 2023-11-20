@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.session;
+package com.me.mseotsanyana.mande.framework.ui.fragments.session;
 
 //import android.app.Fragment;
 
@@ -17,24 +17,27 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.me.mseotsanyana.mande.PL.presenters.common.Impl.cUploadGlobalPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.common.iUploadGlobalPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.evaluator.Impl.cUploadEvaluationPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.evaluator.iUploadEvaluationPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iUploadLogFramePresenter;
-import com.me.mseotsanyana.mande.PL.presenters.monitor.Impl.cUploadMonitoringPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.monitor.iUploadMonitoringPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.raid.Impl.cUploadRAIDPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.raid.iUploadRAIDPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.session.Impl.cUploadSessionPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.session.iUploadSessionPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.wpb.Impl.cUploadAWPBPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.wpb.iUploadAWPBPresenter;
+import com.me.mseotsanyana.mande.OLD.PL.presenters.common.Impl.cUploadGlobalPresenterImpl;
+import com.me.mseotsanyana.mande.OLD.PL.presenters.common.iUploadGlobalPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.evaluator.Impl.cUploadEvaluationPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.controllers.evaluator.iUploadEvaluationPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iUploadLogFramePresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.monitor.Impl.cUploadMonitoringPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.controllers.monitor.iUploadMonitoringPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.raid.Impl.cUploadRAIDPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.controllers.raid.iUploadRAIDPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.session.cUploadSessionPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iUploadSessionPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.wpb.Impl.cUploadAWPBPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.controllers.wpb.iUploadAWPBPresenter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.TextDrawable;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.framework.utils.CTextDrawable;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
+
+import java.util.Map;
 
 public class cSettingsFragment extends Fragment implements
         iUploadSessionPresenter.View, iUploadGlobalPresenter.View,
@@ -88,8 +91,8 @@ public class cSettingsFragment extends Fragment implements
             public void onClick(View view) {
 
                 presenterGlobal = new cUploadGlobalPresenterImpl(
-                        cThreadExecutorImpl.getInstance(),
-                        cMainThreadImpl.getInstance(),
+                        CThreadExecutorImpl.getInstance(),
+                        CMainThreadImpl.getInstance(),
                         cSettingsFragment.this,
                         null//new cUploadGlobalRepositoryImpl(getContext())
                 );
@@ -103,8 +106,8 @@ public class cSettingsFragment extends Fragment implements
             @Override
             public void onClick(View view) {
                 presenterSession = new cUploadSessionPresenterImpl(
-                        cThreadExecutorImpl.getInstance(),
-                        cMainThreadImpl.getInstance(),
+                        CThreadExecutorImpl.getInstance(),
+                        CMainThreadImpl.getInstance(),
                         cSettingsFragment.this,
                         null//new cUploadSessionRepositoryImpl(getContext())
                 );
@@ -134,8 +137,8 @@ public class cSettingsFragment extends Fragment implements
             @Override
             public void onClick(View v) {
                 presenterEvaluation = new cUploadEvaluationPresenterImpl(
-                        cThreadExecutorImpl.getInstance(),
-                        cMainThreadImpl.getInstance(),
+                        CThreadExecutorImpl.getInstance(),
+                        CMainThreadImpl.getInstance(),
                         cSettingsFragment.this,
                         null
                         //new cUploadEvaluationRepositoryImpl(getContext())
@@ -151,8 +154,8 @@ public class cSettingsFragment extends Fragment implements
             @Override
             public void onClick(View v) {
                 presenterMonitoring = new cUploadMonitoringPresenterImpl(
-                        cThreadExecutorImpl.getInstance(),
-                        cMainThreadImpl.getInstance(),
+                        CThreadExecutorImpl.getInstance(),
+                        CMainThreadImpl.getInstance(),
                         cSettingsFragment.this,
                         null//new cUploadMonitoringRepositoryImpl(getContext())
                 );
@@ -167,8 +170,8 @@ public class cSettingsFragment extends Fragment implements
             @Override
             public void onClick(View v) {
                 presenterRAID = new cUploadRAIDPresenterImpl(
-                        cThreadExecutorImpl.getInstance(),
-                        cMainThreadImpl.getInstance(),
+                        CThreadExecutorImpl.getInstance(),
+                        CMainThreadImpl.getInstance(),
                         cSettingsFragment.this,
                         null//new cUploadRAIDRepositoryImpl(getContext())
                 );
@@ -183,8 +186,8 @@ public class cSettingsFragment extends Fragment implements
             @Override
             public void onClick(View v) {
                 presenterAWPB = new cUploadAWPBPresenterImpl(
-                        cThreadExecutorImpl.getInstance(),
-                        cMainThreadImpl.getInstance(),
+                        CThreadExecutorImpl.getInstance(),
+                        CMainThreadImpl.getInstance(),
                         cSettingsFragment.this,
                         null//new cUploadAWPBRepositoryImpl(getContext())
                 );
@@ -250,8 +253,17 @@ public class cSettingsFragment extends Fragment implements
         progressBar.setVisibility(View.GONE);
     }
 
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 
@@ -266,10 +278,10 @@ public class cSettingsFragment extends Fragment implements
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(requireContext());
 
         // setting icon to dialog
-        TextDrawable faIcon = new TextDrawable(requireContext());
+        CTextDrawable faIcon = new CTextDrawable(requireContext());
         faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
         faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-        faIcon.setTypeface(cFontManager.getTypeface(requireContext(), cFontManager.FONTAWESOME));
+        faIcon.setTypeface(CFontManager.getTypeface(requireContext(), CFontManager.FONTAWESOME));
         faIcon.setText(requireContext().getResources().getText(R.string.fa_delete));
         faIcon.setTextColor(requireContext().getColor(R.color.colorPrimaryDark));
         alertDialogBuilder.setIcon(faIcon);

@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.learning;
+package com.me.mseotsanyana.mande.framework.ui.fragments.learning;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.PL.ui.fragments.programme.cLogFrameFragment;
+import com.me.mseotsanyana.mande.framework.ui.fragments.programme.cLogFrameFragment;
 
 /**
  * Created by mseotsanyana on 2016/12/04.

@@ -7,7 +7,7 @@ import java.util.List;
  * Created by mseotsanyana on 2017/08/24.
  */
 
-public class cMenuModel{
+public class CMenuModel {
     private int menuServerID;
     private int parentServerID;
 
@@ -15,11 +15,11 @@ public class cMenuModel{
     private String description;
     private boolean checked;
 
-    private List<cMenuModel> submenu;
+    private List<CMenuModel> submenu;
 
-    public cMenuModel(){}
+    public CMenuModel(){}
 
-    public cMenuModel(String name) {
+    public CMenuModel(String name) {
         this.name = name;
     }
 
@@ -66,11 +66,11 @@ public class cMenuModel{
         this.checked = checked;
     }
 
-    public List<cMenuModel> getSubmenu() {
+    public List<CMenuModel> getSubmenu() {
         return submenu;
     }
 
-    public void setSubmenu(List<cMenuModel> submenu) {
+    public void setSubmenu(List<CMenuModel> submenu) {
         this.submenu = submenu;
     }
 }

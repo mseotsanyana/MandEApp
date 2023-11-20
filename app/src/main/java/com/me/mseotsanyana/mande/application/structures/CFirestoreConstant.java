@@ -1,6 +1,6 @@
 package com.me.mseotsanyana.mande.application.structures;
 
-public class CFirebaseConstant {
+public class CFirestoreConstant {
     public static final String SUCCESS = "SUCCESS";
     public static final String FAILURE = "FAIL";
 

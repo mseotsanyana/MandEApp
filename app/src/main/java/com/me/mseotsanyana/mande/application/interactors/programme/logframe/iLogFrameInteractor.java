@@ -1,12 +1,12 @@
 package com.me.mseotsanyana.mande.application.interactors.programme.logframe;
 
-import com.me.mseotsanyana.mande.application.interactors.base.iInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.List;
 
-public interface iLogFrameInteractor extends iInteractor {
+public interface iLogFrameInteractor extends IInteractor {
     interface Callback{
         // create
         void onLogFrameCreated(cLogFrameModel logFrameModel, String msg);

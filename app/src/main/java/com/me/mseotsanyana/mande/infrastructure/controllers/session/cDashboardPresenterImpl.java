@@ -1,14 +1,15 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
-import com.me.mseotsanyana.mande.usecases.executor.iExecutor;
-import com.me.mseotsanyana.mande.usecases.executor.iMainThread;
-import com.me.mseotsanyana.mande.usecases.interactors.programme.logframe.Impl.cReadLogFramesInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.programme.logframe.iLogFrameInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.interactors.programme.logframe.Impl.cReadLogFramesInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.programme.logframe.iLogFrameInteractor;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
-import com.me.mseotsanyana.mande.usecases.repository.programme.iLogFrameRepository;
-import com.me.mseotsanyana.mande.usecases.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.session.iDashboardPresenter;
+import com.me.mseotsanyana.mande.application.repository.programme.iLogFrameRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iDashboardPresenter;
+import com.me.mseotsanyana.mande.infrastructure.services.CSessionManagerImpl;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.List;
@@ -19,17 +20,17 @@ public class cDashboardPresenterImpl extends cAbstractPresenter implements iDash
     //private static final String TAG = cLogFramePresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iSharedPreferenceRepository sharedPreferenceRepository;
+    //private final ISessionManager sharedPreferenceRepository;
     private final iLogFrameRepository logFrameRepository;
 
-    public cDashboardPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cDashboardPresenterImpl(IExecutor executor, IMainThread mainThread,
+                                   ISessionManager sessionManager,
                                    View view,
-                                   iSharedPreferenceRepository sharedPreferenceRepository,
                                    iLogFrameRepository logFrameRepository) {
-        super(executor, mainThread);
+        super(executor, mainThread, sessionManager);
 
         this.view = view;
-        this.sharedPreferenceRepository = sharedPreferenceRepository;
+        //this.sharedPreferenceRepository = sharedPreferenceRepository;
         this.logFrameRepository = logFrameRepository;
     }
 
@@ -41,7 +42,7 @@ public class cDashboardPresenterImpl extends cAbstractPresenter implements iDash
         iLogFrameInteractor readLogFrameInteractor = new cReadLogFramesInteractorImpl(
                 executor,
                 mainThread,
-                sharedPreferenceRepository,
+                null,
                 logFrameRepository,
                 this);
 

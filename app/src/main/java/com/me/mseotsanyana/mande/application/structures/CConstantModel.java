@@ -1,11 +1,17 @@
-package com.me.mseotsanyana.mande.application.utils;
+package com.me.mseotsanyana.mande.application.structures;
 
 /**
  * Created by mseotsanyana on 2017/09/06.
  */
 
+
 public class CConstantModel {
-    /* system states */
+    /* entity identifiers */
+    public static final String NONEENTITY   = "0";
+    public static final String ORGANIZATION = "1";
+    public static final String WORKSPACE    = "2";
+
+    /* entity states */
     public static final int INITIAL_STATE      = 1;
     public static final int ACTIVATED_STATE    = 2;
     public static final int APPROVED_STATE     = 4;
@@ -34,4 +40,34 @@ public class CConstantModel {
     public static final int ADD_REQUEST    = 1;
     public static final int JOIN_REQUEST   = 2;
     public static final int INVITE_REQUEST = 4;
+
+    /* entity operations */
+    public static final String CREATED  = "1";
+    public static final String ADDED    = "2";
+    public static final String MODIFIED = "4";
+    public static final String DELETED  = "8";
+    public static final String SIGNIN   = "16";
+    public static final String SIGNOUT  = "32";
+    public static final String SWITCH   = "64";
+    public static final String MENUITEM = "128";
+
+    enum Add{
+        ORGANIZATION, WORKSPACE
+    }
+
+    public enum Create{
+        ORGANIZATION, WORKSPACE
+    }
+
+    public enum Delete{
+        ORGANIZATION, WORKSPACE
+    }
+
+    public enum Modified{
+        ORGANIZATION, WORKSPACE
+    }
+
+    public enum Updated{
+        ORGANIZATION, WORKSPACE
+    }
 }

@@ -1,33 +1,32 @@
-package com.me.mseotsanyana.mande.application.ports.organization;
+package com.me.mseotsanyana.mande.application.ports.session;
 
-import com.me.mseotsanyana.mande.application.ports.base.iInteractor;
-import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
+import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
+import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
 
-import java.util.List;
 import java.util.Map;
 
-public interface iOrganizationInteractor extends iInteractor {
-    interface Callback{
-        void onCreateOrganizationSucceeded(String msg);
-        void onCreateOrganizationFailed(String msg);
+public interface IOrganizationInteractor extends IInteractor {
+    interface IOrganizationPresenter extends IPresenter {
+        void OnCreateOrganizationSucceeded(String msg);
+        void OnReadOrganizationSucceeded(COrganizationModel organizationModel, String operation);
+        void OnUpdateOrganizationSucceeded(String msg);
+        void OnDeleteOrganizationSucceeded(String msg);
+        void OnInviteToOrganizationSucceeded(String msg);
+    }
 
-        void onReadOrganizationsFailed(String msg);
-        void onReadOrganizationsSucceeded(List<cTreeModel> organizationModels);
 
-        void onSwitchOrganizationWorkspaceFailed(String msg);
-        void onSwitchOrganizationWorkspaceSucceeded(String msg);
 
-        //void onReadSharedOrgsFailed(String msg);
-        //void onSharedOrgsRetrieved(ArrayList<cOrganizationModel> organizationModels);
+    interface IOrganizationWorkspacePresenter {
+        void OnReadOrganizationSucceeded(COrganizationModel organizationModel, String operation);
+        void OnReadOrganizationFailed(String msg);
+
+        void OnReadWorkspaceSucceeded(CWorkspaceModel workspaceModel, String operation);
+        void OnReadWorkspaceFailed(String msg);
     }
 
     interface AccountsCallback {
         void onReadOrganizationAccountsFailed(String msg);
         void onReadOrganizationAccountsSucceeded(Map<String, Object> orgAccountMap, String operation);
-    }
-
-    interface OrganizationWorkspacePresenter {
-        void onReadOrganizationWorkspacesFailed(String msg);
-        void onReadOrganizationWorkspacesSucceeded(List<cTreeModel> organizationModels);
     }
 }

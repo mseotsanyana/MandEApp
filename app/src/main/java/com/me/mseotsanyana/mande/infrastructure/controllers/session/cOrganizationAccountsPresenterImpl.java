@@ -1,31 +1,31 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
-import com.me.mseotsanyana.mande.usecases.executor.iExecutor;
-import com.me.mseotsanyana.mande.usecases.executor.iMainThread;
-import com.me.mseotsanyana.mande.usecases.interactors.session.organization.Impl.cReadOrganizationAccountsInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.organization.iOrganizationInteractor;
-import com.me.mseotsanyana.mande.usecases.repository.session.iOrganizationRepository;
-import com.me.mseotsanyana.mande.usecases.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.session.iOrganizationAccountPresenter;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.interactors.session.organization.CReadOrganizationAccountsInteractorImpl;
+import com.me.mseotsanyana.mande.application.ports.session.IOrganizationInteractor;
+import com.me.mseotsanyana.mande.application.repository.session.IOrganizationRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iOrganizationAccountPresenter;
 
 import java.util.Map;
 
 public class cOrganizationAccountsPresenterImpl extends cAbstractPresenter implements
-        iOrganizationAccountPresenter, iOrganizationInteractor.AccountsCallback {
+        iOrganizationAccountPresenter, IOrganizationInteractor.AccountsCallback {
     //private static final String TAG = cOrganizationMemberPresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iSharedPreferenceRepository sharedPreferenceRepository;
-    private final iOrganizationRepository organizationRepository;
+    private final ISessionManager sharedPreferenceRepository;
+    private final IOrganizationRepository organizationRepository;
 
     //private final cInputValidation inputValidation;
 
-    public cOrganizationAccountsPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cOrganizationAccountsPresenterImpl(IExecutor executor, IMainThread mainThread,
                                               View view,
-                                              iSharedPreferenceRepository sharedPreferenceRepository,
-                                              iOrganizationRepository organizationRepository) {
-        super(executor, mainThread);
+                                              ISessionManager sharedPreferenceRepository,
+                                              IOrganizationRepository organizationRepository) {
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sharedPreferenceRepository = sharedPreferenceRepository;
@@ -40,8 +40,8 @@ public class cOrganizationAccountsPresenterImpl extends cAbstractPresenter imple
 
     @Override
     public void readOrganizationAccounts() {
-        iOrganizationInteractor readOrganizationInteractor =
-                new cReadOrganizationAccountsInteractorImpl(
+        IOrganizationInteractor readOrganizationInteractor =
+                new CReadOrganizationAccountsInteractorImpl(
                         executor, mainThread, this,
                         sharedPreferenceRepository,
                         organizationRepository

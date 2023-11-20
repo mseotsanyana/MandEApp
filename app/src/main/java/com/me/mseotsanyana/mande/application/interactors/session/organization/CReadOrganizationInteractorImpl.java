@@ -1,20 +1,22 @@
 package com.me.mseotsanyana.mande.application.interactors.session.organization;
 
-import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirebaseChildCallBack;
-import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
+import com.me.mseotsanyana.mande.application.exceptions.CGeneralException;
+import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreChildCallBack;
+import com.me.mseotsanyana.mande.application.structures.CResponseDTO;
 import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
 import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
-import com.me.mseotsanyana.mande.application.ports.base.cAbstractInteractor;
-import com.me.mseotsanyana.mande.application.ports.session.IOrganizationInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.repository.session.IOrganizationRepository;
-import com.me.mseotsanyana.mande.application.preference.ISharedPreferenceRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
+import com.me.mseotsanyana.mande.application.structures.enums.EAction;
 
+public class CReadOrganizationInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
+        implements IInteractor {
+    private static final String TAG = CReadOrganizationInteractorImpl.class.getSimpleName();
 
-public class CReadOrganizationsInteractorImpl extends cAbstractInteractor implements
-        IOrganizationInteractor {
-    private static final String TAG = CReadOrganizationsInteractorImpl.class.getSimpleName();
-
-    private final IOrganizationPresenter organizationPresenter;
+    private final IPresenter<IResponseDTO<Object>> iPresenter;
     private final IOrganizationRepository organizationRepository;
 
 //    private final String organizationServerID;
@@ -26,20 +28,19 @@ public class CReadOrganizationsInteractorImpl extends cAbstractInteractor implem
 //    private final int entityBITS;
 //    private final int entitypermBITS;
 
-    public CReadOrganizationsInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
-                                            ISharedPreferenceRepository sharedPreferenceRepository,
-                                            IOrganizationRepository organizationRepository,
-                                            IOrganizationPresenter organizationPresenter) {
-        super(threadExecutor, mainThread);
+    public CReadOrganizationInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                           ISessionManager sessionManager,
+                                           IPresenter<IResponseDTO<Object>> iPresenter,
+                                           IOrganizationRepository organizationRepository) {
+        super(threadExecutor, mainThread, sessionManager);
 
-        if (sharedPreferenceRepository == null || organizationRepository == null ||
-                organizationPresenter == null) {
+        if (iPresenter == null || organizationRepository == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
         }
 
         // initialise objects
+        this.iPresenter = iPresenter;
         this.organizationRepository = organizationRepository;
-        this.organizationPresenter = organizationPresenter;
 
 
         // load user shared preferences
@@ -65,18 +66,16 @@ public class CReadOrganizationsInteractorImpl extends cAbstractInteractor implem
 //                " \n OPERATION STATUSES = " + this.statusBITS);
     }
 
-    /* */
-    private void notifyError(String msg) {
-        mainThread.post(() -> organizationPresenter.OnReadOrganizationsFailed(msg));
+    @Override
+    public void postResult(IResponseDTO<Object> resultMap) {
+        mainThread.post(() -> {
+            iPresenter.onSuccess(resultMap);
+        });
     }
 
-    /* */
-    private void postOrganization(COrganizationModel organizationModel, String operation) {
-        mainThread.post(() -> organizationPresenter.OnReadOrganizationsSucceeded(
-                organizationModel, operation));
-    }
-
-    private void readOrganizationWorkspaces() {
+    @Override
+    public void postError(String errorMessage) {
+        mainThread.post(() -> iPresenter.onError(new CGeneralException(errorMessage)));
     }
 
     @Override
@@ -88,37 +87,43 @@ public class CReadOrganizationsInteractorImpl extends cAbstractInteractor implem
 
         organizationRepository.readOrganizations(null, null,
                 0, null, null,
-                new CFirebaseChildCallBack() {
+                new CFirestoreChildCallBack() {
                     @Override
                     public void onChildAdded(Object object) {
                         if (object != null) {
-                            postOrganization((COrganizationModel) object, "ADD");
+                            IResponseDTO<Object> responseModel;
+                            responseModel = new CResponseDTO<>(EAction.Added_ORGANIZATION, object);
+                            postResult(responseModel);
                         } else {
-                            notifyError("No organization found!");
+                            postError("No organization found!");
                         }
                     }
 
                     @Override
                     public void onChildChanged(Object object) {
                         if (object != null) {
-                            postOrganization((COrganizationModel) object, "UPDATED");
+                            IResponseDTO<Object> responseModel;
+                            responseModel = new CResponseDTO<>(EAction.Modified_ORGANIZATION, object);
+                            postResult(responseModel);
                         } else {
-                            notifyError("No organization found!");
+                            postError("No organization found!");
                         }
                     }
 
                     @Override
                     public void onChildRemoved(Object object) {
                         if (object != null) {
-                            postOrganization((COrganizationModel) object, "DELETED");
+                            IResponseDTO<Object> responseModel;
+                            responseModel = new CResponseDTO<> (EAction.Deleted_ORGANIZATION, object);
+                            postResult(responseModel);
                         } else {
-                            notifyError("No organization found!");
+                            postError("No organization found!");
                         }
                     }
 
                     @Override
                     public void onCancelled(Object object) {
-                        notifyError(object.toString());
+                        postError(object.toString());
                     }
                 });
 

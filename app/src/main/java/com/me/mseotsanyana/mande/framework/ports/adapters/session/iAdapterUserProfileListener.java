@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.OLD.PL.ui.listeners.session;
+package com.me.mseotsanyana.mande.framework.ports.adapters.session;
 
 import android.util.SparseBooleanArray;
 

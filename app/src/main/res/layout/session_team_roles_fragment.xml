@@ -33,7 +33,7 @@
                 android:src="@mipmap/shepherds"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.7"
-                android:contentDescription="@string/teams" />
+                android:contentDescription="@string/workspaces" />
 
             <LinearLayout
                 android:id="@+id/header_text_layout"

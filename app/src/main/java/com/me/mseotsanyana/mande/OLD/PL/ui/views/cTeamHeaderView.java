@@ -8,7 +8,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.OLD.cFontManager;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Layout;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Resolve;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.View;
@@ -63,37 +63,37 @@ public class cTeamHeaderView {
         textViewDescription.setText(this.description);
 
         textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-        textViewDetailIcon.setTypeface(cFontManager.getTypeface(this.context, cFontManager.FONTAWESOME));
+        textViewDetailIcon.setTypeface(CFontManager.getTypeface(this.context, CFontManager.FONTAWESOME));
         textViewDetailIcon.setText(context.getResources().getString(R.string.fa_angle_up));
 
         textViewJoinIcon.setTypeface(null, Typeface.NORMAL);
-        textViewJoinIcon.setTypeface(cFontManager.getTypeface(this.context, cFontManager.FONTAWESOME));
+        textViewJoinIcon.setTypeface(CFontManager.getTypeface(this.context, CFontManager.FONTAWESOME));
         textViewJoinIcon.setText(context.getResources().getString(R.string.fa_join));
 
         textViewAddIcon.setTypeface(null, Typeface.NORMAL);
-        textViewAddIcon.setTypeface(cFontManager.getTypeface(this.context, cFontManager.FONTAWESOME));
+        textViewAddIcon.setTypeface(CFontManager.getTypeface(this.context, CFontManager.FONTAWESOME));
         textViewAddIcon.setText(context.getResources().getString(R.string.fa_create));
 
         textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
-        textViewUpdateIcon.setTypeface(cFontManager.getTypeface(this.context, cFontManager.FONTAWESOME));
+        textViewUpdateIcon.setTypeface(CFontManager.getTypeface(this.context, CFontManager.FONTAWESOME));
         textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
 
         textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
-        textViewDeleteIcon.setTypeface(cFontManager.getTypeface(this.context, cFontManager.FONTAWESOME));
+        textViewDeleteIcon.setTypeface(CFontManager.getTypeface(this.context, CFontManager.FONTAWESOME));
         textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
     }
 
     @Expand
     public void onExpand() {
         textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-        textViewDetailIcon.setTypeface(cFontManager.getTypeface(this.context, cFontManager.FONTAWESOME));
+        textViewDetailIcon.setTypeface(CFontManager.getTypeface(this.context, CFontManager.FONTAWESOME));
         textViewDetailIcon.setText(context.getResources().getString(R.string.fa_angle_down));
     }
 
     @Collapse
     public void onCollapse() {
         textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-        textViewDetailIcon.setTypeface(cFontManager.getTypeface(this.context, cFontManager.FONTAWESOME));
+        textViewDetailIcon.setTypeface(CFontManager.getTypeface(this.context, CFontManager.FONTAWESOME));
         textViewDetailIcon.setText(context.getResources().getString(R.string.fa_angle_up));
     }
 }

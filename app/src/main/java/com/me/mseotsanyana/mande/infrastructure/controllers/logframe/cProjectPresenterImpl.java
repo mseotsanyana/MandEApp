@@ -1,9 +1,9 @@
-package com.me.mseotsanyana.mande.infrastructure.controllers.logframe.Impl;
+package com.me.mseotsanyana.mande.infrastructure.controllers.logframe;
 
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.programme.project.Impl.cReadAllProjectsInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.programme.project.Impl.cRemoveProjectListenerInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.programme.project.Impl.cUploadProjectInteractorImpl;
@@ -11,9 +11,9 @@ import com.me.mseotsanyana.mande.application.interactors.programme.project.iProj
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cProjectModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.application.repository.programme.iProjectRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.OLD.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.iProjectPresenter;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iProjectPresenter;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.List;
@@ -24,14 +24,14 @@ public class cProjectPresenterImpl extends cAbstractPresenter implements iProjec
     //private static final String TAG = cProjectPresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iSharedPreferenceRepository sharedPreferenceRepository;
+    private final ISessionManager sharedPreferenceRepository;
     private final iProjectRepository projectRepository;
 
-    public cProjectPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cProjectPresenterImpl(IExecutor executor, IMainThread mainThread,
                                  View view,
-                                 iSharedPreferenceRepository sharedPreferenceRepository,
+                                 ISessionManager sharedPreferenceRepository,
                                  iProjectRepository projectRepository) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sharedPreferenceRepository = sharedPreferenceRepository;

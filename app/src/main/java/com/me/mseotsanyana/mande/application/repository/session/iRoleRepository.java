@@ -1,6 +1,6 @@
 package com.me.mseotsanyana.mande.application.repository.session;
 
-import com.me.mseotsanyana.mande.domain.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CPrivilegeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public interface iRoleRepository {
                        List<Integer> statusBITS, iReadTeamRolesCallback callback);
 
     interface iReadTeamRolesCallback {
-        void onReadTeamRolesSucceeded(List<cPrivilegeModel> roleModels);
+        void onReadTeamRolesSucceeded(List<CPrivilegeModel> roleModels);
 
         void onReadTeamRolesFailed(String msg);
     }

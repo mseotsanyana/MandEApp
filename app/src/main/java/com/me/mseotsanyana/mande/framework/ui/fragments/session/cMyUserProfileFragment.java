@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.session;
+package com.me.mseotsanyana.mande.framework.ui.fragments.session;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,18 +15,19 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.me.mseotsanyana.mande.PL.presenters.session.Impl.cMyUserProfilePresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.session.iMyUserProfilePresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.session.cMyUserProfilePresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iMyUserProfilePresenter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.session.cUserProfileFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.CUserProfileFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
 
@@ -96,11 +97,11 @@ public class cMyUserProfileFragment extends Fragment implements iMyUserProfilePr
     private void initDataStructures() {
 
         userProfilePresenter = new cMyUserProfilePresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
                 this,
-                new cSharedPreferenceFirestoreRepositoryImpl(getContext()),
-                new cUserProfileFirestoreRepositoryImpl(getContext()));
+                null,
+                new CUserProfileFirestoreRepositoryImpl(getContext()));
 
         activity = ((AppCompatActivity) getActivity());
     }
@@ -352,8 +353,17 @@ public class cMyUserProfileFragment extends Fragment implements iMyUserProfilePr
         //includeProgressBar.setVisibility(View.GONE);
     }
 
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 }

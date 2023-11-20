@@ -29,9 +29,9 @@ import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationMod
 import com.me.mseotsanyana.mande.domain.entities.models.session.cPermissionModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cStatusModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUserModel;
-import com.me.mseotsanyana.mande.UTIL.INTERFACE.iMEEntityInterface;
-import com.me.mseotsanyana.mande.UTIL.TextDrawable;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.INTERFACE.iMEEntityInterface;
+import com.me.mseotsanyana.mande.framework.utils.CTextDrawable;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.mande.R;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cKeyPairBoolData;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cMultiSpinnerSearch;
@@ -47,8 +47,8 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static com.me.mseotsanyana.mande.UTIL.cConstant.FORMAT_DATE;
-import static com.me.mseotsanyana.mande.UTIL.cConstant.NUM_PERMS;
+import static com.me.mseotsanyana.mande.OLD.cConstant.FORMAT_DATE;
+import static com.me.mseotsanyana.mande.OLD.cConstant.NUM_PERMS;
 
 /**
  * Created by mseotsanyana on 2018/01/22.
@@ -129,7 +129,7 @@ public class cUserAdapter extends RecyclerView.Adapter<cUserAdapter.cUserViewHol
         holder.textViewUserName.setText(userDomain.getName()+" "+userDomain.getSurname());
 
         holder.textViewUserAddressIcon.setTypeface(null, Typeface.NORMAL);
-        holder.textViewUserAddressIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+        holder.textViewUserAddressIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         holder.textViewUserAddressIcon.setText(context.getResources().getString(R.string.fa_address));
         holder.textViewUserAddressStreet.setText(addressDomain.getStreet());
         holder.textViewUserAddressCity.setText(addressDomain.getCity());
@@ -138,17 +138,17 @@ public class cUserAdapter extends RecyclerView.Adapter<cUserAdapter.cUserViewHol
         holder.textViewUserAddressCountry.setText(addressDomain.getCountry());
 
         holder.textViewUserEmailIcon.setTypeface(null, Typeface.NORMAL);
-        holder.textViewUserEmailIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+        holder.textViewUserEmailIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         holder.textViewUserEmailIcon.setText(context.getResources().getString(R.string.fa_email));
         holder.textViewUserEmail.setText(userDomain.getEmail());
 
         holder.textViewUserWebsiteIcon.setTypeface(null, Typeface.NORMAL);
-        holder.textViewUserWebsiteIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+        holder.textViewUserWebsiteIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         holder.textViewUserWebsiteIcon.setText(context.getResources().getString(R.string.fa_website));
         holder.textViewUserWebsite.setText(userDomain.getWebsite());
 
         holder.textViewUserPhoneIcon.setTypeface(null, Typeface.NORMAL);
-        holder.textViewUserPhoneIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+        holder.textViewUserPhoneIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         holder.textViewUserPhoneIcon.setText(context.getResources().getString(R.string.fa_phone));
         holder.textViewUserPhone.setText(userDomain.getPhone());
 
@@ -165,7 +165,7 @@ public class cUserAdapter extends RecyclerView.Adapter<cUserAdapter.cUserViewHol
 **/
         /** collapse and expansion of the details of the role **/
         holder.textViewUserDetailIcon.setTypeface(null, Typeface.NORMAL);
-        holder.textViewUserDetailIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+        holder.textViewUserDetailIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         holder.textViewUserDetailIcon.setText(context.getResources().getString(R.string.fa_angle_down));
         holder.textViewUserDetailIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,7 +184,7 @@ public class cUserAdapter extends RecyclerView.Adapter<cUserAdapter.cUserViewHol
         /** icon for saving changed entity common attributes **/
         holder.textViewEditUserIcon.setTypeface(null, Typeface.NORMAL);
         holder.textViewEditUserIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         holder.textViewEditUserIcon.setText(context.getResources().getString(R.string.fa_update));
         holder.textViewEditUserIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,10 +192,10 @@ public class cUserAdapter extends RecyclerView.Adapter<cUserAdapter.cUserViewHol
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
                 // setting icon to dialog
-                TextDrawable faIcon = new TextDrawable(context);
+                CTextDrawable faIcon = new CTextDrawable(context);
                 faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
                 faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-                faIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                faIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                 faIcon.setText(context.getResources().getText(R.string.fa_update));
                 faIcon.setTextColor(Color.BLUE);
                 alertDialogBuilder.setIcon(faIcon);
@@ -235,7 +235,7 @@ public class cUserAdapter extends RecyclerView.Adapter<cUserAdapter.cUserViewHol
         /** icon for deleting an entity related permissions **/
         holder.textViewDeleteUserIcon.setTypeface(null, Typeface.NORMAL);
         holder.textViewDeleteUserIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         holder.textViewDeleteUserIcon.setText(context.getResources().getString(R.string.fa_delete));
         holder.textViewDeleteUserIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,10 +243,10 @@ public class cUserAdapter extends RecyclerView.Adapter<cUserAdapter.cUserViewHol
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
                 // setting icon to dialog
-                TextDrawable faIcon = new TextDrawable(context);
+                CTextDrawable faIcon = new CTextDrawable(context);
                 faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
                 faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-                faIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                faIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                 faIcon.setText(context.getResources().getText(R.string.fa_delete));
                 faIcon.setTextColor(Color.BLUE);
                 alertDialogBuilder.setIcon(faIcon);
@@ -301,7 +301,7 @@ public class cUserAdapter extends RecyclerView.Adapter<cUserAdapter.cUserViewHol
         /** icon for syncing an entity related permissions **/
         holder.textViewSyncUserIcon.setTypeface(null, Typeface.NORMAL);
         holder.textViewSyncUserIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         holder.textViewSyncUserIcon.setText(context.getResources().getString(R.string.fa_sync));
         holder.textViewSyncUserIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -309,10 +309,10 @@ public class cUserAdapter extends RecyclerView.Adapter<cUserAdapter.cUserViewHol
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
                 // setting icon to dialog
-                TextDrawable faIcon = new TextDrawable(context);
+                CTextDrawable faIcon = new CTextDrawable(context);
                 faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
                 faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-                faIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                faIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                 faIcon.setText(context.getResources().getText(R.string.fa_sync));
                 faIcon.setTextColor(Color.BLUE);
                 alertDialogBuilder.setIcon(faIcon);
@@ -547,7 +547,7 @@ public class cUserAdapter extends RecyclerView.Adapter<cUserAdapter.cUserViewHol
 
         /** change perms **/
         holder.textViewChangeUserIcon.setTypeface(null, Typeface.NORMAL);
-        holder.textViewChangeUserIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+        holder.textViewChangeUserIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         holder.textViewChangeUserIcon.setText(context.getResources().getString(R.string.fa_perms));
         holder.textViewChangeUserIcon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -555,10 +555,10 @@ public class cUserAdapter extends RecyclerView.Adapter<cUserAdapter.cUserViewHol
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
 
                 // setting icon to dialog
-                TextDrawable faIcon = new TextDrawable(context);
+                CTextDrawable faIcon = new CTextDrawable(context);
                 faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
                 faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-                faIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                faIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                 faIcon.setText(context.getResources().getText(R.string.fa_perms));
                 faIcon.setTextColor(Color.BLUE);
                 alertDialogBuilder.setIcon(faIcon);
@@ -895,7 +895,7 @@ public class cUserAdapter extends RecyclerView.Adapter<cUserAdapter.cUserViewHol
             text.setText(item.getTitle());
 
             image.setTypeface(null, Typeface.NORMAL);
-            image.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+            image.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
             image.setText(context.getResources().getString(item.getImage()));
 
             return view;

@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.programme;
+package com.me.mseotsanyana.mande.framework.ui.fragments.programme;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -23,12 +23,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.Impl.cActivityPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iActivityPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iInputPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.cActivityPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iActivityPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iInputPresenter;
 import com.me.mseotsanyana.mande.framework.ui.adapters.logframe.cActivityAdapter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cActivityModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cInputModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
@@ -36,11 +36,13 @@ import com.me.mseotsanyana.mande.domain.entities.models.wpb.cExpenseModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cHumanModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cIncomeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cMaterialModel;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -145,8 +147,8 @@ public class cActivityFragment extends Fragment implements iActivityPresenter.Vi
         List<cTreeModel> activityTreeModels = new ArrayList<>();
 
         activityPresenter = new cActivityPresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
                 this,null
                 /*new cSessionManagerImpl(getContext())*/,
                 null,//new cActivityRepositoryImpl(getContext()),
@@ -339,7 +341,12 @@ public class cActivityFragment extends Fragment implements iActivityPresenter.Vi
     }
 
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 }

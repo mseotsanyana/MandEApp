@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cQuestionModel;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
+import com.me.mseotsanyana.mande.OLD.cConstant;
 import com.me.mseotsanyana.placeholderviewlibrary.cExpandablePlaceHolderView;
 
 import java.text.SimpleDateFormat;

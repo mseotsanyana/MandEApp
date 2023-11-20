@@ -1,13 +1,13 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
-import com.me.mseotsanyana.mande.usecases.executor.iExecutor;
-import com.me.mseotsanyana.mande.usecases.executor.iMainThread;
-import com.me.mseotsanyana.mande.usecases.interactors.session.menu.Impl.cReadMenuInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.menu.iReadMenuInteractor;
-import com.me.mseotsanyana.mande.usecases.repository.session.iMenuRepository;
-import com.me.mseotsanyana.mande.usecases.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.PL.presenters.session.iMenuPresenter;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.interactors.session.menu.Impl.cReadMenuInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.session.menu.iReadMenuInteractor;
+import com.me.mseotsanyana.mande.application.repository.session.iMenuRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iMenuPresenter;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.List;
@@ -17,14 +17,14 @@ public class cMenuPresenterImpl extends cAbstractPresenter implements iMenuPrese
     //private static final String TAG = cMenuPresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iSharedPreferenceRepository sessionManagerRepository;
+    private final ISessionManager sessionManagerRepository;
     private final iMenuRepository menuRepository;
 
-    public cMenuPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cMenuPresenterImpl(IExecutor executor, IMainThread mainThread,
                               View view,
-                              iSharedPreferenceRepository sessionManagerRepository,
+                              ISessionManager sessionManagerRepository,
                               iMenuRepository menuRepository) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sessionManagerRepository = sessionManagerRepository;

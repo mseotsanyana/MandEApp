@@ -1,32 +1,44 @@
-package com.me.mseotsanyana.mande.application.interactors.session.organization;
+package com.me.mseotsanyana.mande.application.interactors.preference;
 
-import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
-import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
-import com.me.mseotsanyana.mande.application.ports.base.cAbstractInteractor;
-import com.me.mseotsanyana.mande.application.ports.session.IOrganizationInteractor;
-import com.me.mseotsanyana.mande.application.repository.session.IOrganizationRepository;
 
-public class CRemoveListenerInteractorImpl extends cAbstractInteractor
-        implements IOrganizationInteractor {
-    private static String TAG = CRemoveListenerInteractorImpl.class.getSimpleName();
-    private final IOrganizationRepository organizationRepository;
-    private final IOrganizationPresenter IOrganizationPresenter;
-
-    public CRemoveListenerInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
-                                         IOrganizationRepository organizationRepository,
-                                         IOrganizationPresenter IOrganizationPresenter) {
-        super(threadExecutor, mainThread);
-
-        if (organizationRepository != null && IOrganizationPresenter == null) {
-            throw new IllegalArgumentException("Arguments can not be null!");
-        }
-        this.organizationRepository = organizationRepository;
-        this.IOrganizationPresenter = IOrganizationPresenter;
-
-    }
-
-    @Override
-    public void run() {
-        organizationRepository.removeListener();
-    }
-}
+//public class CClearAllPreferenceSettingsInteractorImpl extends cAbstractInteractor
+//        implements IOrganizationWorkspaceInteractor {
+//    //private static String TAG = CClearAllPreferenceSettingsInteractorImpl.class.getSimpleName();
+//    private final ISessionManager sharedPreferenceRepository;
+//    //private final IOrganizationWorkspacePresenter organizationWorkspacePresenter;
+//
+//    public CClearAllPreferenceSettingsInteractorImpl(
+//            IExecutor threadExecutor, IMainThread mainThread,
+//            IOrganizationWorkspacePresenter organizationWorkspacePresenter,
+//            ISessionManager sharedPreferenceRepository) {
+//        super(threadExecutor, mainThread, null);
+//
+//        if (sharedPreferenceRepository != null && organizationWorkspacePresenter == null) {
+//            throw new IllegalArgumentException("Arguments can not be null!");
+//        }
+//        this.sharedPreferenceRepository = sharedPreferenceRepository;
+//        this.organizationWorkspacePresenter = organizationWorkspacePresenter;
+//    }
+//
+//    /* preference failed to be cleared */
+//    private void notifyError() {
+//        mainThread.post(() -> organizationWorkspacePresenter.
+//                OnPreferenceClearedFailed("Preference Settings Clearance Failed!"));
+//    }
+//
+//    /* preference successfully cleared */
+//    private void postMessage() {
+//        mainThread.post(() -> organizationWorkspacePresenter.
+//                OnPreferenceClearedSucceeded("Preference Settings Successfully Cleared."));
+//    }
+//
+//    @Override
+//    public void run() {
+//        sharedPreferenceRepository.clearAllSettings();
+//        if (sharedPreferenceRepository.loadUserID() == null){
+//            postMessage();
+//        }else {
+//            notifyError();
+//        }
+//    }
+//}

@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.programme;
+package com.me.mseotsanyana.mande.infrastructure.repository.firestore.programme;
 
 import android.content.Context;
 
@@ -8,9 +8,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cImpactModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cOutcomeModel;
-import com.me.mseotsanyana.mande.usecases.repository.programme.iImpactRepository;
-import com.me.mseotsanyana.mande.framework.storage.database.cRealtimeHelper;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.cDatabaseUtils;
+import com.me.mseotsanyana.mande.application.repository.programme.iImpactRepository;
+import com.me.mseotsanyana.mande.application.structures.CFirestoreConstant;
+import com.me.mseotsanyana.mande.application.utils.CFirestoreUtility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class cImpactFirestoreRepositoryImpl implements iImpactRepository {
                             int primaryTeamBIT, List<Integer> secondaryTeamBITS,
                             List<Integer> statusBITS, iReadImpactsCallback callback) {
 
-        CollectionReference coImpactRef = db.collection(cRealtimeHelper.KEY_LOGFRAME_COMPONENTS);
+        CollectionReference coImpactRef = db.collection(CFirestoreConstant.KEY_LOGFRAME_COMPONENTS);
 
         Query impactQuery = coImpactRef
                 .whereEqualTo("projectServerID", logframeServerID)
@@ -55,7 +55,7 @@ public class cImpactFirestoreRepositoryImpl implements iImpactRepository {
                         cImpactModel impactModel = impact_doc.toObject(cImpactModel.class);
 
                         if (impactModel != null) {
-                            cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
+                            CFirestoreUtility.cUnixPerm perm = new CFirestoreUtility.cUnixPerm();
                             perm.setUserOwnerID(impactModel.getUserOwnerID());
                             perm.setTeamOwnerBIT(impactModel.getTeamOwnerBIT());
                             perm.setUnixpermBITS(impactModel.getUnixpermBITS());
@@ -101,7 +101,7 @@ public class cImpactFirestoreRepositoryImpl implements iImpactRepository {
                             if (outcomeModel != null) {
                                 String outcomeImpactID = outcomeModel.getImpactServerID();
                                 if (outcomeImpactID.equals(impactModel.getComponentServerID())) {
-                                    cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
+                                    CFirestoreUtility.cUnixPerm perm = new CFirestoreUtility.cUnixPerm();
                                     perm.setUserOwnerID(outcomeModel.getUserOwnerID());
                                     perm.setTeamOwnerBIT(outcomeModel.getTeamOwnerBIT());
                                     perm.setUnixpermBITS(outcomeModel.getUnixpermBITS());
@@ -130,7 +130,7 @@ public class cImpactFirestoreRepositoryImpl implements iImpactRepository {
                                        List<cImpactModel> impactModels,
                                        iReadImpactsCallback callback) {
 
-        CollectionReference coOutcomeRef = db.collection(cRealtimeHelper.KEY_LOGFRAME_COMPONENTS);
+        CollectionReference coOutcomeRef = db.collection(CFirestoreConstant.KEY_LOGFRAME_COMPONENTS);
 
         Query outcomeQuery = coOutcomeRef
                 .whereEqualTo("projectServerID", logframeServerID)
@@ -147,7 +147,7 @@ public class cImpactFirestoreRepositoryImpl implements iImpactRepository {
                             if (outcomeModel != null) {
                                 String outcomeImpactID = outcomeModel.getImpactServerID();
                                 if (outcomeImpactID.equals(impactModel.getComponentServerID())) {
-                                    cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
+                                    CFirestoreUtility.cUnixPerm perm = new CFirestoreUtility.cUnixPerm();
                                     perm.setUserOwnerID(outcomeModel.getUserOwnerID());
                                     perm.setTeamOwnerBIT(outcomeModel.getTeamOwnerBIT());
                                     perm.setUnixpermBITS(outcomeModel.getUnixpermBITS());

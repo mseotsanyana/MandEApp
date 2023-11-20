@@ -1,20 +1,23 @@
 package com.me.mseotsanyana.mande.application.ports.base;
 
 
-import com.me.mseotsanyana.mande.application.ports.base.iInteractor;
-import com.me.mseotsanyana.mande.infrastructure.ports.base.executor.iExecutor;
-import com.me.mseotsanyana.mande.infrastructure.ports.base.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
 
-public abstract class cAbstractInteractor implements iInteractor {
-    protected iExecutor threadExecutor;
-    protected iMainThread mainThread;
+public abstract class CAbstractInteractor<R> implements IInteractor {
+    protected IExecutor threadExecutor;
+    protected IMainThread mainThread;
+    protected ISessionManager sessionManager;
 
     protected volatile boolean isCanceled;
     protected volatile boolean isRunning;
 
-    public cAbstractInteractor(iExecutor threadExecutor, iMainThread mainThread) {
+    public CAbstractInteractor(IExecutor threadExecutor, IMainThread mainThread,
+                               ISessionManager sessionManager) {
         this.threadExecutor = threadExecutor;
         this.mainThread = mainThread;
+        this.sessionManager = sessionManager;
     }
 
     /**
@@ -28,6 +31,8 @@ public abstract class cAbstractInteractor implements iInteractor {
      * easier testing.
      */
     public abstract void run();
+    public abstract void postResult(R resultMap);
+    public abstract void postError(String errorMessage);
 
     public void cancel() {
         isCanceled = true;
@@ -44,14 +49,10 @@ public abstract class cAbstractInteractor implements iInteractor {
     }
 
     public void execute() {
-        /**
-         * mark this interactor as running
-         */
+         // mark this interactor as running
         this.isRunning = true;
 
-        /**
-         * start running this interactor in a background thread
-         */
+        // start running this interactor in a background thread
         threadExecutor.execute(this);
     }
 }

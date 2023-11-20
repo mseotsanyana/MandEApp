@@ -44,18 +44,18 @@
         </activity>
 
         <service
-            android:name=".DAL.ìmpl.sqlite.synchronization.cSyncedJobService"
+            android:name=".infrastructure.repository.sqlite.synchronization.cSyncedJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <service
-            android:name=".BLL.interactors.session.user.Impl.cUserJobService"
+            android:name=".application.interactors.session.user.Impl.cUserJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
         <service
-            android:name=".BLL.interactors.session.address.Impl.cAddressJobService"
+            android:name=".application.interactors.session.address.Impl.cAddressJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <receiver
-            android:name=".UTIL.COM.cBroadcastReceiver"
+            android:name=".OLD.COM.cBroadcastReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

@@ -2,20 +2,21 @@ package com.me.mseotsanyana.mande.application.interactors.programme.project.Impl
 
 import android.util.Log;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.programme.project.iProjectInteractor;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cProjectModel;
 import com.me.mseotsanyana.mande.application.repository.programme.iProjectRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class cReadAllProjectsInteractorImpl extends cAbstractInteractor
+public class cReadAllProjectsInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iProjectInteractor {
     private static final String TAG = cReadAllProjectsInteractorImpl.class.getSimpleName();
 
@@ -31,11 +32,11 @@ public class cReadAllProjectsInteractorImpl extends cAbstractInteractor
     private final int entityBITS;
     private final int entitypermBITS;
 
-    public cReadAllProjectsInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                          iSharedPreferenceRepository sharedPreferenceRepository,
+    public cReadAllProjectsInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                          ISessionManager sharedPreferenceRepository,
                                           iProjectRepository projectRepository,
                                           Callback callback) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sharedPreferenceRepository == null || projectRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -45,19 +46,19 @@ public class cReadAllProjectsInteractorImpl extends cAbstractInteractor
         this.callback = callback;
 
         // load user shared preferences
-        this.userServerID = sharedPreferenceRepository.loadUserID();
+        this.userServerID = sharedPreferenceRepository.loadLoggedInUserServerID();
         this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
         this.primaryTeamBIT = sharedPreferenceRepository.loadActiveWorkspaceBIT();
         this.secondaryTeamBITS = sharedPreferenceRepository.loadSecondaryWorkspaces();
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
-                cSharedPreference.PROGRAMME_MODULE);
+                CPreferenceConstant.PROGRAMME_MODULE);
         this.entitypermBITS = sharedPreferenceRepository.loadEntityPermissionBITS(
-                cSharedPreference.PROGRAMME_MODULE, cSharedPreference.PROJECT);
+                CPreferenceConstant.PROGRAMME_MODULE, CPreferenceConstant.PROJECT);
         this.statusBITS = sharedPreferenceRepository.loadOperationStatuses(
-                cSharedPreference.PROGRAMME_MODULE, cSharedPreference.PROJECT,
-                cSharedPreference.READ);
+                CPreferenceConstant.PROGRAMME_MODULE, CPreferenceConstant.PROJECT,
+                CPreferenceConstant.READ);
 
         Log.d(TAG, " \n ORGANIZATION ID = " + this.organizationServerID +
                 " \n USER ID = " + this.userServerID +
@@ -85,8 +86,8 @@ public class cReadAllProjectsInteractorImpl extends cAbstractInteractor
         for (int i = 0; i < projectModels.size(); i++) {
             // create logframe without parent projects
             if (projectModels.get(i).getParentServerID() == null) {
-                projectTreeModels.add(
-                        new cTreeModel(parentIndex, -1, 0, projectModels.get(i)));
+                //projectTreeModels.add(
+                //        new cTreeModel(parentIndex, -1, 0, projectModels.get(i)));
             }
 
             // create parent logframe with child projects
@@ -95,8 +96,8 @@ public class cReadAllProjectsInteractorImpl extends cAbstractInteractor
                 if (projectModels.get(i).getProjectServerID().equals(
                         projectModels.get(j).getParentServerID())) {
                     childIndex = childIndex + 1;
-                    projectTreeModels.add(new cTreeModel(
-                            childIndex, parentIndex, 1, projectModels.get(j)));
+                    //projectTreeModels.add(new cTreeModel(
+                    //        childIndex, parentIndex, 1, projectModels.get(j)));
                 }
             }
             parentIndex = childIndex + 1;
@@ -135,5 +136,15 @@ public class cReadAllProjectsInteractorImpl extends cAbstractInteractor
 //        } else {
 //            notifyError("Error in default settings");
 //        }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

@@ -9,24 +9,24 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-import com.me.mseotsanyana.mande.domain.entities.models.session.cMenuModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CMenuModel;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 
 import java.util.List;
 import java.util.Objects;
 
 public class cExpandableListAdapter extends BaseExpandableListAdapter {
     private final Context context;
-    private List<cMenuModel> menuModels;
+    private List<CMenuModel> menuModels;
 
-    public cExpandableListAdapter(Context context, List<cMenuModel> menuModels) {
+    public cExpandableListAdapter(Context context, List<CMenuModel> menuModels) {
         this.context = context;
         this.menuModels = menuModels;
     }
 
     @Override
-    public cMenuModel getChild(int groupPosition, int childPosition) {
+    public CMenuModel getChild(int groupPosition, int childPosition) {
         return this.menuModels.get(groupPosition).getSubmenu().get(childPosition);
     }
 
@@ -64,7 +64,7 @@ public class cExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public cMenuModel getGroup(int groupPosition) {
+    public CMenuModel getGroup(int groupPosition) {
         return this.menuModels.get(groupPosition);
     }
 
@@ -94,7 +94,7 @@ public class cExpandableListAdapter extends BaseExpandableListAdapter {
         // set icons for menu items
         TextView menuItemIconView = (TextView) convertView.findViewById(R.id.menuItemIcon);
         menuItemIconView.setTypeface(null, Typeface.NORMAL);
-        menuItemIconView.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+        menuItemIconView.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
 
         if (menuModels.get(groupPosition).getMenuServerID() == 0)
             menuItemIconView.setText(context.getResources().getString(R.string.fa_profile));
@@ -115,7 +115,7 @@ public class cExpandableListAdapter extends BaseExpandableListAdapter {
         // set arrow icons for relevant items
         TextView menuItemArrowView = (TextView) convertView.findViewById(R.id.menuItemArrow);
         menuItemArrowView.setTypeface(null, Typeface.NORMAL);
-        menuItemArrowView.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+        menuItemArrowView.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
 
         if (menuModels.get(groupPosition).getMenuServerID() == 0 || menuModels.get(groupPosition).getMenuServerID() == 16) {
             if (!isExpanded)
@@ -139,11 +139,11 @@ public class cExpandableListAdapter extends BaseExpandableListAdapter {
         return true;
     }
 
-    public List<cMenuModel> getMenuModels() {
+    public List<CMenuModel> getMenuModels() {
         return menuModels;
     }
 
-    public void setMenuModels(List<cMenuModel> menuModels) {
+    public void setMenuModels(List<CMenuModel> menuModels) {
         this.menuModels = menuModels;
     }
 }

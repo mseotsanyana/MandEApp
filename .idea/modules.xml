@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MandE.iml" filepath="$PROJECT_DIR$/.idea/modules/MandE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-859426537/MandE.annotations.iml" filepath="$PROJECT_DIR$/.idea/modules/-859426537/MandE.annotations.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-859426537/MandE.annotations.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-859426537/MandE.annotations.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-859426537/MandE.annotations.test.iml" filepath="$PROJECT_DIR$/.idea/modules/-859426537/MandE.annotations.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MandE.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MandE.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MandE.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MandE.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MandE.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MandE.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MandE.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MandE.app.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-416603375/MandE.bmblibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/-416603375/MandE.bmblibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-416603375/MandE.bmblibrary.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-416603375/MandE.bmblibrary.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-416603375/MandE.bmblibrary.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-416603375/MandE.bmblibrary.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-416603375/MandE.bmblibrary.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-416603375/MandE.bmblibrary.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1289567847/MandE.compilers.iml" filepath="$PROJECT_DIR$/.idea/modules/1289567847/MandE.compilers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1289567847/MandE.compilers.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1289567847/MandE.compilers.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1289567847/MandE.compilers.test.iml" filepath="$PROJECT_DIR$/.idea/modules/1289567847/MandE.compilers.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/331668816/MandE.expandablelayoutlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/331668816/MandE.expandablelayoutlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/331668816/MandE.expandablelayoutlibrary.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/331668816/MandE.expandablelayoutlibrary.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/331668816/MandE.expandablelayoutlibrary.main.iml" filepath="$PROJECT_DIR$/.idea/modules/331668816/MandE.expandablelayoutlibrary.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/331668816/MandE.expandablelayoutlibrary.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/331668816/MandE.expandablelayoutlibrary.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1697263594/MandE.multiselectspinnerlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/1697263594/MandE.multiselectspinnerlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1697263594/MandE.multiselectspinnerlibrary.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/1697263594/MandE.multiselectspinnerlibrary.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1697263594/MandE.multiselectspinnerlibrary.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1697263594/MandE.multiselectspinnerlibrary.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1697263594/MandE.multiselectspinnerlibrary.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/1697263594/MandE.multiselectspinnerlibrary.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1952358576/MandE.placeholderviewlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/-1952358576/MandE.placeholderviewlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1952358576/MandE.placeholderviewlibrary.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-1952358576/MandE.placeholderviewlibrary.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1952358576/MandE.placeholderviewlibrary.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1952358576/MandE.placeholderviewlibrary.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1952358576/MandE.placeholderviewlibrary.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-1952358576/MandE.placeholderviewlibrary.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1633200859/MandE.questionnairelibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/-1633200859/MandE.questionnairelibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1633200859/MandE.questionnairelibrary.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-1633200859/MandE.questionnairelibrary.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1633200859/MandE.questionnairelibrary.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-1633200859/MandE.questionnairelibrary.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1633200859/MandE.questionnairelibrary.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-1633200859/MandE.questionnairelibrary.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2043264091/MandE.quickactionlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/-2043264091/MandE.quickactionlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2043264091/MandE.quickactionlibrary.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-2043264091/MandE.quickactionlibrary.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2043264091/MandE.quickactionlibrary.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-2043264091/MandE.quickactionlibrary.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2043264091/MandE.quickactionlibrary.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-2043264091/MandE.quickactionlibrary.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-112786345/MandE.treeadapterlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/-112786345/MandE.treeadapterlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-112786345/MandE.treeadapterlibrary.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-112786345/MandE.treeadapterlibrary.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-112786345/MandE.treeadapterlibrary.main.iml" filepath="$PROJECT_DIR$/.idea/modules/-112786345/MandE.treeadapterlibrary.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-112786345/MandE.treeadapterlibrary.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/-112786345/MandE.treeadapterlibrary.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1519788822/MandE.validatorlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/1519788822/MandE.validatorlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1519788822/MandE.validatorlibrary.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/1519788822/MandE.validatorlibrary.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1519788822/MandE.validatorlibrary.main.iml" filepath="$PROJECT_DIR$/.idea/modules/1519788822/MandE.validatorlibrary.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1519788822/MandE.validatorlibrary.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/1519788822/MandE.validatorlibrary.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/829946026/MandE.viewpagerlibrary.iml" filepath="$PROJECT_DIR$/.idea/modules/829946026/MandE.viewpagerlibrary.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/829946026/MandE.viewpagerlibrary.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/829946026/MandE.viewpagerlibrary.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/829946026/MandE.viewpagerlibrary.main.iml" filepath="$PROJECT_DIR$/.idea/modules/829946026/MandE.viewpagerlibrary.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/829946026/MandE.viewpagerlibrary.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/829946026/MandE.viewpagerlibrary.unitTest.iml" />
+    </modules>
+  </component>
+</project>

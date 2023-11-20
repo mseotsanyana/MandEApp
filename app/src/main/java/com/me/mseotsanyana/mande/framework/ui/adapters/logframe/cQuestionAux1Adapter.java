@@ -23,12 +23,12 @@ import com.me.mseotsanyana.mande.domain.entities.models.logframe.cActivityModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cQuestionModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUserModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cMaterialModel;
-import com.me.mseotsanyana.mande.PL.ui.views.cActivityBodyView;
-import com.me.mseotsanyana.mande.PL.ui.views.cLogFrameHeaderView;
-import com.me.mseotsanyana.mande.PL.ui.views.cQuestionBodyView;
+import com.me.mseotsanyana.mande.OLD.PL.ui.views.cActivityBodyView;
+import com.me.mseotsanyana.mande.OLD.PL.ui.views.cLogFrameHeaderView;
+import com.me.mseotsanyana.mande.OLD.PL.ui.views.cQuestionBodyView;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.placeholderviewlibrary.cExpandablePlaceHolderView;
 import com.me.mseotsanyana.treeadapterlibrary.cNode;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeAdapter;
@@ -135,13 +135,13 @@ public class cQuestionAux1Adapter extends cTreeAdapter {
                         if (node.isExpand()) {
                             HPH.textViewExpandIcon.setTypeface(null, Typeface.NORMAL);
                             HPH.textViewExpandIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             HPH.textViewExpandIcon.setText(
                                     context.getResources().getString(R.string.fa_minus));
                         } else {
                             HPH.textViewExpandIcon.setTypeface(null, Typeface.NORMAL);
                             HPH.textViewExpandIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             HPH.textViewExpandIcon.setText(
                                     context.getResources().getString(R.string.fa_plus));
                         }
@@ -165,8 +165,8 @@ public class cQuestionAux1Adapter extends cTreeAdapter {
 
                     /* collapse and expansion of the details */
                     HPH.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-                    HPH.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                            cFontManager.FONTAWESOME));
+                    HPH.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                            CFontManager.FONTAWESOME));
                     HPH.textViewDetailIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     HPH.textViewDetailIcon.setText(context.getResources().getString(R.string.fa_angle_down));
                     HPH.textViewDetailIcon.setOnClickListener(new View.OnClickListener() {
@@ -185,7 +185,7 @@ public class cQuestionAux1Adapter extends cTreeAdapter {
                     /* icon for creating a record */
                     HPH.textViewCreateIcon.setTypeface(null, Typeface.NORMAL);
                     HPH.textViewCreateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     HPH.textViewCreateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     HPH.textViewCreateIcon.setText(context.getResources().getString(R.string.fa_create));
                     HPH.textViewCreateIcon.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +198,7 @@ public class cQuestionAux1Adapter extends cTreeAdapter {
                     /* icon for saving updated record */
                     HPH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
                     HPH.textViewUpdateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     HPH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     HPH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
                     HPH.textViewUpdateIcon.setOnClickListener(new View.OnClickListener() {
@@ -211,7 +211,7 @@ public class cQuestionAux1Adapter extends cTreeAdapter {
                     /* icon for deleting a record */
                     HPH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     HPH.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     HPH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     HPH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
                     HPH.textViewDeleteIcon.setOnClickListener(new View.OnClickListener() {
@@ -224,7 +224,7 @@ public class cQuestionAux1Adapter extends cTreeAdapter {
                     /* icon for syncing a record */
                     HPH.textViewSyncIcon.setTypeface(null, Typeface.NORMAL);
                     HPH.textViewSyncIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     HPH.textViewSyncIcon.setTextColor(context.getColor(R.color.colorPrimaryDark));
                     HPH.textViewSyncIcon.setText(context.getResources().getString(R.string.fa_sync));
                     HPH.textViewSyncIcon.setOnClickListener(new View.OnClickListener() {

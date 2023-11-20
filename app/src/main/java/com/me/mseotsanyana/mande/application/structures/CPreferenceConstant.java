@@ -1,14 +1,8 @@
 package com.me.mseotsanyana.mande.application.structures;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.SharedPreferences;
-
-import androidx.annotation.NonNull;
-
-public class CSharedPreference {
+public class CPreferenceConstant {
     // Shared preferences file name
-    public static final String KEY_USER_PREFS                     = "userpreferences";
+    public static final String KEY_USER_PREFS                     = "sessions";
 
     // General global settings
     public static final String KEY_USER_PROFILE                   = "KEY-USER-PROFILE";
@@ -39,21 +33,21 @@ public class CSharedPreference {
     public static final String KEY_ENTITY_OPERATION_BITS  = "KEY-EOB";
     public static final String KEY_OPERATION_STATUS_BITS  = "KEY-OSB";
     public static final String KEY_UNIX_PERM_BITS         = "KEY-UPB";
-    public static final String KEY_IS_LOGGEDIN            = "KEY-ISLOGGEDIN";
+    //public static final String KEY_IS_LOGGEDIN            = "KEY-ISLOGGEDIN";
 
     /* system module constants */
-    public static final int SESSION_MODULE    = 1;
+    public static final int SESSION           = 1;
     public static final int PROGRAMME_MODULE  = 2;
     public static final int EVALUATION_MODULE = 4;
 
     /* system entity constants */
     public static final int USER             = 1;
-    public static final int SESSION          = 2;
+    //public static final int SESSION          = 2;
     public static final int PLAN             = 4;
     public static final int FEATURE          = 8;
     public static final int ORGANIZATION     = 16;
     public static final int USERACCOUNT      = 32;
-    public static final int TEAM             = 64;
+    public static final int WORKSPACE        = 64;
     public static final int ROLE             = 128;
     public static final int PRIVILEGE        = 256;
 

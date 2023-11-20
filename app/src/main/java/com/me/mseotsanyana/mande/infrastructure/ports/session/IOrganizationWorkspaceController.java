@@ -1,50 +1,79 @@
 package com.me.mseotsanyana.mande.infrastructure.ports.session;
 
-import com.me.mseotsanyana.mande.framework.ports.base.IBaseView;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.IBaseView;
 import com.me.mseotsanyana.mande.infrastructure.ports.base.IController;
-import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 
-import java.util.List;
-
-public interface IOrganizationController extends IController{
+public interface IOrganizationWorkspaceController extends IController {
     interface IViewModel extends IBaseView {
-        //void onClickCreateOrganization();
-        //void onLongClickWorkspace(CWorkspaceModel workspaceModel);
+        /******************** methods sending data from presenter to view model ********************
+         * @param response response
+         **/
 
-        void onCreateOrganizationFailed(String msg);
-        void onCreateOrganizationSucceeded(String msg);
-        void onReadOrganizationFailed(String msg);
-        void onReadOrganizationSucceeded(COrganizationModel organizationModel, String operation);
-        void onReadOrganizationsFailed(String msg);
-        void onReadOrganizationsSucceeded(List<cTreeModel> treeModels);
+        void onShowTreeModel(IResponseDTO<CTreeModel> response);
+        //void onUpdateTreeModels(IResponseDTO<String> response);
 
-        void onSwitchOrganizationWorkspaceFailed(String msg);
-        void onSwitchOrganizationWorkspaceSucceeded(String msg);
+        void switchResponse(String response);
 
+        /******************** methods sending data from adapter to view model *********************/
 
-        void onUserSignOutFailed(String msg);
-        void onUserSignOutSucceeded(String msg);
+        void onClickCreateOrganization();
 
+        void onLongClickWorkspace(CWorkspaceModel workspaceModel);
 
-        void onReadOrganizationMembersFailed(String msg);
-        void onReadOrganizationMembersSucceeded(List<CUserProfileModel> userProfileModels);
+        void onClickUpdateOrganization(COrganizationModel organizationModel);
 
-        /*EditText getNameEditText();
-        EditText getEmailEditText();
-        EditText getWebsiteEditText();
+        void onClickDeleteOrganization(String organizationServerID);
 
-        String getResourceString(int resourceID);*/
+        void onClickReadOrganizationWorkspaces(String organizationServerID);
+
+        void onClickCreateWorkspace(CWorkspaceModel workspaceModel);
+
+        void onClickDeleteWorkspace(int workspaceBITS, CWorkspaceModel workspaceModel);
+
+        void onClickUpdateWorkspace(CWorkspaceModel workspaceModel);
+
+        /******************** methods sending data from fragment to view model ********************/
+
+        void onResumeView();
+
+        void onViewCreated();
+
+        void onRemoveListener();
+
+        void onEmailUnverified();
+
+        void onUserLogOut();
+
+        void onUserLoggedOut();
+
+        void onSearchAdapter(String query);
     }
-    void removeListener();
 
-    //void signOutWithEmailAndPassword();
+    /********************* methods sending data from view model to controller *********************/
 
-    /* implemented in PresenterImpl to link ui with InteractorImpl */
     void createOrganization(COrganizationModel organizationModel);
 
-    void readOrganizationWorkspaces();
-    //void readOrganizationMembers();
-    //void switchOrganizationWorkspace(CWorkspaceModel workspaceModel);
+    void readOrganizations();
+
+    void updateOrganization(COrganizationModel organizationModel);
+
+    void deleteOrganization(String organizationServerID);
+
+    void createWorkspace(CWorkspaceModel workspaceModel);
+
+    void readWorkspaces(String organizationServerID);
+
+    void deleteWorkspace(int workspaceBITS, CWorkspaceModel workspaceModel);
+
+    void updateWorkspace(CWorkspaceModel workspaceModel);
+
+    void chooseWorkspaceRequest(CWorkspaceModel workspaceModel);
+
+    void signOutWithEmailAndPassword();
+
+    void removeListener();
 }

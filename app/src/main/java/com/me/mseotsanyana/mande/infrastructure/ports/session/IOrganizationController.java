@@ -1,36 +1,32 @@
-package com.me.mseotsanyana.mande.framework.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.ports.session;
 
-import com.me.mseotsanyana.mande.PL.ui.iBaseView;
-import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
-import com.me.mseotsanyana.mande.framework.controllers.base.IController;
-import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
-
-import java.util.List;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.IBaseView;
+import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.IController;
 
 public interface IOrganizationController extends IController{
-    interface IModelView extends iBaseView{
+    interface IViewModel extends IBaseView {
         //void onClickCreateOrganization();
-        //void onLongClickWorkspace(CWorkspaceModel workspaceModel);
-
-        void onCreateOrganizationFailed(String msg);
-        void onCreateOrganizationSucceeded(String msg);
-        void onReadOrganizationFailed(String msg);
-        void onReadOrganizationSucceeded(COrganizationModel organizationModel, String operation);
-        void onReadOrganizationsFailed(String msg);
-        void onReadOrganizationsSucceeded(List<cTreeModel> treeModels);
-
-        void onSwitchOrganizationWorkspaceFailed(String msg);
-        void onSwitchOrganizationWorkspaceSucceeded(String msg);
-
-
-        void onUserSignOutFailed(String msg);
-        void onUserSignOutSucceeded(String msg);
-
-
-        void onReadOrganizationMembersFailed(String msg);
-        void onReadOrganizationMembersSucceeded(List<CUserProfileModel> userProfileModels);
+        void onLongClickWorkspace(CWorkspaceModel workspaceModel);
+//
+//        void onCreateOrganizationFailed(String msg);
+//        void onCreateOrganizationSucceeded(String msg);
+//        void onReadOrganizationFailed(String msg);
+//        void onReadOrganizationSucceeded(COrganizationModel organizationModel, String operation);
+//        void onReadOrganizationsFailed(String msg);
+//        void onReadOrganizationsSucceeded(List<cTreeModel> treeModels);
+//
+//        void onSwitchOrganizationWorkspaceFailed(String msg);
+//        void onSwitchOrganizationWorkspaceSucceeded(String msg);
+//
+//
+//        void onUserSignOutFailed(String msg);
+//        void onUserSignOutSucceeded(String msg);
+//
+//
+//        void onReadOrganizationMembersFailed(String msg);
+//        void onReadOrganizationMembersSucceeded(List<CUserProfileModel> userProfileModels);
 
         /*EditText getNameEditText();
         EditText getEmailEditText();

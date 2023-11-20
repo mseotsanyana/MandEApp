@@ -1,21 +1,21 @@
-package com.me.mseotsanyana.mande.infrastructure.controllers.logframe.Impl;
+package com.me.mseotsanyana.mande.infrastructure.controllers.logframe;
 
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.programme.input.Impl.cReadInputInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.programme.input.iReadInputInteractor;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cExpenseModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cHumanModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cIncomeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.wpb.cMaterialModel;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
 import com.me.mseotsanyana.mande.application.repository.awpb.iExpenseRepository;
 import com.me.mseotsanyana.mande.application.repository.awpb.iHumanRepository;
 import com.me.mseotsanyana.mande.application.repository.awpb.iIncomeRepository;
 import com.me.mseotsanyana.mande.application.repository.awpb.iMaterialRepository;
-import com.me.mseotsanyana.mande.OLD.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.iInputPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iInputPresenter;
 
 import java.util.ArrayList;
 
@@ -27,22 +27,22 @@ public class cInputPresenterImpl extends cAbstractPresenter implements iInputPre
     private static String TAG = cInputPresenterImpl.class.getSimpleName();
 
     private View view;
-    private iSharedPreferenceRepository sessionManagerRepository;
+    private ISessionManager sessionManagerRepository;
     private iHumanRepository humanRepository;
     private iMaterialRepository materialRepository;
     private iIncomeRepository incomeRepository;
     private iExpenseRepository expenseRepository;
     private long logFrameID;
 
-    public cInputPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cInputPresenterImpl(IExecutor executor, IMainThread mainThread,
                                View view,
-                               iSharedPreferenceRepository sessionManagerRepository,
+                               ISessionManager sessionManagerRepository,
                                iHumanRepository humanRepository,
                                iMaterialRepository materialRepository,
                                iIncomeRepository incomeRepository,
                                iExpenseRepository expenseRepository,
                                long logFrameID) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sessionManagerRepository = sessionManagerRepository;

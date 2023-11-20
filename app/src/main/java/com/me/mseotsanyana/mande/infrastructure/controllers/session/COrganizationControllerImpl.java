@@ -1,46 +1,40 @@
-package com.me.mseotsanyana.mande.interfaceadapters.controllers.session;
+package com.me.mseotsanyana.mande.infrastructure.controllers.session;
 
+import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
-import com.me.mseotsanyana.mande.framework.controllers.base.CAbstractController;
-import com.me.mseotsanyana.mande.framework.controllers.session.IOrganizationController;
-import com.me.mseotsanyana.mande.interfaceadapters.presenters.session.COrganizationPresenterImpl;
-import com.me.mseotsanyana.mande.usecases.executor.iExecutor;
-import com.me.mseotsanyana.mande.usecases.executor.iMainThread;
-import com.me.mseotsanyana.mande.usecases.interactors.session.organization.Impl.cCreateOrganizationInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.organization.Impl.cReadOrganizationsInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.organization.Impl.cRemoveListenerInteractorImpl;
-import com.me.mseotsanyana.mande.usecases.interactors.session.organization.iOrganizationInteractor;
-import com.me.mseotsanyana.mande.usecases.repository.session.iOrganizationRepository;
-import com.me.mseotsanyana.mande.usecases.repository.session.iPrivilegeRepository;
-import com.me.mseotsanyana.mande.usecases.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.usecases.repository.session.iUserProfileRepository;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.CAbstractController;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.IOrganizationController;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.interactors.session.organization.CCreateOrganizationInteractorImpl;
+import com.me.mseotsanyana.mande.application.interactors.session.organization.CRemoveListenerInteractorImpl;
+import com.me.mseotsanyana.mande.application.repository.session.IOrganizationRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
 
+import java.util.Map;
 
-public class COrganizationControllerImpl extends CAbstractController implements IOrganizationController
-        /*iOrganizationInteractor.Callback, iUserSignOutInteractor.Callback*/ {
-    //private static final String TAG = cOrganizationPresenterImpl.class.getSimpleName();
+public class COrganizationControllerImpl extends CAbstractController implements
+        IOrganizationController {
+    private static final String TAG = COrganizationControllerImpl.class.getSimpleName();
 
-    private final IModelView modelView;
-    private final iSharedPreferenceRepository sharedPreferenceRepository;
-    private final iPrivilegeRepository permissionRepository;
-    private final iOrganizationRepository organizationRepository;
-    private final iUserProfileRepository userProfileRepository;
+    private final IViewModel iViewModel;
+    private final IInteractor.IPresenter<IResponseDTO<Object>> iPresenter;
+    private final IOrganizationRepository organizationRepository;
 
     //private final cInputValidation inputValidation;
 
-    public COrganizationControllerImpl(iExecutor executor, iMainThread mainThread,
-                                       IModelView modelView,
-                                       iSharedPreferenceRepository sharedPreferenceRepository,
-                                       iPrivilegeRepository permissionRepository,
-                                       iOrganizationRepository organizationRepository,
-                                       iUserProfileRepository userProfileRepository) {
-        super(executor, mainThread);
+    public COrganizationControllerImpl(IExecutor executor, IMainThread mainThread,
+                                       ISessionManager sessionManager,
+                                       IViewModel iViewModel,
+                                       IInteractor.IPresenter<IResponseDTO<Object>>
+                                               iPresenter,
+                                       IOrganizationRepository organizationRepository) {
+        super(executor, mainThread, sessionManager);
 
-        this.modelView = modelView;
-        this.sharedPreferenceRepository = sharedPreferenceRepository;
-        this.permissionRepository = permissionRepository;
+        this.iViewModel = iViewModel;
+        this.iPresenter = iPresenter;
         this.organizationRepository = organizationRepository;
-        this.userProfileRepository = userProfileRepository;
         //this.inputValidation = new cInputValidation();
     }
 
@@ -68,50 +62,43 @@ public class COrganizationControllerImpl extends CAbstractController implements 
             return;
         }*/
 
-        iOrganizationInteractor organizationInteractor;
-        organizationInteractor = new cCreateOrganizationInteractorImpl(
-                new COrganizationPresenterImpl(this.modelView),
-                executor,
-                mainThread,
-                sharedPreferenceRepository,
-                permissionRepository,
+        IInteractor iInteractor = new CCreateOrganizationInteractorImpl(
+                executor, mainThread, sessionManager,
+                iPresenter,
                 organizationRepository,
-
                 organizationModel);
 
-        modelView.showProgress();
+        iViewModel.showProgress();
 
-        organizationInteractor.execute();
+        iInteractor.execute();
     }
 
     // READ ORGANIZATIONS
 
     @Override
     public void readOrganizationWorkspaces() {
-        iOrganizationInteractor readOrganizationsInteractor;
-        readOrganizationsInteractor = new cReadOrganizationsInteractorImpl(
-                executor,
-                mainThread,
-                sharedPreferenceRepository,
-                organizationRepository,
-                new COrganizationPresenterImpl(this.modelView));
-
-        modelView.showProgress();
-        readOrganizationsInteractor.execute();
+//        IWorkspaceInteractor readOrganizationsInteractor;
+//        readOrganizationsInteractor = new CReadOrganizationInteractorImpl(
+//                new COrganizationWorkspacePresenterImpl(this.modelView),
+//                executor,
+//                mainThread,
+//                sharedPreferenceRepository,
+//                organizationRepository);
+//
+//        modelView.showProgress();
+//        readOrganizationsInteractor.execute();
     }
 
 
     @Override
     public void removeListener() {
-        iOrganizationInteractor organizationInteractor;
-        organizationInteractor = new cRemoveListenerInteractorImpl(
-                executor,
-                mainThread,
-                organizationRepository,
-                new COrganizationPresenterImpl(this.modelView));
+        IInteractor iInteractor = new CRemoveListenerInteractorImpl(
+                executor, mainThread, sessionManager,
+                iPresenter,
+                organizationRepository);
 
-        modelView.showProgress();
-        organizationInteractor.execute();
+        iViewModel.showProgress();
+        iInteractor.execute();
     }
 //
 //    @Override
@@ -183,18 +170,7 @@ public class COrganizationControllerImpl extends CAbstractController implements 
 
     // LOGOUT USER
 
-//    @Override
-//    public void signOutWithEmailAndPassword() {
-//        iUserSignOutInteractor userSignOutInteractor = new cUserSignOutInteractorImpl(
-//                executor,
-//                mainThread,this.modelView,
-//                sharedPreferenceRepository,
-//                userProfileRepository);
-//
-//        modelView.showProgress();
-//
-//        userSignOutInteractor.execute();
-//    }
+
 
 //    @Override
 //    public void onUserSignOutFailed(String msg) {
@@ -215,6 +191,8 @@ public class COrganizationControllerImpl extends CAbstractController implements 
 
     // PRESENTER FUNCTIONS
 
+    /********************************** view life cycle methods ***********************************/
+
     @Override
     public void resume() {
         readOrganizationWorkspaces();
@@ -227,8 +205,8 @@ public class COrganizationControllerImpl extends CAbstractController implements 
 
     @Override
     public void stop() {
-        if (this.modelView != null) {
-            this.modelView.hideProgress();
+        if (this.iViewModel != null) {
+            this.iViewModel.hideProgress();
         }
     }
 

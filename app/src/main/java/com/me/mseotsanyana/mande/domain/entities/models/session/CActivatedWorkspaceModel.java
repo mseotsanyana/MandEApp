@@ -1,7 +1,7 @@
 package com.me.mseotsanyana.mande.domain.entities.models.session;
 
 import com.me.mseotsanyana.mande.domain.entities.abstracts.session.AWorkspaceModel;
-import com.me.mseotsanyana.mande.usecases.utils.CConstantModel;
+import com.me.mseotsanyana.mande.application.structures.CConstantModel;
 
 public class CActivatedWorkspaceModel extends AWorkspaceModel {
 

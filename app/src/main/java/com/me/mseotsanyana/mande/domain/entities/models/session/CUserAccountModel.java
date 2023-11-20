@@ -1,9 +1,11 @@
 package com.me.mseotsanyana.mande.domain.entities.models.session;
 
+import com.me.mseotsanyana.mande.domain.entities.models.utils.CCommonAttributeModel;
+
 import java.util.Date;
 import java.util.Objects;
 
-public class cUserAccountModel {
+public class CUserAccountModel {
     private String userAccountServerID;
 
     private String organizationServerID;
@@ -23,17 +25,42 @@ public class cUserAccountModel {
 
     private int numUserAccounts;
 
-    public cUserAccountModel(){}
+    public CUserAccountModel() {
+    }
 
-    public cUserAccountModel(String userAccountServerID, String organizationServerID,
+    public CUserAccountModel(String userAccountServerID, String organizationServerID,
                              String workspaceServerID, String userServerID, String planServerID,
-                             boolean currentOrganization){
+                             boolean currentOrganization) {
         this.userAccountServerID = userAccountServerID;
         this.userServerID = userServerID;
         this.workspaceServerID = workspaceServerID;
         this.organizationServerID = organizationServerID;
         this.planServerID = planServerID;
         this.currentOrganization = currentOrganization;
+    }
+
+    public CUserAccountModel(String organizationServerID, String userServerID,
+                              String teamServerID, String planServerID,
+                              CCommonAttributeModel commonAttributeModel) {
+
+        this.setUserAccountServerID(organizationServerID + "_" + userServerID);
+        this.setOrganizationServerID(organizationServerID);
+        this.setWorkspaceServerID(teamServerID);
+        this.setUserServerID(userServerID);
+        this.setPlanServerID(planServerID);
+        this.setCurrentOrganization(true);
+
+        // current date
+        Date currentDate = new Date();
+        this.setCreatedDate(currentDate);
+        this.setModifiedDate(currentDate);
+
+        // update user account model with default values
+        this.setUserOwnerID(userServerID);
+        this.setOrganizationOwnerID(organizationServerID);
+        this.setWorkspaceOwnerBIT(commonAttributeModel.getWorkspaceOwnerBIT());
+        this.setUnixpermBITS(commonAttributeModel.getUnixpermBITS());
+        this.setStatusBIT(commonAttributeModel.getStatusBIT());
     }
 
     public int getNumUserAccounts() {
@@ -135,8 +162,8 @@ public class cUserAccountModel {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof cUserAccountModel)) return false;
-        cUserAccountModel that = (cUserAccountModel) o;
+        if (!(o instanceof CUserAccountModel)) return false;
+        CUserAccountModel that = (CUserAccountModel) o;
         return isCurrentOrganization() == that.isCurrentOrganization() &&
                 getUserAccountServerID().equals(that.getUserAccountServerID()) &&
                 getOrganizationServerID().equals(that.getOrganizationServerID()) &&

@@ -1,6 +1,6 @@
 package com.me.mseotsanyana.mande.application.ports.base.firebase;
 
-public abstract class CFirebaseChildCallBack {
+public abstract class CFirestoreChildCallBack {
 
     public abstract void onChildAdded(Object object);
 

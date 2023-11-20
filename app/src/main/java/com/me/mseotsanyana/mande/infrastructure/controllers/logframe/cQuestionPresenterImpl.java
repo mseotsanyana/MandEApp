@@ -1,14 +1,14 @@
-package com.me.mseotsanyana.mande.infrastructure.controllers.logframe.Impl;
+package com.me.mseotsanyana.mande.infrastructure.controllers.logframe;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.programme.question.Impl.cReadQuestionInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.programme.question.iReadQuestionInteractor;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cQuestionModel;
 import com.me.mseotsanyana.mande.application.repository.programme.iQuestionRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.OLD.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.iQuestionPresenter;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iQuestionPresenter;
 
 import java.util.ArrayList;
 
@@ -20,15 +20,15 @@ public class cQuestionPresenterImpl extends cAbstractPresenter implements iQuest
     private static String TAG = cQuestionPresenterImpl.class.getSimpleName();
 
     private View view;
-    private iSharedPreferenceRepository sessionManagerRepository;
+    private ISessionManager sessionManagerRepository;
     private iQuestionRepository questionRepository;
     private long logFrameID;
 
-    public cQuestionPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cQuestionPresenterImpl(IExecutor executor, IMainThread mainThread,
                                   View view,
-                                  iSharedPreferenceRepository sessionManagerRepository,
+                                  ISessionManager sessionManagerRepository,
                                   iQuestionRepository questionRepository, long logFrameID) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sessionManagerRepository = sessionManagerRepository;

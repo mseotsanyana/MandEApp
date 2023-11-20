@@ -1,13 +1,13 @@
-package com.me.mseotsanyana.mande.infrastructure.controllers.logframe.Impl;
+package com.me.mseotsanyana.mande.infrastructure.controllers.logframe;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.programme.outcome.Impl.cReadOutcomeInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.programme.outcome.iReadOutcomeInteractor;
 import com.me.mseotsanyana.mande.application.repository.programme.iOutcomeRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.OLD.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.iOutcomePresenter;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iOutcomePresenter;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
@@ -20,15 +20,15 @@ public class cOutcomePresenterImpl extends cAbstractPresenter implements iOutcom
     private static String TAG = cOutcomePresenterImpl.class.getSimpleName();
 
     private View view;
-    private iSharedPreferenceRepository sessionManagerRepository;
+    private ISessionManager sessionManagerRepository;
     private iOutcomeRepository outcomeRepository;
     private long logFrameID;
 
-    public cOutcomePresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cOutcomePresenterImpl(IExecutor executor, IMainThread mainThread,
                                  View view,
-                                 iSharedPreferenceRepository sessionManagerRepository,
+                                 ISessionManager sessionManagerRepository,
                                  iOutcomeRepository outcomeRepository, long logFrameID) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sessionManagerRepository = sessionManagerRepository;

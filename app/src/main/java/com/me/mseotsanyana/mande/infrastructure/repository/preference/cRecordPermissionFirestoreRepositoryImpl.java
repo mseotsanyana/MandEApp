@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.infrastructure.preference;
+package com.me.mseotsanyana.mande.infrastructure.repository.preference;
 
 import androidx.annotation.NonNull;
 
@@ -12,18 +12,18 @@ import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileMode
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CWorkspaceModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserAccountModel;
-import com.me.mseotsanyana.mande.application.preference.iRecordPermissionRepository;
-import com.me.mseotsanyana.mande.application.ports.base.firebase.cFirebaseCallBack;
-import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirebaseRepository;
-import com.me.mseotsanyana.mande.application.structures.CFirebaseConstant;
-import com.me.mseotsanyana.mande.application.utils.cDatabaseUtils;
+import com.me.mseotsanyana.mande.application.repository.preference.iRecordPermissionRepository;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreCallBack;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreRepository;
+import com.me.mseotsanyana.mande.application.structures.CFirestoreConstant;
+import com.me.mseotsanyana.mande.application.utils.CFirestoreUtility;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class cRecordPermissionFirestoreRepositoryImpl extends CFirebaseRepository
+public class cRecordPermissionFirestoreRepositoryImpl extends CFirestoreRepository
         implements iRecordPermissionRepository {
     //private static final String TAG = cRecordPermissionFirestoreRepositoryImpl.class.getSimpleName();
 
@@ -42,13 +42,13 @@ public class cRecordPermissionFirestoreRepositoryImpl extends CFirebaseRepositor
                                         List<Integer> statusBITS,
                                         iReadRecordPermissionsCallback callback) {
 
-        CollectionReference coStakeholderRef = database.collection(CFirebaseConstant.KEY_ORGANIZATIONS);
+        CollectionReference coStakeholderRef = database.collection(CFirestoreConstant.KEY_ORGANIZATIONS);
         Query stakeholderQuery = coStakeholderRef
                 .whereEqualTo("stakeholderOwnerID", organizationServerID)
                 .whereIn("statusBIT", statusBITS)
                 .orderBy("createdDate");
 
-        readQueryDocuments(stakeholderQuery, new cFirebaseCallBack() {
+        readQueryDocuments(stakeholderQuery, new CFirestoreCallBack() {
             @Override
             public void onFirebaseSuccess(Object querySnapshot) {
                 if (querySnapshot == null)
@@ -61,7 +61,7 @@ public class cRecordPermissionFirestoreRepositoryImpl extends CFirebaseRepositor
                     stakeholderModel = stakeholder.toObject(COrganizationModel.class);
                     assert stakeholderModel != null;
 
-                    cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
+                    CFirestoreUtility.cUnixPerm perm = new CFirestoreUtility.cUnixPerm();
                     perm.setUserOwnerID(stakeholderModel.getUserOwnerID());
                     perm.setTeamOwnerBIT(stakeholderModel.getWorkspaceOwnerBIT());
                     perm.setUnixpermBITS(stakeholderModel.getUnixpermBITS());
@@ -88,13 +88,13 @@ public class cRecordPermissionFirestoreRepositoryImpl extends CFirebaseRepositor
                               List<Integer> statusBITS, List<COrganizationModel> stakeholderModels,
                               iReadRecordPermissionsCallback callback) {
 
-        CollectionReference coTeamRef = database.collection(CFirebaseConstant.KEY_WORKSPACES);
+        CollectionReference coTeamRef = database.collection(CFirestoreConstant.KEY_WORKSPACES);
         Query teamQuery = coTeamRef
                 .whereEqualTo("organizationOwnerID", organizationServerID)
                 .whereIn("statusBIT", statusBITS)
                 .orderBy("createdDate");
 
-        readQueryDocuments(teamQuery, new cFirebaseCallBack() {
+        readQueryDocuments(teamQuery, new CFirestoreCallBack() {
             @Override
             public void onFirebaseSuccess(Object querySnapshot) {
                 if (querySnapshot == null)
@@ -106,7 +106,7 @@ public class cRecordPermissionFirestoreRepositoryImpl extends CFirebaseRepositor
                     CWorkspaceModel teamModel = team.toObject(CWorkspaceModel.class);
                     assert teamModel != null;
 
-                    cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
+                    CFirestoreUtility.cUnixPerm perm = new CFirestoreUtility.cUnixPerm();
                     perm.setUserOwnerID(teamModel.getUserOwnerID());
                     perm.setTeamOwnerBIT(teamModel.getWorkspaceOwnerBIT());
                     perm.setUnixpermBITS(teamModel.getUnixpermBITS());
@@ -136,13 +136,13 @@ public class cRecordPermissionFirestoreRepositoryImpl extends CFirebaseRepositor
                                      List<CWorkspaceModel> teamModels,
                                      iReadRecordPermissionsCallback callback) {
 
-        CollectionReference coAccountRef = database.collection(CFirebaseConstant.KEY_ORGANIZATION_MEMBERS);
+        CollectionReference coAccountRef = database.collection(CFirestoreConstant.KEY_ORGANIZATION_MEMBERS);
         Query userAccountQuery = coAccountRef
                 .whereEqualTo("organizationOwnerID", organizationServerID)
                 .whereIn("statusBIT", statusBITS)
                 .orderBy("createdDate");
 
-        readQueryDocuments(userAccountQuery, new cFirebaseCallBack() {
+        readQueryDocuments(userAccountQuery, new CFirestoreCallBack() {
             @Override
             public void onFirebaseSuccess(Object querySnapshot) {
                 if (querySnapshot == null)
@@ -155,7 +155,7 @@ public class cRecordPermissionFirestoreRepositoryImpl extends CFirebaseRepositor
 
                     assert userAccountModel != null;
 
-                    cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
+                    CFirestoreUtility.cUnixPerm perm = new CFirestoreUtility.cUnixPerm();
                     perm.setUserOwnerID(userAccountModel.getUserOwnerID());
                     perm.setTeamOwnerBIT(userAccountModel.getWorkspaceOwnerBIT());
                     perm.setUnixpermBITS(userAccountModel.getUnixpermBITS());
@@ -180,12 +180,12 @@ public class cRecordPermissionFirestoreRepositoryImpl extends CFirebaseRepositor
                                      List<CWorkspaceModel> teamModels, List<String> user_account_ids,
                                      @NonNull iReadRecordPermissionsCallback callback) {
 
-        CollectionReference coProfileRef = database.collection(CFirebaseConstant.KEY_USERPROFILES);
+        CollectionReference coProfileRef = database.collection(CFirestoreConstant.KEY_USERPROFILES);
 
         Query userProfileQuery = coProfileRef
                 .whereIn(FieldPath.documentId(), user_account_ids);
 
-        readQueryDocuments(userProfileQuery, new cFirebaseCallBack() {
+        readQueryDocuments(userProfileQuery, new CFirestoreCallBack() {
             @Override
             public void onFirebaseSuccess(Object querySnapshot) {
                 if (querySnapshot == null)

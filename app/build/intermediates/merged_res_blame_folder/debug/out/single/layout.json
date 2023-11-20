@@ -1,82 +1,110 @@
 [
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/session_organization_cardview.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/session_organization_cardview.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_org_accounts_fragment.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_org_accounts_fragment.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/session_organization_with_tabs_fragment.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/session_organization_with_tabs_fragment.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/me_common_attributes.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/me_common_attributes.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/logframe_list_fragment.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/logframe_list_fragment.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/me_tablayout_viewpager2.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/me_tablayout_viewpager2.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/component_parent_cardview.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/component_parent_cardview.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/logframe_parent_cardview.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/logframe_parent_cardview.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/me_common_attributes.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/me_common_attributes.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_home_fragment.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_home_fragment.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/session_login_fragment.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/session_login_fragment.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_workspace_create_update.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_workspace_create_update.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/me_tablayout_viewpager2.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/me_tablayout_viewpager2.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_changepassword_fragment.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_changepassword_fragment.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/session_unix_permission.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/session_unix_permission.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_organization_child_cardview.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_organization_child_cardview.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/session_changepassword_fragment.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/session_changepassword_fragment.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_login_fragment.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_login_fragment.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/session_privilege_cardview.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/session_privilege_cardview.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_child_workspace_cardview.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_child_workspace_cardview.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/project_child_cardview.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/project_child_cardview.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_organization_parent_cardview.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_organization_parent_cardview.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/me_toolbar_layout.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/me_toolbar_layout.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/me_toolbar_layout.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/me_toolbar_layout.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/logframe_child_cardview.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/logframe_child_cardview.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_privilege_cardview.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_privilege_cardview.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/project_parent_cardview.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/project_parent_cardview.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_org_account_cardview.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_org_account_cardview.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/project_list_fragment.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/project_list_fragment.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/logframe_list_fragment.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/logframe_list_fragment.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/logframe_parent_cardview.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/logframe_parent_cardview.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_unix_permission.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_unix_permission.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/session_organization_fragment.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/session_organization_fragment.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/component_parent_cardview.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/component_parent_cardview.xml"
     },
     {
-        "merged": "com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/session_menu_entity_cardview.xml",
-        "source": "com.me.mseotsanyana.mande.app-main-58:/layout/session_menu_entity_cardview.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_organization_fragment.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_organization_fragment.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/session_resetpassword_fragment.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/session_resetpassword_fragment.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/project_list_fragment.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/project_list_fragment.xml"
     },
     {
-        "merged": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-mergeDebugResources-55:/layout/session_workspace_cardview.xml",
-        "source": "/Users/mseotsanyana/.gradle/daemon/7.3.3/com.me.mseotsanyana.mande.app-main-58:/layout/session_workspace_cardview.xml"
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_menu_entity_cardview.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_menu_entity_cardview.xml"
+    },
+    {
+        "merged": "com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_org_create_update.xml",
+        "source": "com.me.mseotsanyana.mande.app-main-71:/layout/session_org_create_update.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/project_parent_cardview.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/project_parent_cardview.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/logframe_child_cardview.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/logframe_child_cardview.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_organization_workspace_fragment.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_organization_workspace_fragment.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_org_create_update.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_org_create_update.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/session_resetpassword_fragment.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/session_resetpassword_fragment.xml"
+    },
+    {
+        "merged": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-mergeDebugResources-68:/layout/project_child_cardview.xml",
+        "source": "/Users/mseotsanyana/.gradle/daemon/8.3/com.me.mseotsanyana.mande.app-main-71:/layout/project_child_cardview.xml"
     }
 ]

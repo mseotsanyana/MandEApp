@@ -15,7 +15,7 @@
             android:fitsSystemWindows="false"
             app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:title="@string/teams"
+            app:title="@string/workspaces"
             app:titleEnabled="true">
 
             <ImageView
@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
-                android:contentDescription="@string/teams"
+                android:contentDescription="@string/workspaces"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/shepherds"

@@ -1,7 +1,7 @@
-package com.me.mseotsanyana.mande.infrastructure.controllers.logframe.Impl;
+package com.me.mseotsanyana.mande.infrastructure.controllers.logframe;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.programme.logframe.Impl.cCreateLogFrameInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.programme.logframe.Impl.cDeleteLogFrameInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.programme.logframe.Impl.cDeleteLogFramesInteractorImpl;
@@ -11,10 +11,10 @@ import com.me.mseotsanyana.mande.application.interactors.programme.logframe.Impl
 import com.me.mseotsanyana.mande.application.interactors.programme.logframe.Impl.cUploadLogFrameInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.programme.logframe.iLogFrameInteractor;
 import com.me.mseotsanyana.mande.application.repository.programme.iLogFrameRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
-import com.me.mseotsanyana.mande.OLD.PL.presenters.base.cAbstractPresenter;
-import com.me.mseotsanyana.mande.infrastructure.controllers.logframe.iLogFramePresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iLogFramePresenter;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.List;
@@ -25,14 +25,14 @@ public class cLogFramePresenterImpl extends cAbstractPresenter implements iLogFr
     //private static final String TAG = cLogFramePresenterImpl.class.getSimpleName();
 
     private View view;
-    private final iSharedPreferenceRepository sharedPreferenceRepository;
+    private final ISessionManager sharedPreferenceRepository;
     private final iLogFrameRepository logFrameRepository;
 
-    public cLogFramePresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cLogFramePresenterImpl(IExecutor executor, IMainThread mainThread,
                                   View view,
-                                  iSharedPreferenceRepository sharedPreferenceRepository,
+                                  ISessionManager sharedPreferenceRepository,
                                   iLogFrameRepository logFrameRepository) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.sharedPreferenceRepository = sharedPreferenceRepository;

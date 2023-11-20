@@ -6,7 +6,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.OLD.cFontManager;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Layout;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Resolve;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.View;
@@ -45,7 +45,7 @@ public class cLogFrameHeaderView {
     @Resolve
     public void onResolved() {
         toggleIcon.setTypeface(null, Typeface.NORMAL);
-        toggleIcon.setTypeface(cFontManager.getTypeface(this.context, cFontManager.FONTAWESOME));
+        toggleIcon.setTypeface(CFontManager.getTypeface(this.context, CFontManager.FONTAWESOME));
         //toggleIcon.setTextColor(context.getColor(R.color.white));
         toggleIcon.setText(context.getResources().getString(R.string.fa_angle_up));
 
@@ -55,7 +55,7 @@ public class cLogFrameHeaderView {
     @Expand
     public void onExpand() {
         toggleIcon.setTypeface(null, Typeface.NORMAL);
-        toggleIcon.setTypeface(cFontManager.getTypeface(this.context, cFontManager.FONTAWESOME));
+        toggleIcon.setTypeface(CFontManager.getTypeface(this.context, CFontManager.FONTAWESOME));
         //toggleIcon.setTextColor(context.getColor(R.color.white));
         toggleIcon.setText(context.getResources().getString(R.string.fa_angle_down));
     }
@@ -63,7 +63,7 @@ public class cLogFrameHeaderView {
     @Collapse
     public void onCollapse() {
         toggleIcon.setTypeface(null, Typeface.NORMAL);
-        toggleIcon.setTypeface(cFontManager.getTypeface(this.context, cFontManager.FONTAWESOME));
+        toggleIcon.setTypeface(CFontManager.getTypeface(this.context, CFontManager.FONTAWESOME));
         //toggleIcon.setTextColor(context.getColor(R.color.white));
         toggleIcon.setText(context.getResources().getString(R.string.fa_angle_up));
     }

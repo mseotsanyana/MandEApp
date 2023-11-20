@@ -1,11 +1,11 @@
 package com.me.mseotsanyana.mande.OLD.PL.presenters.common.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.interactors.shared.Impl.cUploadGlobalInteractorImpl;
 import com.me.mseotsanyana.mande.application.interactors.shared.iUploadGlobalInteractor;
-import com.me.mseotsanyana.mande.application.repository.common.iUploadGlobalRepository;
-import com.me.mseotsanyana.mande.OLD.PL.presenters.base.cAbstractPresenter;
+import com.me.mseotsanyana.mande.application.repository.preference.iUploadGlobalRepository;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.cAbstractPresenter;
 import com.me.mseotsanyana.mande.OLD.PL.presenters.common.iUploadGlobalPresenter;
 
 public class cUploadGlobalPresenterImpl extends cAbstractPresenter implements iUploadGlobalPresenter,
@@ -15,9 +15,9 @@ public class cUploadGlobalPresenterImpl extends cAbstractPresenter implements iU
     private View view;
     private iUploadGlobalRepository uploadGlobalRepository;
 
-    public cUploadGlobalPresenterImpl(iExecutor executor, iMainThread mainThread,
+    public cUploadGlobalPresenterImpl(IExecutor executor, IMainThread mainThread,
                                       View view, iUploadGlobalRepository uploadGlobalRepository) {
-        super(executor, mainThread);
+        super(executor, mainThread, null);
 
         this.view = view;
         this.uploadGlobalRepository = uploadGlobalRepository;

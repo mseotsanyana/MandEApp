@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.application.preference;
+package com.me.mseotsanyana.mande.application.repository.preference;
 
 public interface iUploadGlobalRepository {
     boolean deleteFrequencies();

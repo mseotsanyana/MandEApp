@@ -19,24 +19,27 @@ import com.google.android.material.snackbar.Snackbar;
 import com.me.mseotsanyana.mande.infrastructure.controllers.session.cResetPasswordPresenterImpl;
 import com.me.mseotsanyana.mande.infrastructure.ports.session.iResetPasswordPresenter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.infrastructure.services.cMainThreadImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.databinding.SessionResetpasswordFragmentBinding;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
-import com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.cUserProfileFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.infrastructure.services.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.CUserProfileFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 
-public class cResetPasswordFragment extends Fragment implements iResetPasswordPresenter.View {
-    private static final String TAG = cResetPasswordFragment.class.getSimpleName();
+import java.util.Map;
+
+public class CUserResetPasswordFragment extends Fragment implements iResetPasswordPresenter.View {
+    private static final String TAG = CUserResetPasswordFragment.class.getSimpleName();
 
     private iResetPasswordPresenter resetPasswordPresenter;
 
     private SessionResetpasswordFragmentBinding binding;
 
-    public cResetPasswordFragment() {
+    public CUserResetPasswordFragment() {
     }
 
-    public static cResetPasswordFragment newInstance() {
-        return new cResetPasswordFragment();
+    public static CUserResetPasswordFragment newInstance() {
+        return new CUserResetPasswordFragment();
     }
 
     @Override
@@ -44,9 +47,9 @@ public class cResetPasswordFragment extends Fragment implements iResetPasswordPr
         super.onCreate(savedInstanceState);
 
         resetPasswordPresenter = new cResetPasswordPresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(), this,
-                new cUserProfileFirestoreRepositoryImpl(requireContext()));
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(), this,
+                new CUserProfileFirestoreRepositoryImpl(requireContext()));
     }
 
     @Override
@@ -90,16 +93,14 @@ public class cResetPasswordFragment extends Fragment implements iResetPasswordPr
 
         /* sign in listener */
         loginTextView.setOnClickListener(view -> {
-            NavDirections action = cResetPasswordFragmentDirections.
-                    actionCResetPasswordFragmentToCLoginFragment();
+            NavDirections action = CUserResetPasswordFragmentDirections.actionCUserResetPasswordFragmentToCUserLoginFragment();
             Navigation.findNavController(requireView()).navigate(action);
         });
     }
 
     @Override
     public void onResetPasswordSucceeded(String msg) {
-        NavDirections action = cResetPasswordFragmentDirections.
-                actionCResetPasswordFragmentToCLoginFragment();
+        NavDirections action = CUserResetPasswordFragmentDirections.actionCUserResetPasswordFragmentToCUserLoginFragment();
         Navigation.findNavController(requireView()).navigate(action);
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
@@ -119,8 +120,17 @@ public class cResetPasswordFragment extends Fragment implements iResetPasswordPr
         binding.progressBar.setVisibility(View.GONE);
     }
 
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String msg) {
+    public void showMessage(String msg) {
         Log.d(TAG, msg);
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
+
     }
 }

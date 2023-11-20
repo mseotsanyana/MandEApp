@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.common;
+package com.me.mseotsanyana.mande.framework.ui.fragments.common;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,7 +6,7 @@ import android.view.View;
 
 import androidx.viewpager.widget.ViewPager;
 
-import com.me.mseotsanyana.mande.PL.ui.listeners.common.iViewPagerHeightListener;
+import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.common.iViewPagerHeightListener;
 
 public class cCustomViewPager extends ViewPager {
     private static final String TAG = cCustomViewPager.class.getSimpleName();

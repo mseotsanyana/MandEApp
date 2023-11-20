@@ -4,10 +4,10 @@ import android.content.Context;
 
 
 import com.me.mseotsanyana.mande.domain.entities.models.session.cEntityModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cMenuModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CMenuModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cOperationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cPermissionModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CPrivilegeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cSessionModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cStatusModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUserModel;
@@ -21,8 +21,8 @@ import org.apache.poi.ss.usermodel.Row;
 public class cSetDomainsFromExcel {
     private cUserModel userDomain;
     private cSessionModel sessionDomain;
-    private cPrivilegeModel roleDomain;
-    private cMenuModel menuDomain;
+    private CPrivilegeModel roleDomain;
+    private CMenuModel menuDomain;
     private cOperationModel operationDomain;
     private cEntityModel entityDomain;
     private cTypeDomain typeDomain;
@@ -113,8 +113,8 @@ public class cSetDomainsFromExcel {
         return sessionDomain;
     }
 
-    public cPrivilegeModel getRoleFromExcel(Row cRow) {
-        roleDomain = new cPrivilegeModel();
+    public CPrivilegeModel getRoleFromExcel(Row cRow) {
+        roleDomain = new CPrivilegeModel();
 
         //roleDomain.setRoleID((int)cRow.getCell(0, Row.CREATE_NULL_AS_BLANK).getNumericCellValue());
         //roleDomain.setOrganizationID((int)cRow.getCell(1, Row.CREATE_NULL_AS_BLANK).getNumericCellValue());
@@ -125,8 +125,8 @@ public class cSetDomainsFromExcel {
         return roleDomain;
     }
 
-    public cMenuModel getMenuFromExcel(Row cRow) {
-        menuDomain = new cMenuModel();
+    public CMenuModel getMenuFromExcel(Row cRow) {
+        menuDomain = new CMenuModel();
 
         menuDomain.setMenuServerID((int)cRow.getCell(0, Row.CREATE_NULL_AS_BLANK).getNumericCellValue());
         menuDomain.setParentServerID((int)cRow.getCell(1, Row.CREATE_NULL_AS_BLANK).getNumericCellValue());

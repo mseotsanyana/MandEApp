@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.programme;
+package com.me.mseotsanyana.mande.infrastructure.repository.firestore.programme;
 
 import android.content.Context;
 import android.util.Log;
@@ -17,14 +17,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 import com.me.mseotsanyana.mande.domain.entities.models.common.cRecordPermissionModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cProjectModel;
-import com.me.mseotsanyana.mande.domain.entities.models.utils.cCommonPropertiesModel;
-import com.me.mseotsanyana.mande.usecases.repository.programme.iProjectRepository;
-import com.me.mseotsanyana.mande.framework.storage.base.cFirebaseCallBack;
-import com.me.mseotsanyana.mande.framework.storage.base.cFirebaseRepository;
-import com.me.mseotsanyana.mande.framework.storage.database.cRealtimeHelper;
-import com.me.mseotsanyana.mande.framework.storage.excel.cExcelHelper;
-import com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.cDatabaseUtils;
+import com.me.mseotsanyana.mande.domain.entities.models.utils.CCommonAttributeModel;
+import com.me.mseotsanyana.mande.application.repository.programme.iProjectRepository;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreCallBack;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreRepository;
+import com.me.mseotsanyana.mande.application.structures.CFirestoreConstant;
+import com.me.mseotsanyana.mande.OLD.storage.excel.cExcelHelper;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
+import com.me.mseotsanyana.mande.application.utils.CFirestoreUtility;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -40,7 +40,7 @@ import java.util.Objects;
 /**
  * Created by mseotsanyana on 2016/10/23.
  */
-public class cProjectFirestoreRepositoryImpl extends cFirebaseRepository
+public class cProjectFirestoreRepositoryImpl extends CFirestoreRepository
         implements iProjectRepository {
     private static final String TAG = cProjectFirestoreRepositoryImpl.class.getSimpleName();
 
@@ -80,7 +80,7 @@ public class cProjectFirestoreRepositoryImpl extends cFirebaseRepository
                              List<Integer> secondaryTeamBITS, List<Integer> statusBITS,
                              iReadProjectsCallback callback) {
 
-        CollectionReference coProjectRef = database.collection(cRealtimeHelper.KEY_PROJECTS);
+        CollectionReference coProjectRef = database.collection(CFirestoreConstant.KEY_PROJECTS);
         Query query = coProjectRef
                 .whereEqualTo("organizationOwnerID", organizationServerID)
                 .whereIn("statusBIT", statusBITS)
@@ -89,7 +89,7 @@ public class cProjectFirestoreRepositoryImpl extends cFirebaseRepository
         if (listenerRegistration != null)
             listenerRegistration.remove();
 
-        listenerRegistration = readQueryDocumentsByListener(query, new cFirebaseCallBack() {
+        listenerRegistration = readQueryDocumentsByListener(query, new CFirestoreCallBack() {
             @Override
             public void onFirebaseSuccess(Object object) {
                 List<cProjectModel> projectModels = new ArrayList<>();
@@ -98,7 +98,7 @@ public class cProjectFirestoreRepositoryImpl extends cFirebaseRepository
                     for (DocumentChange documentChange : snapshots.getDocumentChanges()) {
                         DocumentSnapshot document = documentChange.getDocument();
                         cProjectModel projectModel = document.toObject(cProjectModel.class);
-                        cDatabaseUtils.cUnixPerm perm = new cDatabaseUtils.cUnixPerm();
+                        CFirestoreUtility.cUnixPerm perm = new CFirestoreUtility.cUnixPerm();
                         perm.setUserOwnerID(projectModel.getUserOwnerID());
                         perm.setTeamOwnerBIT(projectModel.getTeamOwnerBIT());
                         perm.setUnixpermBITS(projectModel.getUnixpermBITS());
@@ -168,7 +168,7 @@ public class cProjectFirestoreRepositoryImpl extends cFirebaseRepository
                                         iUpdateRecordPermissionsCallback callback) {
 
         CollectionReference coProjectsRef;
-        coProjectsRef = database.collection(cRealtimeHelper.KEY_PROJECTS);
+        coProjectsRef = database.collection(CFirestoreConstant.KEY_PROJECTS);
 
         Map<String, Object> map = new HashMap<>();
 
@@ -180,7 +180,7 @@ public class cProjectFirestoreRepositoryImpl extends cFirebaseRepository
         map.put("createdDate", recordPermissions.getCreatedDate());
         map.put("modifiedDate", recordPermissions.getModifiedDate());
 
-        fireStoreUpdate(coProjectsRef.document(projectServerID), map, new cFirebaseCallBack() {
+        fireStoreUpdate(coProjectsRef.document(projectServerID), map, new CFirestoreCallBack() {
             @Override
             public void onFirebaseSuccess(Object object) {
                 callback.onUpdateRecordPermissionsSucceeded(
@@ -208,12 +208,12 @@ public class cProjectFirestoreRepositoryImpl extends cFirebaseRepository
                                iDeleteProjectsCallback callback) {
 
         CollectionReference coProjectRef;
-        coProjectRef = database.collection(cRealtimeHelper.KEY_PROJECTS);
+        coProjectRef = database.collection(CFirestoreConstant.KEY_PROJECTS);
 
         Query projectQuery = coProjectRef
                 .whereEqualTo("userOwnerID", userServerID)
                 .whereEqualTo("organizationOwnerID", stakeholderServerID)
-                .whereArrayContains("unixpermBITS", cSharedPreference.OWNER_DELETE);
+                .whereArrayContains("unixpermBITS", CPreferenceConstant.OWNER_DELETE);
 
         WriteBatch batch = database.batch();
 
@@ -268,16 +268,16 @@ public class cProjectFirestoreRepositoryImpl extends cFirebaseRepository
             cProjectModel projectModel = new cProjectModel();
 
             projectModel.setProjectServerID(String.valueOf(
-                    cDatabaseUtils.getCellAsNumeric(projectRow, 0)));
+                    CFirestoreUtility.getCellAsNumeric(projectRow, 0)));
             projectModel.setParentServerID(String.valueOf(
-                    cDatabaseUtils.getCellAsNumeric(projectRow, 1)));
-            projectModel.setCode(cDatabaseUtils.getCellAsString(projectRow, 2));
-            projectModel.setName(cDatabaseUtils.getCellAsString(projectRow, 3));
-            projectModel.setDescription(cDatabaseUtils.getCellAsString(projectRow, 4));
-            projectModel.setStatus(cDatabaseUtils.getCellAsString(projectRow, 5));
-            projectModel.setLocation(cDatabaseUtils.getCellAsString(projectRow, 6));
-            projectModel.setStartDate(cDatabaseUtils.getCellAsDate(projectRow, 7));
-            projectModel.setEndDate(cDatabaseUtils.getCellAsDate(projectRow, 8));
+                    CFirestoreUtility.getCellAsNumeric(projectRow, 1)));
+            projectModel.setCode(CFirestoreUtility.getCellAsString(projectRow, 2));
+            projectModel.setName(CFirestoreUtility.getCellAsString(projectRow, 3));
+            projectModel.setDescription(CFirestoreUtility.getCellAsString(projectRow, 4));
+            projectModel.setStatus(CFirestoreUtility.getCellAsString(projectRow, 5));
+            projectModel.setLocation(CFirestoreUtility.getCellAsString(projectRow, 6));
+            projectModel.setStartDate(CFirestoreUtility.getCellAsDate(projectRow, 7));
+            projectModel.setEndDate(CFirestoreUtility.getCellAsDate(projectRow, 8));
 
             projectModel.setCreatedDate(now);
             projectModel.setModifiedDate(now);
@@ -294,17 +294,17 @@ public class cProjectFirestoreRepositoryImpl extends cFirebaseRepository
                 }
 
                 String parentID = String.valueOf(
-                        cDatabaseUtils.getCellAsNumeric(parentRow, 1));
+                        CFirestoreUtility.getCellAsNumeric(parentRow, 1));
                 if (parentID.equals(projectModel.getProjectServerID())) {
                     String childID = String.valueOf(
-                            cDatabaseUtils.getCellAsNumeric(parentRow, 0));
+                            CFirestoreUtility.getCellAsNumeric(parentRow, 0));
                     projectModel.getChildren().add(childID);
                 }
             }
 
             // update common attributes
-            cCommonPropertiesModel commonPropertiesModel;
-            commonPropertiesModel = cDatabaseUtils.getCommonModel(context);
+            CCommonAttributeModel commonPropertiesModel;
+            commonPropertiesModel = CFirestoreUtility.getCommonModel(context);
 
             projectModel.setOrganizationOwnerID(stakeholderServerID);
             projectModel.setUserOwnerID(userServerID);
@@ -334,7 +334,7 @@ public class cProjectFirestoreRepositoryImpl extends cFirebaseRepository
 
         CollectionReference coProjectRef;
 
-        coProjectRef = database.collection(cRealtimeHelper.KEY_PROJECTS);
+        coProjectRef = database.collection(CFirestoreConstant.KEY_PROJECTS);
 
         /* create a batch object */
         WriteBatch batch = database.batch();

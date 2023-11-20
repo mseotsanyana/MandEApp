@@ -3,16 +3,17 @@ package com.me.mseotsanyana.mande.application.interactors.evaluation.Impl;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.evaluation.iReadEvaluationInteractor;
 import com.me.mseotsanyana.mande.application.repository.evaluator.iEvaluationRepository;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.mande.domain.entities.models.evaluation.cEvaluationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cQuestionModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUserModel;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cBitwise;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.OLD.storage.preference.cBitwise;
 import com.me.mseotsanyana.questionnairelibrary.forms.db.cDBQuestion;
 import com.me.mseotsanyana.questionnairelibrary.forms.db.cDBQuestionnaire;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
@@ -25,7 +26,7 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
-public class cReadEvaluationInteractorImpl extends cAbstractInteractor
+public class cReadEvaluationInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iReadEvaluationInteractor {
     private static String TAG = cReadEvaluationInteractorImpl.class.getSimpleName();
 
@@ -36,11 +37,11 @@ public class cReadEvaluationInteractorImpl extends cAbstractInteractor
 
     private String logFrameName;
 
-    public cReadEvaluationInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                         iSharedPreferenceRepository sessionManagerRepository,
+    public cReadEvaluationInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                         ISessionManager sessionManagerRepository,
                                          iEvaluationRepository evaluationRepository,
                                          Callback callback, long logFrameID) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sessionManagerRepository == null || evaluationRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -127,14 +128,14 @@ public class cReadEvaluationInteractorImpl extends cAbstractInteractor
         for (int i = 0; i < evaluationModels.size(); i++) {
             /* evaluation */
             cEvaluationModel evaluationModel = evaluationModels.get(i);
-            evaluationTreeModels.add(new cTreeModel(parentIndex, -1, 0,
-                    evaluationModel));
+            //evaluationTreeModels.add(new cTreeModel(parentIndex, -1, 0,
+            //        evaluationModel));
 
             /* set of users under the evaluation */
             ArrayList<cUserModel> users = new ArrayList<>(evaluationModel.getUserModelSet());
             if (users.size() > 0) {
                 childIndex = parentIndex + 1;
-                evaluationTreeModels.add(new cTreeModel(childIndex, parentIndex, 1, users));
+               // evaluationTreeModels.add(new cTreeModel(childIndex, parentIndex, 1, users));
             }
 
             /* set of questions under the evaluation */
@@ -143,8 +144,8 @@ public class cReadEvaluationInteractorImpl extends cAbstractInteractor
 
             if (questions.size() > 0) {
                 childIndex = parentIndex + 2;
-                evaluationTreeModels.add(new cTreeModel(childIndex, parentIndex, 2,
-                        questions));
+                //evaluationTreeModels.add(new cTreeModel(childIndex, parentIndex, 2,
+                //        questions));
 
                 /* FIXME group questions by their sections */
                 Map<Long, List<cQuestionModel>> questionModelMap = questions.stream()
@@ -200,5 +201,15 @@ public class cReadEvaluationInteractorImpl extends cAbstractInteractor
         } else {
             notifyError("Failed due to reading access rights !!");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

@@ -22,11 +22,11 @@ import com.google.gson.Gson;
 import com.me.mseotsanyana.bmblibrary.BoomButtons.cTextOutsideCircleButton;
 import com.me.mseotsanyana.bmblibrary.cUtil;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
-import com.me.mseotsanyana.mande.PL.presenters.logframe.iLogFramePresenter;
-import com.me.mseotsanyana.mande.PL.ui.listeners.logframe.iViewLogFrameListener;
+import com.me.mseotsanyana.mande.infrastructure.ports.logframe.iLogFramePresenter;
+import com.me.mseotsanyana.mande.OLD.PL.ui.listeners.logframe.iViewLogFrameListener;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.mande.databinding.LogframeChildCardviewBinding;
 import com.me.mseotsanyana.mande.databinding.LogframeParentCardviewBinding;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
@@ -298,13 +298,13 @@ public class cLogFrameAdapter extends cTreeAdapter implements iViewLogFrameListe
                         if (node.isExpand()) {
                             PVH.binding.textViewExpandIcon.setTypeface(null, Typeface.NORMAL);
                             PVH.binding.textViewExpandIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             PVH.binding.textViewExpandIcon.setText(
                                     context.getResources().getString(R.string.fa_minus));
                         } else {
                             PVH.binding.textViewExpandIcon.setTypeface(null, Typeface.NORMAL);
                             PVH.binding.textViewExpandIcon.setTypeface(
-                                    cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                                    CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                             PVH.binding.textViewExpandIcon.setText(
                                     context.getResources().getString(R.string.fa_plus));
                         }
@@ -334,7 +334,7 @@ public class cLogFrameAdapter extends cTreeAdapter implements iViewLogFrameListe
                     /* icon for deleting a record */
                     PVH.binding.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     PVH.binding.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     PVH.binding.textViewDeleteIcon.setTextColor(
                             context.getColor(R.color.colorPrimaryDark));
                     PVH.binding.textViewDeleteIcon.setText(
@@ -343,7 +343,7 @@ public class cLogFrameAdapter extends cTreeAdapter implements iViewLogFrameListe
                     /* icon for saving updated record */
                     PVH.binding.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
                     PVH.binding.textViewUpdateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     PVH.binding.textViewUpdateIcon.setTextColor(
                             context.getColor(R.color.colorPrimaryDark));
                     PVH.binding.textViewUpdateIcon.setText(
@@ -352,7 +352,7 @@ public class cLogFrameAdapter extends cTreeAdapter implements iViewLogFrameListe
                     /* icon for creating a record */
                     PVH.binding.textViewCreateIcon.setTypeface(null, Typeface.NORMAL);
                     PVH.binding.textViewCreateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     PVH.binding.textViewCreateIcon.setTextColor(
                             context.getColor(R.color.colorPrimaryDark));
                     PVH.binding.textViewCreateIcon.setText(
@@ -361,7 +361,7 @@ public class cLogFrameAdapter extends cTreeAdapter implements iViewLogFrameListe
                     /* icon for uploading logframes from excel file */
                     PVH.binding.textViewUploadIcon.setTypeface(null, Typeface.NORMAL);
                     PVH.binding.textViewUploadIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     PVH.binding.textViewUploadIcon.setTextColor(
                             context.getColor(R.color.colorPrimaryDark));
                     PVH.binding.textViewUploadIcon.setText(
@@ -370,7 +370,7 @@ public class cLogFrameAdapter extends cTreeAdapter implements iViewLogFrameListe
                     // collapse and expansion of the details of the role
                     PVH.binding.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                     PVH.binding.textViewDetailIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     PVH.binding.textViewDetailIcon.setTextColor(
                             context.getColor(R.color.colorPrimaryDark));
                     PVH.binding.textViewDetailIcon.setText(
@@ -427,7 +427,7 @@ public class cLogFrameAdapter extends cTreeAdapter implements iViewLogFrameListe
                     /* icon for deleting a record */
                     CVH.binding.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
                     CVH.binding.textViewDeleteIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     CVH.binding.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorAccent));
                     CVH.binding.textViewDeleteIcon.setText(
                             context.getResources().getString(R.string.fa_delete));
@@ -438,7 +438,7 @@ public class cLogFrameAdapter extends cTreeAdapter implements iViewLogFrameListe
                     /* icon for saving updated record */
                     CVH.binding.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
                     CVH.binding.textViewUpdateIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     CVH.binding.textViewUpdateIcon.setTextColor(
                             context.getColor(R.color.colorAccent));
                     CVH.binding.textViewUpdateIcon.setText(
@@ -450,7 +450,7 @@ public class cLogFrameAdapter extends cTreeAdapter implements iViewLogFrameListe
                     // collapse and expansion of the details of the role
                     CVH.binding.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
                     CVH.binding.textViewDetailIcon.setTypeface(
-                            cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                            CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
                     CVH.binding.textViewDetailIcon.setTextColor(
                             context.getColor(R.color.colorAccent));
                     CVH.binding.textViewDetailIcon.setText(

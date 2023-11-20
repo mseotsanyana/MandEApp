@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.session;
+package com.me.mseotsanyana.mande.framework.ui.fragments.session;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,18 +15,19 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.me.mseotsanyana.mande.PL.presenters.session.Impl.cTeamsWithRolesPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.session.iTeamsWithRolesPresenter;
+import com.me.mseotsanyana.mande.infrastructure.controllers.session.cTeamsWithRolesPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iTeamsWithRolesPresenter;
 import com.me.mseotsanyana.mande.framework.ui.adapters.session.cTeamRoleAdapter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.session.cWorkspaceFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.CWorkspaceFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class cTeamRoleFragment extends Fragment implements iTeamsWithRolesPresenter.View,
@@ -95,11 +96,11 @@ public class cTeamRoleFragment extends Fragment implements iTeamsWithRolesPresen
 
         assert getArguments() != null;
         teamsWithRolesPresenter = new cTeamsWithRolesPresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
                 this,
-                new cSharedPreferenceFirestoreRepositoryImpl(requireContext()),
-                new cWorkspaceFirestoreRepositoryImpl(getContext()));
+                null,
+                new CWorkspaceFirestoreRepositoryImpl(getContext()));
 
         activity = ((AppCompatActivity) getActivity());
     }
@@ -168,8 +169,17 @@ public class cTeamRoleFragment extends Fragment implements iTeamsWithRolesPresen
         includeProgressBar.setVisibility(View.GONE);
     }
 
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 

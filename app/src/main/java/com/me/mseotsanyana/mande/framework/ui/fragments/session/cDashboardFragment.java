@@ -1,6 +1,7 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.session;
+package com.me.mseotsanyana.mande.framework.ui.fragments.session;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,20 +17,23 @@ import androidx.navigation.Navigation;
 
 import com.me.mseotsanyana.bmblibrary.BoomButtons.cHamButton;
 import com.me.mseotsanyana.bmblibrary.CBoomMenuButton;
-import com.me.mseotsanyana.mande.PL.presenters.session.Impl.cDashboardPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.session.iDashboardPresenter;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
+import com.me.mseotsanyana.mande.infrastructure.controllers.session.cDashboardPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iDashboardPresenter;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.programme.cLogFrameFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CSessionManagerImpl;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.programme.cLogFrameFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 import com.me.mseotsanyana.multiselectspinnerlibrary.CSingleSpinnerSearch;
 import com.me.mseotsanyana.multiselectspinnerlibrary.cKeyPairBoolData;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class cDashboardFragment extends Fragment implements iDashboardPresenter.View {
     //private static final String TAG = cDashboardFragment.class.getSimpleName();
@@ -194,10 +198,11 @@ public class cDashboardFragment extends Fragment implements iDashboardPresenter.
     private void initDataStructures() {
         /* instantiate presenters */
         dashboardPresenter = new cDashboardPresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
+                CSessionManagerImpl.getInstance(requireContext(),
+                        CPreferenceConstant.KEY_USER_PREFS, Context.MODE_PRIVATE),
                 this,
-                new cSharedPreferenceFirestoreRepositoryImpl(requireContext()),
                 new cLogFrameFirestoreRepositoryImpl(getContext()));
     }
 
@@ -206,12 +211,12 @@ public class cDashboardFragment extends Fragment implements iDashboardPresenter.
         includeProgressBar = view.findViewById(R.id.includeProgressBar);
 
         // 1. Programme or projects portfolio menu item
-        ImageView imageViewProjects = view.findViewById(R.id.imageViewProjects);
-        imageViewProjects.setOnClickListener(clickView -> {
-            NavDirections action;
-            action = cHomeFragmentDirections.actionCHomeFragmentToCProjectFragment();
-            Navigation.findNavController(requireView()).navigate(action);
-        });
+//        ImageView imageViewProjects = view.findViewById(R.id.imageViewProjects);
+//        imageViewProjects.setOnClickListener(clickView -> {
+//            NavDirections action;
+//            action = cHomeFragmentDirections.actionCHomeFragmentToCProjectFragment();
+//            Navigation.findNavController(requireView()).navigate(action);
+//        });
 
 //        ImageView imageViewOrganizations = view.findViewById(R.id.imageViewStakeholders);
 //        imageViewOrganizations.setOnClickListener(clickView -> {
@@ -221,12 +226,12 @@ public class cDashboardFragment extends Fragment implements iDashboardPresenter.
 //        });
 
         // 2. Logframe menu item
-        ImageView imageViewLogframes = view.findViewById(R.id.imageViewLogframes);
-        imageViewLogframes.setOnClickListener(clickView -> {
-            NavDirections action;
-            action = cHomeFragmentDirections.actionCHomeFragmentToCLogFrameFragment(null);
-            Navigation.findNavController(requireView()).navigate(action);
-        });
+//        ImageView imageViewLogframes = view.findViewById(R.id.imageViewLogframes);
+//        imageViewLogframes.setOnClickListener(clickView -> {
+//            NavDirections action;
+//            action = cHomeFragmentDirections.actionCHomeFragmentToCLogFrameFragment(null);
+//            Navigation.findNavController(requireView()).navigate(action);
+//        });
 
         /* monitoring and evaluation menu */
         CBoomMenuButton bmbMenuMEL = view.findViewById(R.id.bmbMenuMEL);
@@ -378,8 +383,18 @@ public class cDashboardFragment extends Fragment implements iDashboardPresenter.
     }
 
 
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 

@@ -1,2 +1,5 @@
-package com.me.mseotsanyana.mande.application.structures.enums;public enum EDialog {
+package com.me.mseotsanyana.mande.application.structures.enums;
+
+public enum EDialogAction {
+    NO, YES, SAVE, CANCEL
 }

@@ -5,12 +5,12 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cAddressModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cEntityModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cMenuModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CMenuModel;
 //import com.me.mseotsanyana.mande.BLL.entities.models.session.cNotificationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cOperationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.COrganizationModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cPermissionModel;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CPrivilegeModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cSettingModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cStatusModel;
 import com.me.mseotsanyana.mande.domain.entities.models.session.cUserModel;
@@ -35,8 +35,8 @@ public class cSessionModelFromExcel {
     private COrganizationModel organizationModel;
     private cValueModel valueModel;
     private cUserModel userModel;
-    private cPrivilegeModel roleModel;
-    private cMenuModel menuModel;
+    private CPrivilegeModel roleModel;
+    private CMenuModel menuModel;
     //private cPrivilegeModel privilegeModel;
     private cEntityModel entityModel;
     private cOperationModel operationModel;
@@ -237,7 +237,7 @@ public class cSessionModelFromExcel {
     }
 
     public void addMenuFromExcel(Row cRow) {
-        menuModel = new cMenuModel();
+        menuModel = new CMenuModel();
 
         menuModel.setMenuServerID((int)cRow.getCell(0, Row.CREATE_NULL_AS_BLANK).getNumericCellValue());
         menuModel.setParentServerID((int)cRow.getCell(1, Row.CREATE_NULL_AS_BLANK).getNumericCellValue());
@@ -251,7 +251,7 @@ public class cSessionModelFromExcel {
     }
 
     public void addRoleFromExcel(Row cRow, Sheet role_users, Sheet role_menus) {
-        roleModel = new cPrivilegeModel();
+        roleModel = new CPrivilegeModel();
 
         //roleModel.setRoleID((int)cRow.getCell(0, Row.CREATE_NULL_AS_BLANK).getNumericCellValue());
         //roleModel.setOrganizationID((int)cRow.getCell(1, Row.CREATE_NULL_AS_BLANK).getNumericCellValue());

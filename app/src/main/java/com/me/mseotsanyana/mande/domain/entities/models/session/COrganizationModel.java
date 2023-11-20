@@ -29,8 +29,11 @@ public class COrganizationModel {
     private int typeID;
     private String type;
 
+    // Fixme: use list of strings to store IDs of related documents/tables
     List<cUserModel> userModels;
     List<COrganizationModel> childOrganizationModels;
+
+    int workspaceBITS;// represents list of workspace members
 
     public COrganizationModel(){
         userModels = new ArrayList<>();
@@ -173,14 +176,6 @@ public class COrganizationModel {
         this.modifiedDate = modifiedDate;
     }
 
-    public List<COrganizationModel> getChildOrganizationModels() {
-        return childOrganizationModels;
-    }
-
-    public void setChildOrganizationModels(List<COrganizationModel> childOrganizationModels) {
-        this.childOrganizationModels = childOrganizationModels;
-    }
-
     public List<cUserModel> getUserModels() {
         return userModels;
     }
@@ -189,7 +184,23 @@ public class COrganizationModel {
         this.userModels = userModels;
     }
 
-//    @Override
+    public List<COrganizationModel> getChildOrganizationModels() {
+        return childOrganizationModels;
+    }
+
+    public void setChildOrganizationModels(List<COrganizationModel> childOrganizationModels) {
+        this.childOrganizationModels = childOrganizationModels;
+    }
+
+    public int getWorkspaceBITS() {
+        return workspaceBITS;
+    }
+
+    public void setWorkspaceBITS(int workspaceBITS) {
+        this.workspaceBITS = workspaceBITS;
+    }
+
+    //    @Override
 //    public boolean equals(Object o) {
 //        if (this == o) return true;
 //        if (!(o instanceof COrganizationModel)) return false;

@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.session;
+package com.me.mseotsanyana.mande.framework.ui.fragments.session;
 
 import android.annotation.SuppressLint;
 import android.app.SearchManager;
@@ -29,21 +29,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.me.mseotsanyana.mande.PL.presenters.session.Impl.cUserProfilesPresenterImpl;
-import com.me.mseotsanyana.mande.PL.presenters.session.iUserProfilePresenter;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
+import com.me.mseotsanyana.mande.infrastructure.controllers.session.cUserProfilesPresenterImpl;
+import com.me.mseotsanyana.mande.infrastructure.ports.session.iUserProfilePresenter;
 import com.me.mseotsanyana.mande.framework.ui.adapters.session.cUserProfileAdapter;
-import com.me.mseotsanyana.mande.PL.ui.cViewUtils;
+import com.me.mseotsanyana.mande.OLD.PL.ui.cViewUtils;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.cMainThreadImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CMainThreadImpl;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.common.cSharedPreferenceFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.interfaceadapters.repository.firestore.session.cUserProfileFirestoreRepositoryImpl;
-import com.me.mseotsanyana.mande.usecases.executor.Impl.cThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CSessionManagerImpl;
+import com.me.mseotsanyana.mande.infrastructure.repository.firestore.session.CUserProfileFirestoreRepositoryImpl;
+import com.me.mseotsanyana.mande.infrastructure.services.CThreadExecutorImpl;
+import com.me.mseotsanyana.mande.infrastructure.utils.responsemodel.CTreeModel;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class cUserProfileFragment extends Fragment implements iUserProfilePresenter.View,
@@ -142,11 +145,12 @@ public class cUserProfileFragment extends Fragment implements iUserProfilePresen
 
         assert getArguments() != null;
         userProfilesPresenter = new cUserProfilesPresenterImpl(
-                cThreadExecutorImpl.getInstance(),
-                cMainThreadImpl.getInstance(),
+                CThreadExecutorImpl.getInstance(),
+                CMainThreadImpl.getInstance(),
+                CSessionManagerImpl.getInstance(requireContext(),
+                        CPreferenceConstant.KEY_USER_PREFS, Context.MODE_PRIVATE),
                 this,
-                new cSharedPreferenceFirestoreRepositoryImpl(requireContext()),
-                new cUserProfileFirestoreRepositoryImpl(requireContext()));
+                new CUserProfileFirestoreRepositoryImpl(requireContext()));
 
         activity = ((AppCompatActivity) getActivity());
     }
@@ -288,8 +292,18 @@ public class cUserProfileFragment extends Fragment implements iUserProfilePresen
         includeProgressBar.setVisibility(View.GONE);
     }
 
+
+    public void showResponse(Map<String, CTreeModel> response) {
+
+    }
+
     @Override
-    public void showError(String message) {
+    public void showMessage(String message) {
+
+    }
+
+    @Override
+    public void showResponseMessage(String message) {
 
     }
 

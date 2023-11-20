@@ -2,24 +2,25 @@ package com.me.mseotsanyana.mande.application.interactors.session.privilege.Impl
 
 import android.util.Log;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.session.privilege.iReadWorkspacePrivilegesInteractor;
-import com.me.mseotsanyana.mande.application.repository.session.iPrivilegeRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference;
+import com.me.mseotsanyana.mande.application.repository.session.IPermissionRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class cReadWorkspacePrivilegesInteractorImpl extends cAbstractInteractor
+public class cReadWorkspacePrivilegesInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iReadWorkspacePrivilegesInteractor {
     private static final String TAG = cReadWorkspacePrivilegesInteractorImpl.class.getSimpleName();
 
     private final Callback callback;
-    private final iPrivilegeRepository permissionRepository;
+    private final IPermissionRepository permissionRepository;
 
     // permission data
     private final String userServerID;
@@ -31,11 +32,11 @@ public class cReadWorkspacePrivilegesInteractorImpl extends cAbstractInteractor
     private final int entityBITS;
     private final int entitypermBITS;
 
-    public cReadWorkspacePrivilegesInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                                  iSharedPreferenceRepository sharedPreferenceRepository,
-                                                  iPrivilegeRepository permissionRepository,
+    public cReadWorkspacePrivilegesInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                                  ISessionManager sharedPreferenceRepository,
+                                                  IPermissionRepository permissionRepository,
                                                   Callback callback) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sharedPreferenceRepository == null || permissionRepository == null ||
                 callback == null) {
@@ -46,7 +47,7 @@ public class cReadWorkspacePrivilegesInteractorImpl extends cAbstractInteractor
         this.permissionRepository = permissionRepository;
 
         // load user shared preferences
-        this.userServerID = sharedPreferenceRepository.loadUserID();
+        this.userServerID = sharedPreferenceRepository.loadLoggedInUserServerID();
         this.organizationServerID = sharedPreferenceRepository.loadActiveOrganizationID();
         this.myOrganizations = sharedPreferenceRepository.loadMyOrganizations();
         this.workspaceMembershipBITS = sharedPreferenceRepository.loadWorkspaceMembershipBITS();
@@ -57,9 +58,9 @@ public class cReadWorkspacePrivilegesInteractorImpl extends cAbstractInteractor
 
         // load entity shared preferences
         this.entityBITS = sharedPreferenceRepository.loadEntityBITS(
-                cSharedPreference.SESSION_MODULE);
+                CPreferenceConstant.SESSION);
         this.entitypermBITS = sharedPreferenceRepository.loadEntityPermissionBITS(
-                cSharedPreference.SESSION_MODULE, cSharedPreference.PRIVILEGE);
+                CPreferenceConstant.SESSION, CPreferenceConstant.PRIVILEGE);
 
 
         Log.d(TAG, " \n USER ID = " + this.userServerID +
@@ -87,7 +88,7 @@ public class cReadWorkspacePrivilegesInteractorImpl extends cAbstractInteractor
         //    if ((this.entitypermBITS & cSharedPreference.READ) != 0) {
                 this.permissionRepository.readWorkspacePrivileges(userServerID, organizationServerID,
                          myOrganizations, workspaceMembershipBITS, statusBITS,
-                        new iPrivilegeRepository.iReadWorkspacePrivilegesCallback() {
+                        new IPermissionRepository.iReadWorkspacePrivilegesCallback() {
                             @Override
                             public void onReadWorkspacePrivilegesSucceeded(List<cTreeModel> treeModels) {
                                 postMessage(treeModels);
@@ -104,5 +105,15 @@ public class cReadWorkspacePrivilegesInteractorImpl extends cAbstractInteractor
 //        } else {
 //            notifyError("No access to the entity! Please contact your administrator");
 //        }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

@@ -14,15 +14,15 @@
         },
         {
           "sub_id": 2,
-          "sub_item": "Workspace Members",
-          "sub_image": "workspace",
-          "sub_description": "Member profiles of active workspace."
+          "sub_item": "My Accounts",
+          "sub_image": "organization",
+          "sub_description": "Member profiles of active organization."
         },
         {
           "sub_id": 4,
-          "sub_item": "Organization Members",
-          "sub_image": "organization",
-          "sub_description": "Member profiles of active organization."
+          "sub_item": "My Collaborators",
+          "sub_image": "workspace",
+          "sub_description": "Member profiles of active workspace."
         },
         {
           "sub_id": 8,
@@ -35,31 +35,31 @@
     {
       "id": 16,
       "item": "Admin Management",
-      "description": "Management of own organizations, workspaces and permissions.",
+      "description": "Management of Admin activities.",
       "sub_menu": [
         {
           "sub_id": 32,
           "sub_item": "My Organizations",
           "sub_image": "organizations",
-          "sub_description": "Organizations of a logged in user."
+          "sub_description": "Manage your organizations."
         },
         {
           "sub_id": 64,
           "sub_item": "My Workspaces",
           "sub_image": "workspaces",
-          "sub_description": "Workspaces of a logged in user."
+          "sub_description": "Manage your workspaces."
         },
         {
           "sub_id": 128,
-          "sub_item": "Workspace Privileges",
-          "sub_image": "privileges",
-          "sub_description": "Workspace privilege permissions."
+          "sub_item": "Contracts/Agreements",
+          "sub_image": "contracts",
+          "sub_description": "Manage contracts and/or agreements."
         },
         {
           "sub_id": 256,
-          "sub_item": "Contracts/Agreements",
-          "sub_image": "contracts",
-          "sub_description": "Contracts and/or agreements between organizations."
+          "sub_item": "Workspace Privileges",
+          "sub_image": "privileges",
+          "sub_description": "Manage workspace privilege permissions."
         }
       ]
     },
@@ -67,14 +67,14 @@
       "id": 512,
       "item": "Notifications",
       "image": "notification",
-      "description": "Settings of publication, subscription of messages.",
+      "description": "Manage system notifications",
       "sub_menu": []
     },
     {
       "id": 1024,
       "item": "Settings",
       "image": "setting",
-      "description": "The settings related to the user.",
+      "description": "Configure system settings.",
       "sub_menu": []
     },
     {

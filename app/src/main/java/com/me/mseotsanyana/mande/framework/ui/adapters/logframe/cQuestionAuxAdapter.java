@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cQuestionModel;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.UTIL.cConstant;
-import com.me.mseotsanyana.mande.UTIL.cFontManager;
+import com.me.mseotsanyana.mande.OLD.cConstant;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 
 import java.text.SimpleDateFormat;
 
@@ -65,7 +65,7 @@ public class cQuestionAuxAdapter extends RecyclerView.Adapter<cQuestionAuxAdapte
         /* icon for syncing a record */
         OH.textViewSyncIcon.setTypeface(null, Typeface.NORMAL);
         OH.textViewSyncIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.textViewSyncIcon.setTextColor(context.getColor(R.color.colorAccent));
         OH.textViewSyncIcon.setText(context.getResources().getString(R.string.fa_sync));
         OH.textViewSyncIcon.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +79,7 @@ public class cQuestionAuxAdapter extends RecyclerView.Adapter<cQuestionAuxAdapte
         /* icon for deleting a record */
         OH.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
         OH.textViewDeleteIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorAccent));
         OH.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
         OH.textViewDeleteIcon.setOnClickListener(new View.OnClickListener() {
@@ -93,7 +93,7 @@ public class cQuestionAuxAdapter extends RecyclerView.Adapter<cQuestionAuxAdapte
         /* icon for saving updated record */
         OH.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
         OH.textViewUpdateIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         OH.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorAccent));
         OH.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
         OH.textViewUpdateIcon.setOnClickListener(new View.OnClickListener() {

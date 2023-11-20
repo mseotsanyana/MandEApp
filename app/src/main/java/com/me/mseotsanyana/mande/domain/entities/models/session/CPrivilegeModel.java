@@ -8,7 +8,7 @@ import java.util.Map;
  * Created by mseotsanyana on 2017/08/24.
  */
 
-public class cPrivilegeModel {
+public class CPrivilegeModel {
     private String privilegeServerID;
 
     private String userOwnerID;
@@ -26,10 +26,10 @@ public class cPrivilegeModel {
     private Map<String, List<Integer>> menuitems;
     private Map<String, List<cEntityModel>> modules;
 
-    public cPrivilegeModel(){
+    public CPrivilegeModel(){
     }
 
-    public cPrivilegeModel(cPrivilegeModel privilegeModel){
+    public CPrivilegeModel(CPrivilegeModel privilegeModel){
         this.setPrivilegeServerID(privilegeModel.getPrivilegeServerID());
         this.setUserOwnerID(privilegeModel.getUserOwnerID());
         this.setOrganizationOwnerID(privilegeModel.getOrganizationOwnerID());

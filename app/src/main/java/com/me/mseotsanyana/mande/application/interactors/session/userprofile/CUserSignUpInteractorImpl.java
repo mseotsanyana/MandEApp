@@ -1,25 +1,28 @@
-package com.me.mseotsanyana.mande.application.interactors.session.user.Impl;
+package com.me.mseotsanyana.mande.application.interactors.session.userprofile;
 
 import com.me.mseotsanyana.mande.application.exceptions.CGeneralException;
 import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
 import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
 import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
 import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
-import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirebaseCallBack;
+import com.me.mseotsanyana.mande.application.ports.base.firebase.CFirestoreCallBack;
+import com.me.mseotsanyana.mande.application.structures.CResponseDTO;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
+import com.me.mseotsanyana.mande.application.structures.enums.EAction;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
 import com.me.mseotsanyana.mande.application.repository.session.IUserProfileRepository;
 
-public class CUserSignUpInteractorImpl extends CAbstractInteractor implements IInteractor {
+public class CUserSignUpInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>> implements IInteractor {
     //private static String TAG = cUserSignUpInteractorImpl.class.getSimpleName();
 
-    private final IPresenter<String> iPresenter;
+    private final IPresenter<IResponseDTO<Object>> iPresenter;
     private final IUserProfileRepository userProfileRepository;
 
     private final CUserProfileModel userProfileModel;
 
     public CUserSignUpInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
                                      IUserProfileRepository userProfileRepository,
-                                     IPresenter<String> iPresenter,
+                                     IPresenter<IResponseDTO<Object>> iPresenter,
                                      CUserProfileModel userProfileModel) {
         super(threadExecutor, mainThread, null);
 
@@ -39,7 +42,7 @@ public class CUserSignUpInteractorImpl extends CAbstractInteractor implements II
     }
 
     /* */
-    private void postResult(String msg) {
+    public void postResult(IResponseDTO msg) {
         mainThread.post(() -> iPresenter.onSuccess(msg));
     }
 
@@ -47,10 +50,10 @@ public class CUserSignUpInteractorImpl extends CAbstractInteractor implements II
     @Override
     public void run() {
         this.userProfileRepository.createUserWithEmailAndPassword(userProfileModel,
-                new CFirebaseCallBack() {
+                new CFirestoreCallBack() {
             @Override
             public void onFirebaseSuccess(Object object) {
-                postResult((String) object);
+                postResult(new CResponseDTO<>(EAction.Created_USER, object));
             }
 
             @Override
@@ -58,6 +61,12 @@ public class CUserSignUpInteractorImpl extends CAbstractInteractor implements II
                 notifyError((String) object);
             }
         });
+    }
+
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }
 

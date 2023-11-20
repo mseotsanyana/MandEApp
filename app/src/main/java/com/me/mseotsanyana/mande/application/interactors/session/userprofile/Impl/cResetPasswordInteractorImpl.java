@@ -1,24 +1,25 @@
 package com.me.mseotsanyana.mande.application.interactors.session.userprofile.Impl;
 
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.mande.domain.entities.models.session.CUserProfileModel;
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.session.userprofile.iResetPasswordInteractor;
-import com.me.mseotsanyana.mande.application.repository.session.iUserProfileRepository;
+import com.me.mseotsanyana.mande.application.repository.session.IUserProfileRepository;
 
-public class cResetPasswordInteractorImpl extends cAbstractInteractor implements iResetPasswordInteractor {
+public class cResetPasswordInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>> implements iResetPasswordInteractor {
     //private static String TAG = cResetPasswordInteractorImpl.class.getSimpleName();
 
     private final Callback callback;
-    private final iUserProfileRepository userProfileRepository;
+    private final IUserProfileRepository userProfileRepository;
     private final CUserProfileModel userProfileModel;
 
-    public cResetPasswordInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
+    public cResetPasswordInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
                                         Callback callback,
-                                        iUserProfileRepository userProfileRepository,
+                                        IUserProfileRepository userProfileRepository,
                                         CUserProfileModel userProfileModel) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (userProfileRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -43,7 +44,7 @@ public class cResetPasswordInteractorImpl extends cAbstractInteractor implements
     @Override
     public void run() {
         this.userProfileRepository.sendPasswordResetEmail(userProfileModel,
-                new iUserProfileRepository.iResetPasswordRepositoryCallback() {
+                new IUserProfileRepository.iResetPasswordRepositoryCallback() {
                     @Override
                     public void onResetPasswordSucceeded(String msg) {
                         postSucceededMessage(msg);
@@ -54,5 +55,15 @@ public class cResetPasswordInteractorImpl extends cAbstractInteractor implements
                         postFailedMessage(msg);
                     }
                 });
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

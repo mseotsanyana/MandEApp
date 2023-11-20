@@ -1,20 +1,21 @@
 package com.me.mseotsanyana.mande.application.interactors.evaluation.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.evaluation.iUploadEvaluationInteractor;
 import com.me.mseotsanyana.mande.application.repository.evaluator.iUploadEvaluationRepository;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 
-public class cUploadEvaluationInteractorImpl extends cAbstractInteractor
+public class cUploadEvaluationInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iUploadEvaluationInteractor {
     private Callback callback;
     private iUploadEvaluationRepository uploadEvaluationRepository;
 
-    public cUploadEvaluationInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
+    public cUploadEvaluationInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
                                            iUploadEvaluationRepository uploadEvaluationRepository,
                                            Callback callback) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (uploadEvaluationRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -113,5 +114,15 @@ public class cUploadEvaluationInteractorImpl extends cAbstractInteractor
         }else {
             notifyError("Failed to Add Evaluation Response Entity");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

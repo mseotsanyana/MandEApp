@@ -1,14 +1,14 @@
-package com.me.mseotsanyana.mande.infrastructure.controllers.logframe;
+package com.me.mseotsanyana.mande.infrastructure.ports.logframe;
 
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cOutputModel;
 import com.me.mseotsanyana.mande.OLD.PL.presenters.base.iPresenter;
-import com.me.mseotsanyana.mande.OLD.PL.ui.iBaseView;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.IBaseView;
 import com.me.mseotsanyana.treeadapterlibrary.cTreeModel;
 
 import java.util.ArrayList;
 
 public interface iOutputPresenter extends iPresenter {
-    interface View extends iBaseView {
+    interface View extends IBaseView {
         /* pass data from presenter to the view */
         void onClickBMBOutput(int menuIndex);
         void onClickCreateOutput(cOutputModel outputModel);

@@ -1,26 +1,30 @@
 package com.me.mseotsanyana.mande.application.structures;
 
-public class CResponseModel {
-    String operation;
-    Object object;
-    public CResponseModel(String operation, Object object){
-        this.operation = operation;
-        this.object = object;
+import com.me.mseotsanyana.mande.application.structures.enums.EAction;
+
+public class CResponseDTO<T> implements IResponseDTO<T>{
+    EAction action;
+    T data;
+    public CResponseDTO(EAction action, T data){
+        this.action = action;
+        this.data = data;
     }
 
-    public String getOperation() {
-        return operation;
+    @Override
+    public EAction getAction() {
+        return action;
     }
 
-    public Object getObject() {
-        return object;
+    @Override
+    public T getData() {
+        return data;
     }
 
     @Override
     public String toString() {
         return "CResponseModel{" +
-                "operation='" + operation + '\'' +
-                ", object=" + object +
+                "operation='" + action + '\'' +
+                ", object=" + data +
                 '}';
     }
 }

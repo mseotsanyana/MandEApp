@@ -1,13 +1,13 @@
-package com.me.mseotsanyana.mande.PL.presenters.session;
+package com.me.mseotsanyana.mande.infrastructure.ports.session;
 
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.me.mseotsanyana.mande.PL.presenters.base.iPresenter;
-import com.me.mseotsanyana.mande.PL.ui.iBaseView;
+import com.me.mseotsanyana.mande.OLD.PL.presenters.base.iPresenter;
+import com.me.mseotsanyana.mande.infrastructure.ports.base.IBaseView;
 
 public interface iChangePasswordPresenter extends iPresenter {
-    interface View extends iBaseView {
+    interface View extends IBaseView {
         void onChangePasswordSucceeded(String msg);
         void onChangePasswordFailed(String msg);
 

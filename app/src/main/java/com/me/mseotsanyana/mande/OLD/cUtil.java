@@ -21,6 +21,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.me.mseotsanyana.mande.R;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
+import com.me.mseotsanyana.mande.framework.utils.CTextDrawable;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -108,11 +110,11 @@ public class cUtil {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
         try {
             for (int i = 0; i < menuView.getChildCount(); i++) {
-                TextDrawable faIcon = new TextDrawable(context);
+                CTextDrawable faIcon = new CTextDrawable(context);
 
                 faIcon.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
                 faIcon.setTextAlign(Layout.Alignment.ALIGN_CENTER);
-                faIcon.setTypeface(cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                faIcon.setTypeface(CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
 
                 if (i == 0) {
                     faIcon.setText(context.getResources().getText(R.string.fa_login));

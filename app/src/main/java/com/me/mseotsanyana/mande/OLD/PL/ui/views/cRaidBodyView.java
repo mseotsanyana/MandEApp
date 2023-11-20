@@ -17,7 +17,7 @@ import com.me.mseotsanyana.bmblibrary.cUtil;
 import com.me.mseotsanyana.expandablelayoutlibrary.CExpandableLayout;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cRaidModel;
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.OLD.cFontManager;
+import com.me.mseotsanyana.mande.framework.utils.CFontManager;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Layout;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.Resolve;
 import com.me.mseotsanyana.placeholderview.annotationlibrary.View;
@@ -104,8 +104,8 @@ public class cRaidBodyView {
 
         /* collapse and expansion of the details */
         this.textViewDetailIcon.setTypeface(null, Typeface.NORMAL);
-        this.textViewDetailIcon.setTypeface(cFontManager.getTypeface(context,
-                cFontManager.FONTAWESOME));
+        this.textViewDetailIcon.setTypeface(CFontManager.getTypeface(context,
+                CFontManager.FONTAWESOME));
         this.textViewDetailIcon.setTextColor(context.getColor(R.color.colorAccent));
         this.textViewDetailIcon.setText(context.getResources().getString(R.string.fa_angle_down));
         this.textViewDetailIcon.setOnClickListener(new android.view.View.OnClickListener() {
@@ -124,7 +124,7 @@ public class cRaidBodyView {
         /* icon for saving updated record */
         this.textViewUpdateIcon.setTypeface(null, Typeface.NORMAL);
         this.textViewUpdateIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         this.textViewUpdateIcon.setTextColor(context.getColor(R.color.colorAccent));
         this.textViewUpdateIcon.setText(context.getResources().getString(R.string.fa_update));
         this.textViewUpdateIcon.setOnClickListener(new android.view.View.OnClickListener() {
@@ -138,7 +138,7 @@ public class cRaidBodyView {
         /* icon for deleting a record */
         this.textViewDeleteIcon.setTypeface(null, Typeface.NORMAL);
         this.textViewDeleteIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         this.textViewDeleteIcon.setTextColor(context.getColor(R.color.colorAccent));
         this.textViewDeleteIcon.setText(context.getResources().getString(R.string.fa_delete));
         this.textViewDeleteIcon.setOnClickListener(new android.view.View.OnClickListener() {
@@ -152,7 +152,7 @@ public class cRaidBodyView {
         /* icon for syncing a record */
         this.textViewSyncIcon.setTypeface(null, Typeface.NORMAL);
         this.textViewSyncIcon.setTypeface(
-                cFontManager.getTypeface(context, cFontManager.FONTAWESOME));
+                CFontManager.getTypeface(context, CFontManager.FONTAWESOME));
         this.textViewSyncIcon.setTextColor(context.getColor(R.color.colorAccent));
         this.textViewSyncIcon.setText(context.getResources().getString(R.string.fa_sync));
         this.textViewSyncIcon.setOnClickListener(new android.view.View.OnClickListener() {

@@ -1,16 +1,17 @@
 package com.me.mseotsanyana.mande.application.interactors.programme.project.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.programme.logframe.iLogFrameInteractor;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 import com.me.mseotsanyana.mande.domain.entities.models.logframe.cLogFrameModel;
 import com.me.mseotsanyana.mande.application.repository.programme.iLogFrameRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
 
 import java.util.Date;
 
-public class cCreateProjectInteractorImpl extends cAbstractInteractor
+public class cCreateProjectInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iLogFrameInteractor {
     private static String TAG = cCreateProjectInteractorImpl.class.getSimpleName();
 
@@ -18,11 +19,11 @@ public class cCreateProjectInteractorImpl extends cAbstractInteractor
     private Callback callback;
     private cLogFrameModel logFrameModel;
 
-    public cCreateProjectInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                        iSharedPreferenceRepository sessionManagerRepository,
+    public cCreateProjectInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                        ISessionManager sessionManagerRepository,
                                         iLogFrameRepository logFrameRepository, Callback callback,
                                         cLogFrameModel logFrameModel) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (logFrameRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -75,5 +76,15 @@ public class cCreateProjectInteractorImpl extends cAbstractInteractor
         }else {
             notifyError("Failed to add !!");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

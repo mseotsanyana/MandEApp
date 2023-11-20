@@ -2,18 +2,19 @@ package com.me.mseotsanyana.mande.application.interactors.session.role.Impl;
 
 import android.util.Log;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.session.role.iReadTeamRolesInteractor;
-import com.me.mseotsanyana.mande.domain.entities.models.session.cPrivilegeModel;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
+import com.me.mseotsanyana.mande.domain.entities.models.session.CPrivilegeModel;
 import com.me.mseotsanyana.mande.application.repository.session.iRoleRepository;
-import com.me.mseotsanyana.mande.application.repository.common.iSharedPreferenceRepository;
-import com.me.mseotsanyana.mande.framework.storage.preference.cSharedPreference;
+import com.me.mseotsanyana.mande.application.repository.preference.ISessionManager;
+import com.me.mseotsanyana.mande.application.structures.CPreferenceConstant;
 
 import java.util.List;
 
-public class cReadTeamRolesInteractorImpl extends cAbstractInteractor
+public class cReadTeamRolesInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iReadTeamRolesInteractor {
     private static String TAG = cReadTeamRolesInteractorImpl.class.getSimpleName();
 
@@ -31,11 +32,11 @@ public class cReadTeamRolesInteractorImpl extends cAbstractInteractor
     private final int entitypermBITS;
 
 
-    public cReadTeamRolesInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
-                                        iSharedPreferenceRepository sharedPreferencesRepository,
+    public cReadTeamRolesInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
+                                        ISessionManager sharedPreferencesRepository,
                                         iRoleRepository roleRepository,
                                         Callback callback) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
         if (sharedPreferencesRepository == null || roleRepository == null || callback == null) {
             throw new IllegalArgumentException("Arguments can not be null!");
@@ -45,7 +46,7 @@ public class cReadTeamRolesInteractorImpl extends cAbstractInteractor
         this.callback = callback;
 
         // load user shared preferences
-        this.userServerID = sharedPreferencesRepository.loadUserID();
+        this.userServerID = sharedPreferencesRepository.loadLoggedInUserServerID();
         this.organizationServerID = sharedPreferencesRepository.loadActiveOrganizationID();
         this.primaryTeamBIT = sharedPreferencesRepository.loadActiveWorkspaceBIT();
         this.secondaryTeamBITS = sharedPreferencesRepository.loadSecondaryWorkspaces();
@@ -54,12 +55,12 @@ public class cReadTeamRolesInteractorImpl extends cAbstractInteractor
 
         // load entity shared preferences
         this.entityBITS = sharedPreferencesRepository.loadEntityBITS(
-                cSharedPreference.SESSION_MODULE);
+                CPreferenceConstant.SESSION);
         this.entitypermBITS = sharedPreferencesRepository.loadEntityPermissionBITS(
-                cSharedPreference.SESSION_MODULE, cSharedPreference.ROLE);
+                CPreferenceConstant.SESSION, CPreferenceConstant.ROLE);
         this.statusBITS = sharedPreferencesRepository.loadOperationStatuses(
-                cSharedPreference.SESSION_MODULE, cSharedPreference.ROLE,
-                cSharedPreference.READ);
+                CPreferenceConstant.SESSION, CPreferenceConstant.ROLE,
+                CPreferenceConstant.READ);
 
         Log.d(TAG, " \n USER ID = " + this.userServerID +
                 " \n ORGANIZATION ID = " + this.organizationServerID +
@@ -76,20 +77,20 @@ public class cReadTeamRolesInteractorImpl extends cAbstractInteractor
     }
 
     /* */
-    private void postMessage(List<cPrivilegeModel> roleModels) {
+    private void postMessage(List<CPrivilegeModel> roleModels) {
         mainThread.post(() -> callback.onReadTeamRolesSucceeded(roleModels));
     }
 
     @Override
     public void run() {
-        if ((this.entityBITS & cSharedPreference.ROLE) != 0) {
-            if ((this.entitypermBITS & cSharedPreference.READ) != 0) {
+        if ((this.entityBITS & CPreferenceConstant.ROLE) != 0) {
+            if ((this.entitypermBITS & CPreferenceConstant.READ) != 0) {
 
                 this.roleRepository.readTeamRoles(organizationServerID, userServerID,
                         primaryTeamBIT, secondaryTeamBITS, statusBITS,
                         new iRoleRepository.iReadTeamRolesCallback() {
                             @Override
-                            public void onReadTeamRolesSucceeded(List<cPrivilegeModel> roleModels) {
+                            public void onReadTeamRolesSucceeded(List<CPrivilegeModel> roleModels) {
                                 postMessage(roleModels);
                             }
 
@@ -104,5 +105,15 @@ public class cReadTeamRolesInteractorImpl extends cAbstractInteractor
         } else {
             notifyError("No access to the entity! Please contact your administrator");
         }
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

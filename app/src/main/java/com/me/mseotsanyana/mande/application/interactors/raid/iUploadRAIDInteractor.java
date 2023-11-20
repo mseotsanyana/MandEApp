@@ -1,8 +1,8 @@
 package com.me.mseotsanyana.mande.application.interactors.raid;
 
-import com.me.mseotsanyana.mande.application.interactors.base.iInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.IInteractor;
 
-public interface iUploadRAIDInteractor extends iInteractor {
+public interface iUploadRAIDInteractor extends IInteractor {
     interface Callback{
         void onUploadRAIDCompleted(String s);
     }

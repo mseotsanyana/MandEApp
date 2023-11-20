@@ -1,20 +1,21 @@
 package com.me.mseotsanyana.mande.application.interactors.monitoring.Impl;
 
-import com.me.mseotsanyana.mande.application.executor.iExecutor;
-import com.me.mseotsanyana.mande.application.executor.iMainThread;
-import com.me.mseotsanyana.mande.application.interactors.base.cAbstractInteractor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IExecutor;
+import com.me.mseotsanyana.mande.application.ports.base.executor.IMainThread;
+import com.me.mseotsanyana.mande.application.ports.base.CAbstractInteractor;
 import com.me.mseotsanyana.mande.application.interactors.monitoring.iUploadMonitoringInteractor;
 import com.me.mseotsanyana.mande.application.repository.monitor.iUploadMonitoringRepository;
+import com.me.mseotsanyana.mande.application.structures.IResponseDTO;
 
-public class cUploadMonitoringInteractorImpl extends cAbstractInteractor
+public class cUploadMonitoringInteractorImpl extends CAbstractInteractor<IResponseDTO<Object>>
         implements iUploadMonitoringInteractor {
     private Callback callback;
     private iUploadMonitoringRepository uploadMonitoringRepository;
 
-    public cUploadMonitoringInteractorImpl(iExecutor threadExecutor, iMainThread mainThread,
+    public cUploadMonitoringInteractorImpl(IExecutor threadExecutor, IMainThread mainThread,
                                            iUploadMonitoringRepository uploadMonitoringRepository,
                                            Callback callback) {
-        super(threadExecutor, mainThread);
+        super(threadExecutor, mainThread, null);
 
 
 
@@ -156,5 +157,15 @@ public class cUploadMonitoringInteractorImpl extends cAbstractInteractor
             notifyError("Failed to Add Qualitative Criteria Entity");
         }
 */
+    }
+
+    @Override
+    public void postResult(IResponseDTO resultMap) {
+
+    }
+
+    @Override
+    public void postError(String errorMessage) {
+
     }
 }

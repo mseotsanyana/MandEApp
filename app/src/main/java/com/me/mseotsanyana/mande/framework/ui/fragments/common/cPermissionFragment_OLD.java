@@ -1,4 +1,4 @@
-package com.me.mseotsanyana.mande.PL.ui.fragments.common;
+package com.me.mseotsanyana.mande.framework.ui.fragments.common;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import androidx.appcompat.widget.AppCompatCheckBox;
 import androidx.fragment.app.Fragment;
 
 import com.me.mseotsanyana.mande.R;
-import com.me.mseotsanyana.mande.framework.storage.preference.cBitwise;
+import com.me.mseotsanyana.mande.OLD.storage.preference.cBitwise;
 
 public class cPermissionFragment_OLD extends Fragment {
 

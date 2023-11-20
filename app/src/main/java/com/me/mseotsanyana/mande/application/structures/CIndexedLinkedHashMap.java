@@ -1,11 +1,11 @@
-package com.me.mseotsanyana.mande.framework.utils;
+package com.me.mseotsanyana.mande.application.structures;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 public class CIndexedLinkedHashMap<K, V> extends LinkedHashMap<K, V> {
 
-    private ArrayList<K> keysList = new ArrayList<>();
+    private final ArrayList<K> keysList = new ArrayList<>();
 
     public void add(K key, V val) {
         super.put(key, val);
@@ -28,6 +28,10 @@ public class CIndexedLinkedHashMap<K, V> extends LinkedHashMap<K, V> {
 
     public V getItemByIndex(int index) {
         return (V) super.get(keysList.get(index));
+    }
+
+    public K getKeyByIndex(int index) {
+        return (K) keysList.get(index);
     }
 
     public int getIndexByKey(K key) {

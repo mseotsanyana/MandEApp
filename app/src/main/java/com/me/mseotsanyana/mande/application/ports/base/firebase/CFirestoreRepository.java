@@ -1,13 +1,15 @@
 package com.me.mseotsanyana.mande.application.ports.base.firebase;
 
-import static com.me.mseotsanyana.mande.application.structures.CFirebaseConstant.FAILURE;
-import static com.me.mseotsanyana.mande.application.structures.CFirebaseConstant.SUCCESS;
+import static com.me.mseotsanyana.mande.application.structures.CFirestoreConstant.FAILURE;
+import static com.me.mseotsanyana.mande.application.structures.CFirestoreConstant.SUCCESS;
 
 import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -21,8 +23,8 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.Map;
 
-public abstract class CFirebaseRepository {
-    private static final String TAG = CFirebaseRepository.class.getSimpleName();
+public abstract class CFirestoreRepository {
+    private static final String TAG = CFirestoreRepository.class.getSimpleName();
 
     /**
      * Insert Uri image in FireStorage
@@ -32,7 +34,7 @@ public abstract class CFirebaseRepository {
      * @param callback         callback for event handling
      */
     protected final void fireStoreImageUri(final StorageReference storageReference,
-                                           final Uri imageUri, final CFirebaseCallBack callback) {
+                                           final Uri imageUri, final CFirestoreCallBack callback) {
         storageReference.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> taskSnapshot.getStorage().getDownloadUrl()
                         .addOnSuccessListener(callback::onFirebaseSuccess)
@@ -59,7 +61,7 @@ public abstract class CFirebaseRepository {
      * @param callback         callback for event handling
      */
     protected final void fireStoreImageData(final StorageReference storageReference,
-                                            final byte[] imageData, final CFirebaseCallBack callback) {
+                                            final byte[] imageData, final CFirestoreCallBack callback) {
         storageReference.putBytes(imageData)
                 .addOnSuccessListener(taskSnapshot -> {
                             taskSnapshot.getStorage().getDownloadUrl()
@@ -90,7 +92,7 @@ public abstract class CFirebaseRepository {
      * @param callback          callback for event handling
      */
     protected final void fireStoreCreate(@NonNull final DocumentReference documentReference,
-                                         final Object model, final CFirebaseCallBack callback) {
+                                         final Object model, final CFirestoreCallBack callback) {
         documentReference.set(model)
                 .addOnSuccessListener(aVoid -> callback.onFirebaseSuccess(SUCCESS))
                 .addOnFailureListener(callback::onFirebaseFailure);
@@ -105,7 +107,7 @@ public abstract class CFirebaseRepository {
      */
     protected final void fireStoreUpdate(final DocumentReference documentReference,
                                          final Map<String, Object> map,
-                                         final CFirebaseCallBack callback) {
+                                         final CFirestoreCallBack callback) {
         documentReference.update(map)
                 .addOnSuccessListener(aVoid -> callback.onFirebaseSuccess(SUCCESS))
                 .addOnFailureListener(callback::onFirebaseFailure);
@@ -119,10 +121,9 @@ public abstract class CFirebaseRepository {
      */
     protected final void fireStoreCreateOrMerge(final DocumentReference documentReference,
                                                 final Object model,
-                                                final CFirebaseCallBack callback) {
+                                                final CFirestoreCallBack callback) {
         documentReference.set(model, SetOptions.merge())
-                .addOnSuccessListener(
-                        aVoid -> callback.onFirebaseSuccess(SUCCESS))
+                .addOnSuccessListener(aVoid -> callback.onFirebaseSuccess(SUCCESS))
                 .addOnFailureListener(callback::onFirebaseFailure);
     }
 
@@ -133,7 +134,7 @@ public abstract class CFirebaseRepository {
      * @param callback          callback for event handling
      */
     protected final void fireStoreDelete(final DocumentReference documentReference,
-                                         final CFirebaseCallBack callback) {
+                                         final CFirestoreCallBack callback) {
         documentReference.delete()
                 .addOnSuccessListener(aVoid -> callback.onFirebaseSuccess(SUCCESS))
                 .addOnFailureListener(callback::onFirebaseFailure);
@@ -145,7 +146,7 @@ public abstract class CFirebaseRepository {
      * @param batch    Document reference of data to delete
      * @param callback callback for event handling
      */
-    protected final void batchWrite(WriteBatch batch, final CFirebaseCallBack callback) {
+    protected final void batchWrite(WriteBatch batch, final CFirestoreCallBack callback) {
         batch.commit()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful())
@@ -162,7 +163,7 @@ public abstract class CFirebaseRepository {
      * @param callBack          callback for event handling
      */
     protected final void readDocument(final DocumentReference documentReference,
-                                      final CFirebaseCallBack callBack) {
+                                      final CFirestoreCallBack callBack) {
         documentReference.get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -186,7 +187,7 @@ public abstract class CFirebaseRepository {
      * @return EventListener
      */
     protected final ListenerRegistration readDocumentByListener(
-            final DocumentReference documentReference, final CFirebaseCallBack callBack) {
+            final DocumentReference documentReference, final CFirestoreCallBack callBack) {
         return documentReference.addSnapshotListener((snapshot, e) -> {
             if (e != null) {
                 callBack.onFirebaseFailure(e);
@@ -207,7 +208,7 @@ public abstract class CFirebaseRepository {
      * @param callBack callback for event handling
      */
     protected final void readQueryDocuments(@NonNull final Query query,
-                                            @NonNull final CFirebaseCallBack callBack) {
+                                            @NonNull final CFirestoreCallBack callBack) {
         query.get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -232,14 +233,14 @@ public abstract class CFirebaseRepository {
      */
     @NonNull
     protected final ListenerRegistration readQueryDocumentsByListener(
-            final Query query, final CFirebaseCallBack callback) {
+            final Query query, final CFirestoreCallBack callback) {
         return query.addSnapshotListener((snapshots, e) -> {
-                    if (e != null) {
-                        callback.onFirebaseFailure(e);
-                        return;
-                    }
-                    callback.onFirebaseSuccess(snapshots);
-                });
+            if (e != null) {
+                callback.onFirebaseFailure(e);
+                return;
+            }
+            callback.onFirebaseSuccess(snapshots);
+        });
     }
 
     /**
@@ -251,7 +252,7 @@ public abstract class CFirebaseRepository {
      */
     @NonNull
     protected final ListenerRegistration readQueryDocumentsByChildEventListener(
-            @NonNull final Query query, final CFirebaseChildCallBack callBack) {
+            @NonNull final Query query, final CFirestoreChildCallBack callBack) {
         return query.addSnapshotListener((snapshots, e) -> {
             if (e != null || snapshots == null || snapshots.isEmpty()) {
                 callBack.onCancelled(e);
@@ -278,7 +279,7 @@ public abstract class CFirebaseRepository {
      *
      * @param query Document reference of data to create
      */
-    protected final void fireStoreOfflineRead(final Query query, final CFirebaseCallBack callBack) {
+    protected final void fireStoreOfflineRead(final Query query, final CFirestoreCallBack callBack) {
         query.addSnapshotListener(MetadataChanges.INCLUDE, (querySnapshot, e) -> {
             if (e != null) {
                 callBack.onFirebaseFailure(e);

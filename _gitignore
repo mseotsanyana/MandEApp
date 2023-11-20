@@ -1,13 +1,3 @@
-/build
-/app/build
-/projectFilesBackup
-/build.gradle
-/gradle.properties
-/gradlew
-/gradlew.bat
-/local.properties
-/settings.gradle
-.idea
 *.iml
 .gradle
 .DS_Store
@@ -21,4 +11,3 @@
 /app/build
 /app/release
 /Libraries
-
